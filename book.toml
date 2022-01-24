@@ -1,0 +1,6 @@
+[book]
+title = "Konomi Docs"
+authors = ["Andrew Pratheepan", "Yong Lin Wang", "Daniel Wu", "Anthony Lai", "Patrick Nguyen"]
+description = "Internal Documents"
+src = "docs"
+language = "en"
