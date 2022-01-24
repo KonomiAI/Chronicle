@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Project Proposal - Konomi Docs</title>
+        <title>Meeting 3 - Konomi Docs</title>
         <!-- Custom HTML head -->
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="Internal Documents">
@@ -75,7 +75,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../index.html">Intro</a></li><li class="chapter-item expanded affix "><li class="part-title">Design</li><li class="chapter-item expanded "><a href="../design/proposal.html" class="active"><strong aria-hidden="true">1.</strong> Project Proposal</a></li><li class="chapter-item expanded affix "><li class="part-title">Meeting Notes</li><li class="chapter-item expanded "><a href="../meetings/M01.html"><strong aria-hidden="true">2.</strong> Meeting 1</a></li><li class="chapter-item expanded "><a href="../meetings/M02.html"><strong aria-hidden="true">3.</strong> Meeting 2</a></li><li class="chapter-item expanded "><a href="../meetings/M03.html"><strong aria-hidden="true">4.</strong> Meeting 3</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../index.html">Intro</a></li><li class="chapter-item expanded affix "><li class="part-title">Design</li><li class="chapter-item expanded "><a href="../design/proposal.html"><strong aria-hidden="true">1.</strong> Project Proposal</a></li><li class="chapter-item expanded affix "><li class="part-title">Meeting Notes</li><li class="chapter-item expanded "><a href="../meetings/M01.html"><strong aria-hidden="true">2.</strong> Meeting 1</a></li><li class="chapter-item expanded "><a href="../meetings/M02.html"><strong aria-hidden="true">3.</strong> Meeting 2</a></li><li class="chapter-item expanded "><a href="../meetings/M03.html" class="active"><strong aria-hidden="true">4.</strong> Meeting 3</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -134,34 +134,54 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="spa-patient-record-management-system"><a class="header" href="#spa-patient-record-management-system">SPA patient record management system</a></h1>
-<h2 id="problem-description"><a class="header" href="#problem-description">Problem Description</a></h2>
-<p>On a daily basis, our client has to track customer experience and manage practice related information. Their current solution involves saving records on paper and public cloud softwares like OneDrive. This solution has limits when it comes to scalability, customizability, and reportability. The solution also has limited searchability and is time consuming to build reports. Therefore, the client is seeking a solution for an affordable and scalable practice management software that allows them to track customer experience and improve team productivity.</p>
-<h2 id="proposed-solution"><a class="header" href="#proposed-solution">Proposed Solution</a></h2>
-<p>We propose a cloud hosted, on-premise available customer management tool that allows the client to create and manage customer profiles, record details throughout customer visits, and generate comprehensive reports to improve customer experiences. The solution will support user identity, customizable forms, enhanced user inputs, full-text search, data reporting, and AI enabled analytics. Our solution will simplify customer visit tracking and improve user experience.</p>
-<h2 id="areas-of-focus"><a class="header" href="#areas-of-focus">Areas of focus:</a></h2>
+                        <h1 id="meeting-3"><a class="header" href="#meeting-3">Meeting 3</a></h1>
+<h2 id="meeting-date"><a class="header" href="#meeting-date">Meeting date</a></h2>
+<p>Jan 19, 2022</p>
+<h2 id="to-discuss-during-the-meeting"><a class="header" href="#to-discuss-during-the-meeting">To discuss during the meeting</a></h2>
 <ul>
-<li>User identity for customers, employees and administrators</li>
-<li>Data collection with customizable forms</li>
-<li>External service integrations</li>
-<li>Full-text search</li>
-<li>Security &amp; privacy</li>
-<li>AI enabled natural language processing and analytics</li>
+<li>Technical architecture</li>
+<li>Future maintainence plan</li>
 </ul>
-<h2 id="stakeholder-contact"><a class="header" href="#stakeholder-contact">Stakeholder Contact:</a></h2>
-<table><thead><tr><th>Name</th><th>Email</th></tr></thead><tbody>
-<tr><td>Carina Wong</td><td>carina@pemberleysprings.com</td></tr>
-</tbody></table>
+<h2 id="notes"><a class="header" href="#notes">Notes</a></h2>
+<ul>
+<li>
+<p>Coded infrastructures will be part of the public repo</p>
+</li>
+<li>
+<p>React TypeScript front-end</p>
+<ul>
+<li>Build:   Vite</li>
+<li>Testing: Cypress/Vitest</li>
+<li>Component building: Tailwind/Component library</li>
+</ul>
+</li>
+<li>
+<p>Backend </p>
+<ul>
+<li>Languages: Python, TypeScript</li>
+<li>Full-text search: Elasticsearch</li>
+<li>Cloud provider: GCP</li>
+<li>Database: Deferred for the future</li>
+</ul>
+</li>
+<li>
+<p>There is a need for a firewall</p>
+</li>
+</ul>
+<h2 id="follow-ups"><a class="header" href="#follow-ups">Follow ups</a></h2>
+<ul>
+<li><input disabled="" type="checkbox"/>
+Setup initial requirements meeting (Anthony)</li>
+<li><input disabled="" type="checkbox"/>
+Come up with questions for stakeholder (Everyone)</li>
+</ul>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../index.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../meetings/M02.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
-                            </a>
-                            <a rel="next" href="../meetings/M01.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                                <i class="fa fa-angle-right"></i>
                             </a>
                         <div style="clear: both"></div>
                     </nav>
@@ -169,11 +189,8 @@
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../index.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../meetings/M02.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
-                    </a>
-                    <a rel="next" href="../meetings/M01.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                        <i class="fa fa-angle-right"></i>
                     </a>
             </nav>
 
