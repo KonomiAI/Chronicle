@@ -8,5 +8,6 @@
 
 # Meeting Notes
 
-- [M01](meetings/M01.md) 
-- [M02](meetings/M02.md)
+- [Meeting 1](meetings/M01.md) 
+- [Meeting 2](meetings/M02.md)
+- [Meeting 3](meetings/M03.md)
