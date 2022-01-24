@@ -1,0 +1,230 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Konomi Docs</title>
+        <meta name="robots" content="noindex" />
+        <!-- Custom HTML head -->
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="Internal Documents">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="index.html">Intro</a></li><li class="chapter-item expanded affix "><li class="part-title">Design</li><li class="chapter-item expanded "><a href="design/proposal.html"><strong aria-hidden="true">1.</strong> Project Proposal</a></li><li class="chapter-item expanded affix "><li class="part-title">Meeting Notes</li><li class="chapter-item expanded "><a href="meetings/M01.html"><strong aria-hidden="true">2.</strong> M01</a></li><li class="chapter-item expanded "><a href="meetings/M02.html"><strong aria-hidden="true">3.</strong> M02</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Konomi Docs</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="konomiai-documentation"><a class="header" href="#konomiai-documentation">Konomi.ai Documentation</a></h1>
+<p>This is where we store all meeting minutes, API reference and product documentation!</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="spa-patient-record-management-system"><a class="header" href="#spa-patient-record-management-system">SPA patient record management system</a></h1>
+<h2 id="problem-description"><a class="header" href="#problem-description">Problem Description</a></h2>
+<p>On a daily basis, our client has to track customer experience and manage practice related information. Their current solution involves saving records on paper and public cloud softwares like OneDrive. This solution has limits when it comes to scalability, customizability, and reportability. The solution also has limited searchability and is time consuming to build reports. Therefore, the client is seeking a solution for an affordable and scalable practice management software that allows them to track customer experience and improve team productivity.</p>
+<h2 id="proposed-solution"><a class="header" href="#proposed-solution">Proposed Solution</a></h2>
+<p>We propose a cloud hosted, on-premise available customer management tool that allows the client to create and manage customer profiles, record details throughout customer visits, and generate comprehensive reports to improve customer experiences. The solution will support user identity, customizable forms, enhanced user inputs, full-text search, data reporting, and AI enabled analytics. Our solution will simplify customer visit tracking and improve user experience.</p>
+<h2 id="areas-of-focus"><a class="header" href="#areas-of-focus">Areas of focus:</a></h2>
+<ul>
+<li>User identity for customers, employees and administrators</li>
+<li>Data collection with customizable forms</li>
+<li>External service integrations</li>
+<li>Full-text search</li>
+<li>Security &amp; privacy</li>
+<li>AI enabled natural language processing and analytics</li>
+</ul>
+<h2 id="stakeholder-contact"><a class="header" href="#stakeholder-contact">Stakeholder Contact:</a></h2>
+<table><thead><tr><th>Name</th><th>Email</th></tr></thead><tbody>
+<tr><td>Carina Wong</td><td>carina@pemberleysprings.com</td></tr>
+</tbody></table>
+<div style="break-before: page; page-break-before: always;"></div><h2 id="meeting-date"><a class="header" href="#meeting-date">Meeting date</a></h2>
+<p>Jan 4, 2022</p>
+<h2 id="during-the-meeting"><a class="header" href="#during-the-meeting">During the meeting</a></h2>
+<ul>
+<li><strong>Shipi is a good proposed project, we will consider it if no projects are available</strong></li>
+<li>The team prefer a more technically challenging project</li>
+<li>We should aim for a transparent, reasonable and responsive stakeholder</li>
+<li>Prefer project with real world impact</li>
+</ul>
+<h3 id="spa-project-details"><a class="header" href="#spa-project-details">Spa project details</a></h3>
+<ul>
+<li>Membership oriented SPA</li>
+<li>SPA uses MacOS + iOS technologies</li>
+<li>No customer file (CRM) system, like a system at the doctor's office</li>
+<li>Employee check in system</li>
+<li>Gift card/gift balance system</li>
+<li>We like the idea of supplementing SpaSoft</li>
+</ul>
+<h2 id="follow-ups"><a class="header" href="#follow-ups">Follow ups</a></h2>
+<ul>
+<li>Brainstorm more possible projects for the SPA (Everyone)</li>
+<li>Talk to Ivana about sponsoring a project (Yong)</li>
+<li>Email youssef to see if project is related with $H0P (Daniel)</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h2 id="meeting-date-1"><a class="header" href="#meeting-date-1">Meeting date</a></h2>
+<p>Jan 11, 2022</p>
+<h2 id="to-discuss-during-the-meeting"><a class="header" href="#to-discuss-during-the-meeting">To discuss during the meeting</a></h2>
+<ul>
+<li>Propose project ideas</li>
+</ul>
+<h2 id="during-the-meeting-1"><a class="header" href="#during-the-meeting-1">During the meeting</a></h2>
+<ul>
+<li>Kraedr - not ideal. Go next.</li>
+<li>Outreach ideas are likely not going to bring great impact.</li>
+<li>The spa idea sounds like the best project for the team. Good balance of impact, technical expertise and difficulty.</li>
+</ul>
+<h2 id="follow-ups-1"><a class="header" href="#follow-ups-1">Follow ups</a></h2>
+<ul>
+<li>Figure out stakeholder requirements (Everyone)</li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+            </nav>
+
+        </div>
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        <script type="text/javascript">
+        window.addEventListener('load', function() {
+            window.setTimeout(window.print, 100);
+        });
+        </script>
+    </body>
+</html>
