@@ -4,3 +4,6 @@ authors = ["Andrew Pratheepan", "Yong Lin Wang", "Daniel Wu", "Anthony Lai", "Pa
 description = "Internal Documents"
 src = "docs"
 language = "en"
+
+[output.html]
+no-section-label = true
