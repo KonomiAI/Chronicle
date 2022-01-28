@@ -6,8 +6,6 @@
 
 - [Project Proposal](design/proposal.md)
 
-# Meeting Notes
+# Appendix
 
-- [Meeting 1](meetings/M01.md) 
-- [Meeting 2](meetings/M02.md)
-- [Meeting 3](meetings/M03.md)
+- [Glossary](design/glossary.md)
