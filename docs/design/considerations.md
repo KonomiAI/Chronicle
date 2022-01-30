@@ -19,7 +19,7 @@
 - record employee login
 - record editing of reports (which account makes edits to documents)
 
-### Custom profile (Core)
+### Customer profile (Core)
 - customer core information profile
   - name
   - email
@@ -33,6 +33,7 @@
   - supports required vs optional
 
 ### Visit Data Collection for reporting (Core)
+
 - Collect activity entries
   - 1 customer
   - 0?-1 treatment
@@ -51,7 +52,6 @@
 - Migrations
   - currently on OneDrive (stats on march?)
   - no migrations necessary yet
-- 
 
 ### Inventory (Support)
 - Admins create editable items 
@@ -79,5 +79,6 @@
 2. Membership/gift card balance
 
 ## Questions
-- do we have to manage anything related to taxes for items?
+- Do we have to manage anything related to taxes for items?
 - Are there customers that just come in and purchase a product? Does the purchase require a report?
+- What are the most important/common type of reports that you need? 
