@@ -64,3 +64,4 @@
   - Activities done
   - Products purchased
   - Customer visits
+  - Net new customers
