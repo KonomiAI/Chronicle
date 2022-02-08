@@ -1,0 +1,18 @@
+name: Chronicle PR Compliance
+
+on:
+  pull_request_target:
+    types: [opened, edited, reopened]
+
+# Action should have write permission to make updates to PR
+permissions:
+  pull-requests: write
+
+jobs:
+  pr-compliance:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: mtfoley/pr-compliance-action@main
+        with:
+          # all inputs are optional
+          protected-branch-auto-close: false
