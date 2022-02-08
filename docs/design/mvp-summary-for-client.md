@@ -2,9 +2,9 @@
 
 ## Identity Access Control
 - User accounts
-  - manual creation, modification, and deletion for MVP
+  - client can created, modify, and delete
 - Staff roles
-  - manual creation, modification, and deletion for MVP
+  - client can created, modify, and delete
 - IP whitelist (can only access Chronicle from onsite at spa)
 
 ## Customer Profiles
@@ -24,7 +24,8 @@
   - Membership purchase and renewal history
 
 ## Entries
-- Activity Entry 
+- Generic Entry with the following 2 sections
+- Activity Entry Section
   - activity name
   - price
   - date/time
@@ -32,20 +33,20 @@
   - general notes
   - critical notes
   - photos
-- Purchase Entry
+- Purchase Entry Section
   - product name
-  - variant
+  - one default variant
   - price
   - barcode
-  - associated activity entry (if applicable)
 - client creation, deletion, modification
 - Entries will be associated with customers and providers
 - Log of modifications to entries made by staff
 - All searchable by customer, provider and activity/product purchase
 
 ## Inventory
-- Treatments 
+- Activities/Treatments 
   - name
+  - id
   - price
 - Physical Products
   - name
