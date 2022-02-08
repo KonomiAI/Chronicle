@@ -1,8 +1,7 @@
 name: Chronicle PR Compliance
 
 on:
-  pull_request_target:
-    types: [opened, edited, reopened]
+  pull_request:
 
 # Action should have write permission to make updates to PR
 permissions:
