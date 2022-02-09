@@ -33,18 +33,17 @@ The entire infrastructure of the project will be hosted on GCP
 
 ### Tasks:
 
-- [ ] Store the terraform state in [Google Cloud Storage](https://cloud.google.com/storage)
-- [ ] Define terraform repository strucuture
-- [ ] Determine the terraform modules to use
-- [ ] (Potential) Setup [Atlantis](https://www.runatlantis.io/) to run Terraform commands from Github and keep a history of the output logs
+[ ] Store the terraform state in [Google Cloud Storage](https://cloud.google.com/storage)
+[ ] Define terraform repository strucuture
+[ ] Determine the terraform modules to use
+[ ] (Potential) Setup [Atlantis](https://www.runatlantis.io/) to run Terraform commands from Github and keep a history of the output logs
 
 ## The K8s Route
 
 ### Advantages
 
 - Dynamic integration with the GCP suite (easy access to secrets, GKE allows easy cluster configuration)
-- Easy control over desired state of our application (Configuration as Code, [GitOps](https://www.weave.works/
-  technologies/gitops/), scability, self healing)
+- Easy control over desired state of our application (Configuration as Code, [GitOps](https://www.weave.works/technologies/gitops/), scability, self healing)
 - Highly customizable via the use of [controllers](https://kubernetes.io/docs/concepts/architecture/controller/)
 - Learning Kubernetes
 
