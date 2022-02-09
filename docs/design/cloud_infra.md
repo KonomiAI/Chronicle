@@ -13,7 +13,7 @@ The entire infrastructure of the project will be hosted on GCP
 - [ ] Grant everyone access to GCP
 - [ ] Setup gcloud CLI access (fetching images, secrets access, k8s access)
 
-## Github ActionsCI/CD Pipeline:
+## Github Actions CI/CD Pipeline:
 
 - [ ] Setup gcloud integration
   - https://github.com/google-github-actions/setup-gcloud
