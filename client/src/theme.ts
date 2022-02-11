@@ -12,6 +12,9 @@ const theme = createTheme({
       primary: '#010409',
       secondary: '#777',
     },
+    background: {
+      default: '#e7ebf0',
+    },
   },
   typography: {
     fontFamily: [
