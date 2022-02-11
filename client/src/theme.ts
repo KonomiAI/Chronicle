@@ -1,6 +1,18 @@
 import { createTheme } from '@mui/material';
 
 const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#FF6961',
+      dark: '#E20B00',
+      light: '#FF8780',
+      contrastText: '#FFFFFF',
+    },
+    text: {
+      primary: '#010409',
+      secondary: '#777',
+    },
+  },
   typography: {
     fontFamily: [
       'Inter',
@@ -15,8 +27,25 @@ const theme = createTheme({
       '"Segoe UI Emoji"',
       '"Segoe UI Symbol"',
     ].join(','),
+    h1: {
+      fontSize: '2.5em',
+      fontWeight: 700,
+    },
+    h2: {
+      fontSize: '2em',
+      fontWeight: 700,
+    },
+    h3: {
+      fontSize: '1.75em',
+      fontWeight: 700,
+    },
     h4: {
-      fontWeight: 600,
+      fontSize: '1.5em',
+      fontWeight: 700,
+    },
+    h5: {
+      fontSize: '1.25em',
+      fontWeight: 700,
     },
   },
 });

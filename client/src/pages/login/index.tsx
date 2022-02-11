@@ -22,11 +22,21 @@ function LoginPage() {
           <CardContent>
             <Stack spacing={2}>
               <div>
-                <Typography variant="h4">Sign in to Chronicle</Typography>
+                <Typography variant="h3">Sign in to Chronicle</Typography>
                 <Typography>Enter your details below</Typography>
               </div>
-              <TextField id="username" label="Username" variant="outlined" />
-              <TextField id="password" label="Password" variant="outlined" />
+              <TextField
+                id="username"
+                label="Username"
+                variant="outlined"
+                type="email"
+              />
+              <TextField
+                id="password"
+                label="Password"
+                variant="outlined"
+                type="password"
+              />
               <Button variant="contained">Login</Button>
             </Stack>
           </CardContent>
