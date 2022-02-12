@@ -12,6 +12,8 @@ import {
   Article,
   DynamicForm,
   Face,
+  Home,
+  Insights,
   Inventory,
   Security,
 } from '@mui/icons-material';
@@ -80,6 +82,12 @@ export default function ChronicleDrawer({
       </DrawerHeader>
       <Divider />
       <List>
+        <ListItem button key="home">
+          <ListItemIcon>
+            <Home />
+          </ListItemIcon>
+          <ListItemText primary="Home" />
+        </ListItem>
         <ListItem button key="customers">
           <ListItemIcon>
             <Face />
@@ -97,6 +105,12 @@ export default function ChronicleDrawer({
             <Inventory />
           </ListItemIcon>
           <ListItemText primary="Inventory" />
+        </ListItem>
+        <ListItem button key="analytics">
+          <ListItemIcon>
+            <Insights />
+          </ListItemIcon>
+          <ListItemText primary="Analytics" />
         </ListItem>
         <Divider />
         <List>

@@ -52,6 +52,16 @@ const theme = createTheme({
       fontWeight: 700,
     },
   },
+  components: {
+    MuiAppBar: {
+      styleOverrides: {
+        root: {
+          boxShadow: 'none',
+          borderBottom: `1px solid rgba(0, 0, 0, 0.12)`,
+        },
+      },
+    },
+  },
 });
 
 export default theme;
