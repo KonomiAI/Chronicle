@@ -4,8 +4,7 @@ import { Outlet } from 'react-router-dom';
 
 import ChronicleAppBar from '../../components/app-bar';
 import ChronicleDrawer from '../../components/drawer';
-
-const drawerWidth = 240;
+import { DRAWER_WIDTH } from '../../vars';
 
 function MainContainer() {
   const [isDrawerOpen, setIsDrawerOpen] = useState(true);
@@ -34,7 +33,7 @@ function MainContainer() {
           }),
           ...(!isDrawerOpen
             ? { paddingLeft: `calc(${theme.spacing(7)} + 1px)` }
-            : { paddingLeft: `${drawerWidth}px` }),
+            : { paddingLeft: `${DRAWER_WIDTH}px` }),
         }}
         component="main"
       >
