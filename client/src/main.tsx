@@ -5,9 +5,10 @@ import './index.scss';
 import { ThemeProvider } from '@emotion/react';
 import { CssBaseline } from '@mui/material';
 
-import App from './App';
 import theme from './theme';
 import LoginPage from './pages/login';
+import MainContainer from './pages/container';
+import LandingPage from './pages/landing';
 
 ReactDOM.render(
   <React.StrictMode>
@@ -16,7 +17,9 @@ ReactDOM.render(
       <BrowserRouter>
         <Routes>
           <Route path="/login" element={<LoginPage />} />
-          <Route path="/" element={<App />} />
+          <Route path="/" element={<MainContainer />}>
+            <Route index element={<LandingPage />} />
+          </Route>
         </Routes>
       </BrowserRouter>
     </ThemeProvider>

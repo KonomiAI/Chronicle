@@ -37,7 +37,9 @@ function LoginPage() {
                 variant="outlined"
                 type="password"
               />
-              <Button variant="contained">Login</Button>
+              <Button variant="contained" size="large">
+                Login
+              </Button>
             </Stack>
           </CardContent>
         </Card>
