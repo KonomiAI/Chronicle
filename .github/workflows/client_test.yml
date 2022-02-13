@@ -27,3 +27,4 @@ jobs:
           yarn
           yarn build
           yarn test
+        working_directory: ./client
