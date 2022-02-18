@@ -1,10 +1,10 @@
-FROM node:alpine AS development
+FROM node:alpine As development
 
 WORKDIR /usr/src/app
 
-COPY package*.json ./
-RUN npm install
-RUN npm install glob rimraf
+COPY package*.json yarn.lock ./
+
+RUN yarn install
 
 COPY . .
 
@@ -19,10 +19,10 @@ WORKDIR /usr/src/app
 
 COPY package*.json ./
 
-RUN npm install --production
+RUN npm install --only=production
 
 COPY . .
 
 COPY --from=development /usr/src/app/dist ./dist
 
-CMD ["node", "dist/main"]
+CMD ["node", "dist/main"] 
