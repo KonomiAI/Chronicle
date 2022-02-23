@@ -7,6 +7,7 @@
 - [Project Proposal](design/proposal.md)
 - [MVP Scope](design/mvp_scope.md)
 - [Tech Stack](design/tech_stack.md)
+- [Database Design](design/database.md)
 
 # Appendix
 
