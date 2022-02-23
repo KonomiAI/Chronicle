@@ -76,7 +76,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="index.html">Intro</a></li><li class="chapter-item expanded affix "><li class="part-title">Design</li><li class="chapter-item expanded "><a href="design/proposal.html">Project Proposal</a></li><li class="chapter-item expanded "><a href="design/mvp_scope.html">MVP Scope</a></li><li class="chapter-item expanded "><a href="design/tech_stack.html">Tech Stack</a></li><li class="chapter-item expanded affix "><li class="part-title">Appendix</li><li class="chapter-item expanded "><a href="design/glossary.html">Glossary</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="index.html">Intro</a></li><li class="chapter-item expanded affix "><li class="part-title">Design</li><li class="chapter-item expanded "><a href="design/proposal.html">Project Proposal</a></li><li class="chapter-item expanded "><a href="design/mvp_scope.html">MVP Scope</a></li><li class="chapter-item expanded "><a href="design/tech_stack.html">Tech Stack</a></li><li class="chapter-item expanded "><a href="design/database.html">Database Design</a></li><li class="chapter-item expanded affix "><li class="part-title">Appendix</li><li class="chapter-item expanded "><a href="design/glossary.html">Glossary</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -251,6 +251,60 @@
 <li>CI: GitHub Action</li>
 <li>Cloud Service Provider: GCP</li>
 </ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="database-design"><a class="header" href="#database-design">Database Design</a></h1>
+<pre class="mermaid">erDiagram
+    
+    Log_Trail {
+        datetime timestamp
+        string action
+    }
+    Permission {
+        string feature
+        string operation
+    }
+    Role {
+        string name
+        list permissions
+    }
+    Staff {
+        string name
+    }
+    Entry {}
+    Customer {
+        string name
+    }
+    Form_Type{
+        string name
+    }
+    Form {
+        string name
+        datetime version
+        object sections
+    }
+    Response {
+        datetime form_version
+        object response
+    }
+    Form_Components {}
+    Inventory {
+        string name
+        list variants
+        float price
+    }
+    Activity {
+        string name
+        float price
+    }
+
+    Permission }|--|{ Role: in
+    Role }o--o{ Staff: in
+    Staff }o--|{ Entry: associated
+    Entry }o--|| Customer: associated
+    Entry }|--o{ Form_Type: has
+    Form_Type }|--|| Form: has
+    Form }|--o{ Form_Components: has
+    Form ||--o{ Response: has
+</pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="chronicle-glossary"><a class="header" href="#chronicle-glossary">Chronicle Glossary</a></h1>
 <p>The following are terms used in Chronicle and what they mean</p>
 <table><thead><tr><th>Term</th><th>Definition</th></tr></thead><tbody>
@@ -285,6 +339,8 @@
         <script src="book.js" type="text/javascript" charset="utf-8"></script>
 
         <!-- Custom JS scripts -->
+        <script type="text/javascript" src="mermaid.min.js"></script>
+        <script type="text/javascript" src="mermaid-init.js"></script>
         <script type="text/javascript">
         window.addEventListener('load', function() {
             window.setTimeout(window.print, 100);

@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Glossary - Konomi Docs</title>
+        <title>Database Design - Konomi Docs</title>
         <!-- Custom HTML head -->
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="Internal Documents">
@@ -75,7 +75,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../index.html">Intro</a></li><li class="chapter-item expanded affix "><li class="part-title">Design</li><li class="chapter-item expanded "><a href="../design/proposal.html">Project Proposal</a></li><li class="chapter-item expanded "><a href="../design/mvp_scope.html">MVP Scope</a></li><li class="chapter-item expanded "><a href="../design/tech_stack.html">Tech Stack</a></li><li class="chapter-item expanded "><a href="../design/database.html">Database Design</a></li><li class="chapter-item expanded affix "><li class="part-title">Appendix</li><li class="chapter-item expanded "><a href="../design/glossary.html" class="active">Glossary</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../index.html">Intro</a></li><li class="chapter-item expanded affix "><li class="part-title">Design</li><li class="chapter-item expanded "><a href="../design/proposal.html">Project Proposal</a></li><li class="chapter-item expanded "><a href="../design/mvp_scope.html">MVP Scope</a></li><li class="chapter-item expanded "><a href="../design/tech_stack.html">Tech Stack</a></li><li class="chapter-item expanded "><a href="../design/database.html" class="active">Database Design</a></li><li class="chapter-item expanded affix "><li class="part-title">Appendix</li><li class="chapter-item expanded "><a href="../design/glossary.html">Glossary</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -134,21 +134,70 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="chronicle-glossary"><a class="header" href="#chronicle-glossary">Chronicle Glossary</a></h1>
-<p>The following are terms used in Chronicle and what they mean</p>
-<table><thead><tr><th>Term</th><th>Definition</th></tr></thead><tbody>
-<tr><td>Activity</td><td>A treatment provided to a customer or products sold to a customer</td></tr>
-<tr><td>Entry</td><td>A transaction recorded by the staff that describes an activity performed by a customer</td></tr>
-<tr><td>Report</td><td>A customizable document with data aggregated from Chronicle</td></tr>
-<tr><td>Visit</td><td>TODO</td></tr>
-</tbody></table>
+                        <h1 id="database-design"><a class="header" href="#database-design">Database Design</a></h1>
+<pre class="mermaid">erDiagram
+    
+    Log_Trail {
+        datetime timestamp
+        string action
+    }
+    Permission {
+        string feature
+        string operation
+    }
+    Role {
+        string name
+        list permissions
+    }
+    Staff {
+        string name
+    }
+    Entry {}
+    Customer {
+        string name
+    }
+    Form_Type{
+        string name
+    }
+    Form {
+        string name
+        datetime version
+        object sections
+    }
+    Response {
+        datetime form_version
+        object response
+    }
+    Form_Components {}
+    Inventory {
+        string name
+        list variants
+        float price
+    }
+    Activity {
+        string name
+        float price
+    }
+
+    Permission }|--|{ Role: in
+    Role }o--o{ Staff: in
+    Staff }o--|{ Entry: associated
+    Entry }o--|| Customer: associated
+    Entry }|--o{ Form_Type: has
+    Form_Type }|--|| Form: has
+    Form }|--o{ Form_Components: has
+    Form ||--o{ Response: has
+</pre>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../design/database.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../design/tech_stack.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next" href="../design/glossary.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
                             </a>
                         <div style="clear: both"></div>
                     </nav>
@@ -156,8 +205,11 @@
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../design/database.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../design/tech_stack.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next" href="../design/glossary.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
                     </a>
             </nav>
 
