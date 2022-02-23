@@ -1,0 +1,35 @@
+# User Stories
+
+- As an Owner, I want to be able to update the IP Whitelist, so I can prevent offsite activities.
+- As an Owner, I want to ensure my staff cannot access the data from an unknown IP address. So I can protect the privacy of my customers
+- As a staff member, I want to be able to add staff to the system, so other staff could access the system as well.
+- As a staff, I want to be able to reset another staff's account password, so they can regain access if they forgot their password
+- As a staff member, I want to be able to view the email and role details of another staff
+- As a staff member, I want to be able to view the roles created for my company, so I can create missing roles and update existing ones
+- As a staff member, I want to be able to suspend other staff accounts so I can prevent them from accessing the system.
+- As a staff member, I want to be able to delete a staff account, so I can remove their personal information from the system.
+- As an owner, I want to be able to view the IP addresses I allow-listed, so I can add new ones and remove old ones.
+- As a staff member, I want to be able to create roles, so that nothing more than the required permissions are given.
+- As a staff member, I want to be able to update staff roles, so other staff can get access to what they need.
+- As a staff member, I want to be able to update other staff account's details, so that their information can be up to date.
+- As a staff member, I want to be able to update existing roles, so that only the correct permissions are given to other staff.
+- As a provider, I should be able to search for specific entries involved with specific customers.
+- As a provider, I should be able to view all a customer’s entries under their profile
+- As a staff member, I should be able to create treatment or physical goods
+- As a staff member, I should be able to track the price of physical goods
+- As a staff member,  I should be able to support internal client's own id in the form of an SKU
+- As a staff member,  I should be able to support universal barcode scanning for physical goods
+- As a staff member,  I should be able to update all attributes of a product
+- As a staff member, I should be able to delete inventory items
+- As a staff member, I should be able to find inventory items by names
+- As a staff member, I should be able to find inventory items by SKU
+- As a staff member, I should be able to find physical goods by barcode
+- As a staff member, I should be able to manage variants and automatically generate a table of variants based on options
+- As a staff member, I should be able to manage variants and change price/SKU/barcode for each item
+- As a staff member, I should be able to manage variants and customize product options (option name, list of options)
+- As a staff member, I want to be able to sign into the dashboard using my username and password
+- As an owner, I want standard reports sent to me on a periodic basis (EOD/EOW)
+- As an owner, I want to be able to specify what information is in a report
+- As an owner, I want to be able to see the list of activities that were performed at a specified period of time
+- As an owner, I want to be able to see the items and variations bought by customers during a specified period of time
+- As an owner, I want to be able to view membership attendance and new members onboarded 

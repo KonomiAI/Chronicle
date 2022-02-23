@@ -8,6 +8,7 @@
 - [MVP Scope](design/mvp_scope.md)
 - [Tech Stack](design/tech_stack.md)
 - [Database Design](design/database.md)
+- [User Stories](design/user_stories.md)
 
 # Appendix
 
