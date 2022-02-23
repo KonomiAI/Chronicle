@@ -29,6 +29,9 @@
 - [ ]  As a staff member, I should be able to manage variants and automatically generate a table of variants based on options
 - [ ]  As a staff member, I should be able to manage variants and change price/SKU/barcode for each item
 - [ ]  As a staff member, I should be able to manage variants and customize product options (option name, list of options)
+- [ ]  As a staff member,  I should be able to mark a product/service as unavailable
+- [ ]  As a staff member, I should be able to manage variants and change price/SKU/barcode for any number of variants selected (stretch goal)
+
 
 ## Data Reporting
 - [ ]  As an owner, I want standard reports sent to me on a periodic basis (EOD/EOW)
