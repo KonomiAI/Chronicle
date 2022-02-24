@@ -15,6 +15,6 @@ jobs:
       - uses: mtfoley/pr-compliance-action@main
         with:
           # all inputs are optional
-          body-regex: (fix|resolv|clos|support)(e)*(s|d)* #\d+
           body-auto-close: false
+          body-regex: .*
           protected-branch-auto-close: false
