@@ -13,3 +13,4 @@
 # Appendix
 
 - [Glossary](design/glossary.md)
+- [Useful Links](misc/useful-links.md)
