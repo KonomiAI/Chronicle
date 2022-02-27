@@ -50,7 +50,7 @@ export class ActivityController {
     const { name, price, isArchived } = activityData;
     return this.activityService.updateActivity({
       where: { id },
-      data: { name, price, isArchived },
+      data: { name, price, isArchived, updatedAt: new Date() },
     });
   }
 
