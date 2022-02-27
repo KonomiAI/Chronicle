@@ -22,6 +22,12 @@ jobs:
         with:
           mdbook-version: 'latest'
 
+      - uses: jontze/action-mdbook@v1
+        with:
+          token: ${{secrets.GITHUB_TOKEN}}
+          use-mermaid: true
+
+      - run: mdbook-mermaid install
       - run: mdbook build
 
       - name: Deploy
