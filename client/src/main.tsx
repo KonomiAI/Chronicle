@@ -9,6 +9,8 @@ import theme from './theme';
 import LoginPage from './pages/login';
 import MainContainer from './pages/container';
 import LandingPage from './pages/landing';
+import StaffListPage from './pages/staff-list/StaffList';
+import StaffDetailsPage from './pages/staff-details/StaffDetails';
 
 ReactDOM.render(
   <React.StrictMode>
@@ -19,6 +21,8 @@ ReactDOM.render(
           <Route path="/login" element={<LoginPage />} />
           <Route path="/" element={<MainContainer />}>
             <Route index element={<LandingPage />} />
+            <Route path="staff" element={<StaffListPage />} />
+            <Route path="staff/:id" element={<StaffDetailsPage />} />
           </Route>
         </Routes>
       </BrowserRouter>

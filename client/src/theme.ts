@@ -61,6 +61,10 @@ const theme = createTheme({
       fontSize: '1.25em',
       fontWeight: 700,
     },
+    h6: {
+      fontSize: '1em',
+      fontWeight: 600,
+    },
   },
 });
 
@@ -69,6 +73,11 @@ const theme = createTheme({
  * us to use properties in the main theme.
  */
 const finalTheme = createTheme(theme, {
+  typography: {
+    body2: {
+      color: theme.palette.text.secondary,
+    },
+  },
   components: {
     MuiCard: {
       styleOverrides: {
