@@ -1,8 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import {
-  Activity,
-  Prisma
-} from '@prisma/client';
+import { Activity, Prisma } from '@prisma/client';
 
 import { PrismaService } from '../../prisma.service';
 
@@ -10,7 +7,9 @@ import { PrismaService } from '../../prisma.service';
 export class ActivityService {
   constructor(private prisma: PrismaService) {}
 
-  async activity(userWhereUniqueInput: Prisma.ActivityWhereUniqueInput): Promise<Activity | null> {
+  async activity(
+    userWhereUniqueInput: Prisma.ActivityWhereUniqueInput,
+  ): Promise<Activity | null> {
     return this.prisma.activity.findUnique({
       where: userWhereUniqueInput,
     });
@@ -50,7 +49,9 @@ export class ActivityService {
     });
   }
 
-  async deleteActivity(where: Prisma.ActivityWhereUniqueInput): Promise<Activity> {
+  async deleteActivity(
+    where: Prisma.ActivityWhereUniqueInput,
+  ): Promise<Activity> {
     return this.prisma.activity.delete({
       where,
     });

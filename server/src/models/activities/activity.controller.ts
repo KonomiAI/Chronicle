@@ -13,9 +13,12 @@ import { ActivityService } from './activity.service';
 
 @Controller()
 export class ActivityController {
-  constructor(
-    private readonly activityService: ActivityService
-  ) {}
+  constructor(private readonly activityService: ActivityService) {}
+
+  @Get('activities')
+  async getActivities(): Promise<ActivityModel[]> {
+    return this.activityService.activities({});
+  }
 
   @Get('activities/:id')
   async getActivityById(@Param('id') id: string): Promise<ActivityModel> {
@@ -24,24 +27,21 @@ export class ActivityController {
 
   @Post('activities')
   async createActivity(
-    @Body() activityData: { 
-      name: string;
-      price: string;
-      isArchived?: boolean;
-    },
+    @Body() activityData: { name: string; price: string; isArchived?: boolean },
   ): Promise<ActivityModel> {
     const { name, price, isArchived } = activityData;
     return this.activityService.createActivity({
       name,
       price,
-      isArchived
+      isArchived,
     });
   }
 
   @Patch('activities/:id')
   async updateActivity(
     @Param('id') id: string,
-    @Body() activityData: { 
+    @Body()
+    activityData: {
       name?: string;
       price?: string;
       isArchived?: boolean;
