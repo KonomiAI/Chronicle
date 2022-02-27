@@ -23,7 +23,6 @@ export default function PageHeader({
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
-        mb: 2,
       }}
     >
       <Box

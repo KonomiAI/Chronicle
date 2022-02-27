@@ -13,11 +13,13 @@ import {
   Typography,
 } from '@mui/material';
 import PageHeader from '../../components/page-header/PageHeader';
+import Spacer from '../../components/spacer/Spacer';
 
 export default function StaffDetailsPage() {
   return (
     <Container>
       <PageHeader pageTitle="Daniel Wu" backURL="/staff" />
+      <Spacer size="lg" />
       <Card sx={{ mb: 4 }}>
         <CardContent>
           <Typography variant="h5" sx={{ mb: 2 }}>

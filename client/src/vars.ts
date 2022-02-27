@@ -1,5 +1,13 @@
 export const DRAWER_WIDTH = 240;
+export const SPACER_OPTIONS = {
+  sm: 0.5,
+  md: 1,
+  lg: 2,
+  xl: 3,
+};
 
+// Export all variables by default
 export default {
   DRAWER_WIDTH,
+  SPACER_OPTIONS,
 };
