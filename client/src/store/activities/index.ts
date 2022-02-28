@@ -10,11 +10,13 @@ export interface ActivityStore {
 }
 
 export const useActivityStore = create<ActivityStore>(
-  devtools((set: SetState<ActivityStore>, get: GetState<ActivityStore>) => ({
+  devtools((set, get: GetState<ActivityStore>) => ({
     activities: [],
     fetchActivities: async () => {
       set(
         { activities: await getAllActivities() },
+        false, 
+        'get/All Activities',
       );
     },
   }))

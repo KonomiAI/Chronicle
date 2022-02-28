@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { IActivity } from '../../common/interfaces/activities';
+import { IActivity, IActivityParams } from '../../common/interfaces/activities';
 import ENV from '../../common/constants/environment';
 
 const { backendUrl } = ENV;
@@ -16,6 +16,15 @@ export const getAllActivities = async (): Promise<IActivity[]> => {
 /**
  * Creates a new activity
  */
-export const createActivity = async () => {
-  // TODO
-}
+export const createActivity = async ({name, price}: IActivityParams) => {
+  const params: IActivity = {
+    name,
+    price: price.toString(),
+  }
+
+  const { data } = await axios.post(
+    `${backendUrl}/activities`,
+    params,
+  )
+  return data;
+};
