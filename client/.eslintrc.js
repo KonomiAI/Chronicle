@@ -17,5 +17,6 @@ module.exports = {
     'import/extensions': 'off',
     'import/no-unresolved': 'off',
     'react/jsx-filename-extension': [1, { extensions: ['.jsx', '.tsx'] }],
+    'react/function-component-definition': 'off',
   },
 };

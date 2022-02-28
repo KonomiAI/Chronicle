@@ -1,4 +1,4 @@
-import { createTheme } from '@mui/material';
+import { createTheme, ThemeOptions } from '@mui/material';
 import { Shadows } from '@mui/material/styles/shadows';
 
 const theme = createTheme({
@@ -86,6 +86,16 @@ const finalTheme = createTheme(theme, {
         },
       },
     },
+    MuiCardContent: {
+      styleOverrides: {
+        root: {
+          padding: 16,
+          '&:last-child': {
+            paddingBottom: 16,
+          },
+        },
+      },
+    },
     MuiAppBar: {
       styleOverrides: {
         root: {
@@ -95,6 +105,6 @@ const finalTheme = createTheme(theme, {
       },
     },
   },
-});
+} as ThemeOptions);
 
 export default finalTheme;

@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Button,
   Chip,
   Container,
+  Dialog,
   Paper,
   Table,
   TableBody,
@@ -15,14 +16,26 @@ import { useNavigate } from 'react-router-dom';
 
 import PageHeader from '../../components/page-header/PageHeader';
 import Spacer from '../../components/spacer/Spacer';
+import StaffInviteDialog from './StaffInvite';
 
 export default function StaffListPage() {
   const navigate = useNavigate();
+  const [inviteDialogOpen, setInviteDialogOpen] = useState(false);
   return (
     <Container>
+      <Dialog
+        open={inviteDialogOpen}
+        onClose={() => setInviteDialogOpen(false)}
+      >
+        <StaffInviteDialog handleClose={() => setInviteDialogOpen(false)} />
+      </Dialog>
       <PageHeader
         pageTitle="Staff"
-        action={<Button variant="contained">Invite</Button>}
+        action={
+          <Button variant="contained" onClick={() => setInviteDialogOpen(true)}>
+            Invite
+          </Button>
+        }
       />
       <Spacer size="lg" />
       {/* 

@@ -26,7 +26,7 @@ export default function StaffDetailsPage() {
             About Daniel Wu
           </Typography>
           <Grid container spacing={2}>
-            <Grid item xs={6}>
+            <Grid item xs={12} md={6}>
               <TextField
                 fullWidth
                 id="firstName"
@@ -34,7 +34,7 @@ export default function StaffDetailsPage() {
                 variant="outlined"
               />
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={12} md={6}>
               <TextField
                 fullWidth
                 id="lastName"
