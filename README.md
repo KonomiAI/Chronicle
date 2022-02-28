@@ -31,6 +31,19 @@ docker compose up -V --build
 
 This will ensure the new dependencies are installed on the dev image as well
 
+
+### I want Prisma Studio
+
+Prisma studio helps with debugging a lot and is a critical piece of tooling in our stack.
+To run prisma studio in the api container do:
+
+```
+docker exec -it chronicle-api /bin/sh
+npx prisma studio
+```
+
+> Note. This is kinda silly but will work for now, we will improve this process in a follow up.
+
 ### I want to purge all artifacts
 
 To purge all artifacts related to this project, run:

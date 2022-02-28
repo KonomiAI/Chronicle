@@ -4,23 +4,24 @@ services:
   # Disable the API for now until
   # we can figure out networking problems with
   # prisma and docker
-  # chronicle-api:
-  #   container_name: chronicle-api
-  #   image: chronicle-api:1.0.0
-  #   env_file:
-  #     - .env
-  #   build:
-  #     context: ./server
-  #     target: development
-  #     dockerfile: Dockerfile
-  #   command: npm run start:debug
-  #   ports:
-  #     - 3001:3001
-  #     - 9229:9229
-  #   volumes:
-  #     - ./server:/usr/src/app
-  #     - /usr/src/app/node_modules
-  #   restart: unless-stopped
+  chronicle-api:
+    container_name: chronicle-api
+    image: chronicle-api:1.0.0
+    env_file:
+      - .env
+    build:
+      context: ./server
+      target: development
+      dockerfile: Dockerfile
+    command: npm run start:debug
+    ports:
+      - 3001:3001
+      - 5555:5555
+      - 9229:9229
+    volumes:
+      - ./server:/usr/src/app
+      - /usr/src/app/node_modules
+    restart: unless-stopped
   chronicle-database:
     image: mongo:5
     container_name: mongodb
