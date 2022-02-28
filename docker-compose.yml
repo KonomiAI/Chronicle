@@ -1,34 +1,36 @@
 version: '3.8'
 
 services:
-  chronicle-api:
-    container_name: chronicle-api
-    image: chronicle-api:1.0.0
-    build:
-      context: ./server
-      target: '${NODE_ENV}'
-      dockerfile: Dockerfile
-    command: npm run start:debug
-    ports:
-      - 3001:3001
-      - 9229:9229
-    networks:
-      - chronicle-network
-    volumes:
-      - ./server:/usr/src/app
-      - /usr/src/app/node_modules
-    restart: unless-stopped
+  # Disable the API for now until
+  # we can figure out networking problems with
+  # prisma and docker
+  # chronicle-api:
+  #   container_name: chronicle-api
+  #   image: chronicle-api:1.0.0
+  #   env_file:
+  #     - .env
+  #   build:
+  #     context: ./server
+  #     target: development
+  #     dockerfile: Dockerfile
+  #   command: npm run start:debug
+  #   ports:
+  #     - 3001:3001
+  #     - 9229:9229
+  #   volumes:
+  #     - ./server:/usr/src/app
+  #     - /usr/src/app/node_modules
+  #   restart: unless-stopped
   chronicle-database:
-    image: mongo:latest
+    image: mongo:5
     container_name: mongodb
-    volumes:
-      - mongodb_data_container:/data/db
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: '${MONGO_INITDB_ROOT_USERNAME}'
-      MONGO_INITDB_ROOT_PASSWORD: '${MONGO_INITDB_ROOT_PASSWORD}'
+    env_file:
+      - .env
     ports:
       - 27017:27017
-volumes:
-  mongodb_data_container:
-networks:
-  chronicle-network:
+  mongo_replica:
+    build: ./mongo_replica
+    env_file:
+      - .env
+    ports:
+      - 27018:27018
