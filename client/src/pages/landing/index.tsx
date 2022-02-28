@@ -1,7 +1,14 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Container, Typography } from '@mui/material';
+import { useActivityStore } from '../../store/activities'
+
 
 function LandingPage() {
+  const getAllActivities = useActivityStore(state => state.fetchActivities)
+  useEffect(() => {
+    getAllActivities();
+  });
+
   return (
     <Container>
       <Typography variant="h1">Good morning</Typography>
