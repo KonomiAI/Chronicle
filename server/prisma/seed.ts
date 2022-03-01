@@ -11,7 +11,6 @@ async function main() {
           name: permission
         }
       })
-      console.log(upsertPermissions)
     }
 }
 

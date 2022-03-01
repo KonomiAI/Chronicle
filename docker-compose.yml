@@ -39,7 +39,7 @@ services:
     ports:
       - 27018:27018
   db_seed:
-    image: node:17
+    image: node:16
     command: npx prisma db seed
     depends_on:
       - chronicle-database
