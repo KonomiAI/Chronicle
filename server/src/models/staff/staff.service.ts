@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Prisma } from '@prisma/client';
+import { Prisma, Staff } from '@prisma/client';
 import { PrismaService } from 'src/prisma.service';
 
 @Injectable()
@@ -12,12 +12,18 @@ export class StaffService {
     cursor?: Prisma.StaffWhereUniqueInput;
     where?: Prisma.StaffWhereInput;
     orderBy?: Prisma.StaffOrderByWithRelationInput;
+    select: Prisma.StaffSelect;
   }) {
-    return this.prisma.staff.findMany({
-      ...params,
-      select: {
-        // TODO ignore hash key from this object
-      },
+    return this.prisma.staff.findMany(params);
+  }
+
+  async findOne(
+    userWhereUniqueInput: Prisma.StaffWhereUniqueInput,
+    select?: Prisma.StaffSelect,
+  ): Promise<Partial<Staff> | null> {
+    return this.prisma.staff.findUnique({
+      where: userWhereUniqueInput,
+      select,
     });
   }
 
@@ -31,5 +37,13 @@ export class StaffService {
         lastName: true,
       },
     });
+  }
+
+  async update(params: {
+    where: Prisma.StaffWhereUniqueInput;
+    data: Prisma.StaffUpdateInput;
+    select?: Prisma.StaffSelect;
+  }) {
+    return this.prisma.staff.update(params);
   }
 }

@@ -1,8 +1,27 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
-import { Prisma } from '@prisma/client';
+import {
+  BadRequestException,
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+} from '@nestjs/common';
 import { BcryptService } from 'src/auth/bcrypt.service';
-import { CreateStaffDto } from './staff.dto';
+import { CreateStaffDto, UpdateStaffDto } from './staff.dto';
 import { StaffService } from './staff.service';
+
+const DEFAULT_SELECT = {
+  id: true,
+  firstName: true,
+  lastName: true,
+  email: true,
+  gender: true,
+  dateOfBirth: true,
+  isSuperUser: true,
+  isSuspended: true,
+};
 
 @Controller('staff')
 export class StaffController {
@@ -10,7 +29,17 @@ export class StaffController {
 
   @Get()
   getAllStaff() {
-    return this.service.findAll({});
+    return this.service.findAll({ select: DEFAULT_SELECT });
+  }
+
+  @Get(':id')
+  getSingleStaff(@Param('id') id: string) {
+    return this.service.findOne(
+      {
+        id,
+      },
+      DEFAULT_SELECT,
+    );
   }
 
   @Post()
@@ -20,5 +49,36 @@ export class StaffController {
       authKey: await this.bcrypt.hash(password),
     };
     return this.service.insert(body);
+  }
+
+  @Put(':id')
+  async updateStaffDetails(
+    @Param('id') id: string,
+    @Body() data: UpdateStaffDto,
+  ) {
+    return this.service.update({ where: { id }, data, select: DEFAULT_SELECT });
+  }
+
+  @Delete(':id')
+  async deleteStaff(@Param('id') id: string) {
+    const data = await this.service.findOne(
+      { id },
+      { isSuspended: true, isSuperUser: true },
+    );
+    if (!data.isSuspended || data.isSuperUser) {
+      throw new BadRequestException(
+        'User is not yet suspended or is a super user and cannot be deleted.',
+      );
+    }
+    return this.service.update({
+      where: { id },
+      data: {
+        firstName: 'DELETED_STAFF',
+        lastName: 'DELETED_STAFF',
+        dateOfBirth: null,
+        gender: 'NOT_SPECIFIED',
+        isDeleted: true,
+      },
+    });
   }
 }

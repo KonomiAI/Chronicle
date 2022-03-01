@@ -41,6 +41,7 @@ model Staff {
   isSuspended Boolean  @default(false)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+  isDeleted   Boolean  @default(false)
   // TODO add role related information
   // after andrew finished his part
 }
