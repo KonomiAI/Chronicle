@@ -1,4 +1,4 @@
-FROM node:17 As development
+FROM node:16 As development
 
 WORKDIR /usr/src/app
 
@@ -12,7 +12,7 @@ RUN npx prisma generate
 
 RUN yarn build
 
-FROM node:17 as production
+FROM node:16 as production
 
 ARG NODE_ENV=production
 ENV NODE_ENV=${NODE_ENV}
