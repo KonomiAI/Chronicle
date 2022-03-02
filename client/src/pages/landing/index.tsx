@@ -4,7 +4,7 @@ import { useStore } from '../../store'
 
 
 function LandingPage() {
-  //const {test, testAdd} = useStore(state => ({test: state.test, testAdd: state.add})) 
+  // const {test, testAdd} = useStore(state => ({test: state.test, testAdd: state.add})) 
   const [test, testAdd] = useStore((state) => [state.test, state.add])
   const getAllActivities = useStore(state => state.fetchActivities)
   useEffect(() => {

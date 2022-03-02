@@ -1,4 +1,4 @@
-import { StoreSlice } from '../'
+import { StoreSlice } from '..'
 
 export interface ITest {
   test: number;

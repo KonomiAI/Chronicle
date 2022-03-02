@@ -2,7 +2,7 @@ import create, { GetState } from 'zustand'
 import { devtools, NamedSet } from 'zustand/middleware';
 
 import { IActivitySlice, createActivitySlice } from './activities';
-import { createTestSlice, ITest } from './test'
+import { createTestSlice, ITest } from './temp'
 
 // Allows for cross-slice
 export type StoreState = IActivitySlice & ITest;

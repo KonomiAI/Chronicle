@@ -1,5 +1,3 @@
-import { GetState } from 'zustand';
-import { NamedSet } from 'zustand/middleware';
 import axios from 'axios';
 
 import { IActivity } from '../../common/interfaces/activities';
