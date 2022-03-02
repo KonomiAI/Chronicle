@@ -22,6 +22,11 @@ model Activity {
   updatedAt  DateTime @default(now())
 }
 
+model Feature {
+  id   String @id @default(auto()) @map("_id") @db.ObjectId
+  name String @unique
+}
+
 enum Gender {
   MALE
   FEMALE

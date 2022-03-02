@@ -22,6 +22,9 @@ services:
       - ./server:/usr/src/app
       - /usr/src/app/node_modules
     restart: unless-stopped
+    depends_on:
+      - chronicle-database
+      - mongo_replica
   chronicle-database:
     image: mongo:5
     container_name: mongodb
@@ -35,3 +38,13 @@ services:
       - .env
     ports:
       - 27018:27018
+  db_seed:
+    build:
+      context: ./server
+      dockerfile: Seed.Dockerfile
+    command: npx prisma db seed
+    depends_on:
+      - chronicle-database
+      - mongo_replica
+    env_file:
+      - .env
