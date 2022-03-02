@@ -39,14 +39,13 @@ services:
     ports:
       - 27018:27018
   db_seed:
-    image: node:16
+    build:
+      context: ./server
+      target: seed
+      dockerfile: Dockerfile
     command: npx prisma db seed
     depends_on:
       - chronicle-database
       - mongo_replica
-    volumes:
-      - ./server:/usr/src/app
-      - /usr/src/app/node_modules
     env_file:
       - .env
-
