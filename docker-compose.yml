@@ -41,8 +41,7 @@ services:
   db_seed:
     build:
       context: ./server
-      target: seed
-      dockerfile: Dockerfile
+      dockerfile: Seed.Dockerfile
     command: npx prisma db seed
     depends_on:
       - chronicle-database

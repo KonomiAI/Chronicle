@@ -28,9 +28,3 @@ COPY . .
 COPY --from=development /usr/src/app/dist ./dist
 
 CMD ["node", "dist/main"] 
-
-FROM chronicle-api:1.0.0 as seed
-
-COPY package.json ./
-
-COPY prisma/* ./prisma/
