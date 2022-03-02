@@ -1,5 +1,5 @@
 import { StoreSlice } from '..';
-import { getAllActivities } from './activities'
+import { getAllActivities } from './utils'
 import { IActivity } from '../../common/interfaces/activities';
 
 export interface IActivitySlice {
