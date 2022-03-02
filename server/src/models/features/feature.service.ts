@@ -10,9 +10,9 @@ export class FeatureService {
     async features(params: {
         skip?: number;
         take?: number;
-        cursor?: Prisma.ActivityWhereUniqueInput;
-        where?: Prisma.ActivityWhereInput;
-        orderBy?: Prisma.ActivityOrderByWithRelationInput;
+        cursor?: Prisma.RoleWhereUniqueInput;
+        where?: Prisma.RoleWhereInput;
+        orderBy?: Prisma.RoleOrderByWithRelationInput;
     }): Promise<Feature[]> {
         const { skip, take, cursor, where, orderBy } = params;
         return this.prisma.feature.findMany({
