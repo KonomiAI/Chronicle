@@ -1,11 +1,8 @@
 export interface IActivity {
-  id?: string;
+  id: string;
   name: string;
   price: string;
-  isArchived?: boolean;
+  isArchived: boolean;
+  createdAt: string;
+  updatedAt: string;
 };
-
-export interface IActivityParams {
-  name: string,
-  price: number,
-}

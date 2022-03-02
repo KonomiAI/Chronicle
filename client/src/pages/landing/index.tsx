@@ -1,13 +1,17 @@
 import React, { useEffect } from 'react';
 import { Container, Typography } from '@mui/material';
-import { useActivityStore } from '../../store/activities'
+import { useStore } from '../../store'
 
 
 function LandingPage() {
-  const getAllActivities = useActivityStore(state => state.fetchActivities)
+  //const {test, testAdd} = useStore(state => ({test: state.test, testAdd: state.add})) 
+  const [test, testAdd] = useStore((state) => [state.test, state.add])
+  const getAllActivities = useStore(state => state.fetchActivities)
   useEffect(() => {
     getAllActivities();
-  });
+    console.log(`test: ${test}`)
+    testAdd();
+  }, []);
 
   return (
     <Container>

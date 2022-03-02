@@ -1,23 +1,27 @@
-import create, { SetState, GetState } from 'zustand'
-import { devtools } from 'zustand/middleware';
+import { StoreSlice } from '..';
+import { getAllActivities } from './activities'
 import { IActivity } from '../../common/interfaces/activities';
 
-import { getAllActivities } from './actions';
-
-export interface ActivityStore {
+export interface IActivitySlice {
   activities: IActivity[];
-  fetchActivities: () => void;
+  fetchActivities: () => Promise<void>;
+  setActivities: (payload: IActivity[]) => void;
 }
 
-export const useActivityStore = create<ActivityStore>(
-  devtools((set, get: GetState<ActivityStore>) => ({
-    activities: [],
-    fetchActivities: async () => {
-      set(
-        { activities: await getAllActivities() },
-        false, 
-        'get/All Activities',
-      );
-    },
-  }))
-);
+export const createActivitySlice: StoreSlice<IActivitySlice> = (set, get) => ({
+  activities: [],
+  fetchActivities: async () => {
+    set(
+      { activities: await getAllActivities() },
+      false, 
+      'FETCH_ALL_ACTIVITIES',
+    );
+  },
+  setActivities: (payload: IActivity[]) => {
+    set(
+      { activities: payload },
+      false,
+      'SET_ACTIVITIES'
+    )
+  },
+});
