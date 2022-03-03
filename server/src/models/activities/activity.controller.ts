@@ -11,21 +11,21 @@ import { Activity as ActivityModel } from '@prisma/client';
 
 import { ActivityService } from './activity.service';
 
-@Controller()
+@Controller('activities')
 export class ActivityController {
   constructor(private readonly activityService: ActivityService) {}
 
-  @Get('activities')
+  @Get()
   async getActivities(): Promise<ActivityModel[]> {
     return this.activityService.activities({});
   }
 
-  @Get('activities/:id')
+  @Get(':id')
   async getActivityById(@Param('id') id: string): Promise<ActivityModel> {
     return this.activityService.activity({ id });
   }
 
-  @Post('activities')
+  @Post()
   async createActivity(
     @Body() activityData: { name: string; price: string; isArchived?: boolean },
   ): Promise<ActivityModel> {
@@ -37,7 +37,7 @@ export class ActivityController {
     });
   }
 
-  @Patch('activities/:id')
+  @Patch(':id')
   async updateActivity(
     @Param('id') id: string,
     @Body()
@@ -54,7 +54,7 @@ export class ActivityController {
     });
   }
 
-  @Delete('activities/:id')
+  @Delete(':id')
   async deleteActivity(@Param('id') id: string): Promise<ActivityModel> {
     return this.activityService.deleteActivity({ id });
   }
