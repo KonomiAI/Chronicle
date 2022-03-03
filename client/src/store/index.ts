@@ -14,7 +14,7 @@ export type StoreSlice<T> = (
 
 export const useStore = create<StoreState>(
   devtools((set, get) => ({
-    ...createActivitySlice(set,get),
+    ...createActivitySlice(set, get),
     ...createTestSlice(set, get)
   }))
 );
