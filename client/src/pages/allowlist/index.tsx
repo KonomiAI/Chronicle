@@ -16,6 +16,33 @@ import {
 
 import DeleteIcon from '@mui/icons-material/Delete';
 
+const data = [
+  { ip: "192.168.0.1", description: "Some description about this IP address" },
+  { ip: "192.168.0.2", description: "Some description about this IP address" },
+  { ip: "192.168.0.3", description: "Some description about this IP address" },
+  { ip: "192.168.0.4" ,description: "Some description about this IP address" },
+];
+
+const AllowListRow = () => {
+  return (
+    data.map((a) => (
+      <TableRow hover>
+      <TableCell>
+        <Box>
+          <Typography variant="h2">{a.ip}</Typography>
+          <Typography variant="body2">{a.description}</Typography>
+        </Box>
+      </TableCell>
+      <TableCell>
+        <IconButton>
+          <DeleteIcon/>
+        </IconButton>
+      </TableCell>
+    </TableRow>
+    ))
+  );
+};
+
 export default function AllowListPage() {
   return (
     <Container maxWidth="sm">
@@ -47,58 +74,7 @@ export default function AllowListPage() {
       <TableContainer component={Paper}>
         <Table>
           <TableBody>
-            <TableRow hover>
-              <TableCell>
-                <Box>
-                  <Typography variant="h3">192.168.0.1</Typography>
-                  <Typography variant="body2">Some description about this IP address</Typography>
-                </Box>
-              </TableCell>
-              <TableCell>
-                <IconButton>
-                  <DeleteIcon/>
-                </IconButton>
-              </TableCell>
-            </TableRow>
-            <TableRow hover>
-              <TableCell>
-                <Box>
-                  <Typography variant="h2">192.168.0.1</Typography>
-                  <Typography variant="body2">Some description about this IP address</Typography>
-                </Box>
-              </TableCell>
-              <TableCell>
-                <IconButton>
-                  <DeleteIcon/>
-                </IconButton>
-              </TableCell>
-            </TableRow>
-            <TableRow hover>
-              <TableCell>
-                <Box>
-                  <Typography variant="h3">192.168.0.1</Typography>
-                  <Typography variant="body2">Some description about this IP address</Typography>
-                </Box>
-              </TableCell>
-              <TableCell>
-                <IconButton>
-                  <DeleteIcon/>
-                </IconButton>
-              </TableCell>
-            </TableRow>
-            <TableRow hover>
-              <TableCell>
-                <Box>
-                  <Typography variant="h3">192.168.0.1</Typography>
-                  <Typography variant="body2">Some description about this IP address</Typography>
-                </Box>
-              </TableCell>
-              <TableCell>
-                <IconButton>
-                  <DeleteIcon/>
-                </IconButton>
-              </TableCell>
-            </TableRow>
+            <AllowListRow />
           </TableBody>
         </Table>
       </TableContainer>
