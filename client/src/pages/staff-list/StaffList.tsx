@@ -13,13 +13,16 @@ import {
   TableRow,
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import { useQuery } from 'react-query';
 
 import PageHeader from '../../components/page-header/PageHeader';
 import Spacer from '../../components/spacer/Spacer';
 import StaffInviteDialog from './StaffInvite';
+import { getStaff } from '../../data';
 
 export default function StaffListPage() {
   const navigate = useNavigate();
+  const { data, isLoading } = useQuery('staffList', getStaff);
   const [inviteDialogOpen, setInviteDialogOpen] = useState(false);
   return (
     <Container>
@@ -54,17 +57,22 @@ export default function StaffListPage() {
             </TableRow>
           </TableHead>
           <TableBody>
-            <TableRow
-              hover
-              sx={{ cursor: 'pointer' }}
-              onClick={() => navigate('somestaffid')}
-            >
-              <TableCell>Daniel Wu</TableCell>
-              <TableCell>wuonlabs@gmail.com</TableCell>
-              <TableCell>
-                <Chip label="Masseuse" />
-              </TableCell>
-            </TableRow>
+            {data?.map((s) => (
+              <TableRow
+                key={s.id}
+                hover
+                sx={{ cursor: 'pointer' }}
+                onClick={() => navigate(s.id)}
+              >
+                <TableCell>
+                  {s.firstName} {s.lastName}
+                </TableCell>
+                <TableCell>{s.email}</TableCell>
+                <TableCell>
+                  <Chip label="Masseuse" />
+                </TableCell>
+              </TableRow>
+            ))}
           </TableBody>
         </Table>
       </TableContainer>
