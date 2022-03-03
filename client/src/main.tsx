@@ -9,6 +9,7 @@ import theme from './theme';
 import LoginPage from './pages/login';
 import MainContainer from './pages/container';
 import LandingPage from './pages/landing';
+import AllowList from './pages/allowlist';
 
 ReactDOM.render(
   <React.StrictMode>
@@ -20,6 +21,7 @@ ReactDOM.render(
           <Route path="/" element={<MainContainer />}>
             <Route index element={<LandingPage />} />
           </Route>
+          <Route path="/allowlist" element={<AllowList />} />
         </Routes>
       </BrowserRouter>
     </ThemeProvider>
