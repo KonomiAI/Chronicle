@@ -26,7 +26,7 @@ export default function AllowListPage() {
           alignItems: 'center',
           justifyContent: 'space-between',
           mb: '1em',
-          gap: '5em',
+          gap: '2em',
         }}
       >
         <Box>
@@ -36,7 +36,11 @@ export default function AllowListPage() {
             the application from certain locations
           </Typography>
         </Box>
-        <Box>
+        <Box
+          sx={{
+            whiteSpace: 'nowrap',
+          }}
+        >
           <Button variant="contained">Add New</Button>
         </Box>
       </Box>
