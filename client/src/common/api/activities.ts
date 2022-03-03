@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-import { IActivity } from '../../common/interfaces/activities';
-import ENV from '../../common/constants/environment';
+import { IActivity } from '../interfaces/activities';
+import ENV from '../constants/environment';
 
 const { backendUrl } = ENV;
 /**
