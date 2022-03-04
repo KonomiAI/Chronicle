@@ -13,6 +13,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
         });
     }
     async validate(payload: any) {
+        //TODO: validate that the user exists in the staff directory 
         const user = payload.sub
         return user;
     }
