@@ -16,33 +16,30 @@ import {
 
 import DeleteIcon from '@mui/icons-material/Delete';
 
-const data = [
+const ipList = [
   { ip: "192.168.0.1", description: "Some description about this IP address" },
   { ip: "192.168.0.2", description: "Some description about this IP address" },
   { ip: "192.168.0.3", description: "Some description about this IP address" },
-  { ip: "192.168.0.4" ,description: "Some description about this IP address" },
+  { ip: "192.168.0.4", description: "Some description about this IP address" },
 ];
 
-const AllowListRow = () => {
-  return (
-    data.map((a) => (
-      <TableRow hover>
+const AllowListRow = () => (
+  ipList.map(({ ip, description }) => (
+    <TableRow hover>
       <TableCell>
         <Box>
-          <Typography variant="h2">{a.ip}</Typography>
-          <Typography variant="body2">{a.description}</Typography>
+          <Typography variant="h2">{ip}</Typography>
+          <Typography variant="body2">{description}</Typography>
         </Box>
       </TableCell>
       <TableCell>
         <IconButton>
-          <DeleteIcon/>
+          <DeleteIcon />
         </IconButton>
       </TableCell>
     </TableRow>
-    ))
-  );
-};
-
+  )
+))
 export default function AllowListPage() {
   return (
     <Container maxWidth="sm">
@@ -74,7 +71,7 @@ export default function AllowListPage() {
       <TableContainer component={Paper}>
         <Table>
           <TableBody>
-            <AllowListRow />
+            {AllowListRow()}
           </TableBody>
         </Table>
       </TableContainer>
