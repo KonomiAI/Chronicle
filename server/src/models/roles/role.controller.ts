@@ -22,8 +22,7 @@ export class RoleController {
 
   @Post()
   async createRole(@Body() { ...data }: RoleDto) {
-    const body = { ...data };
-    return this.roleService.createRole(body);
+    return this.roleService.createRole(data);
   }
 
   @Put(':id')
