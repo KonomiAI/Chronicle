@@ -4,6 +4,10 @@ import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { jwtConstants } from './constants';
 import { JwtStrategy } from './jwt.strategy';
+import { AuthService } from './auth.service';
+import { AuthController } from './auth.controller';
+import { StaffService } from 'src/models/staff/staff.service';
+import { PrismaService } from 'src/prisma.service';
 
 @Module({
   imports: [
@@ -16,6 +20,7 @@ import { JwtStrategy } from './jwt.strategy';
     }),
   ],
   exports: [BcryptService],
-  providers: [BcryptService, JwtStrategy],
+  providers: [BcryptService, JwtStrategy, AuthService, StaffService, PrismaService],
+  controllers: [AuthController]
 })
 export class AuthModule {}

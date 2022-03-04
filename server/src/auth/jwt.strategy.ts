@@ -2,10 +2,18 @@ import { ExtractJwt, Strategy } from 'passport-jwt';
 import { PassportStrategy } from '@nestjs/passport';
 import { jwtConstants } from './constants';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { AuthService } from './auth.service';
+
+const SELECT = {
+    id: true,
+    email: true, 
+    isSuperUser: true,
+    isSuspended: true
+}
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
-    constructor() {
+    constructor(private authService: AuthService) {
         super({
             jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
             ignoreExpiration: false,
@@ -13,8 +21,10 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
         });
     }
     async validate(payload: any) {
-        //TODO: validate that the user exists in the staff directory 
-        const user = payload.sub
+        const user = await this.authService.getDetails({id: payload.sub}, SELECT)
+        if (!user) {
+            throw new UnauthorizedException();
+        }
         return user;
     }
 }
