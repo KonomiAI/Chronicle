@@ -7,6 +7,7 @@ import {
     IsNotEmptyObject,
     IsObject,
     ValidateNested,
+    
 } from 'class-validator';
 import { Type } from 'class-transformer';
 
@@ -27,11 +28,25 @@ export class PermissionDto {
 }
 
 export class PermissionMapDto {
-    @IsDefined()
-    @IsObject()
     @ValidateNested()
     @Type(() => PermissionDto)
-    permissions: Map<string, PermissionDto>
+    Inventory: PermissionDto
+
+    @ValidateNested()
+    @Type(() => PermissionDto)
+    Security: PermissionDto
+
+    @ValidateNested()
+    @Type(() => PermissionDto)
+    Customer: PermissionDto
+
+    @ValidateNested()
+    @Type(() => PermissionDto)
+    Entry: PermissionDto
+
+    @ValidateNested()
+    @Type(() => PermissionDto)
+    Form: PermissionDto
 }
 
 export class RoleDto {
@@ -42,16 +57,14 @@ export class RoleDto {
     @IsDefined()
     @IsObject()
     @ValidateNested()
-    @Type(() => PermissionMapDto['permissions'])
-    permissions!: Prisma.JsonObject
+    @Type(() => PermissionMapDto)
+    permissions: Prisma.JsonObject
 }
 
 export class UpdateRoleDto {
-    @IsNotEmpty()
-    @IsString()
     name: string;
 
     @ValidateNested()
-    @Type(() => PermissionMapDto['permissions'])
-    permissions!: Prisma.JsonObject
+    @Type(() => PermissionMapDto)
+    permissions: Prisma.JsonObject
 }
