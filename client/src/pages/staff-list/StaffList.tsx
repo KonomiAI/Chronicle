@@ -18,11 +18,11 @@ import { useQuery } from 'react-query';
 import PageHeader from '../../components/page-header/PageHeader';
 import Spacer from '../../components/spacer/Spacer';
 import StaffInviteDialog from './StaffInvite';
-import { getStaff } from '../../data';
+import { getStaffList } from '../../data';
 
 export default function StaffListPage() {
   const navigate = useNavigate();
-  const { data, isLoading } = useQuery('staffList', getStaff);
+  const { data, isLoading } = useQuery('staffList', getStaffList);
   const [inviteDialogOpen, setInviteDialogOpen] = useState(false);
   return (
     <Container>
