@@ -38,7 +38,7 @@ model Staff {
   id          String   @id @default(auto()) @map("_id") @db.ObjectId
   firstName   String
   lastName    String
-  email       String
+  email       String   @unique
   dateOfBirth String?
   authKey     String
   gender      Gender   @default(NOT_SPECIFIED)
