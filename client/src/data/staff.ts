@@ -12,6 +12,12 @@ export interface StaffPostResponse extends Omit<Staff, 'password'> {
   id: string;
 }
 
+export type StaffUpdateData = Omit<Staff, 'id'>;
+interface StaffUpdateParams {
+  id: string;
+  data: StaffUpdateData;
+}
+
 export const getStaffList = () => {
   const axios = useAxios();
   return axios.get<{ data: Staff[] }>('/staff').then((res) => res.data.data);
@@ -26,4 +32,12 @@ export const createStaff = (data: StaffPostData) => {
   const axios = useAxios();
 
   return axios.post<StaffPostResponse>('/staff', data).then((res) => res.data);
+};
+
+export const updateStaff = ({ data, id }: StaffUpdateParams) => {
+  const axios = useAxios();
+
+  return axios
+    .put<StaffPostResponse>(`staff/${id}`, data)
+    .then((res) => res.data);
 };

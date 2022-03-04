@@ -101,6 +101,7 @@ const finalTheme = createTheme(theme, {
         root: {
           boxShadow: 'none',
           borderBottom: `1px solid ${theme.palette.divider}`,
+          borderTop: `1px solid ${theme.palette.divider}`,
         },
       },
     },
