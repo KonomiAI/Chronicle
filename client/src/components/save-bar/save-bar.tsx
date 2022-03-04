@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import {
   AppBar,
-  Box,
   Button,
   Container,
   Grid,
   Toolbar,
   Typography,
-  useTheme,
 } from '@mui/material';
 
 export interface SaveBarProps {
@@ -24,7 +22,7 @@ export default function SaveBar({ onSave, open }: SaveBarProps) {
 
   return (
     <AppBar
-      position="sticky"
+      position="fixed"
       color="inherit"
       sx={{ top: 'auto', bottom: 0, display: isOpen ? 'block' : 'none' }}
     >
