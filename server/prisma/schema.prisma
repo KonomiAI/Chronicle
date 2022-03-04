@@ -50,3 +50,10 @@ model Staff {
   // TODO add role related information
   // after andrew finished his part
 }
+
+model Role {
+  id          String @id @default(auto()) @map("_id") @db.ObjectId
+  name        String @unique
+  permissions Json
+}
+
