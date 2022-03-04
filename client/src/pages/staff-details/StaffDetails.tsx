@@ -40,7 +40,7 @@ export default function StaffDetailsPage() {
     );
   }
   const cacheKey = `staff-${id}`;
-  const { data, isLoading } = useQuery(cacheKey, () => getStaff(id));
+  const { data } = useQuery(cacheKey, () => getStaff(id));
   const queryClient = useQueryClient();
   const [isSaveOpen, setIsSaveOpen] = useState(false);
   const { control, reset, handleSubmit, watch } = useForm<StaffUpdateData>({
