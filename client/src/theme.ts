@@ -1,4 +1,4 @@
-import { createTheme } from '@mui/material';
+import { createTheme, ThemeOptions } from '@mui/material';
 import { Shadows } from '@mui/material/styles/shadows';
 
 const theme = createTheme({
@@ -61,6 +61,10 @@ const theme = createTheme({
       fontSize: '1.25em',
       fontWeight: 700,
     },
+    h6: {
+      fontSize: '1em',
+      fontWeight: 600,
+    },
   },
 });
 
@@ -69,6 +73,11 @@ const theme = createTheme({
  * us to use properties in the main theme.
  */
 const finalTheme = createTheme(theme, {
+  typography: {
+    body2: {
+      color: theme.palette.text.secondary,
+    },
+  },
   components: {
     MuiCard: {
       styleOverrides: {
@@ -77,15 +86,26 @@ const finalTheme = createTheme(theme, {
         },
       },
     },
+    MuiCardContent: {
+      styleOverrides: {
+        root: {
+          padding: 16,
+          '&:last-child': {
+            paddingBottom: 16,
+          },
+        },
+      },
+    },
     MuiAppBar: {
       styleOverrides: {
         root: {
           boxShadow: 'none',
           borderBottom: `1px solid ${theme.palette.divider}`,
+          borderTop: `1px solid ${theme.palette.divider}`,
         },
       },
     },
   },
-});
+} as ThemeOptions);
 
 export default finalTheme;

@@ -14,6 +14,7 @@ function MainContainer() {
       sx={{
         height: '100vh',
         width: '100%',
+        overflowY: 'hidden',
       }}
     >
       <ChronicleAppBar
@@ -27,6 +28,8 @@ function MainContainer() {
       <Box
         sx={{
           paddingTop: 3,
+          overflowY: 'auto',
+          height: `calc(100vh - ${theme.spacing(8)})`,
           transition: theme.transitions.create(['padding'], {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen,

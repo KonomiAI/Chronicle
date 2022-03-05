@@ -28,8 +28,9 @@ export class StaffController {
   constructor(private service: StaffService, private bcrypt: BcryptService) {}
 
   @Get()
-  getAllStaff() {
-    return this.service.findAll({ select: DEFAULT_SELECT });
+  async getAllStaff() {
+    const data = await this.service.findAll({ select: DEFAULT_SELECT });
+    return { data };
   }
 
   @Get(':id')
