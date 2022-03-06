@@ -1,35 +1,41 @@
 import { Injectable } from '@nestjs/common';
-import { Prisma, Staff } from '@prisma/client';
+import { Prisma, Ip as IPModel } from '@prisma/client';
 import { PrismaService } from 'src/prisma.service';
 
 @Injectable()
 export class IPService {
   constructor(private prisma: PrismaService) {}
 
-  async retrieveIPAllowList(params: {
+  async allowList(params: {
     skip?: number;
     take?: number;
-    cursor?: Prisma.IpWhereUniqueInput;
-    where?: Prisma.IpWhereInput;
-    orderBy?: Prisma.IpOrderByWithRelationInput;
-  }){
-    const { skip, take, cursor, where, orderBy } = params;
-    return this.prisma.ip.findMany({
-      skip,
-      take,
-      cursor,
-      where,
-      orderBy,
+    cursor?: Prisma.ActivityWhereUniqueInput;
+    where?: Prisma.ActivityWhereInput;
+    orderBy?: Prisma.ActivityOrderByWithRelationInput;
+  }): Promise<IPModel[]> {
+    return this.prisma.ip.findMany(params);
+  }
+
+  async addIP(data: Prisma.IpCreateInput): Promise<IPModel> {
+    return this.prisma.ip.create({
+      data,
     });
   }
 
- async add(data: Prisma.IpCreateInput) {
-  return this.prisma.ip.create({
-    data,
-    select: {
-      ip: true,
-      description: true,
-    }
-  })
- }
+  async updateIPDescription(params: {
+    where: Prisma.IpWhereUniqueInput;
+    data: Prisma.IpUpdateInput;
+  }): Promise<IPModel> {
+    const { where, data } = params;
+    return this.prisma.ip.update({
+      where,
+      data,
+    });
+  }
+
+  async deleteIP(where: Prisma.ActivityWhereUniqueInput): Promise<IPModel> {
+    return this.prisma.ip.delete({
+      where,
+    });
+  }
 }

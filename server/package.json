@@ -13,7 +13,7 @@
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
-    "start:docker": "concurrently --kill-others \"yarn run start:debug\" \"yarn run prisma:generate-watch\" \"yarn run prisma:studio\"",
+    "start:docker": "concurrently --kill-others \"yarn run start:debug\" \"yarn run prisma:generate-watch\" \"yarn run prisma:db-push\" \"yarn run prisma:studio\"",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "test": "jest",
     "test:watch": "jest --watch",
@@ -22,7 +22,8 @@
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "prisma:generate": "npx prisma generate",
     "prisma:generate-watch": "npx prisma generate --watch",
-    "prisma:studio": "npx prisma studio"
+    "prisma:studio": "npx prisma studio",
+    "prisma:db-push": "npx prisma db push"
   },
   "dependencies": {
     "@nestjs/common": "^8.0.0",

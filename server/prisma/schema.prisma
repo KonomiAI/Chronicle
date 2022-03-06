@@ -61,7 +61,7 @@ model Staff {
 
 model Ip {
   id          String   @id @default(auto()) @map("_id") @db.ObjectId
-  ip          String
+  ip          String   @unique
   description String
   createdAt   DateTime @default(now())
 }
