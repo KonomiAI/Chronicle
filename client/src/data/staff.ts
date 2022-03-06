@@ -6,6 +6,7 @@ export interface StaffPostData {
   lastName: string;
   email: string;
   password: string;
+  roleIds: string[];
 }
 
 export interface StaffPostResponse extends Omit<Staff, 'password'> {
