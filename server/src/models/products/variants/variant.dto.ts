@@ -1,7 +1,6 @@
 import {
   IsBoolean,
-  IsCurrency,
-  IsDecimal,
+  IsInt,
   IsNotEmpty,
   IsOptional,
   IsPositive,
@@ -13,8 +12,9 @@ export class CreateVariantDto {
   @IsString()
   description: string;
 
-  @IsCurrency()
-  price: string;
+  @IsInt()
+  @IsPositive()
+  price: number;
 
   @IsNotEmpty()
   @IsString()
@@ -28,6 +28,7 @@ export class UpdateVariantDto {
   description: string;
 
   @IsOptional()
+  @IsInt()
   @IsPositive()
   price: number;
 

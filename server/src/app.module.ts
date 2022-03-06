@@ -8,6 +8,7 @@ import { StaffModule } from './models/staff/staff.module';
 import { RoleModule } from './models/roles/role.module';
 import { AuthModule } from './auth/auth.module';
 import { ProductModule } from './models/products/product.module';
+
 @Module({
   imports: [
     ActivityModule,

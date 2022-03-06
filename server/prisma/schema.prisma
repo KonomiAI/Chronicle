@@ -62,7 +62,7 @@ model Staff {
 model Variant {
   id          String   @id @default(auto()) @map("_id") @db.ObjectId
   description String
-  price       Decimal
+  price       Int
   barcode     String
   isAvailable Boolean  @default(false)
   createdAt   DateTime @default(now())
