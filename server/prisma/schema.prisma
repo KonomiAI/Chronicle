@@ -58,3 +58,26 @@ model Staff {
   roles       Role[]   @relation(fields: [roleIds], references: [id])
   roleIds     String[] @db.ObjectId
 }
+
+model Variant {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  description String
+  price       Decimal
+  barcode     String
+  isAvailable Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  product     Product? @relation(fields: [productId], references: [id])
+  productId   String
+}
+
+model Product {
+  id         String    @id @default(auto()) @map("_id") @db.ObjectId
+  name       String
+  brand      String
+  imageUrl   String[]
+  isArchived Boolean   @default(false)
+  variants   Variant[]
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+}
