@@ -8,18 +8,19 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
+  ListItemButton,
 } from '@mui/material';
 import {
   Article,
-  DynamicForm,
   Face,
   Home,
   Insights,
   Inventory,
-  Security,
   ChevronLeft,
 } from '@mui/icons-material';
 import { DRAWER_WIDTH } from '../../vars';
+import AdminList from './AdminList';
+import { useLocation } from 'react-router-dom';
 
 const openedMixin = (theme: Theme): CSSObject => ({
   width: DRAWER_WIDTH,
@@ -74,6 +75,7 @@ export default function ChronicleDrawer({
   open,
   handleDrawerClose,
 }: DrawerProps) {
+  const { pathname } = useLocation();
   return (
     <Drawer variant="permanent" open={open}>
       <DrawerHeader>
@@ -83,12 +85,17 @@ export default function ChronicleDrawer({
       </DrawerHeader>
       <Divider />
       <List>
-        <ListItem button key="home">
+        <ListItemButton
+          key="home"
+          component="a"
+          href="/"
+          selected={pathname === '/'}
+        >
           <ListItemIcon>
             <Home />
           </ListItemIcon>
           <ListItemText primary="Home" />
-        </ListItem>
+        </ListItemButton>
         <ListItem button key="customers">
           <ListItemIcon>
             <Face />
@@ -114,20 +121,7 @@ export default function ChronicleDrawer({
           <ListItemText primary="Analytics" />
         </ListItem>
         <Divider />
-        <List>
-          <ListItem button key="form_builder">
-            <ListItemIcon>
-              <DynamicForm />
-            </ListItemIcon>
-            <ListItemText primary="Customize Forms" />
-          </ListItem>
-          <ListItem button key="security">
-            <ListItemIcon>
-              <Security />
-            </ListItemIcon>
-            <ListItemText primary="Security Settings" />
-          </ListItem>
-        </List>
+        <AdminList />
       </List>
     </Drawer>
   );

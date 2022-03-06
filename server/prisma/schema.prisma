@@ -34,11 +34,19 @@ enum Gender {
   NOT_SPECIFIED
 }
 
+model Role {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  name        String   @unique
+  permissions Json
+  staff       Staff[]  @relation(fields: [staffIds], references: [id])
+  staffIds    String[] @db.ObjectId
+}
+
 model Staff {
   id          String   @id @default(auto()) @map("_id") @db.ObjectId
   firstName   String
   lastName    String
-  email       String
+  email       String   @unique
   dateOfBirth String?
   authKey     String
   gender      Gender   @default(NOT_SPECIFIED)
@@ -47,8 +55,8 @@ model Staff {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   isDeleted   Boolean  @default(false)
-  // TODO add role related information
-  // after andrew finished his part
+  roles       Role[]   @relation(fields: [roleIds], references: [id])
+  roleIds     String[] @db.ObjectId
 }
 
 model Ip {
