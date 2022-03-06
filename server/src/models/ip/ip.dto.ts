@@ -4,18 +4,11 @@ import {
   IsIP,
 } from 'class-validator';
 
-export class AddIPDto {
+export class IPDto {
   @IsIP()
   @IsNotEmpty()
   ip: string;
 
-  @IsNotEmpty()
-  @IsString()
-  description: string;
-}
-
-export class UpdateIPDescriptionDto {
-  @IsNotEmpty()
   @IsString()
   description: string;
 }

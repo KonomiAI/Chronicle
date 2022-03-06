@@ -9,7 +9,7 @@ import {
 } from '@nestjs/common';
 import { Ip as IPModel } from '@prisma/client';
 import { IPService } from './ip.service';
-import { AddIPDto, UpdateIPDescriptionDto } from './ip.dto';
+import { IPDto } from './ip.dto';
 
 @Controller('ip')
 export class IPController {
@@ -22,7 +22,7 @@ export class IPController {
 
   @Post()
   async addIPToAllowList(
-    @Body() { ip, description }: AddIPDto,
+    @Body() { ip, description }: IPDto,
   ): Promise<IPModel> {
     return this.service.addIP({ ip, description });
   }
@@ -30,11 +30,11 @@ export class IPController {
   @Patch(':id')
   async updateIPDescription(
     @Param('id') id: string,
-    @Body() { description }: UpdateIPDescriptionDto,
+    @Body() { ip, description }: IPDto,
   ): Promise<IPModel> {
     return this.service.updateIPDescription({
       where: { id },
-      data: { description },
+      data: { ip, description },
     });
   }
 
