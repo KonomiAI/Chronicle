@@ -19,14 +19,18 @@ import { Controller, useForm } from 'react-hook-form';
 
 import PageHeader from '../../components/page-header/PageHeader';
 import Spacer from '../../components/spacer/Spacer';
-import { getStaff, StaffUpdateData, updateStaff } from '../../data';
+import {
+  getStaff,
+  StaffUpdateData,
+  updateStaff,
+  useRoleList,
+} from '../../data';
 import SaveBar from '../../components/save-bar/save-bar';
-import Gender from '../../types/gender';
-import { Staff } from '../../types';
+import { Gender, Staff } from '../../types';
 
 const cleanStaff = (staff: Staff) => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { id, ...clean } = staff;
+  const { id, roles, ...clean } = staff;
   return clean;
 };
 
@@ -41,6 +45,7 @@ export default function StaffDetailsPage() {
   }
   const cacheKey = `staff-${id}`;
   const { data } = useQuery(cacheKey, () => getStaff(id));
+  const { data: roleListData } = useRoleList();
   const queryClient = useQueryClient();
   const [isSaveOpen, setIsSaveOpen] = useState(false);
   const { control, reset, handleSubmit, watch } = useForm<StaffUpdateData>({
@@ -49,6 +54,7 @@ export default function StaffDetailsPage() {
       lastName: '',
       email: '',
       gender: Gender.NOT_SPECIFIED,
+      roleIds: [],
     },
   });
   const updateStaffAndMutate = useMutation(updateStaff, {
@@ -166,21 +172,29 @@ export default function StaffDetailsPage() {
                 <Typography variant="h5" sx={{ mb: 2 }}>
                   Permissions
                 </Typography>
-                <FormControl fullWidth>
-                  <InputLabel id="roleLabel">Role</InputLabel>
-                  <Select
-                    id="roleSelect"
-                    value={['masseuse']}
-                    label="Role"
-                    labelId="roleLabel"
-                    multiple
-                  >
-                    <MenuItem value="masseuse">Masseuse</MenuItem>
-                    <MenuItem value="female">Receptionist</MenuItem>
-                    <MenuItem value="other">Admin</MenuItem>
-                    <MenuItem value="na">IT folk</MenuItem>
-                  </Select>
-                </FormControl>
+                <Controller
+                  name="roleIds"
+                  control={control}
+                  render={({ field: { onChange, value } }) => (
+                    <FormControl fullWidth>
+                      <InputLabel id="roleLabel">Roles</InputLabel>
+                      <Select
+                        labelId="roleLabel"
+                        value={value}
+                        onChange={onChange}
+                        label="Roles"
+                        multiple
+                      >
+                        {roleListData &&
+                          roleListData.map((r) => (
+                            <MenuItem key={r.id} value={r.id}>
+                              {r.name}
+                            </MenuItem>
+                          ))}
+                      </Select>
+                    </FormControl>
+                  )}
+                />
               </CardContent>
             </Card>
             <Card>
