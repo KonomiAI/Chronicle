@@ -50,3 +50,10 @@ model Staff {
   // TODO add role related information
   // after andrew finished his part
 }
+
+model Ip {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  ip          String
+  description String
+  createdAt   DateTime @default(now())
+}
