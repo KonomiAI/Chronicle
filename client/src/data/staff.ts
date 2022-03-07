@@ -1,3 +1,4 @@
+import { useQuery } from 'react-query';
 import { Staff } from '../types';
 import useAxios from './axois';
 
@@ -24,10 +25,15 @@ export const getStaffList = () => {
   return axios.get<{ data: Staff[] }>('/staff').then((res) => res.data.data);
 };
 
+export const useStaffList = () => useQuery('staffList', getStaffList);
+
 export const getStaff = (id: string) => {
   const axios = useAxios();
   return axios.get<Staff>(`staff/${id}`).then((res) => res.data);
 };
+
+export const useStaff = (id: string) =>
+  useQuery(['staff', id], () => getStaff(id));
 
 export const createStaff = (data: StaffPostData) => {
   const axios = useAxios();

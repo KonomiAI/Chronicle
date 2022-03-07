@@ -13,16 +13,15 @@ import {
   TableRow,
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import { useQuery } from 'react-query';
 
 import PageHeader from '../../components/page-header/PageHeader';
 import Spacer from '../../components/spacer/Spacer';
 import StaffInviteDialog from './StaffInvite';
-import { getStaffList } from '../../data';
+import { useStaffList } from '../../data';
 
 export default function StaffListPage() {
   const navigate = useNavigate();
-  const { data } = useQuery('staffList', getStaffList);
+  const { data } = useStaffList();
   const [inviteDialogOpen, setInviteDialogOpen] = useState(false);
 
   return (
