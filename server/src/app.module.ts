@@ -6,10 +6,11 @@ import { ActivityModule } from './models/activities/activity.module';
 import { FeatureModule } from './models/features/feature.module';
 import { StaffModule } from './models/staff/staff.module';
 import { RoleModule } from './models/roles/role.module';
+import { IPModule } from './models/ip/ip.module';
 import { AuthModule } from './auth/auth.module';
 
 @Module({
-  imports: [ActivityModule, StaffModule, FeatureModule, RoleModule, AuthModule],
+  imports: [ActivityModule, StaffModule, FeatureModule, RoleModule, AuthModule, IPModule],
   controllers: [AppController],
   providers: [AppService],
 })
