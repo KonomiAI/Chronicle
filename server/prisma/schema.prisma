@@ -58,3 +58,10 @@ model Staff {
   roles       Role[]   @relation(fields: [roleIds], references: [id])
   roleIds     String[] @db.ObjectId
 }
+
+model Ip {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  ip          String   @unique
+  description String
+  createdAt   DateTime @default(now())
+}
