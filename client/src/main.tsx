@@ -28,7 +28,7 @@ ReactDOM.render(
               <Route index element={<LandingPage />} />
               <Route path="staff" element={<StaffListPage />} />
               <Route path="staff/:id" element={<StaffDetailsPage />} />
-              <Route path="/allowlist" element={<AllowList />} />
+              <Route path="allowlist" element={<AllowList />} />
             </Route>
           </Routes>
         </BrowserRouter>
