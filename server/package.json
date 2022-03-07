@@ -22,7 +22,8 @@
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "prisma:generate": "npx prisma generate",
     "prisma:generate-watch": "npx prisma generate --watch",
-    "prisma:studio": "npx prisma studio"
+    "prisma:studio": "npx prisma studio",
+    "prisma:db-push": "npx prisma db push"
   },
   "dependencies": {
     "@nestjs/common": "^8.0.0",
