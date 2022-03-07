@@ -14,16 +14,16 @@ import {
   Alert,
 } from '@mui/material';
 import { useParams } from 'react-router-dom';
-import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 import { Controller, useForm } from 'react-hook-form';
 
 import PageHeader from '../../components/page-header/PageHeader';
 import Spacer from '../../components/spacer/Spacer';
 import {
-  getStaff,
   StaffUpdateData,
   updateStaff,
   useRoleList,
+  useStaff,
 } from '../../data';
 import SaveBar from '../../components/save-bar/save-bar';
 import { Gender, Staff } from '../../types';
@@ -43,8 +43,7 @@ export default function StaffDetailsPage() {
       </Container>
     );
   }
-  const cacheKey = `staff-${id}`;
-  const { data } = useQuery(cacheKey, () => getStaff(id));
+  const { data } = useStaff(id);
   const { data: roleListData } = useRoleList();
   const queryClient = useQueryClient();
   const [isSaveOpen, setIsSaveOpen] = useState(false);
@@ -59,7 +58,7 @@ export default function StaffDetailsPage() {
   });
   const updateStaffAndMutate = useMutation(updateStaff, {
     onSuccess: () => {
-      queryClient.invalidateQueries(cacheKey);
+      queryClient.invalidateQueries(['staff', id]);
       setIsSaveOpen(false);
     },
   });
