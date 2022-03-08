@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {
+  Box,
   Button,
   Card,
   CardContent,
@@ -26,6 +27,24 @@ import PageHeader from '../../components/page-header/PageHeader';
 import Spacer from '../../components/spacer/Spacer';
 
 
+const variantList = [
+  { name: "Rainbow Kirby", price: "$420.69", date: "1999-07-29", barcode: "66666"},
+  { name: "Chad Kirby", price: "$420.69", date: "1999-07-29", barcode: "66666"},
+  { name: "Snacccc Kirby", price: "$420.69", date: "1999-07-29", barcode: "66666"},
+];
+
+const VariantList = () => (
+  variantList.map(({ name, price, date, barcode }) => (
+  <TableRow>
+      <TableCell>{name}</TableCell>
+      <TableCell>{price}</TableCell>
+      <TableCell>{date}</TableCell>
+      <TableCell>{barcode}</TableCell>
+  </TableRow>
+)
+))
+
+
 export default function InventoryEditPage() {
   return (
     <Container>
@@ -36,7 +55,7 @@ export default function InventoryEditPage() {
       <Spacer size="lg" />
       <Card>
         <CardContent>
-          <Typography variant="h5" sx={{ mb: 2 }}>
+          <Typography variant="h4" sx={{ mb: 2 }}>
             Information
           </Typography>
           <Grid container spacing={2}>
@@ -86,7 +105,40 @@ export default function InventoryEditPage() {
             </Grid>
           </Grid>
         </CardContent>
-
+        <Spacer size="lg" />
+        <CardContent>
+  
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              mb: '1em',
+              gap: '5em',
+            }}
+          >
+            <Typography variant="h4" sx={{ mb: 2 }}>
+              Variants
+            </Typography>
+            <Box>
+              <Button variant="contained">Add New Variant</Button>
+            </Box>
+          </Box>
+          <TableContainer component={Paper}>
+            <Table>
+            <TableHead>
+                <TableRow>
+                  <TableCell>Variant Name</TableCell>
+                  <TableCell>Price</TableCell>
+                  <TableCell>Date</TableCell>
+                  <TableCell>Barcode</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {VariantList()}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </CardContent>
       </Card>
       <Spacer size="lg" />
       <Card>
