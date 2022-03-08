@@ -19,6 +19,7 @@ import {
   TableHead,
   TableRow,
   Paper,
+  CardMedia,
 } from '@mui/material';
 
 import PageHeader from '../../components/page-header/PageHeader';
@@ -29,15 +30,66 @@ export default function InventoryEditPage() {
   return (
     <Container>
       <PageHeader
-        pageTitle="${Product Name}"
+        pageTitle="Juicy Massage"
         backURL="/inventory"
       />
       <Spacer size="lg" />
-      <Card
-        sx={{
-          borderColor: 'red'
-        }}
-      >
+      <Card>
+        <CardContent>
+          <Typography variant="h5" sx={{ mb: 2 }}>
+            Information
+          </Typography>
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                id="productName"
+                variant="outlined"
+                required
+                fullWidth
+                label="Product Name"
+                autoFocus
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                id="productBrand"
+                variant="outlined"
+                required
+                fullWidth
+                label="Brand Name"
+                autoFocus
+              />
+            </Grid>
+          </Grid>
+          <Spacer size="lg" />
+          <Grid container spacing={2}>
+            <Grid item xs='auto' sm={4}>
+              <CardMedia
+                component="img"
+                alt="Kirby"
+                image="https://i.ytimg.com/vi/8XW8u5xLnk0/maxresdefault.jpg"
+              />
+            </Grid>
+            <Grid item xs='auto' sm={4}>
+              <CardMedia
+                component="img"
+                alt="Kirby"
+                image="https://i.chzbgr.com/full/5308424192/hD8F6D6A4/well-thats-horrible"
+              />
+            </Grid>
+            <Grid item xs='auto' sm={4}>
+              <CardMedia
+                component="img"
+                alt="Kirby"
+                image="https://i.pinimg.com/originals/b0/76/9d/b0769dc9a4486558ee8069a271574a73.jpg"
+              />
+            </Grid>
+          </Grid>
+        </CardContent>
+
+      </Card>
+      <Spacer size="lg" />
+      <Card>
         <CardContent>
           <Typography variant="h5" sx={{ mb: 2, color: 'error.main' }}>
             Danger Zone
@@ -86,6 +138,7 @@ export default function InventoryEditPage() {
           </Grid>
         </CardContent>
       </Card>
+      <Spacer size="lg" />
     </Container>
 
     );
