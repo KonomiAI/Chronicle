@@ -23,6 +23,7 @@ import {
   Dialog
 } from '@mui/material';
 
+import { Dropzone, FileItem } from "@dropzone-ui/react";
 import PageHeader from '../../components/page-header/PageHeader';
 import Spacer from '../../components/spacer/Spacer';
 import VaraintCreateDialog from './VariantCreate';
@@ -83,28 +84,7 @@ export default function InventoryCreatePage() {
             </Grid>
           </Grid>
           <Spacer size="lg" />
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                id="productPrice"
-                variant="outlined"
-                required
-                fullWidth
-                label="Price"
-                autoFocus
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                id="productBarcode"
-                variant="outlined"
-                required
-                fullWidth
-                label="Barcode"
-                autoFocus
-              />
-            </Grid>
-          </Grid>
+          <Dropzone/>
 
         </CardContent>
         <Spacer size="lg" />
