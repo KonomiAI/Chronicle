@@ -62,21 +62,23 @@ export default function InventoryEditPage() {
             <Grid item xs={12} sm={6}>
               <TextField
                 id="productName"
-                variant="outlined"
+                variant="filled"
                 required
                 fullWidth
                 label="Product Name"
                 autoFocus
+                defaultValue={'Juicy Massage'}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
               <TextField
                 id="productBrand"
-                variant="outlined"
+                variant="filled"
                 required
                 fullWidth
                 label="Brand Name"
                 autoFocus
+                defaultValue={'Kirby'}
               />
             </Grid>
           </Grid>
