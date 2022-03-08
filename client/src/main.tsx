@@ -12,6 +12,9 @@ import MainContainer from './pages/container';
 import LandingPage from './pages/landing';
 import StaffListPage from './pages/staff-list/StaffList';
 import StaffDetailsPage from './pages/staff-details/StaffDetails';
+import InventoryListPage from './pages/inventory/InventoryList';
+import InventoryCreatePage from './pages/inventory/InventoryCreate';
+import InventoryEditPage from './pages/inventory/InventoryEdit';
 
 const queryClient = new QueryClient();
 
@@ -27,6 +30,10 @@ ReactDOM.render(
               <Route index element={<LandingPage />} />
               <Route path="staff" element={<StaffListPage />} />
               <Route path="staff/:id" element={<StaffDetailsPage />} />
+              <Route path="inventory" element={<InventoryListPage />} />
+              <Route path="inventory/create" element={<InventoryCreatePage />} />
+              {/* Will need to make this dynamic to the path inventory/edit/:id */}
+              <Route path="inventory/edit" element={<InventoryEditPage />} />
             </Route>
           </Routes>
         </BrowserRouter>

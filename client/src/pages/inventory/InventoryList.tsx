@@ -12,6 +12,7 @@ import {
   TableHead,
   TableRow,
 } from '@mui/material';
+import { Link } from 'react-router-dom';
 
 import PageHeader from '../../components/page-header/PageHeader';
 import Spacer from '../../components/spacer/Spacer';
@@ -38,7 +39,7 @@ export default function InventoryPage() {
       <PageHeader
         pageTitle="Inventory"
         action={
-          <Button variant="contained">
+          <Button component={Link} to="/inventory/create" variant="contained" >
             Create
           </Button>
         }
