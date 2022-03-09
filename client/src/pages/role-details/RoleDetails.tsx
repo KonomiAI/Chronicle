@@ -17,10 +17,11 @@ import {
 import { useParams } from 'react-router-dom';
 import { Controller, useForm } from 'react-hook-form';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { getRole, getFeatures } from '../../data';
+import { useRole, useFeaturesList } from '../../data';
 import PageHeader from '../../components/page-header/PageHeader';
 import Spacer from '../../components/spacer/Spacer';
 import SaveBar from '../../components/save-bar/save-bar';
+import { Feature } from '../../types';
 
 export default function RoleDetails() {
   const { id } = useParams();
@@ -31,17 +32,9 @@ export default function RoleDetails() {
       </Container>
     );
   }
-  // getFeatures().then(x => {
+  const { data } = useRole(id)
 
-  // })
-  // console.log(features)
-
-  const queryClient = useQueryClient();
-  
-  let features = useQuery('users', getFeatures)
-
-  const cacheKey = `role-${id}`;
-  const { data } = useQuery(cacheKey, () => getRole(id));
+  const { data: featureList } = useFeaturesList()
 
   const [isSaveOpen, setIsSaveOpen] = useState(true);
   return (
@@ -85,20 +78,20 @@ export default function RoleDetails() {
                       Write
                     </Typography>
                   </Grid>
-                  {features.data.map((s) => (
-                  <>
-                    <Grid item xs={8}>
-                      <Typography ml={2}>
-                        {s.name}
-                      </Typography>
+                  {featureList?.map((s: Feature) => (
+                    <Grid container spacing={2} key={s.id}>
+                      <Grid item xs={8}>
+                        <Typography ml={2}>
+                          {s.name}
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={2}>
+                        <Checkbox checked={data.permissions[s.name].read} />
+                      </Grid>
+                      <Grid item xs={2}>
+                        <Checkbox checked={data.permissions[s.name].write} />
+                      </Grid>
                     </Grid>
-                    <Grid item xs={2}>
-                      <Checkbox checked={data.permissions[s.name].read}/>
-                    </Grid>
-                    <Grid item xs={2}>
-                      <Checkbox checked={data.permissions[s.name].write}/>
-                    </Grid>
-                  </>
                   ))}
                 </Grid>
               </CardContent>

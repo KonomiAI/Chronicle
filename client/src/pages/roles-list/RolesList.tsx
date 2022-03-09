@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useQuery } from 'react-query';
 import { useNavigate } from 'react-router-dom';
-import { getRolesList } from '../../data';
+import { getRolesList, useRoleList } from '../../data';
 import {
   Button,
   Container,
@@ -18,7 +18,7 @@ import Spacer from '../../components/spacer/Spacer';
 
 export default function RolesListPage() {
   const navigate = useNavigate();
-  const { data, isLoading } = useQuery('rolesList', getRolesList);
+  const { data: roleListData } = useRoleList();
   return (
     <Container>
       <PageHeader
@@ -38,7 +38,7 @@ export default function RolesListPage() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {data?.map((s) => (
+            {roleListData?.map((s) => (
               <TableRow
                 key={s.id}
                 hover

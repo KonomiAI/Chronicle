@@ -13,3 +13,4 @@ export const getRole = (id: string) => {
 };
 
 export const useRoleList = () => useQuery('rolesList', getRolesList);
+export const useRole = (id: string) => useQuery(['role', id], () => getRole(id));
