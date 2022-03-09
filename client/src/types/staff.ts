@@ -1,6 +1,6 @@
-import Gender from './gender';
+import { Gender, StaffIdLessRole } from '.';
 
-export default interface Staff {
+export interface Staff {
   id: string;
   firstName: string;
   lastName: string;
@@ -9,4 +9,6 @@ export default interface Staff {
   dateOfBirth: string | null;
   isSuperUser: boolean;
   isSuspended: boolean;
+  roles: StaffIdLessRole[];
+  roleIds: string[];
 }
