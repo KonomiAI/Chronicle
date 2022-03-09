@@ -38,4 +38,13 @@ export class IPService {
       where,
     });
   }
+
+  async isIPInAllowList(ip: string) {
+    const res = await this.prisma.ip.findFirst({
+      where: {
+        ip,
+      },
+    });
+    return !!res;
+  }
 }

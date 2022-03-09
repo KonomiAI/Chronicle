@@ -8,6 +8,8 @@ import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
 import { StaffService } from '../models/staff/staff.service';
 import { PrismaService } from '../prisma.service';
+import { IPModule } from 'src/models/ip/ip.module';
+import { IPAllowlistGuard } from './ip.guard';
 
 @Module({
   imports: [
@@ -18,14 +20,16 @@ import { PrismaService } from '../prisma.service';
       secret: jwtConstants.secret,
       signOptions: { expiresIn: '7 hours' },
     }),
+    IPModule,
   ],
-  exports: [BcryptService],
+  exports: [BcryptService, IPModule],
   providers: [
     BcryptService,
     JwtStrategy,
     AuthService,
     StaffService,
     PrismaService,
+    IPAllowlistGuard,
   ],
   controllers: [AuthController],
 })

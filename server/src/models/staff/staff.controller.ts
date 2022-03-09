@@ -8,6 +8,7 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
+import { SkipIPCheck } from 'src/auth/ip.guard';
 import { BcryptService } from '../../auth/bcrypt.service';
 import { Actions, Features } from '../../auth/constants';
 import { Auth } from '../../auth/role.decorator';
