@@ -44,6 +44,7 @@ export default function InventoryPage() {
           </Button>
         }
       />
+
       <Spacer size="lg" />
       <TableContainer component={Paper}>
         <Table>
