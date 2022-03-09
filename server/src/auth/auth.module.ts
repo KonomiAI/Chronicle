@@ -6,8 +6,8 @@ import { jwtConstants } from './constants';
 import { JwtStrategy } from './jwt.strategy';
 import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
-import { StaffService } from 'src/models/staff/staff.service';
-import { PrismaService } from 'src/prisma.service';
+import { StaffService } from '../models/staff/staff.service';
+import { PrismaService } from '../prisma.service';
 
 @Module({
   imports: [
@@ -20,7 +20,13 @@ import { PrismaService } from 'src/prisma.service';
     }),
   ],
   exports: [BcryptService],
-  providers: [BcryptService, JwtStrategy, AuthService, StaffService, PrismaService],
-  controllers: [AuthController]
+  providers: [
+    BcryptService,
+    JwtStrategy,
+    AuthService,
+    StaffService,
+    PrismaService,
+  ],
+  controllers: [AuthController],
 })
 export class AuthModule {}

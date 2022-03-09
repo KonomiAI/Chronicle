@@ -1,4 +1,17 @@
-//TODO: load secret from environment 
+//TODO: load secret from environment
 export const jwtConstants = {
-    secret: 'someSecretKey',
+  secret: 'someSecretKey',
 };
+
+export enum Features {
+  Inventory = 'Inventory',
+  Security = 'Security',
+  Entry = 'Entry',
+  Customer = 'Customer',
+  Form = 'Form',
+}
+
+export enum Actions {
+  READ,
+  WRITE,
+}
