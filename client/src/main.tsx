@@ -10,6 +10,7 @@ import theme from './theme';
 import LoginPage from './pages/login';
 import MainContainer from './pages/container';
 import LandingPage from './pages/landing';
+import AllowList from './pages/allowlist';
 import StaffListPage from './pages/staff-list/StaffList';
 import StaffDetailsPage from './pages/staff-details/StaffDetails';
 
@@ -27,6 +28,7 @@ ReactDOM.render(
               <Route index element={<LandingPage />} />
               <Route path="staff" element={<StaffListPage />} />
               <Route path="staff/:id" element={<StaffDetailsPage />} />
+              <Route path="allowlist" element={<AllowList />} />
             </Route>
           </Routes>
         </BrowserRouter>
