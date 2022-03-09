@@ -1,5 +1,6 @@
 import { Gender } from '@prisma/client';
 import {
+  IsArray,
   IsBoolean,
   IsEmail,
   IsEnum,
@@ -24,6 +25,19 @@ export class CreateStaffDto {
   @IsNotEmpty()
   @IsString()
   lastName: string;
+
+  @IsString({
+    each: true,
+  })
+  roleIds: string[];
+
+  @IsISO8601()
+  @IsOptional()
+  dateOfBirth: string;
+
+  @IsEnum(Gender)
+  @IsOptional()
+  gender: Gender;
 }
 
 export class UpdateStaffDto {
@@ -48,4 +62,9 @@ export class UpdateStaffDto {
 
   @IsBoolean()
   isSuspended: boolean;
+
+  @IsString({
+    each: true,
+  })
+  roleIds: string[];
 }
