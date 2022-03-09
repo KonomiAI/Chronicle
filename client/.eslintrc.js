@@ -24,5 +24,6 @@ module.exports = {
     'import/prefer-default-export': 'off',
     'react/jsx-filename-extension': [1, { extensions: ['.jsx', '.tsx'] }],
     'react/function-component-definition': 'off',
+    'import/no-extraneous-dependencies': 'off',
   },
 };

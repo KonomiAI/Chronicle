@@ -1,4 +1,3 @@
-import Staff from './staff';
-import Role from './roles';
-
-export type { Staff, Role };
+export * from './staff';
+export * from './gender';
+export * from './roles';
