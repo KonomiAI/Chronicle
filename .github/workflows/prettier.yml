@@ -1,8 +1,7 @@
 name: Format Codebase
 on:
   pull_request:
-    branches:
-      - master
+    branches: [main]
 jobs:
   prettier:
     runs-on: ubuntu-latest
