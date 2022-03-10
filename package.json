@@ -8,7 +8,7 @@
   },
   "scripts": {
     "prettier": "npx prettier@2.5.1 --check .",
-    "prettier:fix": "npx prettier@2.5.1 --fix ."
+    "prettier:fix": "npx prettier@2.5.1 --write ."
   },
   "repository": {
     "type": "git",

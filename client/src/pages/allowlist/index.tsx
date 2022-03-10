@@ -18,13 +18,13 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import PageHeader from '../../components/page-header/PageHeader';
 
 const ipList = [
-  { ip: "192.168.0.1", description: "Some description about this IP address" },
-  { ip: "192.168.0.2", description: "Some description about this IP address" },
-  { ip: "192.168.0.3", description: "Some description about this IP address" },
-  { ip: "192.168.0.4", description: "Some description about this IP address" },
+  { ip: '192.168.0.1', description: 'Some description about this IP address' },
+  { ip: '192.168.0.2', description: 'Some description about this IP address' },
+  { ip: '192.168.0.3', description: 'Some description about this IP address' },
+  { ip: '192.168.0.4', description: 'Some description about this IP address' },
 ];
 
-const AllowListRow = () => (
+const AllowListRow = () =>
   ipList.map(({ ip, description }) => (
     <TableRow hover>
       <TableCell>
@@ -39,12 +39,11 @@ const AllowListRow = () => (
         </IconButton>
       </TableCell>
     </TableRow>
-  )
-))
+  ));
 export default function AllowListPage() {
   return (
     <Container maxWidth="sm">
-      <Box  
+      <Box
         sx={{
           marginTop: '3em',
           display: 'flex',
@@ -54,20 +53,16 @@ export default function AllowListPage() {
           gap: '5em',
         }}
       >
-        <PageHeader 
+        <PageHeader
           pageTitle="IP Allowlist"
           helpText="Add IP address to the allowlist to ensure your staff member can only access
           the application from certain locations"
-          action={
-            <Button variant="contained">Add New</Button>
-          }
+          action={<Button variant="contained">Add New</Button>}
         />
-      </Box>   
+      </Box>
       <TableContainer component={Paper}>
         <Table>
-          <TableBody>
-            {AllowListRow()}
-          </TableBody>
+          <TableBody>{AllowListRow()}</TableBody>
         </Table>
       </TableContainer>
     </Container>

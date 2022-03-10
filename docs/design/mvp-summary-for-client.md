@@ -1,6 +1,7 @@
 # MVP Scope Summary for Client
 
 ## Identity Access Control
+
 - User accounts
   - client can created, modify, and delete
 - Staff roles
@@ -8,6 +9,7 @@
 - IP whitelist (can only access Chronicle from onsite at spa)
 
 ## Customer Profiles
+
 - Core profiles field - creation and modification
   - name
   - address
@@ -24,6 +26,7 @@
   - Membership purchase and renewal history
 
 ## Entries
+
 - Generic Entry with the following 2 sections
 - Activity Entry Section
   - activity name
@@ -44,11 +47,13 @@
 - All searchable by customer, provider and activity/product purchase
 
 ## Inventory
-- Activities/Treatments 
+
+- Activities/Treatments
   - name
   - id
   - price
 - Physical Products
+
   - name
   - barcode
   - SKU
@@ -59,8 +64,9 @@
 - manual creation, modification, and deletion for MVP
 
 ## Data Reporting
-- rigid end of day/week reports 
-  - Staff log in and out 
+
+- rigid end of day/week reports
+  - Staff log in and out
   - Activities done
   - Products purchased
   - Customer visits
