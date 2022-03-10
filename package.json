@@ -28,6 +28,6 @@
     "prettier": "2.5.1"
   },
   "lint-staged": {
-    "*.{ts,tsx,md,html,scss}": "npx prettier@2.5.1 --write"
+    "*.{ts,tsx,md,html,scss,yml}": "npx prettier@2.5.1 --write"
   }
 }
