@@ -7,8 +7,8 @@
     "doc": "docs"
   },
   "scripts": {
-    "prettier": "npx prettier@2.1.2 --check .",
-    "prettier:fix": "npx prettier@2.1.2 --fix ."
+    "prettier": "npx prettier@2.5.1 --check .",
+    "prettier:fix": "npx prettier@2.5.1 --fix ."
   },
   "repository": {
     "type": "git",
@@ -20,5 +20,8 @@
   "bugs": {
     "url": "https://github.com/KonomiAI/Chronicle/issues"
   },
-  "homepage": "https://github.com/KonomiAI/Chronicle#readme"
+  "homepage": "https://github.com/KonomiAI/Chronicle#readme",
+  "devDependencies": {
+    "prettier": "2.5.1"
+  }
 }
