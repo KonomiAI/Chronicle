@@ -24,6 +24,14 @@ const DEFAULT_SELECT = {
   dateOfBirth: true,
   isSuperUser: true,
   isSuspended: true,
+  roles: {
+    select: {
+      id: true,
+      name: true,
+      permissions: true,
+    },
+  },
+  roleIds: true,
 };
 
 @Controller('staff')
