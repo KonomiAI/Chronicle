@@ -5,30 +5,30 @@ import { PrismaService } from '../../prisma.service';
 
 @Injectable()
 export class RoleService {
-    constructor(private prisma: PrismaService) { }
+  constructor(private prisma: PrismaService) {}
 
-    async findAll(params: {
-        skip?: number;
-        take?: number;
-        cursor?: Prisma.RoleWhereUniqueInput;
-        where?: Prisma.RoleWhereInput;
-        orderBy?: Prisma.RoleOrderByWithRelationInput;
-    }): Promise<Role[]> {
-        const { skip, take, cursor, where, orderBy } = params;
-        return this.prisma.role.findMany({
-            skip,
-            take,
-            cursor,
-            where,
-            orderBy,
-        })
-    }
+  async findAll(params: {
+    skip?: number;
+    take?: number;
+    cursor?: Prisma.RoleWhereUniqueInput;
+    where?: Prisma.RoleWhereInput;
+    orderBy?: Prisma.RoleOrderByWithRelationInput;
+  }): Promise<Role[]> {
+    const { skip, take, cursor, where, orderBy } = params;
+    return this.prisma.role.findMany({
+      skip,
+      take,
+      cursor,
+      where,
+      orderBy,
+    });
+  }
 
-    async createRole(data: Prisma.RoleCreateInput): Promise<Role> {
-        return this.prisma.role.create({
-            data,
-        });
-    }
+  async createRole(data: Prisma.RoleCreateInput): Promise<Role> {
+    return this.prisma.role.create({
+      data,
+    });
+  }
 
     async findOne(
         userWhereUniqueInput: Prisma.RoleWhereUniqueInput,
@@ -51,11 +51,9 @@ export class RoleService {
         });
     }
 
-    async deleteRole(
-        where: Prisma.RoleWhereUniqueInput,
-    ): Promise<Role> {
-        return this.prisma.role.delete({
-            where,
-        });
-    }
+  async deleteRole(where: Prisma.RoleWhereUniqueInput): Promise<Role> {
+    return this.prisma.role.delete({
+      where,
+    });
+  }
 }

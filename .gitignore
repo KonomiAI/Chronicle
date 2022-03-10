@@ -105,6 +105,3 @@ dist
 
 # mdbook build files
 book/
-
-# vscode
-.vscode/

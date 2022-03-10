@@ -7,7 +7,8 @@
     "doc": "docs"
   },
   "scripts": {
-    "prettier": "npx prettier@2.5.1"
+    "prettier": "npx prettier@2.1.2 --check .",
+    "prettier:fix": "npx prettier@2.1.2 --fix ."
   },
   "repository": {
     "type": "git",
