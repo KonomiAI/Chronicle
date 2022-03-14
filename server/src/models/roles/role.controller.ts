@@ -20,6 +20,11 @@ export class RoleController {
     return this.roleService.findAll({});
   }
 
+  @Get(':id')
+  getRole(@Param('id') id: string) {
+    return this.roleService.findOne({id})
+  }
+
   @Post()
   async createRole(@Body() { ...data }: RoleDto) {
     return this.roleService.createRole(data);
