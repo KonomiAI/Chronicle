@@ -15,6 +15,7 @@ import {
   Select,
   MenuItem,
   InputLabel,
+  Snackbar,
 } from '@mui/material';
 import { ContentCopy } from '@mui/icons-material';
 import { Controller, useForm } from 'react-hook-form';
@@ -200,6 +201,9 @@ const StaffInviteResult = ({
   details,
 }: StaffInviteResultProps) => {
   const copyToClipboard = useClipboard();
+
+  const [showSnack, setShowSnack] = useState(false);
+
   return (
     <>
       <DialogTitle>Staff invited!</DialogTitle>
@@ -234,7 +238,10 @@ const StaffInviteResult = ({
                 <IconButton
                   color="inherit"
                   size="small"
-                  onClick={() => copyToClipboard(details?.password ?? '')}
+                  onClick={() => {
+                    copyToClipboard(details?.password ?? '');
+                    setShowSnack(true);
+                  }}
                 >
                   <ContentCopy />
                 </IconButton>
@@ -248,6 +255,12 @@ const StaffInviteResult = ({
           Done
         </Button>
       </DialogActions>
+      <Snackbar
+        open={showSnack}
+        autoHideDuration={2000}
+        onClose={() => setShowSnack(false)}
+        message="Password copied to clipboard!"
+      />
     </>
   );
 };

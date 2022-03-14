@@ -47,6 +47,7 @@ export default function StaffDetailsPage() {
   const { data: roleListData } = useRoleList();
   const queryClient = useQueryClient();
   const [isSaveOpen, setIsSaveOpen] = useState(false);
+  const [isSavingChanges, setIsSavingChanges] = useState(false);
   const { control, reset, handleSubmit, watch } = useForm<StaffUpdateData>({
     defaultValues: {
       firstName: '',
@@ -60,6 +61,7 @@ export default function StaffDetailsPage() {
     onSuccess: () => {
       queryClient.invalidateQueries(['staff', id]);
       setIsSaveOpen(false);
+      setIsSavingChanges(false);
     },
   });
 
@@ -71,11 +73,13 @@ export default function StaffDetailsPage() {
     return () => subscription.unsubscribe();
   }, [data, watch]);
 
-  const saveChanges = (values: StaffUpdateData) =>
+  const saveChanges = (values: StaffUpdateData) => {
     updateStaffAndMutate.mutate({
       id,
       data: values,
     });
+    setIsSavingChanges(true);
+  };
 
   return (
     <>
@@ -257,7 +261,11 @@ export default function StaffDetailsPage() {
           </>
         )}
       </Container>
-      <SaveBar open={isSaveOpen} onSave={handleSubmit(saveChanges)} />
+      <SaveBar
+        open={isSaveOpen}
+        onSave={handleSubmit(saveChanges)}
+        loading={isSavingChanges}
+      />
     </>
   );
 }
