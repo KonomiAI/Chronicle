@@ -9,7 +9,7 @@
     "test": "vitest run",
     "test:dev": "vitest dev",
     "coverage": "vitest run --coverage",
-    "lint": "eslint \"{src}/**/*.ts\" --fix"
+    "lint": "eslint \"src/**/*.{ts,tsx}\" --fix"
   },
   "dependencies": {
     "@emotion/react": "^11.7.1",
