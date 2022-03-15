@@ -32,8 +32,7 @@ ReactDOM.render(
               <Route path="staff/:id" element={<StaffDetailsPage />} />
               <Route path="inventory" element={<InventoryListPage />} />
               <Route path="inventory/create" element={<InventoryCreatePage />} />
-              {/* Will need to make this dynamic to the path inventory/edit/:id */}
-              <Route path="inventory/edit" element={<InventoryEditPage />} />
+              <Route path="inventory/:id" element={<InventoryEditPage />} />
             </Route>
           </Routes>
         </BrowserRouter>
