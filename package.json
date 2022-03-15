@@ -19,9 +19,5 @@
   "bugs": {
     "url": "https://github.com/KonomiAI/Chronicle/issues"
   },
-  "homepage": "https://github.com/KonomiAI/Chronicle#readme",
-  "dependencies": {
-    "@dropzone-ui/react": "^6.7.1",
-    "axios": "^0.26.0"
-  }
+  "homepage": "https://github.com/KonomiAI/Chronicle#readme"
 }
