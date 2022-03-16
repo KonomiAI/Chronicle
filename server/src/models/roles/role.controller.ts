@@ -22,7 +22,7 @@ export class RoleController {
 
   @Get(':id')
   getRole(@Param('id') id: string) {
-    return this.roleService.findOne({id})
+    return this.roleService.findOne({ id });
   }
 
   @Post()

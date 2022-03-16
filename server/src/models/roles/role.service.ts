@@ -30,26 +30,26 @@ export class RoleService {
     });
   }
 
-    async findOne(
-        userWhereUniqueInput: Prisma.RoleWhereUniqueInput,
-        select?: Prisma.RoleSelect,
-      ): Promise<Partial<Role> | null> {
-        return this.prisma.role.findUnique({
-          where: userWhereUniqueInput,
-          select,
-        });
-      }
+  async findOne(
+    userWhereUniqueInput: Prisma.RoleWhereUniqueInput,
+    select?: Prisma.RoleSelect,
+  ): Promise<Partial<Role> | null> {
+    return this.prisma.role.findUnique({
+      where: userWhereUniqueInput,
+      select,
+    });
+  }
 
-    async updateRole(params: {
-        where: Prisma.RoleWhereUniqueInput;
-        data: Prisma.RoleUpdateInput;
-    }): Promise<Role> {
-        const { where, data } = params;
-        return this.prisma.role.update({
-            data,
-            where,
-        });
-    }
+  async updateRole(params: {
+    where: Prisma.RoleWhereUniqueInput;
+    data: Prisma.RoleUpdateInput;
+  }): Promise<Role> {
+    const { where, data } = params;
+    return this.prisma.role.update({
+      data,
+      where,
+    });
+  }
 
   async deleteRole(where: Prisma.RoleWhereUniqueInput): Promise<Role> {
     return this.prisma.role.delete({

@@ -32,9 +32,9 @@ export default function RoleDetails() {
       </Container>
     );
   }
-  const { data } = useRole(id)
+  const { data } = useRole(id);
 
-  const { data: featureList } = useFeaturesList()
+  const { data: featureList } = useFeaturesList();
 
   const [isSaveOpen, setIsSaveOpen] = useState(true);
   return (
@@ -42,10 +42,7 @@ export default function RoleDetails() {
       <Container>
         {data && (
           <>
-            <PageHeader
-              pageTitle={`${data.name}`}
-              backURL="/roles"
-            />
+            <PageHeader pageTitle={`${data.name}`} backURL="/roles" />
             <Spacer size="lg" />
             <Card sx={{ mb: 4 }}>
               <CardContent>
@@ -53,11 +50,7 @@ export default function RoleDetails() {
                   About this role
                 </Typography>
                 <Grid item xs={12}>
-                  <TextField
-                    fullWidth
-                    label="Description"
-                    variant="outlined"
-                  />
+                  <TextField fullWidth label="Description" variant="outlined" />
                 </Grid>
               </CardContent>
             </Card>
@@ -81,9 +74,7 @@ export default function RoleDetails() {
                   {featureList?.map((s: Feature) => (
                     <Grid container spacing={2} key={s.id}>
                       <Grid item xs={8}>
-                        <Typography ml={2}>
-                          {s.name}
-                        </Typography>
+                        <Typography ml={2}>{s.name}</Typography>
                       </Grid>
                       <Grid item xs={2}>
                         <Checkbox checked={data.permissions[s.name].read} />
@@ -105,8 +96,8 @@ export default function RoleDetails() {
                   <Grid item xs={10}>
                     <Typography variant="h6">Delete this role</Typography>
                     <Typography variant="body2">
-                      You cannot delete this role if it is currently assigned to any staff.
-                      Please remove the role from all staff first.
+                      You cannot delete this role if it is currently assigned to
+                      any staff. Please remove the role from all staff first.
                     </Typography>
                   </Grid>
                   <Grid
@@ -118,10 +109,7 @@ export default function RoleDetails() {
                       justifyContent: 'center',
                     }}
                   >
-                    <Button
-                      variant="text"
-                      color="error"
-                    >
+                    <Button variant="text" color="error">
                       Delete
                     </Button>
                   </Grid>
@@ -130,7 +118,7 @@ export default function RoleDetails() {
             </Card>
           </>
         )}
-        <SaveBar open={isSaveOpen} onSave={() => { }} />
+        <SaveBar open={isSaveOpen} onSave={() => {}} />
       </Container>
     </>
   );

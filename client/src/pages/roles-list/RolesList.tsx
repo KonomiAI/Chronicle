@@ -24,7 +24,7 @@ export default function RolesListPage() {
       <PageHeader
         pageTitle="Roles"
         action={
-          <Button variant="contained" onClick={() => navigate("create")}>
+          <Button variant="contained" onClick={() => navigate('create')}>
             Create new role
           </Button>
         }
@@ -45,9 +45,7 @@ export default function RolesListPage() {
                 sx={{ cursor: 'pointer' }}
                 onClick={() => navigate(s.id)}
               >
-                <TableCell>
-                  {s.name}
-                </TableCell>
+                <TableCell>{s.name}</TableCell>
               </TableRow>
             ))}
           </TableBody>
