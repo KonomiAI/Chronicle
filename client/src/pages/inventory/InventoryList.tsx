@@ -1,10 +1,7 @@
 import React, { useState } from 'react';
 import {
-  Box,
   Button,
-  Chip,
   Container,
-  Dialog,
   Paper,
   Table,
   TableBody,
@@ -22,11 +19,33 @@ import PageHeader from '../../components/page-header/PageHeader';
 import Spacer from '../../components/spacer/Spacer';
 import TabPanel from '../../components/tabs/TabPanel';
 
+
+export function InventoryTable({ tableContents }: { tableContents: React.ReactNode }) {
+  return (
+    <TableContainer component={Paper}>
+      <Table>
+        <TableHead>
+          <TableRow>
+            <TableCell>Name</TableCell>
+            <TableCell>Price</TableCell>
+            <TableCell>Date Added</TableCell>
+            <TableCell>Date Barcode</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {tableContents}
+        </TableBody>
+      </Table>
+    </TableContainer>
+  );
+}
+
+
 const inventoryList = [
   { name: "Daniel Wu", price: "$420.69", date: "1999-07-29", barcode: "66666"},
   { name: "Daniel Wu", price: "$420.69", date: "1999-07-29", barcode: "66666"},
 ];
-  
+
 const InventoryList = () => (
   inventoryList.map(({ name, price, date, barcode }) => (
   <TableRow>
@@ -97,38 +116,10 @@ export default function InventoryPage() {
       </AppBar>
 
       <TabPanel value={value} index={0}>
-        <TableContainer component={Paper}>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell>Name</TableCell>
-                <TableCell>Price</TableCell>
-                <TableCell>Date Added</TableCell>
-                <TableCell>Date Barcode</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {InventoryList()}
-            </TableBody>
-          </Table>
-        </TableContainer>
+        <InventoryTable tableContents={InventoryList()} />;
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <TableContainer component={Paper}>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell>Name</TableCell>
-                <TableCell>Price</TableCell>
-                <TableCell>Date Added</TableCell>
-                <TableCell>Date Barcode</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {ProductList()}
-            </TableBody>
-          </Table>
-        </TableContainer>
+        <InventoryTable tableContents={ProductList()} />;
       </TabPanel>
     </Container>
   );
