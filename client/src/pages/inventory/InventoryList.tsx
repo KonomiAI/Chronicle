@@ -11,7 +11,7 @@ import {
   TableRow,
   Tab,
   Tabs,
-  AppBar
+  AppBar,
 } from '@mui/material';
 import { Link } from 'react-router-dom';
 
@@ -21,58 +21,55 @@ import TabPanel from '../../components/tabs/TabPanel';
 import InventoryTable from '../../components/inventory/InventoryTable';
 
 const inventoryList = [
-  { name: "Daniel Wu", price: "$420.69", date: "1999-07-29", barcode: "66666"},
-  { name: "Daniel Wu", price: "$420.69", date: "1999-07-29", barcode: "66666"},
+  { name: 'Daniel Wu', price: '$420.69', date: '1999-07-29', barcode: '66666' },
+  { name: 'Daniel Wu', price: '$420.69', date: '1999-07-29', barcode: '66666' },
 ];
 
-const InventoryList = () => (
+const InventoryList = () =>
   inventoryList.map(({ name, price, date, barcode }) => (
     <TableRow>
-        <TableCell>{name}</TableCell>
-        <TableCell>{price}</TableCell>
-        <TableCell>{date}</TableCell>
-        <TableCell>{barcode}</TableCell>
+      <TableCell>{name}</TableCell>
+      <TableCell>{price}</TableCell>
+      <TableCell>{date}</TableCell>
+      <TableCell>{barcode}</TableCell>
     </TableRow>
-  )
-))
+  ));
 
 const productList = [
-  { name: "Massage 1", price: "$420.69", date: "1999-07-29", barcode: "66666"},
-  { name: "Massage 2", price: "$420.69", date: "1999-07-29", barcode: "66666"},
+  { name: 'Massage 1', price: '$420.69', date: '1999-07-29', barcode: '66666' },
+  { name: 'Massage 2', price: '$420.69', date: '1999-07-29', barcode: '66666' },
 ];
 
-const ProductList = () => (
+const ProductList = () =>
   productList.map(({ name, price, date, barcode }) => (
     <TableRow>
-        <TableCell>{name}</TableCell>
-        <TableCell>{price}</TableCell>
-        <TableCell>{date}</TableCell>
-        <TableCell>{barcode}</TableCell>
+      <TableCell>{name}</TableCell>
+      <TableCell>{price}</TableCell>
+      <TableCell>{date}</TableCell>
+      <TableCell>{barcode}</TableCell>
     </TableRow>
-  )
-))
+  ));
 
-function a11yProps(index:number) {
+function a11yProps(index: number) {
   return {
     id: `scrollable-auto-tab-${index}`,
-    "aria-controls": `scrollable-auto-tabpanel-${index}`
+    'aria-controls': `scrollable-auto-tabpanel-${index}`,
   };
 }
 
 export default function InventoryPage() {
-
   const [value, setValue] = React.useState(0);
 
   function handleChange(event: React.ChangeEvent<{}>, newValue: number) {
     setValue(newValue);
   }
- 
+
   return (
     <Container>
       <PageHeader
         pageTitle="Inventory"
         action={
-          <Button component={Link} to="/inventory/create" variant="contained" >
+          <Button component={Link} to="/inventory/create" variant="contained">
             Create
           </Button>
         }

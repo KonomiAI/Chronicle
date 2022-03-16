@@ -10,7 +10,6 @@ import {
 
 import Spacer from '../../components/spacer/Spacer';
 
-
 export interface VariantCreateDialogProps {
   handleClose: (created: boolean) => void;
 }
@@ -30,38 +29,23 @@ const VariantCreateForm = ({ handleClose }: VariantCreateDialogProps) => {
             />
           </Grid>
           <Grid item xs={6}>
-            <TextField
-              fullWidth
-              label="Price"
-              variant="outlined"
-            />
+            <TextField fullWidth label="Price" variant="outlined" />
           </Grid>
           <Grid item xs={6}>
-            <TextField
-              fullWidth
-              label="Barcode"
-              variant="outlined"
-            />
+            <TextField fullWidth label="Barcode" variant="outlined" />
           </Grid>
         </Grid>
       </DialogContent>
       <DialogActions>
-        <Button color="inherit">
-          Cancel
-        </Button>
+        <Button color="inherit">Cancel</Button>
         <Button>Create</Button>
       </DialogActions>
     </>
   );
-}
-
+};
 
 export default function VaraintCreateDialog({
   handleClose,
 }: VariantCreateDialogProps) {
-  return (
-    <VariantCreateForm
-      handleClose={handleClose}
-    />
-  );
+  return <VariantCreateForm handleClose={handleClose} />;
 }

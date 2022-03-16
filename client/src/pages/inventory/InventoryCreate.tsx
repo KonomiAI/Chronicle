@@ -20,41 +20,51 @@ import {
   TableHead,
   TableRow,
   Paper,
-  Dialog
+  Dialog,
 } from '@mui/material';
 
-import { Dropzone, FileItem } from "@dropzone-ui/react";
+import { Dropzone, FileItem } from '@dropzone-ui/react';
 import PageHeader from '../../components/page-header/PageHeader';
 import Spacer from '../../components/spacer/Spacer';
 import VaraintCreateDialog from './VariantCreate';
 import { useNavigate } from 'react-router-dom';
 
 const variantList = [
-  { name: "Rainbow Kirbyzz", price: "$420.69", date: "1999-07-29", barcode: "66666"},
-  { name: "Chad Kirby", price: "$420.69", date: "1999-07-29", barcode: "66666"},
-  { name: "Snacccc Kirby", price: "$420.69", date: "1999-07-29", barcode: "66666"},
+  {
+    name: 'Rainbow Kirbyzz',
+    price: '$420.69',
+    date: '1999-07-29',
+    barcode: '66666',
+  },
+  {
+    name: 'Chad Kirby',
+    price: '$420.69',
+    date: '1999-07-29',
+    barcode: '66666',
+  },
+  {
+    name: 'Snacccc Kirby',
+    price: '$420.69',
+    date: '1999-07-29',
+    barcode: '66666',
+  },
 ];
 
-const VariantList = () => (
+const VariantList = () =>
   variantList.map(({ name, price, date, barcode }) => (
-  <TableRow>
+    <TableRow>
       <TableCell>{name}</TableCell>
       <TableCell>{price}</TableCell>
       <TableCell>{date}</TableCell>
       <TableCell>{barcode}</TableCell>
-  </TableRow>
-)
-))
+    </TableRow>
+  ));
 export default function InventoryCreatePage() {
-
   const navigate = useNavigate();
   const [variantDialogOpen, setVariantDialogOpen] = useState(false);
   return (
     <Container>
-      <PageHeader
-        pageTitle="Create a Product"
-        backURL="/inventory"
-      />
+      <PageHeader pageTitle="Create a Product" backURL="/inventory" />
       <Spacer size="lg" />
       <Card>
         <CardContent>
@@ -84,8 +94,7 @@ export default function InventoryCreatePage() {
             </Grid>
           </Grid>
           <Spacer size="lg" />
-          <Dropzone/>
-
+          <Dropzone />
         </CardContent>
         <Spacer size="lg" />
         <CardContent>
@@ -101,20 +110,25 @@ export default function InventoryCreatePage() {
               Variants
             </Typography>
             <Box>
-               <Dialog
+              <Dialog
                 open={variantDialogOpen}
                 onClose={() => setVariantDialogOpen(false)}
               >
-                <VaraintCreateDialog handleClose={() => setVariantDialogOpen(false)}/>
+                <VaraintCreateDialog
+                  handleClose={() => setVariantDialogOpen(false)}
+                />
               </Dialog>
-              <Button variant="contained" onClick={() => setVariantDialogOpen(true)}>
+              <Button
+                variant="contained"
+                onClick={() => setVariantDialogOpen(true)}
+              >
                 Add New Variant
               </Button>
             </Box>
           </Box>
           <TableContainer component={Paper}>
             <Table>
-            <TableHead>
+              <TableHead>
                 <TableRow>
                   <TableCell>Variant Name</TableCell>
                   <TableCell>Price</TableCell>
@@ -122,9 +136,7 @@ export default function InventoryCreatePage() {
                   <TableCell>Barcode</TableCell>
                 </TableRow>
               </TableHead>
-              <TableBody>
-                {VariantList()}
-              </TableBody>
+              <TableBody>{VariantList()}</TableBody>
             </Table>
           </TableContainer>
         </CardContent>
@@ -133,5 +145,3 @@ export default function InventoryCreatePage() {
     </Container>
   );
 }
-
-

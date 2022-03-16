@@ -34,7 +34,10 @@ ReactDOM.render(
               <Route path="staff" element={<StaffListPage />} />
               <Route path="staff/:id" element={<StaffDetailsPage />} />
               <Route path="inventory" element={<InventoryListPage />} />
-              <Route path="inventory/create" element={<InventoryCreatePage />} />
+              <Route
+                path="inventory/create"
+                element={<InventoryCreatePage />}
+              />
               <Route path="inventory/:id" element={<InventoryEditPage />} />
               <Route path="roles" element={<RolesListPage />} />
               <Route path="roles/:id" element={<RoleDetails />} />
