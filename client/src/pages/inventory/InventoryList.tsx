@@ -18,28 +18,7 @@ import { Link } from 'react-router-dom';
 import PageHeader from '../../components/page-header/PageHeader';
 import Spacer from '../../components/spacer/Spacer';
 import TabPanel from '../../components/tabs/TabPanel';
-
-
-export function InventoryTable({ tableContents }: { tableContents: React.ReactNode }) {
-  return (
-    <TableContainer component={Paper}>
-      <Table>
-        <TableHead>
-          <TableRow>
-            <TableCell>Name</TableCell>
-            <TableCell>Price</TableCell>
-            <TableCell>Date Added</TableCell>
-            <TableCell>Date Barcode</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {tableContents}
-        </TableBody>
-      </Table>
-    </TableContainer>
-  );
-}
-
+import InventoryTable from '../../components/inventory/InventoryTable';
 
 const inventoryList = [
   { name: "Daniel Wu", price: "$420.69", date: "1999-07-29", barcode: "66666"},
@@ -48,13 +27,13 @@ const inventoryList = [
 
 const InventoryList = () => (
   inventoryList.map(({ name, price, date, barcode }) => (
-  <TableRow>
-      <TableCell>{name}</TableCell>
-      <TableCell>{price}</TableCell>
-      <TableCell>{date}</TableCell>
-      <TableCell>{barcode}</TableCell>
-  </TableRow>
-)
+    <TableRow>
+        <TableCell>{name}</TableCell>
+        <TableCell>{price}</TableCell>
+        <TableCell>{date}</TableCell>
+        <TableCell>{barcode}</TableCell>
+    </TableRow>
+  )
 ))
 
 const productList = [
@@ -64,13 +43,13 @@ const productList = [
 
 const ProductList = () => (
   productList.map(({ name, price, date, barcode }) => (
-  <TableRow>
-      <TableCell>{name}</TableCell>
-      <TableCell>{price}</TableCell>
-      <TableCell>{date}</TableCell>
-      <TableCell>{barcode}</TableCell>
-  </TableRow>
-)
+    <TableRow>
+        <TableCell>{name}</TableCell>
+        <TableCell>{price}</TableCell>
+        <TableCell>{date}</TableCell>
+        <TableCell>{barcode}</TableCell>
+    </TableRow>
+  )
 ))
 
 function a11yProps(index:number) {
