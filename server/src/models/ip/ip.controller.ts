@@ -21,9 +21,7 @@ export class IPController {
   }
 
   @Post()
-  async addIPToAllowList(
-    @Body() { ip, description }: IPDto,
-  ): Promise<IPModel> {
+  async addIPToAllowList(@Body() { ip, description }: IPDto): Promise<IPModel> {
     return this.service.addIP({ ip, description });
   }
 

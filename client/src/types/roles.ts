@@ -14,7 +14,7 @@ export interface Permissions {
 export interface Role {
   id: string;
   name: string;
-  permissions: Record<string,PermissionDetail>;
+  permissions: Record<string, PermissionDetail>;
   staffIds: string[];
 }
 

@@ -7,7 +7,9 @@
     "doc": "docs"
   },
   "scripts": {
-    "prettier": "npx prettier@2.5.1"
+    "prettier": "npx prettier@2.5.1 --check .",
+    "prettier:fix": "npx prettier@2.5.1 --write .",
+    "prepare": "husky install"
   },
   "repository": {
     "type": "git",
@@ -19,5 +21,13 @@
   "bugs": {
     "url": "https://github.com/KonomiAI/Chronicle/issues"
   },
-  "homepage": "https://github.com/KonomiAI/Chronicle#readme"
+  "homepage": "https://github.com/KonomiAI/Chronicle#readme",
+  "devDependencies": {
+    "husky": "^7.0.4",
+    "lint-staged": "^12.3.5",
+    "prettier": "2.5.1"
+  },
+  "lint-staged": {
+    "*.{ts,tsx,md,html,scss,yml}": "npx prettier@2.5.1 --write"
+  }
 }

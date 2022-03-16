@@ -55,7 +55,8 @@ export default function AdminList() {
           <ListItemButton
             component="a"
             href="/roles"
-            selected={pathname === '/roles'}>
+            selected={pathname === '/roles'}
+          >
             <ListItemIcon>
               <Policy />
             </ListItemIcon>

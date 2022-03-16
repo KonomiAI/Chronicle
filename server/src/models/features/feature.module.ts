@@ -7,5 +7,4 @@ import { PrismaService } from '../../prisma.service';
   controllers: [FeatureController],
   providers: [FeatureService, PrismaService],
 })
-
 export class FeatureModule {}

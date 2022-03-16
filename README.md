@@ -31,7 +31,6 @@ docker compose up -V --build
 
 This will ensure the new dependencies are installed on the dev image as well
 
-
 ### I want Prisma Studio
 
 Prisma studio helps with debugging a lot and is a critical piece of tooling in our stack.
