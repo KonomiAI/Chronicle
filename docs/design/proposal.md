@@ -19,7 +19,6 @@ We propose a cloud hosted, on-premise available customer management tool that al
 
 ## Stakeholder Contact:
 
-| Name | Email |
-| --- | --- |
+| Name        | Email                       |
+| ----------- | --------------------------- |
 | Carina Wong | carina@pemberleysprings.com |
-

@@ -2,7 +2,7 @@
 
 ```mermaid
 erDiagram
-    
+
     Log_Trail {
         datetime timestamp
         string action

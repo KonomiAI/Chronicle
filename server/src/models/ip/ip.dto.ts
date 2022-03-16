@@ -1,8 +1,4 @@
-import {
-  IsNotEmpty,
-  IsString,
-  IsIP,
-} from 'class-validator';
+import { IsNotEmpty, IsString, IsIP } from 'class-validator';
 
 export class IPDto {
   @IsIP()
