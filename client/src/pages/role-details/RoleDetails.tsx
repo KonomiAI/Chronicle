@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
 import React, { useEffect, useState } from 'react';
 import {
   Button,
@@ -38,88 +39,86 @@ export default function RoleDetails() {
 
   const [isSaveOpen, setIsSaveOpen] = useState(true);
   return (
-    <>
-      <Container>
-        {data && (
-          <>
-            <PageHeader pageTitle={`${data.name}`} backURL="/roles" />
-            <Spacer size="lg" />
-            <Card sx={{ mb: 4 }}>
-              <CardContent>
-                <Typography variant="h5" sx={{ mb: 2 }}>
-                  About this role
-                </Typography>
-                <Grid item xs={12}>
-                  <TextField fullWidth label="Description" variant="outlined" />
+    <Container>
+      {data && (
+        <>
+          <PageHeader pageTitle={`${data.name}`} backURL="/roles" />
+          <Spacer size="lg" />
+          <Card sx={{ mb: 4 }}>
+            <CardContent>
+              <Typography variant="h5" sx={{ mb: 2 }}>
+                About this role
+              </Typography>
+              <Grid item xs={12}>
+                <TextField fullWidth label="Description" variant="outlined" />
+              </Grid>
+            </CardContent>
+          </Card>
+          <Card sx={{ mb: 4 }}>
+            <CardContent>
+              <Typography variant="h5" sx={{ mb: 2 }}>
+                Permissions
+              </Typography>
+              <Grid container spacing={2}>
+                <Grid item xs={8} />
+                <Grid item xs={2}>
+                  <Typography variant="h6" sx={{ mb: 2 }}>
+                    Read
+                  </Typography>
                 </Grid>
-              </CardContent>
-            </Card>
-            <Card sx={{ mb: 4 }}>
-              <CardContent>
-                <Typography variant="h5" sx={{ mb: 2 }}>
-                  Permissions
-                </Typography>
-                <Grid container spacing={2}>
-                  <Grid item xs={8}></Grid>
-                  <Grid item xs={2}>
-                    <Typography variant="h6" sx={{ mb: 2 }}>
-                      Read
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={2}>
-                    <Typography variant="h6" sx={{ mb: 2 }}>
-                      Write
-                    </Typography>
-                  </Grid>
-                  {featureList?.map((s: Feature) => (
-                    <Grid container spacing={2} key={s.id}>
-                      <Grid item xs={8}>
-                        <Typography ml={2}>{s.name}</Typography>
-                      </Grid>
-                      <Grid item xs={2}>
-                        <Checkbox checked={data.permissions[s.name].read} />
-                      </Grid>
-                      <Grid item xs={2}>
-                        <Checkbox checked={data.permissions[s.name].write} />
-                      </Grid>
+                <Grid item xs={2}>
+                  <Typography variant="h6" sx={{ mb: 2 }}>
+                    Write
+                  </Typography>
+                </Grid>
+                {featureList?.map((s: Feature) => (
+                  <Grid container spacing={2} key={s.id}>
+                    <Grid item xs={8}>
+                      <Typography ml={2}>{s.name}</Typography>
                     </Grid>
-                  ))}
-                </Grid>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardContent>
-                <Typography variant="h5" sx={{ mb: 2, color: 'error.main' }}>
-                  Danger Zone
-                </Typography>
-                <Grid container spacing={1}>
-                  <Grid item xs={10}>
-                    <Typography variant="h6">Delete this role</Typography>
-                    <Typography variant="body2">
-                      You cannot delete this role if it is currently assigned to
-                      any staff. Please remove the role from all staff first.
-                    </Typography>
+                    <Grid item xs={2}>
+                      <Checkbox checked={data.permissions[s.name].read} />
+                    </Grid>
+                    <Grid item xs={2}>
+                      <Checkbox checked={data.permissions[s.name].write} />
+                    </Grid>
                   </Grid>
-                  <Grid
-                    item
-                    xs={2}
-                    sx={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                    }}
-                  >
-                    <Button variant="text" color="error">
-                      Delete
-                    </Button>
-                  </Grid>
+                ))}
+              </Grid>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardContent>
+              <Typography variant="h5" sx={{ mb: 2, color: 'error.main' }}>
+                Danger Zone
+              </Typography>
+              <Grid container spacing={1}>
+                <Grid item xs={10}>
+                  <Typography variant="h6">Delete this role</Typography>
+                  <Typography variant="body2">
+                    You cannot delete this role if it is currently assigned to
+                    any staff. Please remove the role from all staff first.
+                  </Typography>
                 </Grid>
-              </CardContent>
-            </Card>
-          </>
-        )}
-        <SaveBar open={isSaveOpen} onSave={() => {}} />
-      </Container>
-    </>
+                <Grid
+                  item
+                  xs={2}
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}
+                >
+                  <Button variant="text" color="error">
+                    Delete
+                  </Button>
+                </Grid>
+              </Grid>
+            </CardContent>
+          </Card>
+        </>
+      )}
+      <SaveBar open={isSaveOpen} onSave={() => {}} />
+    </Container>
   );
 }
