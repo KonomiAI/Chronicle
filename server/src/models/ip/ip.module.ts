@@ -6,5 +6,6 @@ import { IPService } from './ip.service';
 @Module({
   controllers: [IPController],
   providers: [IPService, PrismaService],
+  exports: [IPService],
 })
 export class IPModule {}

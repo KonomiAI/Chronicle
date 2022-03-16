@@ -1,10 +1,11 @@
 # Initial requirement considerations
 
-*The following information is derived from first requirements meeting*
+_The following information is derived from first requirements meeting_
 
 ## Feature needs
 
 ### Access (Support)
+
 - some form of RBAC
   - admin, receptionist, provider
   - provider needs even finer rbac
@@ -20,6 +21,7 @@
 - record editing of reports (which account makes edits to documents)
 
 ### Customer profile (Core)
+
 - customer core information profile
   - name
   - email
@@ -54,7 +56,8 @@
   - no migrations necessary yet
 
 ### Inventory (Support)
-- Admins create editable items 
+
+- Admins create editable items
 - Track services/products for reporting purposes
 - managed as separate categories
   - treatment
@@ -67,18 +70,20 @@
   - price
 
 ### Helpful capabilities (Support)
+
 - Barcode scanning
 
 ## User stories
 
 ## Push backs
 
-*The following capabilities are pushed back till a future iteration (maybe autumn)*
+_The following capabilities are pushed back till a future iteration (maybe autumn)_
 
 1. Gift card purchase system
 2. Membership/gift card balance
 
 ## Questions
+
 - Do we have to manage anything related to taxes for items?
 - Are there customers that just come in and purchase a product? Does the purchase require a report?
-- What are the most important/common type of reports that you need? 
+- What are the most important/common type of reports that you need?

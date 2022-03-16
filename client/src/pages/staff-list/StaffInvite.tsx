@@ -11,13 +11,17 @@ import {
   IconButton,
   CardContent,
   Alert,
+  FormControl,
+  Select,
+  MenuItem,
+  InputLabel,
 } from '@mui/material';
 import { ContentCopy } from '@mui/icons-material';
 import { Controller, useForm } from 'react-hook-form';
 import { useMutation, useQueryClient } from 'react-query';
 
 import Spacer from '../../components/spacer/Spacer';
-import { createStaff, StaffPostData } from '../../data';
+import { createStaff, StaffPostData, useRoleList } from '../../data';
 import { secureRandomString } from '../../utils';
 
 type StaffFormResult = Omit<StaffPostData, 'password'>;
@@ -34,8 +38,16 @@ export interface StaffInviteResultProps extends StaffInviteDialogProps {
 }
 
 const StaffInviteForm = ({ handleClose, handleNext }: StaffInviteFormProps) => {
-  const { handleSubmit, control } = useForm<StaffFormResult>();
+  const { handleSubmit, control } = useForm<StaffFormResult>({
+    defaultValues: {
+      firstName: '',
+      lastName: '',
+      email: '',
+      roleIds: [],
+    },
+  });
   const queryClient = useQueryClient();
+  const { data: roleListData } = useRoleList();
   const updateStaffAndMutate = useMutation(createStaff, {
     onSuccess: (_, data) => {
       queryClient.invalidateQueries('staffList');
@@ -49,6 +61,7 @@ const StaffInviteForm = ({ handleClose, handleNext }: StaffInviteFormProps) => {
     };
     updateStaffAndMutate.mutate(copy);
   };
+
   return (
     <>
       <DialogTitle>Invite a new staff</DialogTitle>
@@ -102,6 +115,31 @@ const StaffInviteForm = ({ handleClose, handleNext }: StaffInviteFormProps) => {
                   onChange={onChange}
                   value={value}
                 />
+              )}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <Controller
+              name="roleIds"
+              control={control}
+              render={({ field: { onChange, value } }) => (
+                <FormControl fullWidth>
+                  <InputLabel id="roleLabel">Roles</InputLabel>
+                  <Select
+                    labelId="roleLabel"
+                    value={value}
+                    onChange={onChange}
+                    label="Roles"
+                    multiple
+                  >
+                    {roleListData &&
+                      roleListData.map((r) => (
+                        <MenuItem key={r.id} value={r.id}>
+                          {r.name}
+                        </MenuItem>
+                      ))}
+                  </Select>
+                </FormControl>
               )}
             />
           </Grid>

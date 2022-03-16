@@ -52,7 +52,11 @@ export default function AdminList() {
             </ListItemIcon>
             <ListItemText primary="Staff" />
           </ListItemButton>
-          <ListItemButton>
+          <ListItemButton
+            component="a"
+            href="/roles"
+            selected={pathname === '/roles'}
+          >
             <ListItemIcon>
               <Policy />
             </ListItemIcon>

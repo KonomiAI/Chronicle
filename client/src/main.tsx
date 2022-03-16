@@ -10,11 +10,14 @@ import theme from './theme';
 import LoginPage from './pages/login';
 import MainContainer from './pages/container';
 import LandingPage from './pages/landing';
+import AllowList from './pages/allowlist';
 import StaffListPage from './pages/staff-list/StaffList';
 import StaffDetailsPage from './pages/staff-details/StaffDetails';
 import InventoryListPage from './pages/inventory/InventoryList';
 import InventoryCreatePage from './pages/inventory/InventoryCreate';
 import InventoryEditPage from './pages/inventory/InventoryEdit';
+import RolesListPage from './pages/roles-list/RolesList';
+import RoleDetails from './pages/role-details/RoleDetails';
 
 const queryClient = new QueryClient();
 
@@ -33,6 +36,9 @@ ReactDOM.render(
               <Route path="inventory" element={<InventoryListPage />} />
               <Route path="inventory/create" element={<InventoryCreatePage />} />
               <Route path="inventory/:id" element={<InventoryEditPage />} />
+              <Route path="roles" element={<RolesListPage />} />
+              <Route path="roles/:id" element={<RoleDetails />} />
+              <Route path="allowlist" element={<AllowList />} />
             </Route>
           </Routes>
         </BrowserRouter>

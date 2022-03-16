@@ -22,9 +22,10 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: 14
-      - name: Install, build and test
+      - name: Install, build, lint and test
         run: |
           yarn
           yarn build
           yarn test
+          yarn lint
         working-directory: ./client

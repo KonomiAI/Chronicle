@@ -17,6 +17,7 @@ module.exports = {
     ecmaVersion: 'latest',
     sourceType: 'module',
   },
+  ignorePatterns: ['.eslintrc.js', 'dist'],
   plugins: ['react', '@typescript-eslint'],
   rules: {
     'import/extensions': 'off',
@@ -24,5 +25,6 @@ module.exports = {
     'import/prefer-default-export': 'off',
     'react/jsx-filename-extension': [1, { extensions: ['.jsx', '.tsx'] }],
     'react/function-component-definition': 'off',
+    'import/no-extraneous-dependencies': 'off',
   },
 };

@@ -8,7 +8,10 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
-import { BcryptService } from 'src/auth/bcrypt.service';
+import { SkipIPCheck } from 'src/auth/ip.guard';
+import { BcryptService } from '../../auth/bcrypt.service';
+import { Actions, Features } from '../../auth/constants';
+import { Auth } from '../../auth/role.decorator';
 import { CreateStaffDto, UpdateStaffDto } from './staff.dto';
 import { StaffService } from './staff.service';
 
@@ -21,6 +24,14 @@ const DEFAULT_SELECT = {
   dateOfBirth: true,
   isSuperUser: true,
   isSuspended: true,
+  roles: {
+    select: {
+      id: true,
+      name: true,
+      permissions: true,
+    },
+  },
+  roleIds: true,
 };
 
 @Controller('staff')
@@ -43,6 +54,7 @@ export class StaffController {
     );
   }
 
+  @Auth(Actions.WRITE, [Features.Security])
   @Post()
   async createNewStaff(@Body() { password, ...data }: CreateStaffDto) {
     const body = {

@@ -10,6 +10,8 @@ import {
   ListItemText,
   ListItemButton,
 } from '@mui/material';
+import { useLocation } from 'react-router-dom';
+
 import {
   Article,
   Face,
@@ -20,7 +22,6 @@ import {
 } from '@mui/icons-material';
 import { DRAWER_WIDTH } from '../../vars';
 import AdminList from './AdminList';
-import { useLocation } from 'react-router-dom';
 
 const openedMixin = (theme: Theme): CSSObject => ({
   width: DRAWER_WIDTH,
