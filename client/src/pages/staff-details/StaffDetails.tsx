@@ -27,6 +27,7 @@ import {
 } from '../../data';
 import SaveBar from '../../components/save-bar/save-bar';
 import { Gender, Staff } from '../../types';
+import { EMAIL_REGEXP, getFormErrorMessage } from '../../utils';
 
 const cleanStaff = (staff: Staff) => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -101,13 +102,22 @@ export default function StaffDetailsPage() {
                     <Controller
                       name="firstName"
                       control={control}
-                      render={({ field: { onChange, value } }) => (
+                      rules={{
+                        required: true,
+                        minLength: 1,
+                      }}
+                      render={({
+                        field: { onChange, value },
+                        fieldState: { invalid, error },
+                      }) => (
                         <TextField
                           fullWidth
                           label="First Name"
                           variant="outlined"
                           onChange={onChange}
                           value={value}
+                          error={invalid}
+                          helperText={getFormErrorMessage(error?.type)}
                         />
                       )}
                     />
@@ -116,13 +126,22 @@ export default function StaffDetailsPage() {
                     <Controller
                       name="lastName"
                       control={control}
-                      render={({ field: { onChange, value } }) => (
+                      rules={{
+                        required: true,
+                        minLength: 1,
+                      }}
+                      render={({
+                        field: { onChange, value },
+                        fieldState: { invalid, error },
+                      }) => (
                         <TextField
                           fullWidth
                           label="Last Name"
                           variant="outlined"
                           onChange={onChange}
                           value={value}
+                          error={invalid}
+                          helperText={getFormErrorMessage(error?.type)}
                         />
                       )}
                     />
@@ -131,13 +150,23 @@ export default function StaffDetailsPage() {
                     <Controller
                       name="email"
                       control={control}
-                      render={({ field: { onChange, value } }) => (
+                      rules={{
+                        required: true,
+                        minLength: 1,
+                        pattern: EMAIL_REGEXP,
+                      }}
+                      render={({
+                        field: { onChange, value },
+                        fieldState: { invalid, error },
+                      }) => (
                         <TextField
                           fullWidth
                           label="Email"
                           variant="outlined"
                           onChange={onChange}
                           value={value}
+                          error={invalid}
+                          helperText={getFormErrorMessage(error?.type)}
                         />
                       )}
                     />
@@ -146,7 +175,11 @@ export default function StaffDetailsPage() {
                     <Controller
                       name="gender"
                       control={control}
-                      render={({ field: { onChange, value } }) => (
+                      rules={{ required: true }}
+                      render={({
+                        field: { onChange, value },
+                        fieldState: { invalid },
+                      }) => (
                         <FormControl fullWidth>
                           <InputLabel id="genderLabel">Gender</InputLabel>
                           <Select
@@ -154,6 +187,7 @@ export default function StaffDetailsPage() {
                             value={value}
                             onChange={onChange}
                             label="Gender"
+                            error={invalid}
                           >
                             <MenuItem value="MALE">Male</MenuItem>
                             <MenuItem value="FEMALE">Female</MenuItem>
@@ -178,7 +212,11 @@ export default function StaffDetailsPage() {
                 <Controller
                   name="roleIds"
                   control={control}
-                  render={({ field: { onChange, value } }) => (
+                  rules={{ minLength: 1 }}
+                  render={({
+                    field: { onChange, value },
+                    fieldState: { invalid },
+                  }) => (
                     <FormControl fullWidth>
                       <InputLabel id="roleLabel">Roles</InputLabel>
                       <Select
@@ -186,6 +224,7 @@ export default function StaffDetailsPage() {
                         value={value}
                         onChange={onChange}
                         label="Roles"
+                        error={invalid}
                         multiple
                       >
                         {roleListData &&
@@ -206,9 +245,12 @@ export default function StaffDetailsPage() {
                   Danger Zone
                 </Typography>
                 {data.isSuperUser && (
-                  <Alert severity="warning">
-                    You cannot delete or suspend a super user
-                  </Alert>
+                  <>
+                    <Alert severity="warning">
+                      You cannot delete or suspend a super user
+                    </Alert>
+                    <Spacer />
+                  </>
                 )}
                 <Grid container spacing={2}>
                   <Grid item xs={10}>
@@ -266,6 +308,7 @@ export default function StaffDetailsPage() {
         onSave={handleSubmit(saveChanges)}
         loading={isSavingChanges}
       />
+      <Spacer size="lg" />
     </>
   );
 }
