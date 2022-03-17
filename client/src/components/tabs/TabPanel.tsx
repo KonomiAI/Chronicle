@@ -1,3 +1,4 @@
+import React from 'react';
 import { Box, Typography } from '@mui/material';
 
 export interface TabPanelProps {
@@ -7,7 +8,7 @@ export interface TabPanelProps {
 }
 
 export default function TabPanel(props: TabPanelProps) {
-  const { children, value, index, ...other } = props;
+  const { children, value, index} = props;
 
   return (
     <Typography
@@ -16,7 +17,6 @@ export default function TabPanel(props: TabPanelProps) {
       hidden={value !== index}
       id={`scrollable-auto-tabpanel-${index}`}
       aria-labelledby={`scrollable-auto-tab-${index}`}
-      {...other}
     >
       <Box p={3}>{children}</Box>
     </Typography>

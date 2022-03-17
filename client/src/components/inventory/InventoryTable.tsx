@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   TableContainer,
   Table,
@@ -8,9 +9,6 @@ import {
   Paper,
 } from '@mui/material';
 
-interface InventoryTableProps {
-  tableContents?: JSX.Element[];
-}
 
 export default function InventoryTable({
   tableContents,
