@@ -2,12 +2,7 @@ import React, { useState } from 'react';
 import {
   Button,
   Container,
-  Paper,
-  Table,
-  TableBody,
   TableCell,
-  TableContainer,
-  TableHead,
   TableRow,
   Tab,
   Tabs,
@@ -50,18 +45,16 @@ const ProductList = () =>
     </TableRow>
   ));
 
-function a11yProps(index: number) {
-  return {
-    id: `scrollable-auto-tab-${index}`,
-    'aria-controls': `scrollable-auto-tabpanel-${index}`,
-  };
-}
+
+const TabSection = (label: string, index: number) => (
+  <Tab label={label} id={`scrollable-auto-tab-${index}`} aria-controls={`scrollable-auto-tabpanel-${index}`}/>
+);
 
 export default function InventoryPage() {
   const [value, setValue] = React.useState(0);
-
-  function handleChange(event: React.ChangeEvent<{}>, newValue: number) {
-    setValue(newValue);
+  
+  const handleChange = (event: any) => {
+    setValue(event.target.value);
   }
 
   return (
@@ -86,8 +79,8 @@ export default function InventoryPage() {
           scrollButtons="auto"
           aria-label="scrollable auto tabs example"
         >
-          <Tab label="Products" {...a11yProps(0)} />
-          <Tab label="Activities" {...a11yProps(1)} />
+          {TabSection("Products", 0)}
+          {TabSection("Activities", 1)}
         </Tabs>
       </AppBar>
 
