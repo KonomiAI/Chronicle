@@ -9,7 +9,6 @@ import {
   Paper,
 } from '@mui/material';
 
-
 export default function InventoryTable({
   tableContents,
 }: {

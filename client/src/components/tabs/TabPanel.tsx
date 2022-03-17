@@ -8,7 +8,7 @@ export interface TabPanelProps {
 }
 
 export default function TabPanel(props: TabPanelProps) {
-  const { children, value, index} = props;
+  const { children, value, index } = props;
 
   return (
     <Typography

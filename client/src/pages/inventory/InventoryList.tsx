@@ -45,17 +45,20 @@ const ProductList = () =>
     </TableRow>
   ));
 
-
 const TabSection = (label: string, index: number) => (
-  <Tab label={label} id={`scrollable-auto-tab-${index}`} aria-controls={`scrollable-auto-tabpanel-${index}`}/>
+  <Tab
+    label={label}
+    id={`scrollable-auto-tab-${index}`}
+    aria-controls={`scrollable-auto-tabpanel-${index}`}
+  />
 );
 
 export default function InventoryPage() {
   const [value, setValue] = React.useState(0);
-  
+
   const handleChange = (event: any) => {
     setValue(event.target.value);
-  }
+  };
 
   return (
     <Container>
@@ -79,8 +82,8 @@ export default function InventoryPage() {
           scrollButtons="auto"
           aria-label="scrollable auto tabs example"
         >
-          {TabSection("Products", 0)}
-          {TabSection("Activities", 1)}
+          {TabSection('Products', 0)}
+          {TabSection('Activities', 1)}
         </Tabs>
       </AppBar>
 
