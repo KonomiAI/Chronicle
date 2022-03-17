@@ -9,13 +9,13 @@ import {
 } from '@mui/material';
 
 interface InventoryTableProps {
-  tableContents?: React.ReactNode;
+  tableContents?: JSX.Element[];
 }
 
 export default function InventoryTable({
   tableContents,
 }: {
-  tableContents: InventoryTableProps;
+  tableContents: JSX.Element[];
 }) {
   return (
     <TableContainer component={Paper}>
