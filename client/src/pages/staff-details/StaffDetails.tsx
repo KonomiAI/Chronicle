@@ -12,6 +12,7 @@ import {
   TextField,
   Typography,
   Alert,
+  LinearProgress,
 } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import { useMutation, useQueryClient } from 'react-query';
@@ -44,7 +45,7 @@ export default function StaffDetailsPage() {
       </Container>
     );
   }
-  const { data } = useStaff(id);
+  const { data, isLoading } = useStaff(id);
   const { data: roleListData } = useRoleList();
   const queryClient = useQueryClient();
   const [isSaveOpen, setIsSaveOpen] = useState(false);
@@ -85,6 +86,7 @@ export default function StaffDetailsPage() {
   return (
     <>
       <Container>
+        {isLoading && <LinearProgress />}
         {data && (
           <>
             <PageHeader
@@ -252,52 +254,54 @@ export default function StaffDetailsPage() {
                     <Spacer />
                   </>
                 )}
-                <Grid container spacing={2}>
-                  <Grid item xs={10}>
-                    <Typography variant="h6">Suspend staff</Typography>
-                    <Typography variant="body2">
-                      Suspending a staff will suspend the user&apos;s ability to
-                      access the app.
-                    </Typography>
-                  </Grid>
-                  <Grid
-                    item
-                    xs={2}
-                    sx={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                    }}
-                  >
-                    <Button variant="text" color="error">
-                      Suspend
-                    </Button>
-                  </Grid>
-                  <Grid item xs={10}>
-                    <Typography variant="h6">Delete staff</Typography>
-                    <Typography variant="body2">
-                      Delete this staff from your team. You must suspend the
-                      staff first.
-                    </Typography>
-                  </Grid>
-                  <Grid
-                    item
-                    xs={2}
-                    sx={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                    }}
-                  >
-                    <Button
-                      variant="text"
-                      color="error"
-                      disabled={!data.isSuspended || data.isSuperUser}
+                {!data.isSuperUser && (
+                  <Grid container spacing={2}>
+                    <Grid item xs={10}>
+                      <Typography variant="h6">Suspend staff</Typography>
+                      <Typography variant="body2">
+                        Suspending a staff will suspend the user&apos;s ability
+                        to access the app.
+                      </Typography>
+                    </Grid>
+                    <Grid
+                      item
+                      xs={2}
+                      sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                      }}
                     >
-                      Delete
-                    </Button>
+                      <Button variant="text" color="error">
+                        Suspend
+                      </Button>
+                    </Grid>
+                    <Grid item xs={10}>
+                      <Typography variant="h6">Delete staff</Typography>
+                      <Typography variant="body2">
+                        Delete this staff from your team. You must suspend the
+                        staff first.
+                      </Typography>
+                    </Grid>
+                    <Grid
+                      item
+                      xs={2}
+                      sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                      }}
+                    >
+                      <Button
+                        variant="text"
+                        color="error"
+                        disabled={!data.isSuspended}
+                      >
+                        Delete
+                      </Button>
+                    </Grid>
                   </Grid>
-                </Grid>
+                )}
               </CardContent>
             </Card>
           </>
