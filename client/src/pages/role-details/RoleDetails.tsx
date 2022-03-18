@@ -12,7 +12,14 @@ import {
 import { useNavigate, useParams } from 'react-router-dom';
 import { Controller, useForm } from 'react-hook-form';
 import { useMutation, useQueryClient } from 'react-query';
-import { useRole, useFeaturesList, RoleData, updateRole, createRole, deleteRole } from '../../data';
+import {
+  useRole,
+  useFeaturesList,
+  RoleData,
+  updateRole,
+  createRole,
+  deleteRole,
+} from '../../data';
 import PageHeader from '../../components/page-header/PageHeader';
 import Spacer from '../../components/spacer/Spacer';
 import SaveBar from '../../components/save-bar/save-bar';
@@ -35,34 +42,34 @@ const rawRole = {
   permissions: {
     Inventory: {
       read: false,
-      write: false
+      write: false,
     },
     Security: {
       read: false,
-      write: false
+      write: false,
     },
     Customer: {
       read: false,
-      write: false
+      write: false,
     },
     Entry: {
       read: false,
-      write: false
+      write: false,
     },
     Form: {
       read: false,
-      write: false
-    }
-  }
+      write: false,
+    },
+  },
 };
 
 export default function RoleDetails({ create, data, saveChanges }: RoleProps) {
-  const { data: featureList } = useFeaturesList()
+  const { data: featureList } = useFeaturesList();
   const [isSaveOpen, setIsSaveOpen] = useState(false);
   const navigate = useNavigate();
 
   const { control, reset, handleSubmit, watch } = useForm<RoleData>({
-    defaultValues: rawRole
+    defaultValues: rawRole,
   });
 
   useEffect(() => {
@@ -75,14 +82,13 @@ export default function RoleDetails({ create, data, saveChanges }: RoleProps) {
     // Not necessary for create
     if (!create && data) {
       reset(cleanRole(data));
-      setIsSaveOpen(false)
+      setIsSaveOpen(false);
     }
-
   }, [data, create]);
 
   const deleteRoleAndMutate = useMutation(deleteRole, {
     onSuccess: () => {
-      navigate('/roles', { replace: true })
+      navigate('/roles', { replace: true });
     },
   });
 
@@ -90,7 +96,7 @@ export default function RoleDetails({ create, data, saveChanges }: RoleProps) {
     if (!create && data?.id) {
       deleteRoleAndMutate.mutate(data.id);
     }
-  }
+  };
 
   return (
     <Container>
@@ -118,14 +124,11 @@ export default function RoleDetails({ create, data, saveChanges }: RoleProps) {
                       onChange={onChange}
                       value={value}
                     />
-                  )} />
+                  )}
+                />
               </Grid>
               <Grid item xs={12}>
-                <TextField
-                  fullWidth
-                  label="Description"
-                  variant="outlined"
-                />
+                <TextField fullWidth label="Description" variant="outlined" />
               </Grid>
             </Grid>
           </CardContent>
@@ -150,9 +153,7 @@ export default function RoleDetails({ create, data, saveChanges }: RoleProps) {
               {featureList?.map((s: Feature) => (
                 <Grid container spacing={2} key={s.id}>
                   <Grid item xs={8}>
-                    <Typography ml={2}>
-                      {s.name}
-                    </Typography>
+                    <Typography ml={2}>{s.name}</Typography>
                   </Grid>
                   <Grid item xs={2}>
                     <Controller
@@ -160,7 +161,8 @@ export default function RoleDetails({ create, data, saveChanges }: RoleProps) {
                       control={control}
                       render={({ field: { onChange, value } }) => (
                         <Checkbox checked={value} onChange={onChange} />
-                      )} />
+                      )}
+                    />
                     {/* <Checkbox checked={value || !!getValues().permissions[s.name].write} onChange={onChange} disabled={!!getValues().permissions[s.name].write} /> */}
                   </Grid>
                   <Grid item xs={2}>
@@ -169,16 +171,16 @@ export default function RoleDetails({ create, data, saveChanges }: RoleProps) {
                       control={control}
                       render={({ field: { onChange, value } }) => (
                         <Checkbox checked={value} onChange={onChange} />
-                      )} />
+                      )}
+                    />
                   </Grid>
                 </Grid>
               ))}
             </Grid>
           </CardContent>
         </Card>
-        {
-          !create &&
-          <Card >
+        {!create && (
+          <Card>
             <CardContent>
               <Typography variant="h5" sx={{ mb: 2, color: 'error.main' }}>
                 Danger Zone
@@ -187,8 +189,8 @@ export default function RoleDetails({ create, data, saveChanges }: RoleProps) {
                 <Grid item xs={10}>
                   <Typography variant="h6">Delete this role</Typography>
                   <Typography variant="body2">
-                    You cannot delete this role if it is currently assigned to any staff.
-                    Please remove the role from all staff first.
+                    You cannot delete this role if it is currently assigned to
+                    any staff. Please remove the role from all staff first.
                   </Typography>
                 </Grid>
                 <Grid
@@ -211,19 +213,23 @@ export default function RoleDetails({ create, data, saveChanges }: RoleProps) {
               </Grid>
             </CardContent>
           </Card>
-        }
+        )}
       </>
-      <SaveBar open={isSaveOpen} onSave={handleSubmit((res) => { setIsSaveOpen(false); saveChanges(res) })} />
+      <SaveBar
+        open={isSaveOpen}
+        onSave={handleSubmit((res) => {
+          setIsSaveOpen(false);
+          saveChanges(res);
+        })}
+      />
     </Container>
   );
 }
 
-
-
 export function UpdateRoleForm() {
   const { id } = useParams();
   if (!id) {
-    throw Error('Id must be defined in the route')
+    throw Error('Id must be defined in the route');
   }
   const { data } = useRole(id);
   const queryClient = useQueryClient();
@@ -240,17 +246,16 @@ export function UpdateRoleForm() {
       data: values,
     });
 
-  return <RoleDetails data={data} saveChanges={saveChanges} />
+  return <RoleDetails data={data} saveChanges={saveChanges} />;
 }
 
 export function CreateRoleForm() {
   const navigate = useNavigate();
   const createRoleAndMutate = useMutation(createRole, {
     onSuccess: (created) => {
-      navigate(`/roles/${created.id}`, { replace: true })
+      navigate(`/roles/${created.id}`, { replace: true });
     },
   });
-  const saveChanges = (values: RoleData) =>
-    createRoleAndMutate.mutate(values);
-  return <RoleDetails create saveChanges={saveChanges} />
+  const saveChanges = (values: RoleData) => createRoleAndMutate.mutate(values);
+  return <RoleDetails create saveChanges={saveChanges} />;
 }

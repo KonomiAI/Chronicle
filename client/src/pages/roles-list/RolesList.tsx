@@ -8,7 +8,7 @@ import {
   ListItem,
   ListItemButton,
   ListItemText,
-  ListSubheader
+  ListSubheader,
 } from '@mui/material';
 import { getRolesList, useRoleList } from '../../data';
 import PageHeader from '../../components/page-header/PageHeader';
@@ -22,7 +22,7 @@ export default function RolesListPage() {
       <PageHeader
         pageTitle="Roles"
         action={
-          <Button variant="contained" onClick={() => navigate("new")}>
+          <Button variant="contained" onClick={() => navigate('new')}>
             Create new role
           </Button>
         }
@@ -30,11 +30,7 @@ export default function RolesListPage() {
       <Spacer size="lg" />
       <List
         sx={{ width: '100%', bgcolor: 'background.paper' }}
-        subheader={
-          <ListSubheader component="div">
-            Role Name
-          </ListSubheader>
-        }
+        subheader={<ListSubheader component="div">Role Name</ListSubheader>}
       >
         {roleListData?.map((s) => (
           <ListItem

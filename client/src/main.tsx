@@ -13,8 +13,11 @@ import LandingPage from './pages/landing';
 import AllowList from './pages/allowlist';
 import StaffListPage from './pages/staff-list/StaffList';
 import StaffDetailsPage from './pages/staff-details/StaffDetails';
-import RolesListPage from './pages/roles-list/RolesList'
-import { CreateRoleForm, UpdateRoleForm } from './pages/role-details/RoleDetails'
+import RolesListPage from './pages/roles-list/RolesList';
+import {
+  CreateRoleForm,
+  UpdateRoleForm,
+} from './pages/role-details/RoleDetails';
 
 const queryClient = new QueryClient();
 
