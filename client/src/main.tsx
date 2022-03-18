@@ -14,7 +14,7 @@ import AllowList from './pages/allowlist';
 import StaffListPage from './pages/staff-list/StaffList';
 import StaffDetailsPage from './pages/staff-details/StaffDetails';
 import RolesListPage from './pages/roles-list/RolesList'
-import RoleDetails from './pages/role-details/RoleDetails'
+import { CreateRoleForm, UpdateRoleForm } from './pages/role-details/RoleDetails'
 
 const queryClient = new QueryClient();
 
@@ -31,7 +31,8 @@ ReactDOM.render(
               <Route path="staff" element={<StaffListPage />} />
               <Route path="staff/:id" element={<StaffDetailsPage />} />
               <Route path="roles" element={<RolesListPage />} />
-              <Route path="roles/:id" element={<RoleDetails />} />
+              <Route path="roles/new" element={<CreateRoleForm />} />
+              <Route path="roles/:id" element={<UpdateRoleForm />} />
               <Route path="allowlist" element={<AllowList />} />
             </Route>
           </Routes>
