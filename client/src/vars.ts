@@ -6,6 +6,9 @@ export const SPACER_OPTIONS = {
   xl: 3,
 };
 
+export const ACCESS_TOKEN_KEY = 'auth.accessToken';
+export const ACCESS_TOKEN_EXPIRY_KEY = 'auth.accessTokenExpiry';
+
 // Export all variables by default
 export default {
   DRAWER_WIDTH,
