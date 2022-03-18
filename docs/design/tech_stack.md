@@ -27,8 +27,8 @@
 - Libraries
   - OR(D)M: Prisma/Mongoose
 
-
 ## Infrastructure management
+
 - IaaC: Terraform
 - CI: GitHub Action
 - Cloud Service Provider: GCP

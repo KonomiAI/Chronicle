@@ -22,7 +22,9 @@ export const getRole = (id: string) => {
 };
 
 export const useRoleList = () => useQuery('rolesList', getRolesList);
-export const useRole = (id: string) => useQuery(['role', id], () => getRole(id));
+
+export const useRole = (id: string) =>
+  useQuery(['role', id], () => getRole(id));
 
 export const updateRole = ({ data, id }: RoleUpdateParams) => {
   const axios = useAxios();
@@ -43,5 +45,5 @@ export const deleteRole = (id: string) => {
 
   return axios.delete<Role>(`roles/${id}`).then((res) => res.data);
 };
-export const removeRole = (id: string) => useQuery(['removeRole', id], () => deleteRole(id));
 
+export const removeRole = (id: string) => useQuery(['removeRole', id], () => deleteRole(id));

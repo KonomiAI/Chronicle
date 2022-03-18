@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
 import React, { useEffect, useState } from 'react';
 import {
   Button,
@@ -91,6 +92,7 @@ export default function RoleDetails({ create, data, saveChanges }: RoleProps) {
       deleteRoleAndMutate.mutate(data.id);
     }
   }
+
 
   return (
     <Container>
