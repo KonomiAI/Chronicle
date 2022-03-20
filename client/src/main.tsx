@@ -15,6 +15,10 @@ import StaffListPage from './pages/staff-list/StaffList';
 import StaffDetailsPage from './pages/staff-details/StaffDetails';
 import RolesListPage from './pages/roles-list/RolesList';
 import RoleDetails from './pages/role-details/RoleDetails';
+import NotFoundPage from './pages/not-found';
+
+import ProtectedRoute from './components/protected-route';
+import PrivilegedRoute from './components/privileged-route';
 
 const queryClient = new QueryClient();
 
@@ -26,14 +30,24 @@ ReactDOM.render(
         <BrowserRouter>
           <Routes>
             <Route path="/login" element={<LoginPage />} />
-            <Route path="/" element={<MainContainer />}>
-              <Route index element={<LandingPage />} />
-              <Route path="staff" element={<StaffListPage />} />
-              <Route path="staff/:id" element={<StaffDetailsPage />} />
-              <Route path="roles" element={<RolesListPage />} />
-              <Route path="roles/:id" element={<RoleDetails />} />
-              <Route path="allowlist" element={<AllowList />} />
+            <Route element={<ProtectedRoute user />}>
+              <Route path="/" element={<MainContainer />}>
+                <Route index element={<LandingPage />} />
+                <Route path="staff" element={<StaffListPage />} />
+                <Route path="staff/:id" element={<StaffDetailsPage />} />
+                <Route path="roles" element={<RolesListPage />} />
+                <Route path="roles/:id" element={<RoleDetails />} />
+                <Route
+                  path="allowlist"
+                  element={
+                    <PrivilegedRoute isAllowed={false}>
+                      <AllowList />
+                    </PrivilegedRoute>
+                  }
+                />
+              </Route>
             </Route>
+            <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </BrowserRouter>
       </ThemeProvider>
