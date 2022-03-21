@@ -4,7 +4,6 @@ import { BcryptService } from './bcrypt.service';
 import { JwtService } from '@nestjs/jwt';
 import { Prisma, PrismaClient } from '@prisma/client';
 
-//TODO: return roles associated as well when that relation has been established
 const SELECT = {
   id: true,
   firstName: true,
@@ -13,6 +12,14 @@ const SELECT = {
   authKey: true,
   gender: true,
   isSuperUser: true,
+  roles: {
+    select: {
+      id: true,
+      name: true,
+      permissions: true,
+    },
+  },
+  roleIds: true,
 };
 
 @Injectable()
