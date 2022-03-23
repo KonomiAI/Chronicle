@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Box, IconButton, Toolbar, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
 import MenuIcon from '@mui/icons-material/Menu';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import { DRAWER_WIDTH } from '../../vars';
+import { useStore } from '../../store';
 
 interface AppBarProps extends MuiAppBarProps {
   open: boolean;
@@ -37,6 +38,9 @@ export default function ChronicleAppBar({
   open,
   handleDrawerOpen,
 }: ChronicleAppBarProps) {
+  useEffect(() => {
+    useStore.setState({ sidebarOpen: open });
+  }, [open]);
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="sticky" color="inherit" open={open}>
