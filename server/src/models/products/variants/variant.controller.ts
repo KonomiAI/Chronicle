@@ -4,7 +4,7 @@ import {
   Delete,
   Get,
   Param,
-  Patch,
+  Put,
   Post,
 } from '@nestjs/common';
 import { Variant as VariantModel } from '@prisma/client';
@@ -50,7 +50,7 @@ export class VariantController {
     });
   }
 
-  @Patch(':variantId')
+  @Put(':variantId')
   async updateVariant(
     @Param('variantId') variantId: string,
     @Body() { ...data }: UpdateVariantDto,
