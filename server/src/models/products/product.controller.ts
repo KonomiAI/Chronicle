@@ -4,7 +4,7 @@ import {
   Delete,
   Get,
   Param,
-  Patch,
+  Put,
   Post,
 } from '@nestjs/common';
 import { Product as ProductModel } from '@prisma/client';
@@ -38,7 +38,7 @@ export class ProductController {
     });
   }
 
-  @Patch(':id')
+  @Put(':id')
   async updateProduct(
     @Param('id') id: string,
     @Body() { ...data }: UpdateProductDto,
