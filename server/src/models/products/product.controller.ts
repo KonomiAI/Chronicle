@@ -4,7 +4,7 @@ import {
   Delete,
   Get,
   Param,
-  Patch,
+  Put,
   Post,
   UseInterceptors,
 } from '@nestjs/common';
@@ -50,7 +50,7 @@ export class ProductController {
     };
   }
 
-  @Patch(':id')
+  @Put(':id')
   async updateProduct(
     @Param('id') id: string,
     @Body() { ...data }: UpdateProductDto,
