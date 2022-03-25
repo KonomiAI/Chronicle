@@ -10,11 +10,13 @@ import {
 
 export interface SaveBarProps {
   open: boolean;
+  loading?: boolean;
   onSave: () => void;
 }
 
-export default function SaveBar({ onSave, open }: SaveBarProps) {
+export default function SaveBar({ onSave, open, loading }: SaveBarProps) {
   const [isOpen, setIsOpen] = useState(open);
+  const [isLoading] = useState(!!loading);
 
   useEffect(() => {
     setIsOpen(open);
@@ -34,7 +36,7 @@ export default function SaveBar({ onSave, open }: SaveBarProps) {
             </Grid>
             <Grid item xs={7} />
             <Grid item xs={1}>
-              <Button variant="text" onClick={onSave}>
+              <Button variant="text" onClick={onSave} disabled={isLoading}>
                 Save
               </Button>
             </Grid>

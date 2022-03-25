@@ -15,6 +15,7 @@ import {
   Select,
   MenuItem,
   InputLabel,
+  Snackbar,
 } from '@mui/material';
 import { ContentCopy } from '@mui/icons-material';
 import { Controller, useForm } from 'react-hook-form';
@@ -22,7 +23,12 @@ import { useMutation, useQueryClient } from 'react-query';
 
 import Spacer from '../../components/spacer/Spacer';
 import { createStaff, StaffPostData, useRoleList } from '../../data';
-import { secureRandomString } from '../../utils';
+import {
+  EMAIL_REGEXP,
+  getFormErrorMessage,
+  secureRandomString,
+  useClipboard,
+} from '../../utils';
 
 type StaffFormResult = Omit<StaffPostData, 'password'>;
 export interface StaffInviteDialogProps {
@@ -77,13 +83,22 @@ const StaffInviteForm = ({ handleClose, handleNext }: StaffInviteFormProps) => {
             <Controller
               name="firstName"
               control={control}
-              render={({ field: { onChange, value } }) => (
+              rules={{
+                required: true,
+                minLength: 1,
+              }}
+              render={({
+                field: { onChange, value },
+                fieldState: { invalid, error },
+              }) => (
                 <TextField
                   fullWidth
                   label="First Name"
                   variant="outlined"
                   onChange={onChange}
                   value={value}
+                  error={invalid}
+                  helperText={getFormErrorMessage(error?.type)}
                 />
               )}
             />
@@ -92,13 +107,22 @@ const StaffInviteForm = ({ handleClose, handleNext }: StaffInviteFormProps) => {
             <Controller
               name="lastName"
               control={control}
-              render={({ field: { onChange, value } }) => (
+              rules={{
+                required: true,
+                minLength: 1,
+              }}
+              render={({
+                field: { onChange, value },
+                fieldState: { invalid, error },
+              }) => (
                 <TextField
                   fullWidth
                   label="Last Name"
                   variant="outlined"
                   onChange={onChange}
                   value={value}
+                  error={invalid}
+                  helperText={getFormErrorMessage(error?.type)}
                 />
               )}
             />
@@ -107,13 +131,22 @@ const StaffInviteForm = ({ handleClose, handleNext }: StaffInviteFormProps) => {
             <Controller
               name="email"
               control={control}
-              render={({ field: { onChange, value } }) => (
+              rules={{
+                required: true,
+                pattern: EMAIL_REGEXP,
+              }}
+              render={({
+                field: { onChange, value },
+                fieldState: { invalid, error },
+              }) => (
                 <TextField
                   fullWidth
                   label="Email"
                   variant="outlined"
                   onChange={onChange}
                   value={value}
+                  error={invalid}
+                  helperText={getFormErrorMessage(error?.type)}
                 />
               )}
             />
@@ -122,7 +155,14 @@ const StaffInviteForm = ({ handleClose, handleNext }: StaffInviteFormProps) => {
             <Controller
               name="roleIds"
               control={control}
-              render={({ field: { onChange, value } }) => (
+              rules={{
+                required: true,
+                minLength: 1,
+              }}
+              render={({
+                field: { onChange, value },
+                fieldState: { invalid },
+              }) => (
                 <FormControl fullWidth>
                   <InputLabel id="roleLabel">Roles</InputLabel>
                   <Select
@@ -131,6 +171,7 @@ const StaffInviteForm = ({ handleClose, handleNext }: StaffInviteFormProps) => {
                     onChange={onChange}
                     label="Roles"
                     multiple
+                    error={invalid}
                   >
                     {roleListData &&
                       roleListData.map((r) => (
@@ -158,52 +199,71 @@ const StaffInviteForm = ({ handleClose, handleNext }: StaffInviteFormProps) => {
 const StaffInviteResult = ({
   handleClose,
   details,
-}: StaffInviteResultProps) => (
-  <>
-    <DialogTitle>Staff invited!</DialogTitle>
-    <DialogContent>
-      <Alert severity="warning">
-        This screen is only shown once. Make sure you write down the details
-        before leaving.
-      </Alert>
-      <Spacer />
-      <Card variant="outlined">
-        <CardContent>
-          <Grid container spacing={1}>
-            <Grid item xs={12} md={2}>
-              Email
+}: StaffInviteResultProps) => {
+  const copyToClipboard = useClipboard();
+
+  const [showSnack, setShowSnack] = useState(false);
+
+  return (
+    <>
+      <DialogTitle>Staff invited!</DialogTitle>
+      <DialogContent>
+        <Alert severity="warning">
+          This screen is only shown once. Make sure you write down the details
+          before leaving.
+        </Alert>
+        <Spacer />
+        <Card variant="outlined">
+          <CardContent>
+            <Grid container spacing={1}>
+              <Grid item xs={12} md={2}>
+                Email
+              </Grid>
+              <Grid item xs={12} md={10}>
+                {details?.email}
+              </Grid>
+              <Grid
+                item
+                xs={12}
+                md={2}
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                }}
+              >
+                Password
+              </Grid>
+              <Grid item xs={12} md={10}>
+                {details?.password}{' '}
+                <IconButton
+                  color="inherit"
+                  size="small"
+                  onClick={() => {
+                    copyToClipboard(details?.password ?? '');
+                    setShowSnack(true);
+                  }}
+                >
+                  <ContentCopy />
+                </IconButton>
+              </Grid>
             </Grid>
-            <Grid item xs={12} md={10}>
-              {details?.email}
-            </Grid>
-            <Grid
-              item
-              xs={12}
-              md={2}
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-              }}
-            >
-              Password
-            </Grid>
-            <Grid item xs={12} md={10}>
-              {details?.password}{' '}
-              <IconButton color="inherit" size="small">
-                <ContentCopy />
-              </IconButton>
-            </Grid>
-          </Grid>
-        </CardContent>
-      </Card>
-    </DialogContent>
-    <DialogActions>
-      <Button onClick={() => handleClose(true)} color="inherit">
-        Done
-      </Button>
-    </DialogActions>
-  </>
-);
+          </CardContent>
+        </Card>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={() => handleClose(true)} color="inherit">
+          Done
+        </Button>
+      </DialogActions>
+      <Snackbar
+        open={showSnack}
+        autoHideDuration={2000}
+        onClose={() => setShowSnack(false)}
+        message="Password copied to clipboard!"
+      />
+    </>
+  );
+};
 
 export default function StaffInviteDialog({
   handleClose,
