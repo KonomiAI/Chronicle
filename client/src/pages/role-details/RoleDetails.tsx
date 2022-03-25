@@ -164,7 +164,6 @@ export default function RoleDetails({ create, data, saveChanges }: RoleProps) {
                         <Checkbox checked={value} onChange={onChange} />
                       )}
                     />
-                    {/* <Checkbox checked={value || !!getValues().permissions[s.name].write} onChange={onChange} disabled={!!getValues().permissions[s.name].write} /> */}
                   </Grid>
                   <Grid item xs={2}>
                     <Controller
