@@ -4,7 +4,7 @@ import {
   Delete,
   Get,
   Param,
-  Patch,
+  Put,
   Post,
 } from '@nestjs/common';
 import { Activity as ActivityModel } from '@prisma/client';
@@ -37,7 +37,7 @@ export class ActivityController {
     });
   }
 
-  @Patch(':id')
+  @Put(':id')
   async updateActivity(
     @Param('id') id: string,
     @Body()

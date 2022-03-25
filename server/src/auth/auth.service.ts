@@ -31,8 +31,15 @@ export class AuthService {
   ) {}
   async validateUser(email: string, password: string) {
     const user = await this.getDetails({ email }, SELECT);
+    if (!user) {
+      throw new BadRequestException(
+        'User with the username and password is not found',
+      );
+    }
+
     const valid = await this.verifyPassword(password, user.authKey);
-    if (user?.authKey && valid) {
+    if (user.authKey && valid) {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { authKey, ...result } = user;
       return result;
     }

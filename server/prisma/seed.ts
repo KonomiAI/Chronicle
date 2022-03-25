@@ -16,7 +16,7 @@ const prisma = new PrismaClient();
 
 async function main() {
   const permissions = ['Inventory', 'Security', 'Customer', 'Entry', 'Form'];
-  for (var permission of permissions) {
+  for (const permission of permissions) {
     await prisma.feature.upsert({
       where: { name: permission },
       update: {},
