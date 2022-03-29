@@ -10,7 +10,7 @@ import {
   ListItemText,
   ListSubheader,
 } from '@mui/material';
-import { getRolesList, useRoleList } from '../../data';
+import { useRoleList } from '../../data';
 import PageHeader from '../../components/page-header/PageHeader';
 import Spacer from '../../components/spacer/Spacer';
 

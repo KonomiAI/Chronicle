@@ -20,14 +20,9 @@ import { Controller, useForm } from 'react-hook-form';
 
 import PageHeader from '../../components/page-header/PageHeader';
 import Spacer from '../../components/spacer/Spacer';
-import {
-  StaffUpdateData,
-  updateStaff,
-  useRoleList,
-  useStaff,
-} from '../../data';
+import { updateStaff, useRoleList, useStaff } from '../../data';
 import SaveBar from '../../components/save-bar/save-bar';
-import { Gender, Staff } from '../../types';
+import { Gender, Staff, StaffUpdateData } from '../../types';
 import { EMAIL_REGEXP, getFormErrorMessage } from '../../utils';
 
 const cleanStaff = (staff: Staff) => {

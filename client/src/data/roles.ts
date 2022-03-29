@@ -1,22 +1,21 @@
 import { useQuery } from 'react-query';
-import { Role } from '../types';
+import { Role, RoleData } from '../types';
 import useAxios from './axois';
 
 export interface RolePostResponse {
   id: string;
 }
-export type RoleData = Omit<Role, 'id'>;
 
 interface RoleUpdateParams {
   id: string;
   data: RoleData;
 }
-export const getRolesList = () => {
+const getRolesList = () => {
   const axios = useAxios();
   return axios.get<Role[]>('/roles').then((res) => res.data);
 };
 
-export const getRole = (id: string) => {
+const getRole = (id: string) => {
   const axios = useAxios();
   return axios.get<Role>(`roles/${id}`).then((res) => res.data);
 };
@@ -44,5 +43,6 @@ export const deleteRole = (id: string) => {
 
   return axios.delete<Role>(`roles/${id}`).then((res) => res.data);
 };
+
 export const removeRole = (id: string) =>
   useQuery(['removeRole', id], () => deleteRole(id));
