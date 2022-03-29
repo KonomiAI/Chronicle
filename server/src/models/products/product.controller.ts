@@ -11,7 +11,11 @@ import {
 
 import { ProductService } from './product.service';
 import { CreateProductDto, UpdateProductDto } from './product.dto';
-import { TransformInterceptor } from 'src/interceptors/transform.interceptor';
+import {
+  Response,
+  TransformInterceptor,
+} from 'src/interceptors/transform.interceptor';
+import { Product } from '@prisma/client';
 
 @Controller('products')
 @UseInterceptors(TransformInterceptor)
@@ -19,34 +23,33 @@ export class ProductController {
   constructor(private readonly productService: ProductService) {}
 
   @Get()
-  async getProducts() {
-    const result = await this.productService.products({});
+  async getProducts(): Promise<Response<Product[]>> {
+    const products = await this.productService.products({});
     return {
-      message: 'SUCCESS',
-      result,
+      data: products,
     };
   }
 
   @Get(':id')
-  async getProductById(@Param('id') id: string) {
-    const result = await this.productService.product({ id });
+  async getProductById(@Param('id') id: string): Promise<Response<Product>> {
+    const product = await this.productService.product({ id });
     return {
-      message: 'SUCCESS',
-      result,
+      data: product,
     };
   }
 
   @Post()
-  async createProduct(@Body() { ...data }: CreateProductDto) {
+  async createProduct(
+    @Body() { ...data }: CreateProductDto,
+  ): Promise<Response<Product>> {
     const { name, brand, imageUrl } = data;
-    const result = await this.productService.createProduct({
+    const product = await this.productService.createProduct({
       name,
       brand,
       imageUrl,
     });
     return {
-      message: 'SUCCESS',
-      result,
+      data: product,
     };
   }
 
@@ -54,24 +57,22 @@ export class ProductController {
   async updateProduct(
     @Param('id') id: string,
     @Body() { ...data }: UpdateProductDto,
-  ) {
+  ): Promise<Response<Product>> {
     const { name, brand, imageUrl, isArchived } = data;
-    const result = await this.productService.updateProduct({
+    const product = await this.productService.updateProduct({
       where: { id },
       data: { name, brand, imageUrl, isArchived },
     });
     return {
-      message: 'SUCCESS',
-      result,
+      data: product,
     };
   }
 
   @Delete(':id')
-  async deleteProduct(@Param('id') id: string) {
-    const result = await this.productService.deleteProduct({ id });
+  async deleteProduct(@Param('id') id: string): Promise<Response<Product>> {
+    const product = await this.productService.deleteProduct({ id });
     return {
-      message: 'SUCCESS',
-      result,
+      data: product,
     };
   }
 }

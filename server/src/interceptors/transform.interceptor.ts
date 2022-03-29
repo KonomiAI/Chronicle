@@ -7,9 +7,15 @@ import {
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
+const DEFAULT_MESSAGES = {
+  200: 'SUCCESS',
+  404: 'NOTFOUND',
+  500: 'ERROR',
+};
+
 export interface Response<T> {
-  statusCode: number;
-  message: string;
+  statusCode?: number;
+  message?: string;
   data: T;
 }
 
@@ -22,11 +28,18 @@ export class TransformInterceptor<T>
     next: CallHandler,
   ): Observable<Response<T>> {
     return next.handle().pipe(
-      map((data) => ({
-        statusCode: context.switchToHttp().getResponse().statusCode,
-        message: data.message,
-        data: data.result,
-      })),
+      map((response) => {
+        const statusCode =
+          response.statusCode ||
+          context.switchToHttp().getResponse().statusCode;
+        const message = response.message || DEFAULT_MESSAGES[statusCode] || '';
+
+        return {
+          statusCode,
+          message,
+          data: response.data || response,
+        };
+      }),
     );
   }
 }
