@@ -2,7 +2,7 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { StaffService } from '../models/staff/staff.service';
 import { BcryptService } from './bcrypt.service';
 import { JwtService } from '@nestjs/jwt';
-import { Prisma, PrismaClient } from '@prisma/client';
+import { Prisma } from '@prisma/client';
 
 const SELECT = {
   id: true,
