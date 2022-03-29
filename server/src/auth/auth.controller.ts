@@ -18,6 +18,14 @@ const SELECT = {
   email: true,
   gender: true,
   isSuperUser: true,
+  roles: {
+    select: {
+      id: true,
+      name: true,
+      permissions: true,
+    },
+  },
+  roleIds: true,
 };
 
 @Controller('auth')
