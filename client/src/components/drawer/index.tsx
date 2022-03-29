@@ -109,12 +109,16 @@ export default function ChronicleDrawer({
           </ListItemIcon>
           <ListItemText primary="Activity Entries" />
         </ListItem>
-        <ListItem button key="inventory">
+        <ListItemButton
+          component="a"
+          href="/inventory"
+          selected={pathname === '/inventory'}
+        >
           <ListItemIcon>
             <Inventory />
           </ListItemIcon>
           <ListItemText primary="Inventory" />
-        </ListItem>
+        </ListItemButton>
         <ListItem button key="analytics">
           <ListItemIcon>
             <Insights />

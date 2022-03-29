@@ -5,7 +5,7 @@ import {
   Get,
   Param,
   Post,
-  Patch,
+  Put,
   UseInterceptors,
 } from '@nestjs/common';
 import { Ip as IPModel } from '@prisma/client';
@@ -28,7 +28,7 @@ export class IPController {
     return this.service.addIP({ ip, description });
   }
 
-  @Patch(':id')
+  @Put(':id')
   async updateIPDescription(
     @Param('id') id: string,
     @Body() { ip, description }: IPDto,

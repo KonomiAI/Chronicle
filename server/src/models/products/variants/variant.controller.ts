@@ -4,7 +4,7 @@ import {
   Delete,
   Get,
   Param,
-  Patch,
+  Put,
   Post,
   UseInterceptors,
 } from '@nestjs/common';
@@ -53,7 +53,7 @@ export class VariantController {
     });
   }
 
-  @Patch(':variantId')
+  @Put(':variantId')
   async updateVariant(
     @Param('variantId') variantId: string,
     @Body() { ...data }: UpdateVariantDto,

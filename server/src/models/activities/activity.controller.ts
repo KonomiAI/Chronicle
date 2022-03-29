@@ -4,7 +4,7 @@ import {
   Delete,
   Get,
   Param,
-  Patch,
+  Put,
   Post,
   UseInterceptors,
 } from '@nestjs/common';
@@ -40,7 +40,7 @@ export class ActivityController {
     });
   }
 
-  @Patch(':id')
+  @Put(':id')
   async updateActivity(
     @Param('id') id: string,
     @Body()
