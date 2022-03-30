@@ -1,5 +1,5 @@
 import { useQuery } from 'react-query';
-import { Staff } from '../types';
+import { Staff, StaffUpdateData } from '../types';
 import useAxios from './axois';
 
 export interface StaffPostData {
@@ -14,20 +14,19 @@ export interface StaffPostResponse extends Omit<Staff, 'password'> {
   id: string;
 }
 
-export type StaffUpdateData = Omit<Staff, 'id'>;
 interface StaffUpdateParams {
   id: string;
   data: StaffUpdateData;
 }
 
-export const getStaffList = () => {
+const getStaffList = () => {
   const axios = useAxios();
   return axios.get<{ data: Staff[] }>('/staff').then((res) => res.data.data);
 };
 
 export const useStaffList = () => useQuery('staffList', getStaffList);
 
-export const getStaff = (id: string) => {
+const getStaff = (id: string) => {
   const axios = useAxios();
   return axios.get<Staff>(`staff/${id}`).then((res) => res.data);
 };

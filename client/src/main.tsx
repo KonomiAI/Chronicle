@@ -17,11 +17,11 @@ import InventoryListPage from './pages/inventory/InventoryList';
 import InventoryCreatePage from './pages/inventory/InventoryCreate';
 import InventoryEditPage from './pages/inventory/InventoryEdit';
 import RolesListPage from './pages/roles-list/RolesList';
-import RoleDetails from './pages/role-details/RoleDetails';
+import {
+  CreateRoleForm,
+  UpdateRoleForm,
+} from './pages/role-details/RoleDetails';
 import NotFoundPage from './pages/not-found';
-
-import ProtectedRoute from './components/protected-route';
-import PrivilegedRoute from './components/privileged-route';
 
 const queryClient = new QueryClient();
 
@@ -33,28 +33,20 @@ ReactDOM.render(
         <BrowserRouter>
           <Routes>
             <Route path="/login" element={<LoginPage />} />
-            <Route element={<ProtectedRoute user />}>
-              <Route path="/" element={<MainContainer />}>
-                <Route index element={<LandingPage />} />
-                <Route path="staff" element={<StaffListPage />} />
-                <Route path="staff/:id" element={<StaffDetailsPage />} />
-                <Route path="inventory" element={<InventoryListPage />} />
-                <Route
-                  path="inventory/create"
-                  element={<InventoryCreatePage />}
-                />
-                <Route path="inventory/:id" element={<InventoryEditPage />} />
-                <Route path="roles" element={<RolesListPage />} />
-                <Route path="roles/:id" element={<RoleDetails />} />
-                <Route
-                  path="allowlist"
-                  element={
-                    <PrivilegedRoute isAllowed={false}>
-                      <AllowList />
-                    </PrivilegedRoute>
-                  }
-                />
-              </Route>
+            <Route path="/" element={<MainContainer />}>
+              <Route index element={<LandingPage />} />
+              <Route path="staff" element={<StaffListPage />} />
+              <Route path="staff/:id" element={<StaffDetailsPage />} />
+              <Route path="inventory" element={<InventoryListPage />} />
+              <Route
+                path="inventory/create"
+                element={<InventoryCreatePage />}
+              />
+              <Route path="inventory/:id" element={<InventoryEditPage />} />
+              <Route path="roles" element={<RolesListPage />} />
+              <Route path="roles/new" element={<CreateRoleForm />} />
+              <Route path="roles/:id" element={<UpdateRoleForm />} />
+              <Route path="allowlist" element={<AllowList />} />
             </Route>
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
