@@ -16,7 +16,6 @@ import { useMutation, useQueryClient } from 'react-query';
 import {
   useRole,
   useFeaturesList,
-  RoleData,
   updateRole,
   createRole,
   deleteRole,
@@ -24,7 +23,7 @@ import {
 import PageHeader from '../../components/page-header/PageHeader';
 import Spacer from '../../components/spacer/Spacer';
 import SaveBar from '../../components/save-bar/save-bar';
-import { Feature, Role } from '../../types';
+import { Feature, Role, RoleData } from '../../types';
 
 const cleanRole = (role: Role) => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

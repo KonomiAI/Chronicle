@@ -42,7 +42,6 @@ services:
     build:
       context: ./server
       dockerfile: Seed.Dockerfile
-    command: npx prisma db seed
     depends_on:
       - chronicle-database
       - mongo_replica

@@ -29,3 +29,5 @@ export interface User {
 }
 
 export type UserNoAccessToken = Omit<User, 'accessToken'>;
+
+export type StaffUpdateData = Omit<Staff, 'id'>;
