@@ -20,7 +20,7 @@ The template is in the shape of a json schema version 7
 
 Forms are created by tenants and used within the tenancy. The shape of the forms are governed by the template schema. All forms must pass a schema test before responses can be made to the form.
 
-The form shape is sanctioned by the template schema and
+The form shape is sanctioned by the template schema, upon saving a form, a new json schema will be generated to validate form responses.
 
 ### Responses
 
@@ -51,6 +51,15 @@ The form will support the following form types for now:
 ### Load multiple choice options from server
 
 The system will be able to load multiple choice options dynamically using REST APIs.
+
+
+### Connection with entities
+
+Entities like activity entry, customers, etc. will have a new responses field. This will keep track of all the responses that was filled for the entity.
+
+For activity entry, upon creation, all forms with activity entry as the purpose is loaded. The user selects one form and completes it. Then users can add any number of activity entry, or null purpose forms to the entry.
+
+For all other entities, by default all forms whose purpose is matching the entity are required to be completed. Then users can attach any additional fields.
 
 ## Form management lifecycle
 
@@ -105,6 +114,7 @@ erDiagram
   form {
     string id
     string templateVersion
+    string purpose
   }
   formVersion ||--o| latestForm : is
   formVersion {
@@ -112,7 +122,7 @@ erDiagram
     string formVersionId
     json formData
   }
-  response |o--|| form : responsesTo
+  response |o--|| formVersion : responsesTo
   response ||--|| latestResponse : uses
   response ||--|{ responseVersion : versions
   response {

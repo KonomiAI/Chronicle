@@ -34,7 +34,6 @@ export interface FormTemplateSchema extends FormCommons {
 
 const FormTemplateSchemaV1: JSONSchemaType<FormTemplateSchema> = {
   type: 'object',
-  allOf: [{ $ref: '#/$defs/formOptionCommons' }],
   properties: {
     id: { type: 'string' },
     name: { type: 'string' },
