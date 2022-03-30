@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Box,
   Button,
@@ -9,13 +9,16 @@ import {
   TableBody,
   TableCell,
   TableContainer,
-  TableHead,
   TableRow,
   Typography,
+  Dialog,
 } from '@mui/material';
 
 import DeleteIcon from '@mui/icons-material/Delete';
 import PageHeader from '../../components/page-header/PageHeader';
+import Spacer from '../../components/spacer/Spacer';
+import AllowlistAdd from './AllowlistAdd';
+import { useAllowList } from '../../data';
 
 const ipList = [
   { ip: '192.168.0.1', description: 'Some description about this IP address' },
@@ -40,31 +43,54 @@ const AllowListRow = () =>
       </TableCell>
     </TableRow>
   ));
+
+  
 export default function AllowListPage() {
+
+  const { data: allowListData} = useAllowList();
+  const [addDialogOpen, setAddDialogOpen] = useState(false);
+
   return (
     <Container maxWidth="sm">
-      <Box
-        sx={{
-          marginTop: '3em',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          mb: '1em',
-          gap: '5em',
-        }}
+      <Dialog
+        open={addDialogOpen}
+        onClose={() => setAddDialogOpen(false)}
       >
+        <AllowlistAdd handleClose={() => setAddDialogOpen(false)} />
+      </Dialog>
         <PageHeader
           pageTitle="IP Allowlist"
           helpText="Add IP address to the allowlist to ensure your staff member can only access
           the application from certain locations"
-          action={<Button variant="contained">Add New</Button>}
+          action={
+            <Button variant="contained" onClick={() => setAddDialogOpen(true)}>
+              Add New
+            </Button>
+          }
         />
-      </Box>
+      <Spacer size="lg" />
       <TableContainer component={Paper}>
         <Table>
-          <TableBody>{AllowListRow()}</TableBody>
+          <TableBody>
+            {allowListData?.map((s) => (
+              <TableRow hover>
+                <TableCell>
+                  <Box>
+                    <Typography variant="h2">{s.ip}</Typography>
+                    <Typography variant="body2">{s.description}</Typography>
+                  </Box>
+                </TableCell>
+                <TableCell>
+                  <IconButton>
+                    <DeleteIcon />
+                  </IconButton>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
         </Table>
       </TableContainer>
+      
     </Container>
   );
 }

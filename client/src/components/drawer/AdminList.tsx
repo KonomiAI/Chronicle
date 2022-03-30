@@ -62,7 +62,11 @@ export default function AdminList() {
             </ListItemIcon>
             <ListItemText primary="Roles" />
           </ListItemButton>
-          <ListItemButton>
+          <ListItemButton
+            component="a"
+            href="/allowlist"
+            selected={pathname === '/allowlist'}
+          >
             <ListItemIcon>
               <NetworkCheck />
             </ListItemIcon>
