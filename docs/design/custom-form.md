@@ -52,7 +52,6 @@ The form will support the following form types for now:
 
 The system will be able to load multiple choice options dynamically using REST APIs.
 
-
 ### Connection with entities
 
 Entities like activity entry, customers, etc. will have a new responses field. This will keep track of all the responses that was filled for the entity.
