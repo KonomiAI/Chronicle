@@ -19,13 +19,10 @@ export const useStore = create<
   GetState<StoreState>,
   Mutate<
     StoreApi<StoreState>,
-    [['zustand/subscribeWithSelector', never],
-    ['zustand/devtools', never]]
+    [['zustand/subscribeWithSelector', never], ['zustand/devtools', never]]
   >
 >(
   devtools(
-    subscribeWithSelector((set, get): StoreState => (
-      { sidebarOpen: true }
-    )),
-  )
+    subscribeWithSelector((set, get): StoreState => ({ sidebarOpen: true })),
+  ),
 );
