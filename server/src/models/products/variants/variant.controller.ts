@@ -4,15 +4,18 @@ import {
   Delete,
   Get,
   Param,
-  Patch,
+  Put,
   Post,
+  UseInterceptors,
 } from '@nestjs/common';
 import { Variant as VariantModel } from '@prisma/client';
 
 import { VariantService } from './variant.service';
 import { CreateVariantDto, UpdateVariantDto } from './variant.dto';
+import { TransformInterceptor } from 'src/interceptors/transform.interceptor';
 
 @Controller('products/:productId/variants')
+@UseInterceptors(TransformInterceptor)
 export class VariantController {
   constructor(private readonly variantService: VariantService) {}
 
@@ -50,7 +53,7 @@ export class VariantController {
     });
   }
 
-  @Patch(':variantId')
+  @Put(':variantId')
   async updateVariant(
     @Param('variantId') variantId: string,
     @Body() { ...data }: UpdateVariantDto,

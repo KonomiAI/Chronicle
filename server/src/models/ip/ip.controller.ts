@@ -5,13 +5,16 @@ import {
   Get,
   Param,
   Post,
-  Patch,
+  Put,
+  UseInterceptors,
 } from '@nestjs/common';
 import { Ip as IPModel } from '@prisma/client';
 import { IPService } from './ip.service';
 import { IPDto } from './ip.dto';
+import { TransformInterceptor } from 'src/interceptors/transform.interceptor';
 
 @Controller('ip')
+@UseInterceptors(TransformInterceptor)
 export class IPController {
   constructor(private service: IPService) {}
 
@@ -25,7 +28,7 @@ export class IPController {
     return this.service.addIP({ ip, description });
   }
 
-  @Patch(':id')
+  @Put(':id')
   async updateIPDescription(
     @Param('id') id: string,
     @Body() { ip, description }: IPDto,

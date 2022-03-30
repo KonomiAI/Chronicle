@@ -19,3 +19,5 @@ export interface Role {
 }
 
 export type StaffIdLessRole = Omit<Role, 'staffIds'>;
+
+export type RoleData = Omit<Role, 'id'>;

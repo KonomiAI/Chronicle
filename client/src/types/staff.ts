@@ -12,3 +12,22 @@ export interface Staff {
   roles: StaffIdLessRole[];
   roleIds: string[];
 }
+
+export interface AuthBody {
+  email: string;
+  password: string;
+}
+
+export interface User {
+  accessToken: string;
+  id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  gender: string;
+  isSuperUser: boolean;
+}
+
+export type UserNoAccessToken = Omit<User, 'accessToken'>;
+
+export type StaffUpdateData = Omit<Staff, 'id'>;

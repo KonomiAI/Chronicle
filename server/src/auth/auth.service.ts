@@ -2,9 +2,8 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { StaffService } from '../models/staff/staff.service';
 import { BcryptService } from './bcrypt.service';
 import { JwtService } from '@nestjs/jwt';
-import { Prisma, PrismaClient } from '@prisma/client';
+import { Prisma } from '@prisma/client';
 
-//TODO: return roles associated as well when that relation has been established
 const SELECT = {
   id: true,
   firstName: true,
@@ -13,6 +12,14 @@ const SELECT = {
   authKey: true,
   gender: true,
   isSuperUser: true,
+  roles: {
+    select: {
+      id: true,
+      name: true,
+      permissions: true,
+    },
+  },
+  roleIds: true,
 };
 
 @Injectable()
@@ -24,8 +31,15 @@ export class AuthService {
   ) {}
   async validateUser(email: string, password: string) {
     const user = await this.getDetails({ email }, SELECT);
+    if (!user) {
+      throw new BadRequestException(
+        'User with the username and password is not found',
+      );
+    }
+
     const valid = await this.verifyPassword(password, user.authKey);
-    if (user?.authKey && valid) {
+    if (user.authKey && valid) {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { authKey, ...result } = user;
       return result;
     }

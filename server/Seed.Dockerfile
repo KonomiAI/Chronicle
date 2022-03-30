@@ -1,7 +1,7 @@
-FROM chronicle-api:1.0.0
+FROM node:17
 RUN yarn global add prisma@3.10.0
 COPY package.json ./
 COPY prisma/* ./prisma/
 
 RUN prisma generate
-CMD prisma db seed
+CMD ! npx prisma db push ... || npx prisma db seed

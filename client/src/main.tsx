@@ -17,7 +17,11 @@ import InventoryListPage from './pages/inventory/InventoryList';
 import InventoryCreatePage from './pages/inventory/InventoryCreate';
 import InventoryEditPage from './pages/inventory/InventoryEdit';
 import RolesListPage from './pages/roles-list/RolesList';
-import RoleDetails from './pages/role-details/RoleDetails';
+import {
+  CreateRoleForm,
+  UpdateRoleForm,
+} from './pages/role-details/RoleDetails';
+import NotFoundPage from './pages/not-found';
 
 const queryClient = new QueryClient();
 
@@ -40,9 +44,11 @@ ReactDOM.render(
               />
               <Route path="inventory/:id" element={<InventoryEditPage />} />
               <Route path="roles" element={<RolesListPage />} />
-              <Route path="roles/:id" element={<RoleDetails />} />
+              <Route path="roles/new" element={<CreateRoleForm />} />
+              <Route path="roles/:id" element={<UpdateRoleForm />} />
               <Route path="allowlist" element={<AllowList />} />
             </Route>
+            <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </BrowserRouter>
       </ThemeProvider>

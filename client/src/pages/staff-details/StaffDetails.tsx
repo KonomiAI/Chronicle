@@ -12,6 +12,7 @@ import {
   TextField,
   Typography,
   Alert,
+  LinearProgress,
 } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import { useMutation, useQueryClient } from 'react-query';
@@ -19,14 +20,10 @@ import { Controller, useForm } from 'react-hook-form';
 
 import PageHeader from '../../components/page-header/PageHeader';
 import Spacer from '../../components/spacer/Spacer';
-import {
-  StaffUpdateData,
-  updateStaff,
-  useRoleList,
-  useStaff,
-} from '../../data';
+import { updateStaff, useRoleList, useStaff } from '../../data';
 import SaveBar from '../../components/save-bar/save-bar';
-import { Gender, Staff } from '../../types';
+import { Gender, Staff, StaffUpdateData } from '../../types';
+import { EMAIL_REGEXP, getFormErrorMessage } from '../../utils';
 
 const cleanStaff = (staff: Staff) => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -43,10 +40,11 @@ export default function StaffDetailsPage() {
       </Container>
     );
   }
-  const { data } = useStaff(id);
+  const { data, isLoading } = useStaff(id);
   const { data: roleListData } = useRoleList();
   const queryClient = useQueryClient();
   const [isSaveOpen, setIsSaveOpen] = useState(false);
+  const [isSavingChanges, setIsSavingChanges] = useState(false);
   const { control, reset, handleSubmit, watch } = useForm<StaffUpdateData>({
     defaultValues: {
       firstName: '',
@@ -60,6 +58,7 @@ export default function StaffDetailsPage() {
     onSuccess: () => {
       queryClient.invalidateQueries(['staff', id]);
       setIsSaveOpen(false);
+      setIsSavingChanges(false);
     },
   });
 
@@ -71,15 +70,18 @@ export default function StaffDetailsPage() {
     return () => subscription.unsubscribe();
   }, [data, watch]);
 
-  const saveChanges = (values: StaffUpdateData) =>
+  const saveChanges = (values: StaffUpdateData) => {
     updateStaffAndMutate.mutate({
       id,
       data: values,
     });
+    setIsSavingChanges(true);
+  };
 
   return (
     <>
       <Container>
+        {isLoading && <LinearProgress />}
         {data && (
           <>
             <PageHeader
@@ -97,13 +99,22 @@ export default function StaffDetailsPage() {
                     <Controller
                       name="firstName"
                       control={control}
-                      render={({ field: { onChange, value } }) => (
+                      rules={{
+                        required: true,
+                        minLength: 1,
+                      }}
+                      render={({
+                        field: { onChange, value },
+                        fieldState: { invalid, error },
+                      }) => (
                         <TextField
                           fullWidth
                           label="First Name"
                           variant="outlined"
                           onChange={onChange}
                           value={value}
+                          error={invalid}
+                          helperText={getFormErrorMessage(error?.type)}
                         />
                       )}
                     />
@@ -112,13 +123,22 @@ export default function StaffDetailsPage() {
                     <Controller
                       name="lastName"
                       control={control}
-                      render={({ field: { onChange, value } }) => (
+                      rules={{
+                        required: true,
+                        minLength: 1,
+                      }}
+                      render={({
+                        field: { onChange, value },
+                        fieldState: { invalid, error },
+                      }) => (
                         <TextField
                           fullWidth
                           label="Last Name"
                           variant="outlined"
                           onChange={onChange}
                           value={value}
+                          error={invalid}
+                          helperText={getFormErrorMessage(error?.type)}
                         />
                       )}
                     />
@@ -127,13 +147,23 @@ export default function StaffDetailsPage() {
                     <Controller
                       name="email"
                       control={control}
-                      render={({ field: { onChange, value } }) => (
+                      rules={{
+                        required: true,
+                        minLength: 1,
+                        pattern: EMAIL_REGEXP,
+                      }}
+                      render={({
+                        field: { onChange, value },
+                        fieldState: { invalid, error },
+                      }) => (
                         <TextField
                           fullWidth
                           label="Email"
                           variant="outlined"
                           onChange={onChange}
                           value={value}
+                          error={invalid}
+                          helperText={getFormErrorMessage(error?.type)}
                         />
                       )}
                     />
@@ -142,7 +172,11 @@ export default function StaffDetailsPage() {
                     <Controller
                       name="gender"
                       control={control}
-                      render={({ field: { onChange, value } }) => (
+                      rules={{ required: true }}
+                      render={({
+                        field: { onChange, value },
+                        fieldState: { invalid },
+                      }) => (
                         <FormControl fullWidth>
                           <InputLabel id="genderLabel">Gender</InputLabel>
                           <Select
@@ -150,6 +184,7 @@ export default function StaffDetailsPage() {
                             value={value}
                             onChange={onChange}
                             label="Gender"
+                            error={invalid}
                           >
                             <MenuItem value="MALE">Male</MenuItem>
                             <MenuItem value="FEMALE">Female</MenuItem>
@@ -174,7 +209,11 @@ export default function StaffDetailsPage() {
                 <Controller
                   name="roleIds"
                   control={control}
-                  render={({ field: { onChange, value } }) => (
+                  rules={{ minLength: 1 }}
+                  render={({
+                    field: { onChange, value },
+                    fieldState: { invalid },
+                  }) => (
                     <FormControl fullWidth>
                       <InputLabel id="roleLabel">Roles</InputLabel>
                       <Select
@@ -182,6 +221,7 @@ export default function StaffDetailsPage() {
                         value={value}
                         onChange={onChange}
                         label="Roles"
+                        error={invalid}
                         multiple
                       >
                         {roleListData &&
@@ -202,62 +242,72 @@ export default function StaffDetailsPage() {
                   Danger Zone
                 </Typography>
                 {data.isSuperUser && (
-                  <Alert severity="warning">
-                    You cannot delete or suspend a super user
-                  </Alert>
+                  <>
+                    <Alert severity="warning">
+                      You cannot delete or suspend a super user
+                    </Alert>
+                    <Spacer />
+                  </>
                 )}
-                <Grid container spacing={2}>
-                  <Grid item xs={10}>
-                    <Typography variant="h6">Suspend staff</Typography>
-                    <Typography variant="body2">
-                      Suspending a staff will suspend the user&apos;s ability to
-                      access the app.
-                    </Typography>
-                  </Grid>
-                  <Grid
-                    item
-                    xs={2}
-                    sx={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                    }}
-                  >
-                    <Button variant="text" color="error">
-                      Suspend
-                    </Button>
-                  </Grid>
-                  <Grid item xs={10}>
-                    <Typography variant="h6">Delete staff</Typography>
-                    <Typography variant="body2">
-                      Delete this staff from your team. You must suspend the
-                      staff first.
-                    </Typography>
-                  </Grid>
-                  <Grid
-                    item
-                    xs={2}
-                    sx={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                    }}
-                  >
-                    <Button
-                      variant="text"
-                      color="error"
-                      disabled={!data.isSuspended || data.isSuperUser}
+                {!data.isSuperUser && (
+                  <Grid container spacing={2}>
+                    <Grid item xs={10}>
+                      <Typography variant="h6">Suspend staff</Typography>
+                      <Typography variant="body2">
+                        Suspending a staff will suspend the user&apos;s ability
+                        to access the app.
+                      </Typography>
+                    </Grid>
+                    <Grid
+                      item
+                      xs={2}
+                      sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                      }}
                     >
-                      Delete
-                    </Button>
+                      <Button variant="text" color="error">
+                        Suspend
+                      </Button>
+                    </Grid>
+                    <Grid item xs={10}>
+                      <Typography variant="h6">Delete staff</Typography>
+                      <Typography variant="body2">
+                        Delete this staff from your team. You must suspend the
+                        staff first.
+                      </Typography>
+                    </Grid>
+                    <Grid
+                      item
+                      xs={2}
+                      sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                      }}
+                    >
+                      <Button
+                        variant="text"
+                        color="error"
+                        disabled={!data.isSuspended}
+                      >
+                        Delete
+                      </Button>
+                    </Grid>
                   </Grid>
-                </Grid>
+                )}
               </CardContent>
             </Card>
           </>
         )}
       </Container>
-      <SaveBar open={isSaveOpen} onSave={handleSubmit(saveChanges)} />
+      <SaveBar
+        open={isSaveOpen}
+        onSave={handleSubmit(saveChanges)}
+        loading={isSavingChanges}
+      />
+      <Spacer size="lg" />
     </>
   );
 }

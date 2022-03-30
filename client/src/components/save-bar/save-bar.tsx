@@ -10,6 +10,7 @@ interface AppBarProps extends MuiAppBarProps {
 }
 export interface SaveBarProps {
   open: boolean;
+  loading?: boolean;
   onSave: () => void;
 }
 
@@ -32,6 +33,7 @@ const AppBar = styled(MuiAppBar, {
 
 export default function SaveBar({ onSave, open }: SaveBarProps) {
   const [isOpen, setIsOpen] = useState(open);
+  const [isLoading] = useState(!!loading);
   const minState = useStore.getState().sidebarOpen;
   const [sidebarOpen, setSideBar] = useState(minState);
 
@@ -57,7 +59,7 @@ export default function SaveBar({ onSave, open }: SaveBarProps) {
             </Grid>
             <Grid item xs={7} />
             <Grid item xs={1}>
-              <Button variant="text" onClick={onSave}>
+              <Button variant="text" onClick={onSave} disabled={isLoading}>
                 Save
               </Button>
             </Grid>
