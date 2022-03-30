@@ -31,7 +31,7 @@ const AppBar = styled(MuiAppBar, {
   }),
 }));
 
-export default function SaveBar({ onSave, open }: SaveBarProps) {
+export default function SaveBar({ onSave, open, loading }: SaveBarProps) {
   const [isOpen, setIsOpen] = useState(open);
   const [isLoading] = useState(!!loading);
   const minState = useStore.getState().sidebarOpen;
