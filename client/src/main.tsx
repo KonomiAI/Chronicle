@@ -10,7 +10,7 @@ import theme from './theme';
 import LoginPage from './pages/login';
 import MainContainer from './pages/container';
 import LandingPage from './pages/landing';
-import AllowList from './pages/allowlist';
+import AllowList from './pages/allowlist/Allowlist';
 import StaffListPage from './pages/staff-list/StaffList';
 import StaffDetailsPage from './pages/staff-details/StaffDetails';
 import InventoryListPage from './pages/inventory/InventoryList';
