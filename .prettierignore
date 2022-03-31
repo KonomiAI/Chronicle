@@ -1,2 +1,5 @@
 # Ignore any distributions
 **/dist
+**/tsconfig.json
+# Ignore coverage reports
+**/coverage
