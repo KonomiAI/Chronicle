@@ -76,7 +76,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="index.html">Intro</a></li><li class="chapter-item expanded affix "><li class="part-title">Design</li><li class="chapter-item expanded "><a href="design/proposal.html">Project Proposal</a></li><li class="chapter-item expanded "><a href="design/mvp_scope.html">MVP Scope</a></li><li class="chapter-item expanded "><a href="design/tech_stack.html">Tech Stack</a></li><li class="chapter-item expanded "><a href="design/database.html">Database Design</a></li><li class="chapter-item expanded "><a href="design/user_stories.html">User Stories</a></li><li class="chapter-item expanded affix "><li class="part-title">Appendix</li><li class="chapter-item expanded "><a href="design/glossary.html">Glossary</a></li><li class="chapter-item expanded "><a href="misc/useful-links.html">Useful Links</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="index.html">Intro</a></li><li class="chapter-item expanded affix "><li class="part-title">Design</li><li class="chapter-item expanded "><a href="design/proposal.html">Project Proposal</a></li><li class="chapter-item expanded "><a href="design/mvp_scope.html">MVP Scope</a></li><li class="chapter-item expanded "><a href="design/tech_stack.html">Tech Stack</a></li><li class="chapter-item expanded "><a href="design/database.html">Database Design</a></li><li class="chapter-item expanded "><a href="design/user_stories.html">User Stories</a></li><li class="chapter-item expanded "><a href="design/custom-form.html">Custom Form Design</a></li><li class="chapter-item expanded affix "><li class="part-title">Appendix</li><li class="chapter-item expanded "><a href="design/glossary.html">Glossary</a></li><li class="chapter-item expanded "><a href="misc/useful-links.html">Useful Links</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -443,6 +443,107 @@ As an owner, I want to be able to view membership attendance and new members onb
 <p>As a provider, I should be able to view all a customer’s entries under their profile</p>
 </li>
 </ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="customizable-form-system"><a class="header" href="#customizable-form-system">Customizable form system</a></h1>
+<p>One key feature of our application is that it allows users to create their own forms and attach those forms to entities like customers, daily visits, products etc. The app also allows the user to perform analytics and data reporting using the custom data. This document will discuss a few ways to implement custom fields in our system.</p>
+<h2 id="components-of-the-system"><a class="header" href="#components-of-the-system">Components of the system</a></h2>
+<p>There are three components to the system.</p>
+<ol>
+<li>The template schema</li>
+<li>Forms</li>
+<li>Responses</li>
+</ol>
+<h3 id="the-template-schema"><a class="header" href="#the-template-schema">The template schema</a></h3>
+<p>The template schema is a json schema managed by the Konomi.ai team. This schema defines the possible shape of tenant forms. The schema includes all allowed field types, field properties and form structure information.</p>
+<p>The template is in the shape of a json schema version 7</p>
+<h3 id="forms-1"><a class="header" href="#forms-1">Forms</a></h3>
+<p>Forms are created by tenants and used within the tenancy. The shape of the forms are governed by the template schema. All forms must pass a schema test before responses can be made to the form.</p>
+<p>The form shape is sanctioned by the template schema, upon saving a form, a new json schema will be generated to validate form responses.</p>
+<h3 id="responses"><a class="header" href="#responses">Responses</a></h3>
+<p>Responses are created by tenants's staff and are associated with a particular version of a form version. The response must pass a schema test before it can be used.</p>
+<h2 id="form-features"><a class="header" href="#form-features">Form Features</a></h2>
+<h3 id="validation"><a class="header" href="#validation">Validation</a></h3>
+<p>Every response is validated against the version of the form it is responding to, this ensures that all fields are valid before the user can save a response. Response validation happens on the client first and then on the server. The validation logic is handled by the <code>c-form</code> package which includes helper function that take in a form definition and validate against it.</p>
+<p>Currently, we aim to support optional fields first. In the future we want to support more complex field validation logic.</p>
+<h3 id="versioning"><a class="header" href="#versioning">Versioning</a></h3>
+<p>A core design of the form is the ability to keep track of versions for forms and responses. When a change is made to a form/response, a new version of the entity will be created, this will ensure a full track of audit history on changes and allow the ability to rollback potential changes. This also keeps the database sain for the sake of the developers.</p>
+<h3 id="field-types"><a class="header" href="#field-types">Field types</a></h3>
+<p>The form will support the following form types for now:</p>
+<ol>
+<li>Short text - usually text within one line</li>
+<li>Long text - text that can span multiple paragraphs</li>
+<li>Multiple choice - select an option from a list of possible options</li>
+<li>Multi select - select up to a number of options from a list of possible options</li>
+<li>Number - an input that can only be a numerical value (no scientific values allowed)</li>
+</ol>
+<h3 id="load-multiple-choice-options-from-server"><a class="header" href="#load-multiple-choice-options-from-server">Load multiple choice options from server</a></h3>
+<p>The system will be able to load multiple choice options dynamically using REST APIs.</p>
+<h3 id="connection-with-entities"><a class="header" href="#connection-with-entities">Connection with entities</a></h3>
+<p>Entities like activity entry, customers, etc. will have a new responses field. This will keep track of all the responses that was filled for the entity.</p>
+<p>For activity entry, upon creation, all forms with activity entry as the purpose is loaded. The user selects one form and completes it. Then users can add any number of activity entry, or null purpose forms to the entry.</p>
+<p>For all other entities, by default all forms whose purpose is matching the entity are required to be completed. Then users can attach any additional fields.</p>
+<h2 id="form-management-lifecycle"><a class="header" href="#form-management-lifecycle">Form management lifecycle</a></h2>
+<h3 id="create-new-form"><a class="header" href="#create-new-form">Create new form</a></h3>
+<pre class="mermaid">sequenceDiagram
+  autonumber
+  participant Client
+  participant Server
+  participant Database
+  Client-&gt;&gt;Client: Validate form with c-form
+  Client-&gt;&gt;Server: Send created form to server
+  Server-&gt;&gt;Server: Validate form with c-form
+  Server-&gt;&gt;Database: Save new form
+  activate Database
+  Database--&gt;&gt;Server: Form saved with ID
+  deactivate Database
+  Server--&gt;&gt;Client: Form created with ID
+</pre>
+<h3 id="update-existing-form"><a class="header" href="#update-existing-form">Update existing form</a></h3>
+<pre class="mermaid">sequenceDiagram
+  autonumber
+  participant Client
+  participant Server
+  participant Database
+  Client-&gt;&gt;Client: Validate form with c-form
+  Client-&gt;&gt;Server: Send updated form to server
+  Server-&gt;&gt;Server: Validate form with c-form
+  Server-&gt;&gt;Database: Save updated form as draft
+  activate Database
+  Database--&gt;&gt;Server: Form saved with ID
+  deactivate Database
+  Server--&gt;&gt;Client: Form draft saved with ID
+  Client-&gt;&gt;Server: Update form to draft version
+  Server-&gt;&gt;Database: Update form to draft version
+  Database--&gt;&gt;Server: Form version updated to draft version
+  Server--&gt;&gt;Client: Form version updated to draft version
+</pre>
+<h2 id="database-design-1"><a class="header" href="#database-design-1">Database design</a></h2>
+<p>Here we describe the proposed database design for this system</p>
+<pre class="mermaid">erDiagram
+  form ||--|| latestForm  : uses
+  form ||--|{ formVersion : versions
+  form {
+    string id
+    string templateVersion
+    string purpose
+  }
+  formVersion ||--o| latestForm : is
+  formVersion {
+    string id
+    string formVersionId
+    json formData
+  }
+  response |o--|| formVersion : responsesTo
+  response ||--|| latestResponse : uses
+  response ||--|{ responseVersion : versions
+  response {
+    string id
+  }
+  responseVersion ||--o| latestResponse : is
+  responseVersion {
+    string id
+    json responseData
+  }
+</pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="chronicle-glossary"><a class="header" href="#chronicle-glossary">Chronicle Glossary</a></h1>
 <p>The following are terms used in Chronicle and what they mean</p>
 <table><thead><tr><th>Term</th><th>Definition</th></tr></thead><tbody>
