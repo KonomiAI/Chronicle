@@ -267,6 +267,25 @@
     "@babel/helper-validator-identifier" "^7.16.7"
     to-fast-properties "^2.0.0"
 
+"@dropzone-ui/core@^1.1.1":
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/@dropzone-ui/core/-/core-1.1.1.tgz#2caab52db75d5c1d31042e076b399ddba072eaae"
+  integrity sha512-ZtMPasbaFfYx4Ugv8DKY2xE2+WRIYyoskNgc0kHSA3AQGinjROSD88H3jTi70acN3N37hfvunREJN29RXIDnow==
+
+"@dropzone-ui/react@^6.7.1":
+  version "6.7.1"
+  resolved "https://registry.yarnpkg.com/@dropzone-ui/react/-/react-6.7.1.tgz#496d619686cc966df61d9569e10699f2d170108b"
+  integrity sha512-WZ3XzGMeUQjAeu562r5wfItToUAk/3d2MP2DpzczhAfbpxtz8Wg02Hq89BWwNMKHLjdFNeHEIIGJDQy9ChsXjw==
+  dependencies:
+    "@dropzone-ui/core" "^1.1.1"
+    "@dynamicss/dynamicss" "^2.2.0"
+    "@unlimited-react-components/material-button" "^1.2.8"
+
+"@dynamicss/dynamicss@^2.0.3", "@dynamicss/dynamicss@^2.2.0":
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/@dynamicss/dynamicss/-/dynamicss-2.2.0.tgz#3356f88591522f387688651fd1603ef7a8da9b19"
+  integrity sha512-74nARZcYDAtCGyE/rvVowFKvnbWAqmkX1u2gcCNT9SeV3wE8huT5UAcQ0wJIovS7xOQcHvSXZduGQ+CM3nZnwQ==
+
 "@emotion/babel-plugin@^11.3.0":
   version "11.7.2"
   resolved "https://registry.yarnpkg.com/@emotion/babel-plugin/-/babel-plugin-11.7.2.tgz#fec75f38a6ab5b304b0601c74e2a5e77c95e5fa0"
@@ -688,6 +707,19 @@
   dependencies:
     "@typescript-eslint/types" "5.10.2"
     eslint-visitor-keys "^3.0.0"
+
+"@unlimited-react-components/kernel@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@unlimited-react-components/kernel/-/kernel-1.0.2.tgz#e3e51f91583deae0ee41a48c7f5be40f9bd38ca0"
+  integrity sha512-yzTua10xjcLDOR/jMXdyPKjzsWDxsez6aE7QTFa16FtGqeU/jhBxzoxsopPJa+Lu3dtu4siSG6xIE52YLu7bZw==
+
+"@unlimited-react-components/material-button@^1.2.8":
+  version "1.2.8"
+  resolved "https://registry.yarnpkg.com/@unlimited-react-components/material-button/-/material-button-1.2.8.tgz#a31f81f7f8aafe1ef533f5908bc4edd4c00b0543"
+  integrity sha512-gKSKysNUFWG774mV6NhAvbx8Fzv+QqO6DRs61k3N+M0pf5AueADpnJMgChIPLJvhjfWEoU3Z9K84lVrpWftACg==
+  dependencies:
+    "@dynamicss/dynamicss" "^2.0.3"
+    "@unlimited-react-components/kernel" "^1.0.2"
 
 "@vitejs/plugin-react@^1.0.7":
   version "1.1.4"
