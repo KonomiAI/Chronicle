@@ -21,7 +21,7 @@ export interface ConfirmDialogProps {
 }
 
 
-export default function PageHeader({
+export default function ConfirmDialog({
     dialogTitle,
     open,
     cancelAction,
