@@ -12,43 +12,38 @@ import {
   TableRow,
   Typography,
   Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
 } from '@mui/material';
 
+import { useNavigate, useParams } from 'react-router-dom';
+import { useMutation, useQueryClient } from 'react-query';
 import DeleteIcon from '@mui/icons-material/Delete';
+import Close from '@mui/icons-material/Close';
 import PageHeader from '../../components/page-header/PageHeader';
+import ConfirmDialog from '../../components/dialog/ConfirmDialog';
 import Spacer from '../../components/spacer/Spacer';
 import AllowlistAdd from './AllowlistAdd';
-import { useAllowList } from '../../data';
+import { useAllowList, deleteAllowlistEntry } from '../../data';
 
-const ipList = [
-  { ip: '192.168.0.1', description: 'Some description about this IP address' },
-  { ip: '192.168.0.2', description: 'Some description about this IP address' },
-  { ip: '192.168.0.3', description: 'Some description about this IP address' },
-  { ip: '192.168.0.4', description: 'Some description about this IP address' },
-];
-
-const AllowListRow = () =>
-  ipList.map(({ ip, description }) => (
-    <TableRow hover>
-      <TableCell>
-        <Box>
-          <Typography variant="h2">{ip}</Typography>
-          <Typography variant="body2">{description}</Typography>
-        </Box>
-      </TableCell>
-      <TableCell>
-        <IconButton>
-          <DeleteIcon />
-        </IconButton>
-      </TableCell>
-    </TableRow>
-  ));
-
-  
 export default function AllowListPage() {
 
+  const navigate = useNavigate();
   const { data: allowListData} = useAllowList();
   const [addDialogOpen, setAddDialogOpen] = useState(false);
+  const [confirmDeleteDialogOpen, setConfirmDeleteDialogOpen] = useState(false);
+
+  const removeAllowlistEntryAndMutate = useMutation(deleteAllowlistEntry, {
+    onSuccess: () => {
+      window.location.reload();
+    },
+  });
+
+  const removeAllowlistEntry = (allowlistEntryId : string) => {
+    removeAllowlistEntryAndMutate.mutate(allowlistEntryId);
+    setConfirmDeleteDialogOpen(false)
+  }
 
   return (
     <Container maxWidth="sm">
@@ -58,22 +53,28 @@ export default function AllowListPage() {
       >
         <AllowlistAdd handleClose={() => setAddDialogOpen(false)} />
       </Dialog>
-        <PageHeader
-          pageTitle="IP Allowlist"
-          helpText="Add IP address to the allowlist to ensure your staff member can only access
-          the application from certain locations"
-          action={
-            <Button variant="contained" onClick={() => setAddDialogOpen(true)}>
-              Add New
-            </Button>
-          }
-        />
+      <PageHeader
+        pageTitle="IP Allowlist"
+        helpText="Add IP address to the allowlist to ensure your staff member can only access
+        the application from certain locations"
+        action={
+          <Button variant="contained" onClick={() => setAddDialogOpen(true)}>
+            Add New
+          </Button>
+        }
+      />
       <Spacer size="lg" />
       <TableContainer component={Paper}>
         <Table>
           <TableBody>
             {allowListData?.map((s) => (
               <TableRow hover>
+                <ConfirmDialog 
+                  dialogTitle='Are you sure you want to remove this IP Address?'
+                  open={confirmDeleteDialogOpen}
+                  cancelAction={() => {setConfirmDeleteDialogOpen(false);}}
+                  confirmAction={() => {removeAllowlistEntry(s.id)}}
+                />
                 <TableCell>
                   <Box>
                     <Typography variant="h2">{s.ip}</Typography>
@@ -81,7 +82,7 @@ export default function AllowListPage() {
                   </Box>
                 </TableCell>
                 <TableCell>
-                  <IconButton>
+                  <IconButton onClick={() => setConfirmDeleteDialogOpen(true)}>
                     <DeleteIcon />
                   </IconButton>
                 </TableCell>

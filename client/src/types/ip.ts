@@ -1,7 +1,7 @@
 export interface Ip {
   id: string;
   ip: string;
-  description: string;
+  description: string | "tests";
 }
 
 export type AllowlistData = Omit<Ip, 'id'>;
