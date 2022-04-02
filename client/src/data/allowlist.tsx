@@ -8,9 +8,8 @@ export interface AllowlistPostResponse {
 
 interface AllowlistUpdateParams {
   id: string;
-  data: AllowlistData
+  data: AllowlistData;
 }
-
 
 export const getAllowlist = () => {
   const axios = useAxios();
@@ -23,7 +22,6 @@ export const getAllowlistEntry = (id: string) => {
   return axios.get<Ip>(`ip/${id}`).then((res) => res.data);
 };
 
-
 export const updateAllowlistEntry = ({ data, id }: AllowlistUpdateParams) => {
   const axios = useAxios();
 
@@ -31,7 +29,6 @@ export const updateAllowlistEntry = ({ data, id }: AllowlistUpdateParams) => {
     .put<AllowlistPostResponse>(`ip/${id}`, data)
     .then((res) => res.data);
 };
-
 
 export const createAllowlistEntry = (data: AllowlistData) => {
   const axios = useAxios();

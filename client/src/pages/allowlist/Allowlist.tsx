@@ -23,8 +23,7 @@ import AllowlistAdd from './AllowlistAdd';
 import { useAllowList, deleteAllowlistEntry } from '../../data';
 
 export default function AllowListPage() {
-
-  const { data: allowListData} = useAllowList();
+  const { data: allowListData } = useAllowList();
   const [addDialogOpen, setAddDialogOpen] = useState(false);
   const [confirmDeleteDialogOpen, setConfirmDeleteDialogOpen] = useState(false);
 
@@ -34,19 +33,15 @@ export default function AllowListPage() {
     },
   });
 
-  const removeAllowlistEntry = (allowlistEntryId : string) => {
+  const removeAllowlistEntry = (allowlistEntryId: string) => {
     removeAllowlistEntryAndMutate.mutate(allowlistEntryId);
-    setConfirmDeleteDialogOpen(false)
-  }
+    setConfirmDeleteDialogOpen(false);
+  };
 
   return (
     <Container maxWidth="sm">
-      <Dialog
-        open={addDialogOpen}
-        onClose={() => setAddDialogOpen(false)}
-      >
+      <Dialog open={addDialogOpen} onClose={() => setAddDialogOpen(false)}>
         <AllowlistAdd handleClose={() => setAddDialogOpen(false)} />
-        
       </Dialog>
       <PageHeader
         pageTitle="IP Allowlist"
@@ -64,11 +59,15 @@ export default function AllowListPage() {
           <TableBody>
             {allowListData?.map((s) => (
               <TableRow hover>
-                <ConfirmDialog 
-                  dialogTitle='Are you sure you want to remove this IP Address?'
+                <ConfirmDialog
+                  dialogTitle="Are you sure you want to remove this IP Address?"
                   open={confirmDeleteDialogOpen}
-                  cancelAction={() => {setConfirmDeleteDialogOpen(false);}}
-                  confirmAction={() => {removeAllowlistEntry(s.id)}}
+                  cancelAction={() => {
+                    setConfirmDeleteDialogOpen(false);
+                  }}
+                  confirmAction={() => {
+                    removeAllowlistEntry(s.id);
+                  }}
                 />
                 <TableCell>
                   <Box>
@@ -86,7 +85,6 @@ export default function AllowListPage() {
           </TableBody>
         </Table>
       </TableContainer>
-      
     </Container>
   );
 }
