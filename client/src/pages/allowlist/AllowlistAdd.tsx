@@ -12,7 +12,6 @@ import {
 } from '@mui/material';
 import { Controller, useForm } from 'react-hook-form';
 import { useMutation } from 'react-query';
-import { useNavigate } from 'react-router-dom';
 
 import Spacer from '../../components/spacer/Spacer';
 import { useAllowList, createAllowlistEntry } from '../../data';
@@ -29,7 +28,6 @@ export interface AllowlistAddResultProps extends AllowlistAddProps {
 
 
 const AllowlistAddForm = ({ handleClose }: AllowlistAddProps) => {
-  const navigate = useNavigate();
   const { data: allowlistData} = useAllowList();
   const [duplicateIpAddressAlert, setDuplicateIpAddressAlert] = useState(false);
   const [ipAddressAlreadyExistsAlert, setIpAddressAlreadyExistsAlert] = useState(false);

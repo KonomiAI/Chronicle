@@ -12,15 +12,10 @@ import {
   TableRow,
   Typography,
   Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
 } from '@mui/material';
 
-import { useNavigate, useParams } from 'react-router-dom';
-import { useMutation, useQueryClient } from 'react-query';
+import { useMutation } from 'react-query';
 import DeleteIcon from '@mui/icons-material/Delete';
-import Close from '@mui/icons-material/Close';
 import PageHeader from '../../components/page-header/PageHeader';
 import ConfirmDialog from '../../components/dialog/ConfirmDialog';
 import Spacer from '../../components/spacer/Spacer';
@@ -29,7 +24,6 @@ import { useAllowList, deleteAllowlistEntry } from '../../data';
 
 export default function AllowListPage() {
 
-  const navigate = useNavigate();
   const { data: allowListData} = useAllowList();
   const [addDialogOpen, setAddDialogOpen] = useState(false);
   const [confirmDeleteDialogOpen, setConfirmDeleteDialogOpen] = useState(false);
@@ -52,6 +46,7 @@ export default function AllowListPage() {
         onClose={() => setAddDialogOpen(false)}
       >
         <AllowlistAdd handleClose={() => setAddDialogOpen(false)} />
+        
       </Dialog>
       <PageHeader
         pageTitle="IP Allowlist"
