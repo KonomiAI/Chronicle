@@ -126,7 +126,7 @@ model Response {
   updatedAt               DateTime          @updatedAt
   allResponseVersions     ResponseVersion[] @relation("allResponseVersions")
   latestResponseVersion   ResponseVersion   @relation("latestResponseVersion", fields: [latestResponseVersionId], references: [id])
-  latestResponseVersionId String            @db.ObjectId@unique
+  latestResponseVersionId String            @unique @db.ObjectId
 }
 
 model ResponseVersion {
