@@ -28,16 +28,13 @@ interface FormSectionSchema extends FormCommons {
   fields: FormFieldSchema[];
 }
 
-export interface FormTemplateSchema extends FormCommons {
+export interface FormTemplateSchema {
   sections: FormSectionSchema[];
 }
 
 const FormTemplateSchemaV1: JSONSchemaType<FormTemplateSchema> = {
   type: 'object',
   properties: {
-    id: { type: 'string' },
-    name: { type: 'string' },
-    description: { type: 'string', nullable: true },
     sections: {
       type: 'array',
       items: {
@@ -101,7 +98,7 @@ const FormTemplateSchemaV1: JSONSchemaType<FormTemplateSchema> = {
       },
     },
   },
-  required: ['name', 'sections'],
+  required: ['sections'],
 };
 
 export default FormTemplateSchemaV1;
