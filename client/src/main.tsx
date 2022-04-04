@@ -22,6 +22,7 @@ import {
   UpdateRoleForm,
 } from './pages/role-details/RoleDetails';
 import NotFoundPage from './pages/not-found';
+import { FormBuilder } from './components/form-builder/form-builder';
 
 const queryClient = new QueryClient();
 
@@ -47,6 +48,7 @@ ReactDOM.render(
               <Route path="roles/new" element={<CreateRoleForm />} />
               <Route path="roles/:id" element={<UpdateRoleForm />} />
               <Route path="allowlist" element={<AllowList />} />
+              <Route path="formBuilderTest" element={<FormBuilder />} />
             </Route>
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
