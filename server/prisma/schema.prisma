@@ -43,20 +43,21 @@ model Role {
 }
 
 model Staff {
-  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  id          String            @id @default(auto()) @map("_id") @db.ObjectId
   firstName   String
   lastName    String
-  email       String   @unique
+  email       String            @unique
   dateOfBirth String?
   authKey     String
-  gender      Gender   @default(NOT_SPECIFIED)
-  isSuperUser Boolean  @default(false)
-  isSuspended Boolean  @default(false)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  isDeleted   Boolean  @default(false)
-  roles       Role[]   @relation(fields: [roleIds], references: [id])
-  roleIds     String[] @db.ObjectId
+  gender      Gender            @default(NOT_SPECIFIED)
+  isSuperUser Boolean           @default(false)
+  isSuspended Boolean           @default(false)
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+  isDeleted   Boolean           @default(false)
+  roles       Role[]            @relation(fields: [roleIds], references: [id])
+  roleIds     String[]          @db.ObjectId
+  responses   ResponseVersion[]
 }
 
 model Variant {
@@ -87,4 +88,54 @@ model Ip {
   ip          String   @unique
   description String
   createdAt   DateTime @default(now())
+}
+
+enum FormPurpose {
+  INVENTORY
+  CUSTOMER
+  STAFF
+  ACTIVITY_ENTRY
+}
+
+model Form {
+  id                String        @id @default(auto()) @map("_id") @db.ObjectId
+  title             String
+  descrition        String?
+  purpose           FormPurpose?
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
+  allFormVersions   FormVersion[] @relation("allFormVersions")
+  latestFormVersion FormVersion?  @relation("latestFormVersion", fields: [latestFormId], references: [id])
+  latestFormId      String?       @unique
+}
+
+model FormVersion {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  body       Json
+  version    DateTime @default(now())
+  // link to the owner form. On update of primary key do not do anything.
+  // The version should not be assigned to another form.
+  form       Form     @relation("allFormVersions", references: [id], fields: [formId], onUpdate: NoAction)
+  latestForm Form?    @relation("latestFormVersion")
+  formId     String
+}
+
+model Response {
+  id                      String            @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt               DateTime          @default(now())
+  updatedAt               DateTime          @updatedAt
+  allResponseVersions     ResponseVersion[] @relation("allResponseVersions")
+  latestResponseVersion   ResponseVersion?  @relation("latestResponseVersion", fields: [latestResponseVersionId], references: [id])
+  latestResponseVersionId String?           @unique @db.ObjectId
+}
+
+model ResponseVersion {
+  id             String    @id @default(auto()) @map("_id") @db.ObjectId
+  body           Json
+  version        DateTime  @default(now())
+  respondent     Staff     @relation(references: [id], fields: [staffId])
+  staffId        String    @db.ObjectId
+  latestResponse Response? @relation("latestResponseVersion")
+  response       Response  @relation("allResponseVersions", references: [id], onUpdate: NoAction, fields: [responseId])
+  responseId     String    @db.ObjectId
 }
