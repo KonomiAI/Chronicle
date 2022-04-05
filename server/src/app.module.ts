@@ -10,6 +10,7 @@ import { IPModule } from './models/ip/ip.module';
 import { AuthModule } from './auth/auth.module';
 import { ProductModule } from './models/products/product.module';
 import { FormModule } from './models/forms/form.module';
+import { ResponseModule } from './models/responses/response.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { FormModule } from './models/forms/form.module';
     ProductModule,
     IPModule,
     FormModule,
+    ResponseModule,
   ],
   controllers: [AppController],
   providers: [AppService],

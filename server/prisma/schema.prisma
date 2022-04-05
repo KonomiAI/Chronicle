@@ -100,7 +100,7 @@ enum FormPurpose {
 model Form {
   id                String        @id @default(auto()) @map("_id") @db.ObjectId
   title             String
-  description        String?
+  description       String?
   purpose           FormPurpose?
   createdAt         DateTime      @default(now())
   updatedAt         DateTime      @updatedAt
@@ -110,14 +110,15 @@ model Form {
 }
 
 model FormVersion {
-  id         String   @id @default(auto()) @map("_id") @db.ObjectId
-  body       Json
-  version    DateTime @default(now())
+  id              String            @id @default(auto()) @map("_id") @db.ObjectId
+  body            Json
+  version         DateTime          @default(now())
   // link to the owner form. On update of primary key do not do anything.
   // The version should not be assigned to another form.
-  form       Form     @relation("allFormVersions", references: [id], fields: [formId], onUpdate: NoAction)
-  latestForm Form?    @relation("latestFormVersion")
-  formId     String
+  form            Form              @relation("allFormVersions", references: [id], fields: [formId], onUpdate: NoAction)
+  latestForm      Form?             @relation("latestFormVersion")
+  formId          String
+  ResponseVersion ResponseVersion[]
 }
 
 model Response {
@@ -130,12 +131,14 @@ model Response {
 }
 
 model ResponseVersion {
-  id             String    @id @default(auto()) @map("_id") @db.ObjectId
+  id             String      @id @default(auto()) @map("_id") @db.ObjectId
   body           Json
-  version        DateTime  @default(now())
-  respondent     Staff     @relation(references: [id], fields: [staffId])
-  staffId        String    @db.ObjectId
-  latestResponse Response? @relation("latestResponseVersion")
-  response       Response  @relation("allResponseVersions", references: [id], onUpdate: NoAction, fields: [responseId])
-  responseId     String    @db.ObjectId
+  version        DateTime    @default(now())
+  respondent     Staff       @relation(references: [id], fields: [staffId])
+  staffId        String      @db.ObjectId
+  latestResponse Response?   @relation("latestResponseVersion")
+  response       Response    @relation("allResponseVersions", references: [id], onUpdate: NoAction, fields: [responseId])
+  responseId     String      @db.ObjectId
+  formVersion    FormVersion @relation(fields: [formVersionId], references: [id])
+  formVersionId  String      @db.ObjectId
 }
