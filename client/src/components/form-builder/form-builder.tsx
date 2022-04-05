@@ -14,6 +14,7 @@ export const FormBuilder = () => {
     control: form.control,
     name: 'sections',
   });
+  const onSubmit = (data: FormTemplateSchema) => console.log(data);
 
   return (
     <Container>
@@ -29,6 +30,7 @@ export const FormBuilder = () => {
             Add section
           </Button>
         </Box>
+        <Button onClick={form.handleSubmit(onSubmit)}>Test</Button>
       </FormProvider>
     </Container>
   );

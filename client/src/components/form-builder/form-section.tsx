@@ -13,6 +13,7 @@ import {
 import { Controller, useFieldArray, useFormContext } from 'react-hook-form';
 import { DEFAULT_FIELD_VAL } from './const';
 import { FormField } from './form-field';
+import { getFormErrorMessage } from '../../utils';
 
 interface FormSectionProps {
   index: number;
@@ -21,7 +22,7 @@ interface FormSectionProps {
 
 export const FormSection = ({ index, onRemove }: FormSectionProps) => {
   const { control } = useFormContext();
-  const { fields, append } = useFieldArray({
+  const { fields, append, remove } = useFieldArray({
     control,
     name: `sections.${index}.fields`,
   });
@@ -40,15 +41,16 @@ export const FormSection = ({ index, onRemove }: FormSectionProps) => {
               }}
               render={({
                 field: { onChange, value },
-                fieldState: { invalid },
+                fieldState: { invalid, error },
               }) => (
                 <TextField
                   fullWidth
-                  label="Title"
+                  label="Section Title"
                   variant="outlined"
                   onChange={onChange}
                   value={value}
                   error={invalid}
+                  helperText={getFormErrorMessage(error?.type)}
                 />
               )}
             />
@@ -64,10 +66,6 @@ export const FormSection = ({ index, onRemove }: FormSectionProps) => {
             <Controller
               name={`sections.${index}.description`}
               control={control}
-              rules={{
-                required: true,
-                minLength: 1,
-              }}
               render={({
                 field: { onChange, value },
                 fieldState: { invalid },
@@ -75,7 +73,7 @@ export const FormSection = ({ index, onRemove }: FormSectionProps) => {
                 <TextField
                   fullWidth
                   multiline
-                  label="Description (optional)"
+                  label="Section description (optional)"
                   variant="outlined"
                   onChange={onChange}
                   value={value}
@@ -89,7 +87,12 @@ export const FormSection = ({ index, onRemove }: FormSectionProps) => {
           Questions
         </Typography>
         {fields.map((f, i) => (
-          <FormField key={f.id} index={i} sectionIndex={index} />
+          <FormField
+            key={f.id}
+            index={i}
+            sectionIndex={index}
+            onRemove={() => remove(i)}
+          />
         ))}
         <Box sx={{ mt: 2 }}>
           <Button fullWidth onClick={() => append(DEFAULT_FIELD_VAL)}>
