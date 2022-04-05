@@ -6,12 +6,15 @@ import {
   Param,
   Put,
   Post,
+  UseInterceptors,
 } from '@nestjs/common';
 import { Activity as ActivityModel } from '@prisma/client';
+import { TransformInterceptor } from 'src/interceptors/transform.interceptor';
 
 import { ActivityService } from './activity.service';
 
 @Controller('activities')
+@UseInterceptors(TransformInterceptor)
 export class ActivityController {
   constructor(private readonly activityService: ActivityService) {}
 

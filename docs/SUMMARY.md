@@ -9,6 +9,7 @@
 - [Tech Stack](design/tech_stack.md)
 - [Database Design](design/database.md)
 - [User Stories](design/user_stories.md)
+- [Custom Form Design](design/custom-form.md)
 
 # Appendix
 
