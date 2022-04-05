@@ -47,7 +47,7 @@ export const FormField = ({
     name: keyof FormFieldSchema,
   ): `sections.${number}.fields.${number}.${keyof FormFieldSchema}` =>
     `sections.${sectionIndex}.fields.${index}.${name}`;
-  const { control } = useFormContext();
+  const { control, setValue } = useFormContext();
   const type = useWatch({
     control,
     name: n('type'),
@@ -101,7 +101,15 @@ export const FormField = ({
                   <Select
                     labelId="questionTypeLabel"
                     value={value}
-                    onChange={onChange}
+                    onChange={(e) => {
+                      if (
+                        e.target.value !== 'multipleChoice' &&
+                        e.target.value !== 'multiSelect'
+                      ) {
+                        setValue(n('options'), []);
+                      }
+                      onChange(e);
+                    }}
                     label="Question type"
                     error={invalid}
                   >
