@@ -100,7 +100,7 @@ enum FormPurpose {
 model Form {
   id                String        @id @default(auto()) @map("_id") @db.ObjectId
   title             String
-  descrition        String?
+  description        String?
   purpose           FormPurpose?
   createdAt         DateTime      @default(now())
   updatedAt         DateTime      @updatedAt

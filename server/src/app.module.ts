@@ -9,6 +9,7 @@ import { RoleModule } from './models/roles/role.module';
 import { IPModule } from './models/ip/ip.module';
 import { AuthModule } from './auth/auth.module';
 import { ProductModule } from './models/products/product.module';
+import { FormModule } from './models/forms/form.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { ProductModule } from './models/products/product.module';
     AuthModule,
     ProductModule,
     IPModule,
+    FormModule,
   ],
   controllers: [AppController],
   providers: [AppService],
