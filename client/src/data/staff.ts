@@ -28,7 +28,7 @@ export const useStaffList = () => useQuery('staffList', getStaffList);
 
 const getStaff = (id: string) => {
   const axios = useAxios();
-  return axios.get<Staff>(`staff/${id}`).then((res) => res.data);
+  return axios.get<{ data: Staff }>(`staff/${id}`).then((res) => res.data.data);
 };
 
 export const useStaff = (id: string) =>
