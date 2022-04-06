@@ -29,8 +29,9 @@ import {
   Delete,
   RadioButtonUnchecked,
 } from '@mui/icons-material';
-import { getFormErrorMessage, secureRandomString } from '../../utils';
+import { secureRandomString } from '../../utils';
 import Spacer from '../spacer/Spacer';
+import { TextInput } from '../text-field/TextField';
 
 interface FormFieldProps {
   sectionIndex: number;
@@ -63,28 +64,14 @@ export const FormField = ({
       <CardContent>
         <Grid container spacing={2}>
           <Grid item xs={8}>
-            <Controller
-              name={n('name')}
+            <TextInput
               control={control}
+              name={n('name')}
               rules={{
                 required: true,
                 minLength: 1,
                 min: 1,
               }}
-              render={({
-                field: { onChange, value },
-                fieldState: { invalid, error },
-              }) => (
-                <TextField
-                  fullWidth
-                  label="Title"
-                  variant="outlined"
-                  onChange={onChange}
-                  value={value}
-                  error={invalid}
-                  helperText={getFormErrorMessage(error?.type)}
-                />
-              )}
             />
           </Grid>
           <Grid item xs={4}>
