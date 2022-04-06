@@ -6,29 +6,25 @@ import { getFormErrorMessage } from '../../utils';
 export interface TextInputProps {
   name: string;
   control: Control;
-  rules: Omit<
+  rules?: Omit<
     RegisterOptions,
     'valueAsNumber' | 'valueAsDate' | 'setValueAs' | 'disabled'
   >;
+  label: string;
 }
 
-export const TextInput = ({ control, name }: TextInputProps) => (
+export const TextInput = ({ control, name, rules, label }: TextInputProps) => (
   <Controller
     name={name}
     control={control}
-    rules={{
-      required: true,
-      minLength: 1,
-      min: 1,
-    }}
+    rules={rules}
     render={({
       field: { onChange, value },
       fieldState: { invalid, error },
     }) => (
       <TextField
         fullWidth
-        label="Title"
-        variant="outlined"
+        label={label}
         onChange={onChange}
         value={value}
         error={invalid}

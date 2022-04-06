@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useState } from 'react';
 import { FormFieldSchema, FormTemplateSchema } from 'c-form';
 import {
@@ -32,6 +33,7 @@ import {
 import { secureRandomString } from '../../utils';
 import Spacer from '../spacer/Spacer';
 import { TextInput } from '../text-field/TextField';
+import { FieldTypeSelect } from './FieldTypeSelect';
 
 interface FormFieldProps {
   sectionIndex: number;
@@ -48,10 +50,15 @@ export const FormField = ({
     name: keyof FormFieldSchema,
   ): `sections.${number}.fields.${number}.${keyof FormFieldSchema}` =>
     `sections.${sectionIndex}.fields.${index}.${name}`;
-  const { control, setValue } = useFormContext();
+  const { control, setValue, getValues } = useFormContext();
+  const [shouldShowDescription, setShouldShowDescription] = useState(false);
   const type = useWatch({
     control,
     name: n('type'),
+  });
+  const options = useWatch({
+    control,
+    name: n('options'),
   });
   const isOptionQuestionType =
     type === 'multipleChoice' || type === 'multiSelect';
@@ -67,73 +74,45 @@ export const FormField = ({
             <TextInput
               control={control}
               name={n('name')}
+              label="Question title"
               rules={{
                 required: true,
                 minLength: 1,
-                min: 1,
               }}
             />
           </Grid>
           <Grid item xs={4}>
-            <Controller
-              name={n('type')}
+            <FieldTypeSelect
               control={control}
-              rules={{ required: true }}
-              render={({
-                field: { onChange, value },
-                fieldState: { invalid },
-              }) => (
-                <FormControl fullWidth>
-                  <InputLabel id="questionTypeLabel">Question type</InputLabel>
-                  <Select
-                    labelId="questionTypeLabel"
-                    value={value}
-                    onChange={(e) => {
-                      if (
-                        e.target.value !== 'multipleChoice' &&
-                        e.target.value !== 'multiSelect'
-                      ) {
-                        setValue(n('options'), []);
-                      }
-                      onChange(e);
-                    }}
-                    label="Question type"
-                    error={invalid}
-                  >
-                    <Divider textAlign="left">Text</Divider>
-                    <MenuItem value="text">Short text</MenuItem>
-                    <MenuItem value="longText">Paragraph</MenuItem>
-                    <Divider textAlign="left">Choice</Divider>
-                    <MenuItem value="multipleChoice">Multiple choice</MenuItem>
-                    <MenuItem value="multiSelect">Multi-select</MenuItem>
-                    <Divider textAlign="left">Other</Divider>
-                    <MenuItem value="number">Number</MenuItem>
-                  </Select>
-                </FormControl>
-              )}
+              name={n('type')}
+              onChange={(e) => {
+                if (
+                  e.target.value !== 'multipleChoice' &&
+                  e.target.value !== 'multiSelect'
+                ) {
+                  setValue(n('options'), []);
+                } else if (Array.isArray(options) && !options?.length) {
+                  setValue(n('options'), [
+                    {
+                      id: secureRandomString(12),
+                      label: '',
+                    } as any,
+                  ]);
+                }
+              }}
             />
           </Grid>
           <Grid item xs={12}>
-            <Controller
-              name={n('description')}
-              control={control}
-              render={({
-                field: { onChange, value },
-                fieldState: { invalid },
-              }) => (
-                <TextField
-                  multiline
-                  fullWidth
-                  label="Description (optional)"
-                  variant="outlined"
-                  onChange={onChange}
-                  value={value}
-                  error={invalid}
-                />
-              )}
-            />
+            {shouldShowDescription && (
+              <TextInput
+                name={n('description')}
+                control={control}
+                label="Description (optional)"
+              />
+            )}
           </Grid>
           {isOptionQuestionType &&
+            Array.isArray(fields) &&
             fields.map((f: any, i) => (
               <Grid item xs={12} key={f.id}>
                 <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
@@ -212,6 +191,15 @@ export const FormField = ({
             )}
           />
           <Box>
+            {!shouldShowDescription && (
+              <Button
+                color="inherit"
+                size="small"
+                onClick={() => setShouldShowDescription(true)}
+              >
+                Add description
+              </Button>
+            )}
             <IconButton aria-label="duplicate this question">
               <ContentCopy />
             </IconButton>

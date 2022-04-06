@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Delete } from '@mui/icons-material';
 import {
   Box,
@@ -14,6 +14,7 @@ import { Controller, useFieldArray, useFormContext } from 'react-hook-form';
 import { DEFAULT_FIELD_VAL } from './const';
 import { FormField } from './form-field';
 import { getFormErrorMessage } from '../../utils';
+import { TextInput } from '../text-field/TextField';
 
 interface FormSectionProps {
   index: number;
@@ -22,6 +23,7 @@ interface FormSectionProps {
 
 export const FormSection = ({ index, onRemove }: FormSectionProps) => {
   const { control } = useFormContext();
+  const [shouldShowDescription, setShouldShowDescription] = useState(false);
   const { fields, append, remove } = useFieldArray({
     control,
     name: `sections.${index}.fields`,
@@ -63,24 +65,21 @@ export const FormSection = ({ index, onRemove }: FormSectionProps) => {
             </IconButton>
           </Grid>
           <Grid item xs={12}>
-            <Controller
-              name={`sections.${index}.description`}
-              control={control}
-              render={({
-                field: { onChange, value },
-                fieldState: { invalid },
-              }) => (
-                <TextField
-                  fullWidth
-                  multiline
-                  label="Section description (optional)"
-                  variant="outlined"
-                  onChange={onChange}
-                  value={value}
-                  error={invalid}
-                />
-              )}
-            />
+            {shouldShowDescription ? (
+              <TextInput
+                control={control}
+                name={`sections.${index}.description`}
+                label="Section description (optional)"
+              />
+            ) : (
+              <Button
+                color="inherit"
+                size="small"
+                onClick={() => setShouldShowDescription(true)}
+              >
+                Add description
+              </Button>
+            )}
           </Grid>
         </Grid>
         <Typography variant="h5" sx={{ mt: 3, mb: 2 }}>
