@@ -1,7 +1,7 @@
 # Chronicle Staging Environment
 
 ## High Level Diagram
-![](assets/chronicle-staging-diagram.jpg)
+![Chronicle Staging Diagram](assets/chronicle-staging-diagram.png)
 
 ## Overview
 1. Github Actions will be used to trigger the workflow for the entire deployment process. It will send a deploy queue entry to a `GCP Cloud Tasks` queue, let’s call it the `deploy-queue` with the necessary metadata for the deploy (docker image tag, git branch, etc). Therefore, we will need a docker registry to maintain the necessary images for the staging instance, we will also have to create a system to remove unused images to reduce cost. We will use the `gcloud`  cli to push to the docker registry. Essentially, this Github Actions step will occur after every push to the branch, that way a new environment will essentially be created for that branch on every push.
