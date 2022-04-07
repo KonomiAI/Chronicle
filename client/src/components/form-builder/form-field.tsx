@@ -67,7 +67,7 @@ export const FormField = ({
     name: `sections.${sectionIndex}.fields.${index}.options`,
   });
   return (
-    <Card sx={{ mb: 3 }}>
+    <Card sx={{ mb: 3 }} data-testid="form-field">
       <CardContent>
         <Grid container spacing={2}>
           <Grid item xs={8}>
@@ -143,6 +143,7 @@ export const FormField = ({
                   <IconButton
                     aria-label="delete multiple select option"
                     onClick={() => remove(i)}
+                    data-testid="btn-delete-option"
                   >
                     <Clear />
                   </IconButton>
@@ -196,6 +197,7 @@ export const FormField = ({
                 color="inherit"
                 size="small"
                 onClick={() => setShouldShowDescription(true)}
+                data-testid="btn-add-field-description"
               >
                 Add description
               </Button>
@@ -207,6 +209,7 @@ export const FormField = ({
             <IconButton
               aria-label="delete this question"
               onClick={() => onRemove()}
+              data-testid="btn-delete-field"
             >
               <Delete />
             </IconButton>

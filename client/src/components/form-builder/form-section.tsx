@@ -30,7 +30,7 @@ export const FormSection = ({ index, onRemove }: FormSectionProps) => {
   });
 
   return (
-    <Card sx={{ mb: 4 }}>
+    <Card sx={{ mb: 4 }} data-testid="form-section">
       <CardContent>
         <Grid container spacing={2}>
           <Grid item xs={12} sx={{ display: 'flex' }}>
@@ -60,6 +60,7 @@ export const FormSection = ({ index, onRemove }: FormSectionProps) => {
               aria-label="delete this section"
               sx={{ ml: 1 }}
               onClick={() => onRemove()}
+              data-testid="btn-delete-section"
             >
               <Delete />
             </IconButton>
@@ -94,7 +95,11 @@ export const FormSection = ({ index, onRemove }: FormSectionProps) => {
           />
         ))}
         <Box sx={{ mt: 2 }}>
-          <Button fullWidth onClick={() => append(DEFAULT_FIELD_VAL)}>
+          <Button
+            fullWidth
+            onClick={() => append(DEFAULT_FIELD_VAL)}
+            data-testid="btn-add-field"
+          >
             Add question to section
           </Button>
         </Box>

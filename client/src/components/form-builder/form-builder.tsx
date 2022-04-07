@@ -31,7 +31,11 @@ export const FormBuilder = () => {
           <FormSection key={f.id} index={i} onRemove={() => remove(i)} />
         ))}
         <Box sx={{ mt: 2 }}>
-          <Button fullWidth onClick={() => append(DEFAULT_SECTION_VAL)}>
+          <Button
+            fullWidth
+            onClick={() => append(DEFAULT_SECTION_VAL)}
+            data-testid="btn-add-section"
+          >
             Add section
           </Button>
         </Box>
