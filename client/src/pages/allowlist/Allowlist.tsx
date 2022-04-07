@@ -39,7 +39,7 @@ export default function AllowListPage() {
   };
 
   return (
-    <Container maxWidth="sm">
+    <Container>
       <Dialog open={addDialogOpen} onClose={() => setAddDialogOpen(false)}>
         <AllowlistAdd handleClose={() => setAddDialogOpen(false)} />
       </Dialog>
@@ -58,7 +58,7 @@ export default function AllowListPage() {
         <Table>
           <TableBody>
             {allowListData?.map((s) => (
-              <TableRow hover>
+              <TableRow>
                 <ConfirmDialog
                   dialogTitle="Are you sure you want to remove this IP Address?"
                   open={confirmDeleteDialogOpen}

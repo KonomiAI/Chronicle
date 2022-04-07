@@ -77,7 +77,7 @@ const AllowlistAddForm = ({ handleClose }: AllowlistAddProps) => {
   };
 
   return (
-    <Container>
+    <>
       <DialogTitle>Add new IP address</DialogTitle>
       <DialogContent>
         <DialogContentText>
@@ -158,7 +158,7 @@ const AllowlistAddForm = ({ handleClose }: AllowlistAddProps) => {
         </Button>
         <Button onClick={handleSubmit(onSubmit)}>Submit</Button>
       </DialogActions>
-    </Container>
+    </>
   );
 };
 

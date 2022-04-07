@@ -1,5 +1,6 @@
 import { useQuery } from 'react-query';
 import { Ip, AllowlistData } from '../types';
+import { Data } from '../types/data';
 import useAxios from './axois';
 
 export interface AllowlistPostResponse {
@@ -11,9 +12,9 @@ interface AllowlistUpdateParams {
   data: AllowlistData;
 }
 
-export const getAllowlist = () => {
+export const getAllowlist = (): Promise<Ip[]> => {
   const axios = useAxios();
-  return axios.get<Ip[]>('/ip').then((res) => res.data);
+  return axios.get<Data<Ip[]>>('/ip').then((res) => res.data.data);
 };
 export const useAllowList = () => useQuery('allowlist', getAllowlist);
 

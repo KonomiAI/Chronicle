@@ -9,6 +9,7 @@ import {
   ListItemButton,
   ListItemText,
   ListSubheader,
+  Paper,
 } from '@mui/material';
 import { useRoleList } from '../../data';
 import PageHeader from '../../components/page-header/PageHeader';
@@ -29,6 +30,7 @@ export default function RolesListPage() {
       />
       <Spacer size="lg" />
       <List
+        component={Paper}
         sx={{ width: '100%', bgcolor: 'background.paper' }}
         subheader={<ListSubheader component="div">Role Name</ListSubheader>}
       >

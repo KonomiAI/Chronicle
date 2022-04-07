@@ -57,7 +57,7 @@ export class StaffController {
     );
   }
 
-  @Auth(Actions.WRITE, [Features.Security])
+  // @Auth(Actions.WRITE, [Features.Security])
   @Post()
   async createNewStaff(@Body() { password, ...data }: CreateStaffDto) {
     const body = {
