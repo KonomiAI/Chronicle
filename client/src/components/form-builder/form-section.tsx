@@ -71,11 +71,13 @@ export const FormSection = ({ index, onRemove }: FormSectionProps) => {
                 control={control}
                 name={`sections.${index}.description`}
                 label="Section description (optional)"
+                testId="input-section-description"
               />
             ) : (
               <Button
                 color="inherit"
                 size="small"
+                data-testid="btn-add-section-description"
                 onClick={() => setShouldShowDescription(true)}
               >
                 Add description

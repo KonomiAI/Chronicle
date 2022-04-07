@@ -11,9 +11,16 @@ export interface TextInputProps {
     'valueAsNumber' | 'valueAsDate' | 'setValueAs' | 'disabled'
   >;
   label: string;
+  testId?: string;
 }
 
-export const TextInput = ({ control, name, rules, label }: TextInputProps) => (
+export const TextInput = ({
+  control,
+  name,
+  rules,
+  label,
+  testId,
+}: TextInputProps) => (
   <Controller
     name={name}
     control={control}
@@ -29,6 +36,7 @@ export const TextInput = ({ control, name, rules, label }: TextInputProps) => (
         value={value}
         error={invalid}
         helperText={getFormErrorMessage(error?.type)}
+        data-testid={testId}
       />
     )}
   />

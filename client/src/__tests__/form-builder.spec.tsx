@@ -1,6 +1,8 @@
 import React from 'react';
 
 import { test, describe } from 'vitest';
+import { fireEvent } from '@testing-library/react';
+
 import { FormBuilder } from '../components';
 import { render, screen } from './testUtil';
 import '@testing-library/jest-dom';
@@ -39,5 +41,14 @@ describe('FormBuilder Component', () => {
     screen.getAllByTestId('btn-delete-field')[0].click();
     screen.getAllByTestId('btn-delete-field')[0].click();
     expect(screen.getAllByTestId('form-field').length).toEqual(3);
+  });
+
+  test('will be able to remove sections after adding some', () => {
+    screen.getByTestId('btn-add-section').click();
+    screen.getByTestId('btn-add-section').click();
+    screen.getByTestId('btn-add-section').click();
+    screen.getAllByTestId('btn-delete-section')[0].click();
+    screen.getAllByTestId('btn-delete-section')[0].click();
+    expect(screen.getAllByTestId('form-section').length).toEqual(2);
   });
 });

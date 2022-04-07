@@ -51,7 +51,6 @@ const renderWithProviders = (
 ) => {
   const { initialEntries = [], route, ...rest } = options;
   const history = createMemoryHistory({ initialEntries });
-  const swrCache = new Map(cache);
 
   const rtl = render(ui, {
     wrapper: ({ children }) => (
@@ -71,7 +70,6 @@ const renderWithProviders = (
         ...rerenderOptions,
       }),
     history,
-    swrCache,
   };
 };
 
