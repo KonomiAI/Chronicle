@@ -14,7 +14,7 @@ interface AllowlistUpdateParams {
 
 export const getAllowlist = (): Promise<Ip[]> => {
   const axios = useAxios();
-  return axios.get<Data<Ip>>('/ip').then((res) => res.data.data);
+  return axios.get<Data<Ip[]>>('/ip').then((res) => res.data.data);
 };
 export const useAllowList = () => useQuery('allowlist', getAllowlist);
 

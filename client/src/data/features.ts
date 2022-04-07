@@ -5,7 +5,7 @@ import { Data } from '../types/data';
 
 const getFeatures = () => {
   const axios = useAxios();
-  return axios.get<Data<Feature>>('/features').then((res) => res.data.data);
+  return axios.get<Data<Feature[]>>('/features').then((res) => res.data.data);
 };
 
 export const useFeaturesList = () => useQuery('features', getFeatures);

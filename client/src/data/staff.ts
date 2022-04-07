@@ -1,5 +1,6 @@
 import { useQuery } from 'react-query';
 import { Staff, StaffUpdateData } from '../types';
+import { Data } from '../types/data';
 import useAxios from './axois';
 
 export interface StaffPostData {
@@ -21,14 +22,14 @@ interface StaffUpdateParams {
 
 const getStaffList = () => {
   const axios = useAxios();
-  return axios.get<{ data: Staff[] }>('/staff').then((res) => res.data.data);
+  return axios.get<Data<Staff[]>>('/staff').then((res) => res.data.data);
 };
 
 export const useStaffList = () => useQuery('staffList', getStaffList);
 
 const getStaff = (id: string) => {
   const axios = useAxios();
-  return axios.get<{ data: Staff }>(`staff/${id}`).then((res) => res.data.data);
+  return axios.get<Data<Staff>>(`staff/${id}`).then((res) => res.data.data);
 };
 
 export const useStaff = (id: string) =>
