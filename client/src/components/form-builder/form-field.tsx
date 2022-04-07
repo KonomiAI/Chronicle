@@ -50,7 +50,7 @@ export const FormField = ({
     name: keyof FormFieldSchema,
   ): `sections.${number}.fields.${number}.${keyof FormFieldSchema}` =>
     `sections.${sectionIndex}.fields.${index}.${name}`;
-  const { control, setValue, getValues } = useFormContext();
+  const { control, setValue, register } = useFormContext();
   const [shouldShowDescription, setShouldShowDescription] = useState(false);
   const type = useWatch({
     control,
@@ -183,7 +183,7 @@ export const FormField = ({
                 control={
                   <Switch
                     onChange={(_, checked) => onChange(!checked)}
-                    value={!value}
+                    checked={!value}
                   />
                 }
                 label="Required"
@@ -200,9 +200,10 @@ export const FormField = ({
                 Add description
               </Button>
             )}
-            <IconButton aria-label="duplicate this question">
+            {/* TODO implement form field duplication feature. */}
+            {/* <IconButton aria-label="duplicate this question">
               <ContentCopy />
-            </IconButton>
+            </IconButton> */}
             <IconButton
               aria-label="delete this question"
               onClick={() => onRemove()}
