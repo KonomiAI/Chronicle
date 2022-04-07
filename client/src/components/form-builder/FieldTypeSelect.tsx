@@ -33,6 +33,7 @@ export const FieldTypeSelect = ({
         <Select
           labelId="questionTypeLabel"
           value={value}
+          size="small"
           onChange={(e) => {
             if (onChange) {
               onChange(e);

@@ -12,7 +12,7 @@ describe('FormBuilder Component', () => {
     render(<FormBuilder />);
   });
   test('will render', () => {
-    expect(screen.getByText('Sections')).toBeInTheDocument();
+    expect(screen.getByText('Section 1 of 1')).toBeInTheDocument();
   });
   test('will initially render with 1 field', () => {
     expect(screen.getAllByTestId('form-field').length).toEqual(1);

@@ -167,7 +167,6 @@ export const FormField = ({
             </Grid>
           )}
         </Grid>
-        <Spacer />
         <Divider sx={{ my: 2 }} />
         <Box
           sx={{

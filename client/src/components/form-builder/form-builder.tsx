@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Button, Container, Typography } from '@mui/material';
+import { Box, Button, Container, Divider, Typography } from '@mui/material';
 import { FormProvider, useFieldArray, useForm } from 'react-hook-form';
 import { FormTemplateSchema, validateWithLatest } from 'c-form';
 import Spacer from '../spacer/Spacer';
@@ -25,21 +25,29 @@ export const FormBuilder = () => {
     <Container>
       {/* eslint-disable-next-line react/jsx-props-no-spreading */}
       <FormProvider {...form}>
-        <Typography variant="h4">Sections</Typography>
-        <Spacer size="md" />
         {fields.map((f, i) => (
-          <FormSection key={f.id} index={i} onRemove={() => remove(i)} />
+          <>
+            {i !== 0 && <Divider sx={{ my: 2 }} key={f.id} />}
+            <FormSection
+              key={f.id}
+              index={i}
+              onRemove={() => remove(i)}
+              sectionCount={fields.length}
+            />
+          </>
         ))}
         <Box sx={{ mt: 2 }}>
-          <Button
-            fullWidth
-            onClick={() => append(DEFAULT_SECTION_VAL)}
-            data-testid="btn-add-section"
-          >
-            Add section
-          </Button>
+          <Divider>
+            <Button
+              fullWidth
+              onClick={() => append(DEFAULT_SECTION_VAL)}
+              data-testid="btn-add-section"
+            >
+              Add new section
+            </Button>
+          </Divider>
         </Box>
-        <Button onClick={form.handleSubmit(onSubmit)}>Test</Button>
+        {/* <Button onClick={form.handleSubmit(onSubmit)}>Test</Button> */}
       </FormProvider>
     </Container>
   );

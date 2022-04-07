@@ -12,6 +12,7 @@ export interface TextInputProps {
   >;
   label: string;
   testId?: string;
+  variant?: 'filled' | 'standard' | 'outlined';
 }
 
 export const TextInput = ({
@@ -20,6 +21,7 @@ export const TextInput = ({
   rules,
   label,
   testId,
+  variant = 'outlined',
 }: TextInputProps) => (
   <Controller
     name={name}
@@ -30,10 +32,12 @@ export const TextInput = ({
       fieldState: { invalid, error },
     }) => (
       <TextField
+        size="small"
         fullWidth
         label={label}
         onChange={onChange}
         value={value}
+        variant={variant}
         error={invalid}
         helperText={getFormErrorMessage(error?.type)}
         data-testid={testId}
