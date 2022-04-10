@@ -20,7 +20,7 @@
     "@mui/material": "^5.4.0",
     "ajv": "^8.11.0",
     "axios": "^0.26.0",
-    "c-form": "file:../packages/c-form",
+    "@konomi.ai/c-form": "^1.0.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-hook-form": "^7.25.3",

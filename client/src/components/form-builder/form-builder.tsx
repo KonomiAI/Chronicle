@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Button, Container, Divider, Typography } from '@mui/material';
 import { FormProvider, useFieldArray, useForm } from 'react-hook-form';
-import { FormTemplateSchema, validateWithLatest } from 'c-form';
+import { FormTemplateSchema, validateWithLatest } from '@konomi.ai/c-form';
 import Spacer from '../spacer/Spacer';
 import { DEFAULT_SCHEMA_VAL, DEFAULT_SECTION_VAL } from './const';
 import { FormSection } from './form-section';

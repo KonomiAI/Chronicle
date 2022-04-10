@@ -1,4 +1,8 @@
-import { FormFieldSchema, FormSectionSchema, FormTemplateSchema } from 'c-form';
+import {
+  FormFieldSchema,
+  FormSectionSchema,
+  FormTemplateSchema,
+} from '@konomi.ai/c-form';
 import { secureRandomString } from '../../utils';
 
 export const DEFAULT_FIELD_VAL: FormFieldSchema = {

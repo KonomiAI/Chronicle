@@ -1,5 +1,5 @@
 {
-  "name": "c-form",
+  "name": "@konomi.ai/c-form",
   "version": "1.0.2",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

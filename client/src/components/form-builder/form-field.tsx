@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useState } from 'react';
-import { FormFieldSchema, FormTemplateSchema } from 'c-form';
+import { FormFieldSchema, FormTemplateSchema } from '@konomi.ai/c-form';
 import {
   Control,
   Controller,

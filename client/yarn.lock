@@ -443,6 +443,11 @@
     "@jridgewell/resolve-uri" "^3.0.3"
     sourcemap-codec "1.4.8"
 
+"@konomi.ai/c-form@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@konomi.ai/c-form/-/c-form-1.0.2.tgz#14ca70619163a8a456bb97e178f78601b92c7edf"
+  integrity sha512-PcNphjZDW62ERc7jh0OJghlz0A1KXxRlRWe9UE+z7pQdM0H+iKu00pJ5kUjfnnqNPolAX2tWo+z3iKF9okVbsQ==
+
 "@mui/base@5.0.0-alpha.70":
   version "5.0.0-alpha.70"
   resolved "https://registry.yarnpkg.com/@mui/base/-/base-5.0.0-alpha.70.tgz#e280ee3b69d86034f2cff445161747940129d576"
@@ -1073,9 +1078,6 @@ browserslist@^4.17.5:
     escalade "^3.1.1"
     node-releases "^2.0.1"
     picocolors "^1.0.0"
-
-c-form@../packages/c-form:
-  version "1.0.2"
 
 call-bind@^1.0.0, call-bind@^1.0.2:
   version "1.0.2"
