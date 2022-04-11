@@ -1,6 +1,5 @@
 import { Gender } from '@prisma/client';
 import {
-  IsArray,
   IsBoolean,
   IsEmail,
   IsEnum,

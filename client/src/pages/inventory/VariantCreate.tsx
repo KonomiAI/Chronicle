@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import {
   DialogTitle,
   DialogContent,
@@ -14,35 +14,35 @@ export interface VariantCreateDialogProps {
   handleClose: (created: boolean) => void;
 }
 
-const VariantCreateForm = ({ handleClose }: VariantCreateDialogProps) => {
-  return (
-    <>
-      <DialogTitle>Create a New Variant</DialogTitle>
-      <DialogContent>
-        <Spacer />
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <TextField
-              fullWidth
-              label="Variant Descriptor (i.e 500ml, blue)"
-              variant="outlined"
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <TextField fullWidth label="Price" variant="outlined" />
-          </Grid>
-          <Grid item xs={6}>
-            <TextField fullWidth label="Barcode" variant="outlined" />
-          </Grid>
+// TODO fix these components up
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const VariantCreateForm = ({ handleClose }: VariantCreateDialogProps) => (
+  <>
+    <DialogTitle>Create a New Variant</DialogTitle>
+    <DialogContent>
+      <Spacer />
+      <Grid container spacing={2}>
+        <Grid item xs={12}>
+          <TextField
+            fullWidth
+            label="Variant Descriptor (i.e 500ml, blue)"
+            variant="outlined"
+          />
         </Grid>
-      </DialogContent>
-      <DialogActions>
-        <Button color="inherit">Cancel</Button>
-        <Button>Create</Button>
-      </DialogActions>
-    </>
-  );
-};
+        <Grid item xs={6}>
+          <TextField fullWidth label="Price" variant="outlined" />
+        </Grid>
+        <Grid item xs={6}>
+          <TextField fullWidth label="Barcode" variant="outlined" />
+        </Grid>
+      </Grid>
+    </DialogContent>
+    <DialogActions>
+      <Button color="inherit">Cancel</Button>
+      <Button>Create</Button>
+    </DialogActions>
+  </>
+);
 
 export default function VaraintCreateDialog({
   handleClose,

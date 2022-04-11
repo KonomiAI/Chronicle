@@ -11,7 +11,7 @@ import finalTheme from '../theme';
 
 export const cache = new Map();
 
-const ThemeModeProvider = ({ children }: any) => (
+const ThemeModeProvider = ({ children }: { children: React.ReactNode }) => (
   <ThemeProvider theme={finalTheme}>{children}</ThemeProvider>
 );
 
@@ -34,7 +34,7 @@ const Providers = ({ children, history, route }: ProvidersProps) => {
 
   if (route) {
     Wrapper = (
-      <Router location={history!.location} navigator={history!}>
+      <Router location={history?.location} navigator={history}>
         <Routes>
           <Route element={Wrapper} path={route} />
         </Routes>
