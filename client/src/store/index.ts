@@ -21,8 +21,4 @@ export const useStore = create<
     StoreApi<StoreState>,
     [['zustand/subscribeWithSelector', never], ['zustand/devtools', never]]
   >
->(
-  devtools(
-    subscribeWithSelector((set, get): StoreState => ({ sidebarOpen: true })),
-  ),
-);
+>(devtools(subscribeWithSelector((): StoreState => ({ sidebarOpen: true }))));

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Button, Container, Divider } from '@mui/material';
 import { FormProvider, useFieldArray, useForm } from 'react-hook-form';
-import { FormTemplateSchema, validateWithLatest } from '@konomi.ai/c-form';
+import { FormTemplateSchema } from '@konomi.ai/c-form';
 import { DEFAULT_SCHEMA_VAL, DEFAULT_SECTION_VAL } from './const';
 import { FormSection } from './form-section';
 
@@ -17,13 +17,6 @@ export const FormBuilder = () => {
     control: form.control,
     name: 'sections',
   });
-  const onSubmit = (data: FormTemplateSchema) => {
-    // TODO implement integration with
-    const valid = validateWithLatest(data);
-    if (!valid) {
-      console.error(validateWithLatest.errors);
-    }
-  };
 
   return (
     <Container>

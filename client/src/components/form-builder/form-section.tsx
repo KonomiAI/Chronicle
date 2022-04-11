@@ -8,7 +8,6 @@ import {
   Grid,
   IconButton,
   Typography,
-  Divider,
 } from '@mui/material';
 import { useFieldArray, useFormContext } from 'react-hook-form';
 import { DEFAULT_FIELD_VAL } from './const';

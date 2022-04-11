@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { test, describe } from 'vitest';
-import { fireEvent } from '@testing-library/react';
 
 import { FormBuilder } from '../components';
 import { render, screen } from './testUtil';

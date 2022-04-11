@@ -9,11 +9,8 @@ import {
   Put,
   UseInterceptors,
 } from '@nestjs/common';
-import { SkipIPCheck } from 'src/auth/ip.guard';
 import { TransformInterceptor } from 'src/interceptors/transform.interceptor';
 import { BcryptService } from '../../auth/bcrypt.service';
-import { Actions, Features } from '../../auth/constants';
-import { Auth } from '../../auth/role.decorator';
 import { CreateStaffDto, UpdateStaffDto } from './staff.dto';
 import { StaffService } from './staff.service';
 

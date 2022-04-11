@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   Button,
   Container,
@@ -14,6 +14,7 @@ import PageHeader from '../../components/page-header/PageHeader';
 import Spacer from '../../components/spacer/Spacer';
 import TabPanel from '../../components/tabs/TabPanel';
 import InventoryTable from '../../components/inventory/InventoryTable';
+import { ßwillFixThisTypeLater } from '../../types';
 
 const inventoryList = [
   { name: 'Daniel Wu', price: '$420.69', date: '1999-07-29', barcode: '66666' },
@@ -56,7 +57,7 @@ const TabSection = (label: string, index: number) => (
 export default function InventoryPage() {
   const [value, setValue] = React.useState(0);
 
-  const handleChange = (event: any) => {
+  const handleChange = (event: ßwillFixThisTypeLater) => {
     setValue(event.target.value);
   };
 
