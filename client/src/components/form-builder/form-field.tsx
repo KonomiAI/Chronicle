@@ -39,7 +39,7 @@ export const FormField = ({
     name: keyof FormFieldSchema,
   ): `sections.${number}.fields.${number}.${keyof FormFieldSchema}` =>
     `sections.${sectionIndex}.fields.${index}.${name}`;
-  const { control, setValue, register } = useFormContext();
+  const { control, setValue } = useFormContext();
   const [shouldShowDescription, setShouldShowDescription] = useState(false);
   const type = useWatch({
     control,
