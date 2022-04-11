@@ -1,8 +1,7 @@
 import React from 'react';
-import { Box, Button, Container, Divider, Typography } from '@mui/material';
+import { Box, Button, Container, Divider } from '@mui/material';
 import { FormProvider, useFieldArray, useForm } from 'react-hook-form';
 import { FormTemplateSchema, validateWithLatest } from '@konomi.ai/c-form';
-import Spacer from '../spacer/Spacer';
 import { DEFAULT_SCHEMA_VAL, DEFAULT_SECTION_VAL } from './const';
 import { FormSection } from './form-section';
 
@@ -10,14 +9,19 @@ export const FormBuilder = () => {
   const form = useForm<FormTemplateSchema>({
     defaultValues: DEFAULT_SCHEMA_VAL,
   });
-  const { fields, append, remove } = useFieldArray({
+  const {
+    fields: sections,
+    append,
+    remove,
+  } = useFieldArray({
     control: form.control,
     name: 'sections',
   });
   const onSubmit = (data: FormTemplateSchema) => {
+    // TODO implement integration with
     const valid = validateWithLatest(data);
     if (!valid) {
-      console.log(validateWithLatest.errors);
+      console.error(validateWithLatest.errors);
     }
   };
 
@@ -25,14 +29,14 @@ export const FormBuilder = () => {
     <Container>
       {/* eslint-disable-next-line react/jsx-props-no-spreading */}
       <FormProvider {...form}>
-        {fields.map((f, i) => (
+        {sections.map((f, i) => (
           <>
             {i !== 0 && <Divider sx={{ my: 2 }} key={f.id} />}
             <FormSection
               key={f.id}
               index={i}
               onRemove={() => remove(i)}
-              sectionCount={fields.length}
+              sectionCount={sections.length}
             />
           </>
         ))}
@@ -47,7 +51,6 @@ export const FormBuilder = () => {
             </Button>
           </Divider>
         </Box>
-        {/* <Button onClick={form.handleSubmit(onSubmit)}>Test</Button> */}
       </FormProvider>
     </Container>
   );

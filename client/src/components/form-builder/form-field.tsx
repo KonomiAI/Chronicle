@@ -1,8 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useEffect, useState } from 'react';
-import { FormFieldSchema, FormTemplateSchema } from '@konomi.ai/c-form';
+import React, { useMemo, useState } from 'react';
+import { FormFieldSchema } from '@konomi.ai/c-form';
 import {
-  Control,
   Controller,
   useFieldArray,
   useFormContext,
@@ -14,24 +13,14 @@ import {
   Card,
   CardContent,
   Divider,
-  FormControl,
   FormControlLabel,
   Grid,
   IconButton,
-  InputLabel,
-  MenuItem,
-  Select,
   Switch,
   TextField,
 } from '@mui/material';
-import {
-  Clear,
-  ContentCopy,
-  Delete,
-  RadioButtonUnchecked,
-} from '@mui/icons-material';
+import { Clear, Delete, RadioButtonUnchecked } from '@mui/icons-material';
 import { secureRandomString } from '../../utils';
-import Spacer from '../spacer/Spacer';
 import { TextInput } from '../text-field/TextField';
 import { FieldTypeSelect } from './FieldTypeSelect';
 
@@ -66,6 +55,7 @@ export const FormField = ({
     control,
     name: `sections.${sectionIndex}.fields.${index}.options`,
   });
+  const isFieldOptionsAnArray = useMemo(() => Array.isArray(fields), [fields]);
   return (
     <Card sx={{ mb: 3 }} data-testid="form-field">
       <CardContent>
@@ -96,7 +86,7 @@ export const FormField = ({
                     {
                       id: secureRandomString(12),
                       label: '',
-                    } as any,
+                    },
                   ]);
                 }
               }}
@@ -111,8 +101,9 @@ export const FormField = ({
               />
             )}
           </Grid>
+          {/* TODO integrate dynamic data selection availability */}
           {isOptionQuestionType &&
-            Array.isArray(fields) &&
+            isFieldOptionsAnArray &&
             fields.map((f: any, i) => (
               <Grid item xs={12} key={f.id}>
                 <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
@@ -159,7 +150,7 @@ export const FormField = ({
                   append({
                     id: secureRandomString(12),
                     label: '',
-                  } as any)
+                  })
                 }
               >
                 Add option
