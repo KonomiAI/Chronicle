@@ -4,8 +4,7 @@
 // For formatting and linting, install the vs-code prisma plugin
 
 generator client {
-  provider        = "prisma-client-js"
-  previewFeatures = ["mongoDb"]
+  provider = "prisma-client-js"
 }
 
 datasource db {
@@ -16,7 +15,7 @@ datasource db {
 model Activity {
   id         String   @id @default(auto()) @map("_id") @db.ObjectId
   name       String
-  price      Decimal
+  price      Float
   isArchived Boolean  @default(false)
   createdAt  DateTime @default(now())
   updatedAt  DateTime @default(now())
@@ -128,6 +127,8 @@ model Response {
   allResponseVersions     ResponseVersion[] @relation("allResponseVersions")
   latestResponseVersion   ResponseVersion?  @relation("latestResponseVersion", fields: [latestResponseVersionId], references: [id])
   latestResponseVersionId String?           @unique @db.ObjectId
+  Customer                Customer?         @relation(fields: [customerId], references: [id])
+  customerId              String?           @db.ObjectId
 }
 
 model ResponseVersion {
@@ -141,4 +142,15 @@ model ResponseVersion {
   responseId     String      @db.ObjectId
   formVersion    FormVersion @relation(fields: [formVersionId], references: [id])
   formVersionId  String      @db.ObjectId
+}
+
+model Customer {
+  id          String     @id @default(auto()) @map("_id") @db.ObjectId
+  firstName   String
+  lastName    String
+  gender      Gender
+  dateOfBirth DateTime
+  email       String
+  phone       String?
+  responses   Response[]
 }
