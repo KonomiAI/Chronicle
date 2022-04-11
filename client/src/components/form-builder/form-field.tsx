@@ -35,7 +35,7 @@ export const FormField = ({
   sectionIndex,
   onRemove,
 }: FormFieldProps) => {
-  const n = (
+  const getFormName = (
     name: keyof FormFieldSchema,
   ): `sections.${number}.fields.${number}.${keyof FormFieldSchema}` =>
     `sections.${sectionIndex}.fields.${index}.${name}`;
@@ -43,11 +43,11 @@ export const FormField = ({
   const [shouldShowDescription, setShouldShowDescription] = useState(false);
   const type = useWatch({
     control,
-    name: n('type'),
+    name: getFormName('type'),
   });
   const options = useWatch({
     control,
-    name: n('options'),
+    name: getFormName('options'),
   });
   const isOptionQuestionType =
     type === 'multipleChoice' || type === 'multiSelect';
@@ -63,7 +63,7 @@ export const FormField = ({
           <Grid item xs={8}>
             <TextInput
               control={control}
-              name={n('name')}
+              name={getFormName('name')}
               label="Question title"
               rules={{
                 required: true,
@@ -74,15 +74,15 @@ export const FormField = ({
           <Grid item xs={4}>
             <FieldTypeSelect
               control={control}
-              name={n('type')}
+              name={getFormName('type')}
               onChange={(e) => {
                 if (
                   e.target.value !== 'multipleChoice' &&
                   e.target.value !== 'multiSelect'
                 ) {
-                  setValue(n('options'), []);
+                  setValue(getFormName('options'), []);
                 } else if (Array.isArray(options) && !options?.length) {
-                  setValue(n('options'), [
+                  setValue(getFormName('options'), [
                     {
                       id: secureRandomString(12),
                       label: '',
@@ -95,7 +95,7 @@ export const FormField = ({
           <Grid item xs={12}>
             {shouldShowDescription && (
               <TextInput
-                name={n('description')}
+                name={getFormName('description')}
                 control={control}
                 label="Description (optional)"
               />
@@ -167,7 +167,7 @@ export const FormField = ({
           }}
         >
           <Controller
-            name={n('optional')}
+            name={getFormName('optional')}
             control={control}
             render={({ field: { onChange, value } }) => (
               <FormControlLabel
