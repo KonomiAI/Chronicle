@@ -1,7 +1,7 @@
 {
   "name": "@konomi.ai/chronicle",
   "version": "1.0.0",
-  "description": "",
+  "description": "The monorepo application of Chronicle. A practice management application for personal care agencies. Build custom data collection forms and perform analytics on the data.",
   "main": "index.js",
   "directories": {
     "doc": "docs"
@@ -9,7 +9,9 @@
   "scripts": {
     "prettier": "npx prettier@2.5.1 --check .",
     "prettier:fix": "npx prettier@2.5.1 --write .",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "cypress": "cypress",
+    "cypress:open": "cypress open"
   },
   "repository": {
     "type": "git",
@@ -27,7 +29,8 @@
     "husky": "^7.0.4",
     "lint-staged": "^12.3.5",
     "prettier": "2.5.1",
-    "typescript": "^4.6.3"
+    "typescript": "^4.6.3",
+    "uuid": "^8.3.2"
   },
   "lint-staged": {
     "*.{ts,tsx,md,html,scss,yml}": "npx prettier@2.5.1 --write"
