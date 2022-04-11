@@ -11,7 +11,8 @@
     "prettier:fix": "npx prettier@2.5.1 --write .",
     "prepare": "husky install",
     "cypress": "cypress",
-    "cypress:open": "cypress open"
+    "cypress:open": "cypress open",
+    "start:client": "cd client && yarn && yarn dev"
   },
   "repository": {
     "type": "git",
