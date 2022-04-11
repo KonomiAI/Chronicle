@@ -2,7 +2,7 @@ import React from 'react';
 import { Box, Typography } from '@mui/material';
 
 export interface TabPanelProps {
-  children: any;
+  children: React.ReactNode;
   index: number;
   value: number;
 }

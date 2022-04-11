@@ -1,10 +1,9 @@
-import { Prisma, Role } from '@prisma/client';
+import { Prisma } from '@prisma/client';
 import {
   IsBoolean,
   IsNotEmpty,
   IsString,
   IsDefined,
-  IsNotEmptyObject,
   IsObject,
   ValidateNested,
 } from 'class-validator';
