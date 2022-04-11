@@ -150,7 +150,10 @@ model Customer {
   lastName    String
   gender      Gender
   dateOfBirth DateTime
-  email       String
+  email       String     @unique // property is unique so the tenant can use it as a unique identifier
   phone       String?
   responses   Response[]
+  isDeleted   Boolean    @default(false)
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
 }
