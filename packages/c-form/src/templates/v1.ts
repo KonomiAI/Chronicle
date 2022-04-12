@@ -6,25 +6,25 @@ interface FormCommons {
   description?: string;
 }
 
-interface FormOptionValue {
+export interface FormOptionValue {
   id: string;
   label: string;
 }
 
-interface FormOptionDataSource {
+export interface FormOptionDataSource {
   url: string;
   idField: string;
   labelField: string;
   optionsLocation: string;
 }
 
-interface FormFieldSchema extends FormCommons {
+export interface FormFieldSchema extends FormCommons {
   type: 'text' | 'multipleChoice' | 'longText' | 'number' | 'multiSelect';
   optional: boolean;
   options: FormOptionValue[] | FormOptionDataSource;
 }
 
-interface FormSectionSchema extends FormCommons {
+export interface FormSectionSchema extends FormCommons {
   fields: FormFieldSchema[];
 }
 

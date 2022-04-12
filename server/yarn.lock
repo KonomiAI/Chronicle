@@ -602,6 +602,11 @@
     "@jridgewell/resolve-uri" "^3.0.3"
     "@jridgewell/sourcemap-codec" "^1.4.10"
 
+"@konomi.ai/c-form@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@konomi.ai/c-form/-/c-form-1.0.2.tgz#14ca70619163a8a456bb97e178f78601b92c7edf"
+  integrity sha512-PcNphjZDW62ERc7jh0OJghlz0A1KXxRlRWe9UE+z7pQdM0H+iKu00pJ5kUjfnnqNPolAX2tWo+z3iKF9okVbsQ==
+
 "@mapbox/node-pre-gyp@^1.0.0":
   version "1.0.8"
   resolved "https://registry.yarnpkg.com/@mapbox/node-pre-gyp/-/node-pre-gyp-1.0.8.tgz#32abc8a5c624bc4e46c43d84dfb8b26d33a96f58"

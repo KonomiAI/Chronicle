@@ -26,6 +26,7 @@
     "prisma:db-push": "npx prisma db push"
   },
   "dependencies": {
+    "@konomi.ai/c-form": "^1.0.2",
     "@nestjs/common": "^8.0.0",
     "@nestjs/core": "^8.0.0",
     "@nestjs/jwt": "^8.0.0",

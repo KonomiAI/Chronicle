@@ -79,6 +79,7 @@ function LoginPage() {
                     type="email"
                     value={value}
                     onChange={onChange}
+                    data-testId="input-username"
                   />
                 )}
               />
@@ -96,6 +97,7 @@ function LoginPage() {
                     type="password"
                     value={value}
                     onChange={onChange}
+                    data-testId="input-password"
                   />
                 )}
               />
@@ -105,6 +107,7 @@ function LoginPage() {
                 size="large"
                 onClick={handleSubmit(tryLogin)}
                 disabled={loading}
+                data-testId="btn-login"
               >
                 Login
               </Button>

@@ -1,18 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import {
   Box,
   Button,
   Card,
   CardContent,
   Container,
-  FormControl,
   Grid,
-  InputLabel,
-  MenuItem,
-  Select,
   TextField,
   Typography,
-  Alert,
   Table,
   TableBody,
   TableCell,
@@ -76,7 +71,7 @@ export default function InventoryEditPage() {
                 fullWidth
                 label="Product Name"
                 autoFocus
-                defaultValue={'Juicy Massage'}
+                defaultValue="Juicy Massage"
               />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -87,7 +82,7 @@ export default function InventoryEditPage() {
                 fullWidth
                 label="Brand Name"
                 autoFocus
-                defaultValue={'Kirby'}
+                defaultValue="Kirby"
               />
             </Grid>
           </Grid>
