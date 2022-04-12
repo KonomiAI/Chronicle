@@ -1,18 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
   Box,
   Button,
   Card,
   CardContent,
   Container,
-  FormControl,
   Grid,
-  InputLabel,
-  MenuItem,
-  Select,
   TextField,
   Typography,
-  Alert,
   Table,
   TableBody,
   TableCell,
@@ -23,11 +18,10 @@ import {
   Dialog,
 } from '@mui/material';
 
-import { Dropzone, FileItem } from '@dropzone-ui/react';
+import { Dropzone } from '@dropzone-ui/react';
 import PageHeader from '../../components/page-header/PageHeader';
 import Spacer from '../../components/spacer/Spacer';
 import VaraintCreateDialog from './VariantCreate';
-import { useNavigate } from 'react-router-dom';
 
 const variantList = [
   {
@@ -60,7 +54,6 @@ const VariantList = () =>
     </TableRow>
   ));
 export default function InventoryCreatePage() {
-  const navigate = useNavigate();
   const [variantDialogOpen, setVariantDialogOpen] = useState(false);
   return (
     <Container>

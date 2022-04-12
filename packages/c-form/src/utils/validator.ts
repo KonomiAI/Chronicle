@@ -1,4 +1,4 @@
-import Ajv, { JSONSchemaType } from 'ajv';
+import Ajv from 'ajv';
 import { LatestFormSchema } from '../templates';
 
 const ajv = new Ajv();

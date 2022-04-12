@@ -17,7 +17,6 @@ export class PermissionGuardTestComponent {
 
 describe('PermissionGuard', () => {
   let permissionGuard: PermissionGuard;
-  let testComponent: PermissionGuardTestComponent;
 
   beforeEach(async () => {
     const app: TestingModule = await Test.createTestingModule({
@@ -48,7 +47,6 @@ describe('PermissionGuard', () => {
     }).compile();
 
     permissionGuard = app.get(PermissionGuard);
-    testComponent = app.get(PermissionGuardTestComponent);
   });
 
   describe('root', () => {

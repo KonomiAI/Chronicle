@@ -1,14 +1,12 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import {
   Dialog,
   DialogTitle,
-  DialogContent,
   DialogActions,
   Button,
   Box,
   IconButton,
-  Typography,
 } from '@mui/material';
 import Close from '@mui/icons-material/Close';
 

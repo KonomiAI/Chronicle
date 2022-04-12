@@ -22,6 +22,11 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: 14
+      - name: Build c-form dependency
+        run: |
+          yarn
+          yarn build
+        working-directory: ./packages/c-form
       - name: Install, build, lint and test
         run: |
           yarn
