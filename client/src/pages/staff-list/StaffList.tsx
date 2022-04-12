@@ -41,6 +41,7 @@ export default function StaffListPage() {
             action={
               <Button
                 variant="contained"
+                data-testid="btn-staff-invite-dialog"
                 onClick={() => setInviteDialogOpen(true)}
               >
                 Invite

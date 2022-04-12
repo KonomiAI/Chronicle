@@ -71,7 +71,7 @@ const StaffInviteForm = ({ handleClose, handleNext }: StaffInviteFormProps) => {
   return (
     <>
       <DialogTitle>Invite a new staff</DialogTitle>
-      <DialogContent>
+      <DialogContent data-testid="div-invite-body">
         <DialogContentText>
           Invite a new staff to your team. You can assign one role for now, you
           can add more roles to this staff later on.
@@ -99,6 +99,7 @@ const StaffInviteForm = ({ handleClose, handleNext }: StaffInviteFormProps) => {
                   value={value}
                   error={invalid}
                   helperText={getFormErrorMessage(error?.type)}
+                  data-testid="input-first-name"
                 />
               )}
             />
@@ -123,6 +124,7 @@ const StaffInviteForm = ({ handleClose, handleNext }: StaffInviteFormProps) => {
                   value={value}
                   error={invalid}
                   helperText={getFormErrorMessage(error?.type)}
+                  data-testid="input-last-name"
                 />
               )}
             />
@@ -147,6 +149,7 @@ const StaffInviteForm = ({ handleClose, handleNext }: StaffInviteFormProps) => {
                   value={value}
                   error={invalid}
                   helperText={getFormErrorMessage(error?.type)}
+                  data-testid="input-email"
                 />
               )}
             />
@@ -172,10 +175,15 @@ const StaffInviteForm = ({ handleClose, handleNext }: StaffInviteFormProps) => {
                     label="Roles"
                     multiple
                     error={invalid}
+                    data-testid="select-role"
                   >
                     {roleListData &&
                       roleListData.map((r) => (
-                        <MenuItem key={r.id} value={r.id}>
+                        <MenuItem
+                          key={r.id}
+                          value={r.id}
+                          data-testid={`option-${r.name}`}
+                        >
                           {r.name}
                         </MenuItem>
                       ))}
@@ -190,7 +198,9 @@ const StaffInviteForm = ({ handleClose, handleNext }: StaffInviteFormProps) => {
         <Button onClick={() => handleClose(false)} color="inherit">
           Cancel
         </Button>
-        <Button onClick={handleSubmit(onSubmit)}>Invite</Button>
+        <Button onClick={handleSubmit(onSubmit)} data-testid="btn-invite">
+          Invite
+        </Button>
       </DialogActions>
     </>
   );
