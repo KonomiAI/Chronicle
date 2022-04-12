@@ -10,7 +10,7 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { SkipIPCheck } from 'src/auth/ip.guard';
-import { TransformInterceptor } from 'src/interceptors/transform.interceptor';
+import { TransformInterceptor } from '../../interceptors/transform.interceptor';
 import { BcryptService } from '../../auth/bcrypt.service';
 import { Actions, Features } from '../../auth/constants';
 import { Auth } from '../../auth/role.decorator';
