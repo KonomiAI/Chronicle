@@ -25,8 +25,17 @@ jobs:
       - name: Start back-end and mongo services
         run: |
           docker-compose up -d
+      - name: Verify the server is running on 3001
+        run: |
+          curl -s http://localhost:3001
       - name: Cypress run tests
         uses: cypress-io/github-action@v2
         with:
           start: yarn start:client
           wait-on: 'http://localhost:3000'
+      - uses: actions/upload-artifact@v3
+        with:
+          name: screenshots-videos
+          path: |
+            cypress/videos/**/*.mp4
+            cypress/screenshots/**/*.png
