@@ -46,4 +46,4 @@ services:
       - chronicle-database
       - mongo_replica
     env_file:
-      - .env
+      - .env.development
