@@ -28,6 +28,7 @@ jobs:
       - name: Verify the server is running on 3001
         run: |
           sleep 10
+          docker ps
           docker logs chronicle-api
       - name: Cypress run tests
         uses: cypress-io/github-action@v2
