@@ -25,17 +25,18 @@ jobs:
       - name: Start back-end and mongo services
         run: |
           docker-compose up -d
-      - name: Verify the server is running on 3001
-        run: |
-          sleep 10
-          docker ps
-          docker logs chronicle-api
       - name: Cypress run tests
         uses: cypress-io/github-action@v2
         with:
           start: yarn start:client
           wait-on: 'http://localhost:3000'
+      - name: Debug end-to-end tests
+        run: |
+          docker ps
+          docker logs chronicle-api
+          curl -s http://localhost:3001
       - uses: actions/upload-artifact@v3
+        if: always()
         with:
           name: screenshots-videos
           path: |
