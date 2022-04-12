@@ -29,3 +29,4 @@ jobs:
         uses: cypress-io/github-action@v2
         with:
           start: yarn start:client
+          wait-on: 'http://localhost:3000'
