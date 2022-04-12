@@ -28,6 +28,4 @@ jobs:
       - name: Cypress run tests
         uses: cypress-io/github-action@v2
         with:
-          start: |
-            yarn
-            npm run client:start
+          start: yarn start:client
