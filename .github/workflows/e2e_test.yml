@@ -27,7 +27,8 @@ jobs:
           docker-compose up -d
       - name: Verify the server is running on 3001
         run: |
-          curl -s http://localhost:3001
+          sleep 10
+          docker logs chronicle-api
       - name: Cypress run tests
         uses: cypress-io/github-action@v2
         with:
