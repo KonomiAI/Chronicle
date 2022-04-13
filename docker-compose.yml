@@ -28,8 +28,6 @@ services:
   chronicle-database:
     image: mongo:5
     container_name: mongodb
-    env_file:
-      - .env.development
     ports:
       - 27017:27017
   mongo_replica:
