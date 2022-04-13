@@ -1,6 +1,16 @@
 version: '3.8'
 
 services:
+  #for testing purposes
+  chronicle-frontend:
+    build:
+      context: ./client
+      target: production
+      dockerfile: Dockerfile
+    ports:
+      - 8080:8080
+    depends_on:
+      - chronicle-api
   # Disable the API for now until
   # we can figure out networking problems with
   # prisma and docker
@@ -47,3 +57,4 @@ services:
       - mongo_replica
     env_file:
       - .env
+  
