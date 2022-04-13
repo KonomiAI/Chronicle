@@ -138,7 +138,6 @@ const FormBase: React.FC<FormBaseProps> = ({ onSave, formData }) => {
       <SaveBar
         open
         onSave={handleSubmit((data) => {
-          // TODO: add loading state
           onSave(data);
         })}
       />

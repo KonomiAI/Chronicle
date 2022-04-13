@@ -17,7 +17,7 @@ const UpdateForm = () => {
 
   const id = formId || '';
 
-  const { data: form, isLoading } = useGetForm(id || '');
+  const { data: form, isLoading } = useGetForm(id);
 
   const updateFormAndMutate = useMutation(updateForm, {
     onSuccess: () => {
