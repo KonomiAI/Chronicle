@@ -32,13 +32,14 @@ jobs:
           wait-on: 'http://localhost:3000'
           browser: chrome
       - if: always()
-        name: Debug end-to-end tests
+        name: Log mongo logs
         run: |
           docker ps
-          docker logs chronicle-api
           docker logs mongodb
+      - if: always()
+        name: Log replica logs
+        run: |
           docker logs chronicle_mongo_replica_1
-          curl -s http://localhost:3001
       - uses: actions/upload-artifact@v3
         if: always()
         with:
