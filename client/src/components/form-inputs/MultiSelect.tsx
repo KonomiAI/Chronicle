@@ -3,7 +3,6 @@ import { FormOptionValue } from '@konomi.ai/c-form';
 import {
   Box,
   Chip,
-  TextField,
   FormControl,
   InputLabel,
   InputLabelProps,
@@ -13,7 +12,6 @@ import {
   ListItemIcon,
   Select,
   SelectProps,
-  SelectChangeEvent,
   styled,
 } from '@mui/material';
 import CheckIcon from '@mui/icons-material/Check';
@@ -67,7 +65,6 @@ export interface ISelectProps {
   name: string;
   label: string;
   required?: boolean;
-  onChange?: (e: SelectChangeEvent<string>) => void;
   options: FormOptionValue[];
 }
 
@@ -75,7 +72,6 @@ export const MultiSelect = ({
   control,
   name,
   label,
-  onChange,
   required = false,
   options,
 }: ISelectProps) => (
@@ -84,10 +80,7 @@ export const MultiSelect = ({
     control={control}
     rules={{ required }}
     defaultValue={[]}
-    render={({
-      field: { onChange: onControllerChange, value },
-      fieldState: { invalid },
-    }) => (
+    render={({ field: { onChange, value }, fieldState: { invalid } }) => (
       <FormControl fullWidth>
         <StyledInputLabel id={name}>{label}</StyledInputLabel>
         <StyledSelect
@@ -96,11 +89,11 @@ export const MultiSelect = ({
           labelId={name}
           value={value}
           error={invalid}
-          onChange={onControllerChange}
+          onChange={onChange}
           renderValue={(selected: any) => (
             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-              {selected.map((value) => (
-                <Chip key={value} label={value} />
+              {selected.map((optionLabel) => (
+                <Chip key={optionLabel} label={optionLabel} />
               ))}
             </Box>
           )}

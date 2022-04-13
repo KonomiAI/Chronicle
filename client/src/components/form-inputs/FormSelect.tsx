@@ -8,7 +8,6 @@ import {
   MenuItemProps,
   Select,
   SelectProps,
-  SelectChangeEvent,
   styled,
 } from '@mui/material';
 import { Control, Controller } from 'react-hook-form';
@@ -61,7 +60,6 @@ export interface ISelectProps {
   name: string;
   label: string;
   required?: boolean;
-  onChange?: (e: SelectChangeEvent<string>) => void;
   options: FormOptionValue[];
   multiple?: boolean;
 }
@@ -78,10 +76,7 @@ export const FormSelect = ({
     name={name}
     control={control}
     rules={{ required }}
-    render={({
-      field: { onChange: onControllerChange, value },
-      fieldState: { invalid },
-    }) => (
+    render={({ field: { onChange, value }, fieldState: { invalid } }) => (
       <FormControl fullWidth>
         <StyledInputLabel id={name}>{label}</StyledInputLabel>
         <StyledSelect
@@ -90,7 +85,7 @@ export const FormSelect = ({
           labelId={name}
           value={value}
           error={invalid}
-          onChange={onControllerChange}
+          onChange={onChange}
         >
           {options.map((o, i) => (
             <StyledMenuItem key={o.id} tabIndex={i} value={o.id}>
