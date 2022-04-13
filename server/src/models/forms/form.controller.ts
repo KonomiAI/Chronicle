@@ -7,7 +7,7 @@ import {
   Put,
   UseInterceptors,
 } from '@nestjs/common';
-import { TransformInterceptor } from 'src/interceptors/transform.interceptor';
+import { TransformInterceptor } from '../../interceptors/transform.interceptor';
 import { CreateFormDto, UpdateFormDto } from './form.dto';
 import { FormService } from './form.service';
 

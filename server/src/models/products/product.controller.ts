@@ -14,7 +14,7 @@ import { CreateProductDto, UpdateProductDto } from './product.dto';
 import {
   Response,
   TransformInterceptor,
-} from 'src/interceptors/transform.interceptor';
+} from '../../interceptors/transform.interceptor';
 import { Product } from '@prisma/client';
 
 @Controller('products')

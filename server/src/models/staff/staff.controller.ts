@@ -9,7 +9,7 @@ import {
   Put,
   UseInterceptors,
 } from '@nestjs/common';
-import { TransformInterceptor } from 'src/interceptors/transform.interceptor';
+import { TransformInterceptor } from '../../interceptors/transform.interceptor';
 import { BcryptService } from '../../auth/bcrypt.service';
 import { CreateStaffDto, UpdateStaffDto } from './staff.dto';
 import { StaffService } from './staff.service';

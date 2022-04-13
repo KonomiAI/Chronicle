@@ -8,7 +8,7 @@ import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
 import { StaffService } from '../models/staff/staff.service';
 import { PrismaService } from '../prisma.service';
-import { IPModule } from 'src/models/ip/ip.module';
+import { IPModule } from '../models/ip/ip.module';
 import { IPAllowlistGuard } from './ip.guard';
 
 @Module({
