@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useMutation } from 'react-query';
 
-import { Container } from '@mui/material';
+import { Container, LinearProgress } from '@mui/material';
 
 import { PostFormBody } from '../../types/form';
 import { updateForm, useGetForm } from '../../data/form';
@@ -23,17 +23,13 @@ const UpdateForm = () => {
     onSuccess: () => {
       navigate('/forms');
     },
-    onError: (error) => {
-      // TODO: add error state
-      console.log(error);
-    },
   });
 
   const saveChanges = (body: PostFormBody) =>
     updateFormAndMutate.mutate({ formId: id, data: body });
 
-  if (isLoading) {
-    return <span>loading</span>;
+  if (isLoading || updateFormAndMutate.isLoading) {
+    return <LinearProgress />;
   }
 
   return (
@@ -41,6 +37,7 @@ const UpdateForm = () => {
       <PageHeader pageTitle="Update a form" backURL="/forms" />
       <Spacer size="lg" />
       <FormBase formData={form} onSave={saveChanges} />
+      <Spacer size="lg" />
     </Container>
   );
 };

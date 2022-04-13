@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useMutation } from 'react-query';
 
-import { Container } from '@mui/material';
+import { Container, LinearProgress } from '@mui/material';
 
 import { PostFormBody } from '../../types/form';
 import { createForm } from '../../data/form';
@@ -18,19 +18,20 @@ const CreateForm = () => {
     onSuccess: () => {
       navigate('/forms');
     },
-    onError: (error) => {
-      // TODO: add error state
-      console.log(error);
-    },
   });
 
   const saveChanges = (body: PostFormBody) => createFormAndMutate.mutate(body);
+
+  if (createFormAndMutate.isLoading) {
+    return <LinearProgress />;
+  }
 
   return (
     <Container>
       <PageHeader pageTitle="Create a form" backURL="/forms" />
       <Spacer size="lg" />
       <FormBase onSave={saveChanges} />
+      <Spacer size="lg" />
     </Container>
   );
 };
