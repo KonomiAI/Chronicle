@@ -1,10 +1,10 @@
 import { assert } from 'console';
-import * as request from 'supertest';
 import * as yup from 'yup';
+import { testClient } from './testClient';
 
 describe('Features (e2e)', () => {
   let featureSchema;
-  beforeAll(async () => {
+  beforeAll(() => {
     featureSchema = yup.object({
       data: yup.object({
         id: yup.string(),
@@ -14,8 +14,8 @@ describe('Features (e2e)', () => {
     });
   });
   it('/ (GET)', () => {
-    return request('http://localhost:3001/features')
-      .get('/')
+    return testClient
+      .get('/features')
       .expect(200)
       .then((response) => {
         expect(response.body.data).toHaveLength(5);
