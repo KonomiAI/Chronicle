@@ -36,6 +36,8 @@ jobs:
         run: |
           docker ps
           docker logs chronicle-api
+          docker logs mongodb
+          docker logs chronicle-mongo_replica-1
           curl -s http://localhost:3001
       - uses: actions/upload-artifact@v3
         if: always()
