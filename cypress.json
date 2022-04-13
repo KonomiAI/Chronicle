@@ -7,5 +7,8 @@
   "pluginsFile": "cypress/plugins/index.js",
   "fixturesFolder": "cypress/fixtures",
   "testFiles": "**/*.spec.ts",
-  "defaultCommandTimeout": 13000
+  "defaultCommandTimeout": 6000,
+  "viewportWidth": 1920,
+  "viewportHeight": 1080,
+  "videoUploadOnPasses": false
 }

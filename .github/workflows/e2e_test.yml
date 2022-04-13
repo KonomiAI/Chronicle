@@ -30,7 +30,9 @@ jobs:
         with:
           start: yarn start:client
           wait-on: 'http://localhost:3000'
-      - name: Debug end-to-end tests
+          browser: chrome
+      - if: always()
+        name: Debug end-to-end tests
         run: |
           docker ps
           docker logs chronicle-api
