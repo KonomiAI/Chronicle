@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Gender, Prisma } from '@prisma/client';
+import { randomUUID } from 'crypto';
 import { PrismaService } from 'src/prisma.service';
 
 @Injectable()
@@ -14,13 +15,20 @@ export class CustomerService {
     orderBy?: Prisma.CustomerOrderByWithRelationInput;
     select?: Prisma.CustomerSelect;
   }) {
-    return this.prisma.customer.findMany(args);
+    return this.prisma.customer.findMany({
+      ...(args ?? {}),
+      where: {
+        isDeleted: false,
+        ...(args?.where ?? {}),
+      },
+    });
   }
 
   findCustomer({ select, id }: { id: string; select?: Prisma.CustomerSelect }) {
     return this.prisma.customer.findFirst({
       where: {
         id,
+        isDeleted: false,
       },
       select,
     });
@@ -47,9 +55,10 @@ export class CustomerService {
       data: {
         firstName: 'Deleted',
         lastName: 'Deleted',
-        email: 'deleted@konomi.ai',
+        email: `deleted.${randomUUID()}@konomi.ai`,
         gender: Gender.NOT_SPECIFIED,
         phone: null,
+        isDeleted: true,
       },
     });
     // Delete all responses created for the user

@@ -3,13 +3,18 @@ import {
   Controller,
   Delete,
   Get,
+  NotFoundException,
   Param,
   Post,
   Put,
+  UseInterceptors,
 } from '@nestjs/common';
+import { TransformInterceptor } from 'src/interceptors/transform.interceptor';
+import { CustomerDto } from './customer.dto';
 import { CustomerService } from './customer.service';
 
 @Controller('customers')
+@UseInterceptors(TransformInterceptor)
 export class CustomerController {
   constructor(private customerService: CustomerService) {}
 
@@ -19,20 +24,39 @@ export class CustomerController {
   }
 
   @Get(':id')
-  getCustomer(@Param('id') id: string) {
-    return this.customerService.findCustomer({
+  async getCustomer(@Param('id') id: string) {
+    const res = await this.customerService.findCustomer({
       id,
     });
+    if (!res) {
+      throw new NotFoundException();
+    }
+    return res;
   }
 
   @Post()
-  createCustomer(@Body() data) {
-    return this.customerService.createCustomer({ data });
+  createCustomer(@Body() { dateOfBirth, ...data }: CustomerDto) {
+    return this.customerService.createCustomer({
+      data: {
+        ...data,
+        dateOfBirth: new Date(dateOfBirth),
+      },
+    });
   }
 
   @Put(':id')
-  updateCustomer(@Body() data, @Param('id') id: string) {
-    return this.customerService.updateCustomer({ data, id });
+  async updateCustomer(
+    @Body() { dateOfBirth, ...data }: CustomerDto,
+    @Param('id') id: string,
+  ) {
+    await this.getCustomer(id);
+    return this.customerService.updateCustomer({
+      data: {
+        ...data,
+        dateOfBirth: new Date(dateOfBirth),
+      },
+      id,
+    });
   }
 
   @Delete(':id')
