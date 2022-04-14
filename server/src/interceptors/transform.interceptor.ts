@@ -3,6 +3,7 @@ import {
   NestInterceptor,
   ExecutionContext,
   CallHandler,
+  NotFoundException,
 } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -29,8 +30,11 @@ export class TransformInterceptor<T>
   ): Observable<Response<T>> {
     return next.handle().pipe(
       map((response) => {
+        if (response === null || response === undefined) {
+          throw new NotFoundException();
+        }
         const statusCode =
-          response.statusCode ||
+          response?.statusCode ||
           context.switchToHttp().getResponse().statusCode;
         const message = response.message || DEFAULT_MESSAGES[statusCode] || '';
 
