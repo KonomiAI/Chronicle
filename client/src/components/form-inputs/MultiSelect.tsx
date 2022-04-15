@@ -68,6 +68,11 @@ export interface ISelectProps {
   options: FormOptionValue[];
 }
 
+const isNonEmptyArrayOfStrings = (value: unknown): value is string[] =>
+  Array.isArray(value) &&
+  value.length > 0 &&
+  value.every((item) => typeof item === 'string');
+
 export const MultiSelect = ({
   control,
   name,
@@ -90,13 +95,16 @@ export const MultiSelect = ({
           value={value}
           error={invalid}
           onChange={onChange}
-          renderValue={(selected: any) => (
-            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-              {selected.map((optionLabel) => (
-                <Chip key={optionLabel} label={optionLabel} />
-              ))}
-            </Box>
-          )}
+          renderValue={(selected) => {
+            if (!isNonEmptyArrayOfStrings(selected)) return undefined;
+            return (
+              <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                {selected.map((optionLabel) => (
+                  <Chip key={optionLabel} label={optionLabel} />
+                ))}
+              </Box>
+            );
+          }}
         >
           {options.map((o, i) => (
             <StyledMenuItem key={o.id} tabIndex={i} value={o.label}>
