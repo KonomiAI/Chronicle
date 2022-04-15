@@ -1,3 +1,5 @@
+import { FormTemplateSchema } from '@konomi.ai/c-form';
+
 export enum FormPurpose {
   INVENTORY = 'INVENTORY',
   CUSTOMER = 'CUSTOMER',
@@ -7,9 +9,7 @@ export enum FormPurpose {
 
 export interface FormVersion {
   id: string;
-  body: {
-    [key: string]: string;
-  };
+  body: FormTemplateSchema;
 }
 
 export interface Form {
@@ -26,7 +26,5 @@ export interface PostFormBody {
   title: string;
   description: string;
   purpose: FormPurpose;
-  body: {
-    [key: string]: string;
-  };
+  body: FormTemplateSchema;
 }

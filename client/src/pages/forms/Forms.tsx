@@ -4,9 +4,11 @@ import { Link, useNavigate } from 'react-router-dom';
 import {
   Box,
   Button,
+  Chip,
   Container,
   LinearProgress,
   Paper,
+  Stack,
   Table,
   TableBody,
   TableCell,
@@ -28,12 +30,26 @@ const Forms = () => {
     return <LinearProgress />;
   }
 
+  if (forms === undefined || forms.length === 0) {
+    return <div>No forms found.</div>;
+  }
+
   const generateTableBody = () =>
     forms?.map((form: Form) => (
       <TableRow key={form.id} onClick={() => navigate(form.id)} hover>
         <TableCell>
           <Box>
-            <Typography variant="h2">{form.title}</Typography>
+            <Stack direction="row" alignItems="center">
+              <Box>
+                <Typography variant="h2">{form.title}</Typography>
+              </Box>
+              <Box marginLeft={1}>
+                <Chip
+                  size="small"
+                  label={form.purpose.toLowerCase().replace('_', ' ')}
+                />
+              </Box>
+            </Stack>
             <Typography variant="body2">{form.description}</Typography>
           </Box>
         </TableCell>
