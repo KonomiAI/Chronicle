@@ -30,9 +30,7 @@ const FormBase: React.FC<FormBaseProps> = ({ onSave, formData }) => {
       title: formData?.title,
       description: formData?.description,
       purpose: formData?.purpose,
-      body: {
-        'some-key': 'some-value',
-      },
+      body: {},
     },
   });
 
