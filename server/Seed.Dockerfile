@@ -1,5 +1,5 @@
 FROM node:17
-RUN yarn global add prisma@3.10.0
+RUN yarn global add prisma@3.12.0
 COPY package.json ./
 COPY prisma/* ./prisma/
 
