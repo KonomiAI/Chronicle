@@ -11,7 +11,7 @@ import {
 import { Ip as IPModel } from '@prisma/client';
 import { IPService } from './ip.service';
 import { IPDto } from './ip.dto';
-import { TransformInterceptor } from 'src/interceptors/transform.interceptor';
+import { TransformInterceptor } from '../../interceptors/transform.interceptor';
 
 @Controller('ip')
 @UseInterceptors(TransformInterceptor)

@@ -7,7 +7,7 @@ import {
   UseInterceptors,
   Request,
 } from '@nestjs/common';
-import { TransformInterceptor } from 'src/interceptors/transform.interceptor';
+import { TransformInterceptor } from '../../interceptors/transform.interceptor';
 import { CreateResponseDto, UpdateResponseDto } from './response.dto';
 import { ResponseService } from './response.service';
 import { Auth } from '../../auth/role.decorator';
