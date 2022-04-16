@@ -8,12 +8,13 @@ import {
   Typography,
 } from '@mui/material';
 import { useForm } from 'react-hook-form';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useMutation } from 'react-query';
 import { SaveBar, TextInput } from '../../components';
 import PageHeader from '../../components/page-header/PageHeader';
 import Spacer from '../../components/spacer/Spacer';
-import { CustomerCreateDto, Gender } from '../../types';
-import { useCustomer } from '../../data';
+import { Customer, CustomerCreateDto, Gender } from '../../types';
+import { createCustomer, updateCustomer, useCustomer } from '../../data';
 import {
   ErrorPage,
   LoadingPage,
@@ -22,17 +23,39 @@ import { EMAIL_REGEXP } from '../../utils';
 
 export interface CustomerDetailsPageProps {
   isCreate?: boolean;
+  errorMessage?: string;
   defaultValues: CustomerCreateDto;
   saveChanges: (data: CustomerCreateDto) => void | Promise<void>;
 }
+
+const stripAndCleanData = (data: Customer | CustomerCreateDto) => {
+  const stripped = (({
+    firstName,
+    lastName,
+    email,
+    phone,
+    gender,
+    dateOfBirth,
+  }) => ({
+    firstName,
+    lastName,
+    email,
+    phone,
+    gender,
+    dateOfBirth,
+  }))(data);
+  stripped.phone = stripped.phone === null ? '' : stripped.phone;
+  return stripped;
+};
 
 const CustomerDetailsPage: React.FC<CustomerDetailsPageProps> = ({
   isCreate,
   defaultValues,
   saveChanges,
+  errorMessage,
 }) => {
   const { control, watch, handleSubmit } = useForm<CustomerCreateDto>({
-    defaultValues,
+    defaultValues: stripAndCleanData(defaultValues),
   });
   const [isSaveOpen, setIsSaveOpen] = useState(false);
   useEffect(() => {
@@ -51,6 +74,12 @@ const CustomerDetailsPage: React.FC<CustomerDetailsPageProps> = ({
         }
       />
       <Spacer size="lg" />
+      {errorMessage && (
+        <>
+          <Alert severity="error">{errorMessage}</Alert>
+          <Spacer size="md" />
+        </>
+      )}
       <Card>
         <CardContent>
           <Grid container spacing={2}>
@@ -113,8 +142,14 @@ const CustomerDetailsPage: React.FC<CustomerDetailsPageProps> = ({
 };
 
 export function CreateCustomerForm() {
+  const navigate = useNavigate();
+  const createCustomerAndMutate = useMutation(createCustomer, {
+    onSuccess: (data) => {
+      navigate(`/customers/${data.data.id}`);
+    },
+  });
   const doSave = (data: CustomerCreateDto) => {
-    console.log(data);
+    createCustomerAndMutate.mutate(data);
   };
   return (
     <CustomerDetailsPage
@@ -137,14 +172,39 @@ export function ManageCustomerForm() {
   if (!id) {
     return <ErrorPage message="Customer ID is not defined" />;
   }
-  const { data: currentData, isLoading } = useCustomer(id);
+  const { data: currentData, isLoading, refetch } = useCustomer(id);
+  const [errorMessage, setErrorMessage] = useState('');
+  const [isSavingChanges, setIsSavingChanges] = useState(false);
+
+  const updateCustomerAndMutate = useMutation(updateCustomer, {
+    onSuccess: () => {
+      refetch();
+    },
+    onSettled: () => {
+      setIsSavingChanges(false);
+    },
+    onError: () => {
+      setErrorMessage(
+        "Failed to update the customer's record. Please try again.",
+      );
+    },
+  });
+
   const doSave = (data: CustomerCreateDto) => {
-    console.log(data);
+    setIsSavingChanges(true);
+    updateCustomerAndMutate.mutate({
+      data,
+      id,
+    });
   };
 
-  return isLoading || !currentData ? (
+  return isLoading || !currentData || isSavingChanges ? (
     <LoadingPage />
   ) : (
-    <CustomerDetailsPage defaultValues={currentData} saveChanges={doSave} />
+    <CustomerDetailsPage
+      defaultValues={currentData}
+      saveChanges={doSave}
+      errorMessage={errorMessage}
+    />
   );
 }
