@@ -6,14 +6,12 @@ import {
   Button,
   Chip,
   Container,
+  Divider,
   LinearProgress,
+  List,
+  ListItem,
   Paper,
   Stack,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableRow,
   Typography,
 } from '@mui/material';
 
@@ -34,10 +32,14 @@ const Forms = () => {
     return <div>No forms found.</div>;
   }
 
-  const generateTableBody = () =>
-    forms?.map((form: Form) => (
-      <TableRow key={form.id} onClick={() => navigate(form.id)} hover>
-        <TableCell>
+  const generateListItems = () =>
+    forms?.map((form: Form, index) => (
+      <>
+        <ListItem
+          key={form.id}
+          sx={{ cursor: 'pointer' }}
+          onClick={() => navigate(form.id)}
+        >
           <Box>
             <Stack direction="row" alignItems="center">
               <Box>
@@ -52,8 +54,9 @@ const Forms = () => {
             </Stack>
             <Typography variant="body2">{form.description}</Typography>
           </Box>
-        </TableCell>
-      </TableRow>
+        </ListItem>
+        {index !== forms.length - 1 && <Divider />}
+      </>
     ));
 
   return (
@@ -68,11 +71,12 @@ const Forms = () => {
         }
       />
       <Spacer size="lg" />
-      <TableContainer component={Paper}>
-        <Table>
-          <TableBody>{generateTableBody()}</TableBody>
-        </Table>
-      </TableContainer>
+      <List
+        component={Paper}
+        sx={{ width: '100%', bgcolor: 'background.paper' }}
+      >
+        {generateListItems()}
+      </List>
       <Spacer size="lg" />
     </Container>
   );
