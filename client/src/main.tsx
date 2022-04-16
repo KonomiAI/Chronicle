@@ -24,7 +24,10 @@ import {
 import NotFoundPage from './pages/not-found';
 import { FormBuilder } from './components/form-builder/form-builder';
 import { CustomerListPage } from './pages/customer-list';
-import { CustomerDetailsPage } from './pages/customer-details';
+import {
+  CreateCustomerForm,
+  ManageCustomerForm,
+} from './pages/customer-details';
 
 const queryClient = new QueryClient();
 
@@ -52,11 +55,8 @@ ReactDOM.render(
               <Route path="allowlist" element={<AllowList />} />
               <Route path="formBuilderTest" element={<FormBuilder />} />
               <Route path="customers" element={<CustomerListPage />} />
-              <Route
-                path="customers/new"
-                element={<CustomerDetailsPage isCreate />}
-              />
-              <Route path="customers/:id" element={<CustomerDetailsPage />} />
+              <Route path="customers/new" element={<CreateCustomerForm />} />
+              <Route path="customers/:id" element={<ManageCustomerForm />} />
             </Route>
             <Route path="*" element={<NotFoundPage />} />
           </Routes>

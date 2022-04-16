@@ -14,6 +14,7 @@ export interface TextInputProps {
   label: string;
   testId?: string;
   variant?: 'filled' | 'standard' | 'outlined';
+  disableAutoStar?: boolean;
 }
 
 export const TextInput = ({
@@ -23,6 +24,7 @@ export const TextInput = ({
   label,
   testId,
   variant = 'outlined',
+  disableAutoStar,
 }: TextInputProps) => (
   <Controller
     name={name}
@@ -35,7 +37,7 @@ export const TextInput = ({
       <TextField
         size="small"
         fullWidth
-        label={label}
+        label={`${label} ${rules?.required && !disableAutoStar ? '*' : ''}`}
         onChange={onChange}
         value={value}
         variant={variant}

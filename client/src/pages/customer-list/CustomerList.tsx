@@ -1,7 +1,6 @@
 import {
   Button,
   Container,
-  Grid,
   LinearProgress,
   Paper,
   Table,
@@ -42,6 +41,7 @@ const CustomerRow: React.FC<{ customer: Customer }> = ({ customer: c }) => {
 
 export function CustomerListPage() {
   const { data, isLoading } = useCustomerList();
+  const navigate = useNavigate();
   return (
     <Container>
       {isLoading && <LinearProgress />}
@@ -50,7 +50,11 @@ export function CustomerListPage() {
           <PageHeader
             pageTitle="Customers"
             action={
-              <Button variant="contained" data-testid="btn-create-customer">
+              <Button
+                variant="contained"
+                data-testid="btn-create-customer"
+                onClick={() => navigate('new')}
+              >
                 New customer
               </Button>
             }
