@@ -5,13 +5,11 @@ import {
   IconButton,
   Container,
   Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableRow,
   Typography,
   Dialog,
+  List,
+  ListItem,
+  Divider,
 } from '@mui/material';
 
 import { useMutation } from 'react-query';
@@ -54,37 +52,39 @@ export default function AllowListPage() {
         }
       />
       <Spacer size="lg" />
-      <TableContainer component={Paper}>
-        <Table>
-          <TableBody>
-            {allowListData?.map((s) => (
-              <TableRow>
-                <ConfirmDialog
-                  dialogTitle="Are you sure you want to remove this IP Address?"
-                  open={confirmDeleteDialogOpen}
-                  cancelAction={() => {
-                    setConfirmDeleteDialogOpen(false);
-                  }}
-                  confirmAction={() => {
-                    removeAllowlistEntry(s.id);
-                  }}
-                />
-                <TableCell>
-                  <Box>
-                    <Typography variant="h2">{s.ip}</Typography>
-                    <Typography variant="body2">{s.description}</Typography>
-                  </Box>
-                </TableCell>
-                <TableCell>
-                  <IconButton onClick={() => setConfirmDeleteDialogOpen(true)}>
-                    <DeleteIcon />
-                  </IconButton>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+      <List
+        component={Paper}
+        sx={{ width: '100%', bgcolor: 'background.paper' }}
+      >
+        {allowListData?.map((s, index) => (
+          <>
+            <ListItem
+              key={s.id}
+              secondaryAction={
+                <IconButton onClick={() => setConfirmDeleteDialogOpen(true)}>
+                  <DeleteIcon />
+                </IconButton>
+              }
+            >
+              <ConfirmDialog
+                dialogTitle="Are you sure you want to remove this IP Address?"
+                open={confirmDeleteDialogOpen}
+                cancelAction={() => {
+                  setConfirmDeleteDialogOpen(false);
+                }}
+                confirmAction={() => {
+                  removeAllowlistEntry(s.id);
+                }}
+              />
+              <Box>
+                <Typography variant="h2">{s.ip}</Typography>
+                <Typography variant="body2">{s.description}</Typography>
+              </Box>
+            </ListItem>
+            {index !== allowListData.length - 1 && <Divider />}
+          </>
+        ))}
+      </List>
     </Container>
   );
 }
