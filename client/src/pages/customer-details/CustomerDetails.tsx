@@ -10,7 +10,8 @@ import {
 import { useForm } from 'react-hook-form';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useMutation } from 'react-query';
-import { SaveBar, TextInput } from '../../components';
+
+import { SaveBar, TextInput, DateInput } from '../../components';
 import PageHeader from '../../components/page-header/PageHeader';
 import Spacer from '../../components/spacer/Spacer';
 import { Customer, CustomerCreateDto, Gender } from '../../types';
@@ -19,7 +20,7 @@ import {
   ErrorPage,
   LoadingPage,
 } from '../../components/simple-pages/SimplePages';
-import { EMAIL_REGEXP } from '../../utils';
+import { DATE_REGEXP, EMAIL_REGEXP } from '../../utils';
 
 export interface CustomerDetailsPageProps {
   isCreate?: boolean;
@@ -112,6 +113,14 @@ const CustomerDetailsPage: React.FC<CustomerDetailsPageProps> = ({
                 control={control}
                 name="phone"
                 label="Customer Phone"
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <DateInput
+                control={control}
+                name="dateOfBirth"
+                label="Date of birth"
+                rules={{ required: true, pattern: DATE_REGEXP }}
               />
             </Grid>
           </Grid>

@@ -17,9 +17,11 @@ import PageHeader from '../../components/page-header/PageHeader';
 import Spacer from '../../components/spacer/Spacer';
 import { useCustomerList } from '../../data';
 import { Customer } from '../../types';
+import { dateHelper } from '../../utils';
 
 const CustomerRow: React.FC<{ customer: Customer }> = ({ customer: c }) => {
   const navigate = useNavigate();
+  const dob = dateHelper.date(c.dateOfBirth);
   return (
     <TableRow
       key={c.id}
@@ -33,7 +35,7 @@ const CustomerRow: React.FC<{ customer: Customer }> = ({ customer: c }) => {
         </Typography>
       </TableCell>
       <TableCell>{c.email}</TableCell>
-      <TableCell>July 29th, 1999</TableCell>
+      <TableCell>{dateHelper.format(dob, 'fullDate')}</TableCell>
       <TableCell>{c.gender}</TableCell>
     </TableRow>
   );
