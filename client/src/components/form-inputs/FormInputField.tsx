@@ -34,7 +34,7 @@ const StyledTextField = styled(TextField)<TextFieldProps>(
   }),
 );
 
-export interface ShortTextInputProps {
+export interface FormInputProps {
   name: string;
   control: Control;
   rules?: Omit<RegisterOptions, 'valueAsDate' | 'setValueAs' | 'disabled'>;
@@ -45,7 +45,7 @@ export interface ShortTextInputProps {
   multiline?: number;
 }
 
-export const FormTextField = ({
+export const FormInputField = ({
   control,
   name,
   rules,
@@ -54,7 +54,7 @@ export const FormTextField = ({
   variant = 'outlined',
   multiline = 0,
   numberField = false,
-}: ShortTextInputProps) => (
+}: FormInputProps) => (
   <Controller
     name={name}
     control={control}
