@@ -23,12 +23,7 @@ const CustomerRow: React.FC<{ customer: Customer }> = ({ customer: c }) => {
   const navigate = useNavigate();
   const dob = dateHelper.date(c.dateOfBirth);
   return (
-    <TableRow
-      key={c.id}
-      hover
-      sx={{ cursor: 'pointer' }}
-      onClick={() => navigate(c.id)}
-    >
+    <TableRow hover sx={{ cursor: 'pointer' }} onClick={() => navigate(c.id)}>
       <TableCell>
         <Typography variant="h6">
           {c.firstName} {c.lastName}
@@ -74,7 +69,7 @@ export function CustomerListPage() {
               </TableHead>
               <TableBody>
                 {data.map((c) => (
-                  <CustomerRow customer={c} />
+                  <CustomerRow key={c.id} customer={c} />
                 ))}
               </TableBody>
             </Table>

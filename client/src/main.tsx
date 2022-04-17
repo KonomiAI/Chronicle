@@ -26,7 +26,6 @@ import {
 import NotFoundPage from './pages/not-found';
 import Forms, { CreateForm, UpdateForm } from './pages/forms';
 
-import { FormBuilder } from './components/form-builder/form-builder';
 import { CustomerListPage } from './pages/customer-list';
 import {
   CreateCustomerForm,
