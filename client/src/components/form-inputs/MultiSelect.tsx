@@ -15,7 +15,7 @@ import {
   FieldValues,
   UseFormSetValue,
 } from 'react-hook-form';
-import { isNonEmptyArrayOfStrings } from '../../helpers';
+import { isStringArray } from '../../helpers';
 import { StyledInputLabel, StyledSelect, StyledMenuItem } from './styled';
 
 export interface MultiSelectProps {
@@ -63,7 +63,7 @@ export const MultiSelect = ({
             error={invalid}
             onChange={onChange}
             renderValue={(selected) => {
-              if (!isNonEmptyArrayOfStrings(selected)) return undefined;
+              if (!isStringArray(selected)) return undefined;
               return (
                 <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
                   {selected.map((option) => (
