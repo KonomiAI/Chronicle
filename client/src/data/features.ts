@@ -1,5 +1,5 @@
 import { useQuery } from 'react-query';
-import useAxios from './axois';
+import useAxios from './axios';
 import { Feature } from '../types';
 import { Data } from '../types/data';
 

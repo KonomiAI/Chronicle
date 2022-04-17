@@ -1,6 +1,6 @@
 import { useQuery } from 'react-query';
 import { Role, RoleData } from '../types';
-import useAxios from './axois';
+import useAxios from './axios';
 
 export interface RolePostResponse {
   id: string;

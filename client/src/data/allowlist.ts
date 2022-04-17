@@ -1,7 +1,7 @@
 import { useQuery } from 'react-query';
 import { Ip, AllowlistData } from '../types';
 import { Data } from '../types/data';
-import useAxios from './axois';
+import useAxios from './axios';
 
 export interface AllowlistPostResponse {
   id: string;
