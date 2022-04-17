@@ -65,19 +65,15 @@ export const MultiSelect = ({
               if (!isNonEmptyArrayOfStrings(selected)) return undefined;
               return (
                 <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-                  {selected.map((optionLabel) => (
+                  {selected.map((option) => (
                     <Chip
-                      key={optionLabel}
-                      label={optionLabel}
+                      key={option}
+                      label={option}
                       clickable
                       deleteIcon={
-                        <CloseIcon
-                          onMouseDown={(event) => event.stopPropagation()}
-                        />
+                        <CloseIcon onMouseDown={(e) => e.stopPropagation()} />
                       }
-                      onDelete={(e) =>
-                        handleDeleteOnChip(e, optionLabel, selected)
-                      }
+                      onDelete={(e) => handleDeleteOnChip(e, option, selected)}
                     />
                   ))}
                 </Box>

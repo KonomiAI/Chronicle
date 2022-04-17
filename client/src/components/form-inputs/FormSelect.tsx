@@ -19,7 +19,6 @@ export const FormSelect = ({
   label,
   required = false,
   options,
-  multiple = false,
 }: ISelectProps) => (
   <Controller
     name={name}
@@ -29,7 +28,6 @@ export const FormSelect = ({
       <FormControl fullWidth>
         <StyledInputLabel id={name}>{label}</StyledInputLabel>
         <StyledSelect
-          multiple={multiple}
           label={label}
           labelId={name}
           value={value}
@@ -37,7 +35,7 @@ export const FormSelect = ({
           onChange={onChange}
         >
           {options.map((o, i) => (
-            <StyledMenuItem key={o.id} tabIndex={i} value={o.id}>
+            <StyledMenuItem key={o.id} tabIndex={i} value={o.label}>
               {o.label}
             </StyledMenuItem>
           ))}
