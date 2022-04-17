@@ -1,16 +1,15 @@
-import * as React from 'react';
+import React from 'react';
 import { FormOptionValue } from '@konomi.ai/c-form';
 import { FormControl } from '@mui/material';
 import { Control, Controller } from 'react-hook-form';
 import { StyledInputLabel, StyledSelect, StyledMenuItem } from './styled';
 
-export interface ISelectProps {
+export interface FormSelectProps {
   control: Control;
   name: string;
   label: string;
   required?: boolean;
   options: FormOptionValue[];
-  multiple?: boolean;
 }
 
 export const FormSelect = ({
@@ -19,7 +18,7 @@ export const FormSelect = ({
   label,
   required = false,
   options,
-}: ISelectProps) => (
+}: FormSelectProps) => (
   <Controller
     name={name}
     control={control}
@@ -28,6 +27,7 @@ export const FormSelect = ({
       <FormControl fullWidth>
         <StyledInputLabel id={name}>{label}</StyledInputLabel>
         <StyledSelect
+          size="small"
           label={label}
           labelId={name}
           value={value}

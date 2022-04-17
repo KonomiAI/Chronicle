@@ -10,6 +10,10 @@ import {
 
 export const StyledInputLabel = styled(InputLabel)<InputLabelProps>(
   ({ theme: { palette } }) => ({
+    transform: 'translate(14px, 9px) scale(1)',
+    '&.MuiInputLabel-shrink': {
+      transform: 'translate(14px, -9px) scale(0.75)',
+    },
     '&.Mui-focused': {
       color: palette.grey[800],
     },

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { styled, TextField, TextFieldProps } from '@mui/material';
 import { Control, Controller, RegisterOptions } from 'react-hook-form';
 import { getFormErrorMessage } from '../../utils';

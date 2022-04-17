@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { FormOptionValue } from '@konomi.ai/c-form';
 import {
   Box,
@@ -18,7 +18,7 @@ import {
 import { isNonEmptyArrayOfStrings } from '../../helpers';
 import { StyledInputLabel, StyledSelect, StyledMenuItem } from './styled';
 
-export interface ISelectProps {
+export interface MultiSelectProps {
   control: Control;
   setValue: UseFormSetValue<FieldValues>;
   name: string;
@@ -34,7 +34,7 @@ export const MultiSelect = ({
   label,
   required = false,
   options,
-}: ISelectProps) => {
+}: MultiSelectProps) => {
   const handleDeleteOnChip = (
     e: React.MouseEvent,
     value: string,
@@ -55,6 +55,7 @@ export const MultiSelect = ({
         <FormControl fullWidth>
           <StyledInputLabel id={name}>{label}</StyledInputLabel>
           <StyledSelect
+            size="small"
             multiple
             label={label}
             labelId={name}
@@ -67,6 +68,8 @@ export const MultiSelect = ({
                 <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
                   {selected.map((option) => (
                     <Chip
+                      size="small"
+                      variant="outlined"
                       key={option}
                       label={option}
                       clickable
@@ -86,6 +89,7 @@ export const MultiSelect = ({
                 <ListItemIcon
                   sx={{
                     display: value.indexOf(o.label) > -1 ? 'block' : 'none',
+                    height: '24px',
                   }}
                 >
                   <CheckIcon fontSize="small" />
