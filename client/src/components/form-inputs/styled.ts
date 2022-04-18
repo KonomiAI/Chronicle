@@ -6,6 +6,8 @@ import {
   MenuItemProps,
   Select,
   SelectProps,
+  TextField,
+  TextFieldProps,
 } from '@mui/material';
 
 export const StyledInputLabel = styled(InputLabel)<InputLabelProps>(
@@ -48,6 +50,37 @@ export const StyledMenuItem = styled(MenuItem)<MenuItemProps>(
     },
     '&:hover': {
       backgroundColor: palette.grey[200],
+    },
+  }),
+);
+
+export const StyledTextField = styled(TextField)<TextFieldProps>(
+  ({ theme: { palette } }) => ({
+    '& .MuiInputLabel-root': {
+      // Label
+      '&.Mui-focused': {
+        color: palette.grey[800],
+      },
+    },
+
+    '& .MuiOutlinedInput-root': {
+      // For outline border and input text
+      '&.Mui-focused': {
+        '.MuiOutlinedInput-notchedOutline': {
+          // Outlined Border
+          border: `1px solid ${palette.grey[800]}`,
+        },
+        '.MuiOutlinedInput-input': {
+          // Input text
+          color: palette.grey[800],
+        },
+      },
+      '&:hover': {
+        '.MuiOutlinedInput-notchedOutline': {
+          // Outlined Border
+          border: `1px solid ${palette.grey[800]}`,
+        },
+      },
     },
   }),
 );

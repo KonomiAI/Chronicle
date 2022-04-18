@@ -1,38 +1,7 @@
 import React from 'react';
-import { styled, TextField, TextFieldProps } from '@mui/material';
 import { Control, Controller, RegisterOptions } from 'react-hook-form';
 import { getFormErrorMessage } from '../../utils';
-
-const StyledTextField = styled(TextField)<TextFieldProps>(
-  ({ theme: { palette } }) => ({
-    '& .MuiInputLabel-root': {
-      // Label
-      '&.Mui-focused': {
-        color: palette.grey[800],
-      },
-    },
-
-    '& .MuiOutlinedInput-root': {
-      // For outline border and input text
-      '&.Mui-focused': {
-        '.MuiOutlinedInput-notchedOutline': {
-          // Outlined Border
-          border: `1px solid ${palette.grey[800]}`,
-        },
-        '.MuiOutlinedInput-input': {
-          // Input text
-          color: palette.grey[800],
-        },
-      },
-      '&:hover': {
-        '.MuiOutlinedInput-notchedOutline': {
-          // Outlined Border
-          border: `1px solid ${palette.grey[800]}`,
-        },
-      },
-    },
-  }),
-);
+import { StyledTextField } from './styled';
 
 export interface FormInputProps {
   name: string;
