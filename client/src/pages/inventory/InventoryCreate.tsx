@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+
 import {
   Box,
   Button,
@@ -18,46 +19,28 @@ import {
   Dialog,
 } from '@mui/material';
 
-import { Dropzone } from '@dropzone-ui/react';
 import PageHeader from '../../components/page-header/PageHeader';
 import Spacer from '../../components/spacer/Spacer';
 import VaraintCreateDialog from './VariantCreate';
+import { PostVariantBody, Variant } from '../../types';
 
-const variantList = [
-  {
-    name: 'Rainbow Kirbyzz',
-    price: '$420.69',
-    date: '1999-07-29',
-    barcode: '66666',
-  },
-  {
-    name: 'Chad Kirby',
-    price: '$420.69',
-    date: '1999-07-29',
-    barcode: '66666',
-  },
-  {
-    name: 'Snacccc Kirby',
-    price: '$420.69',
-    date: '1999-07-29',
-    barcode: '66666',
-  },
-];
-
-const VariantList = () =>
-  variantList.map(({ name, price, date, barcode }) => (
-    <TableRow>
-      <TableCell>{name}</TableCell>
-      <TableCell>{price}</TableCell>
-      <TableCell>{date}</TableCell>
-      <TableCell>{barcode}</TableCell>
-    </TableRow>
-  ));
 export default function InventoryCreatePage() {
-  const [variantDialogOpen, setVariantDialogOpen] = useState(false);
+  const [isVariantDialogOpen, setIsVariantDialogOpen] = useState(false);
+  const [variants, setVariants] = useState<Variant[]>([]);
+
+  const generateTableRows = () =>
+    variants.map(({ description, price, createdAt, barcode }) => (
+      <TableRow>
+        <TableCell>{description}</TableCell>
+        <TableCell>{price}</TableCell>
+        <TableCell>{createdAt}</TableCell>
+        <TableCell>{barcode}</TableCell>
+      </TableRow>
+    ));
+
   return (
     <Container>
-      <PageHeader pageTitle="Create a Product" backURL="/inventory" />
+      <PageHeader pageTitle="Create a product" backURL="/inventory" />
       <Spacer size="lg" />
       <Card>
         <CardContent>
@@ -86,54 +69,55 @@ export default function InventoryCreatePage() {
               />
             </Grid>
           </Grid>
-          <Spacer size="lg" />
-          <Dropzone />
-        </CardContent>
-        <Spacer size="lg" />
-        <CardContent>
-          <Box
-            sx={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              mb: '1em',
-              gap: '5em',
-            }}
-          >
-            <Typography variant="h4" sx={{ mb: 2 }}>
-              Variants
-            </Typography>
-            <Box>
-              <Dialog
-                open={variantDialogOpen}
-                onClose={() => setVariantDialogOpen(false)}
-              >
-                <VaraintCreateDialog
-                  handleClose={() => setVariantDialogOpen(false)}
-                />
-              </Dialog>
-              <Button
-                variant="contained"
-                onClick={() => setVariantDialogOpen(true)}
-              >
-                Add New Variant
-              </Button>
-            </Box>
-          </Box>
-          <TableContainer component={Paper}>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell>Variant Name</TableCell>
-                  <TableCell>Price</TableCell>
-                  <TableCell>Date</TableCell>
-                  <TableCell>Barcode</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>{VariantList()}</TableBody>
-            </Table>
-          </TableContainer>
         </CardContent>
       </Card>
+      <Spacer size="lg" />
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          mb: '1em',
+          gap: '5em',
+        }}
+      >
+        <Typography variant="h4" sx={{ mb: 2 }}>
+          Variants
+        </Typography>
+        <Box>
+          <VaraintCreateDialog
+            isOpen={isVariantDialogOpen}
+            handleClose={() => setIsVariantDialogOpen(false)}
+            handleCreate={(variant: PostVariantBody) => {
+              const newVariants = [
+                ...variants,
+                {
+                  ...variant,
+                },
+              ];
+              setVariants(newVariants);
+            }}
+          />
+          <Button
+            variant="contained"
+            onClick={() => setIsVariantDialogOpen(true)}
+          >
+            Add New Variant
+          </Button>
+        </Box>
+      </Box>
+      <TableContainer component={Paper}>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>Variant Name</TableCell>
+              <TableCell>Price</TableCell>
+              <TableCell>Date</TableCell>
+              <TableCell>Barcode</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>{generateTableRows()}</TableBody>
+        </Table>
+      </TableContainer>
       <Spacer size="lg" />
     </Container>
   );
