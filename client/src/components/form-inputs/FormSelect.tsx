@@ -4,21 +4,33 @@ import { FormControl } from '@mui/material';
 import { Control, Controller } from 'react-hook-form';
 import { StyledInputLabel, StyledSelect, StyledMenuItem } from './styled';
 
-export interface FormSelectProps {
+export interface FormSelectBaseProps {
   control: Control;
   name: string;
   label: string;
   required?: boolean;
-  options: FormOptionValue[];
 }
 
-export const FormSelect = ({
+interface withOptions extends FormSelectBaseProps {
+  options: FormOptionValue[];
+  children?: never;
+}
+
+interface withChildren extends FormSelectBaseProps {
+  options?: never;
+  children: React.ReactNode;
+}
+
+export type FormSelectProps = withOptions | withChildren;
+
+export const FormSelect: React.FC<FormSelectProps> = ({
   control,
   name,
   label,
   required = false,
-  options,
-}: FormSelectProps) => (
+  options = [],
+  children,
+}) => (
   <Controller
     name={name}
     control={control}
@@ -34,11 +46,12 @@ export const FormSelect = ({
           error={invalid}
           onChange={onChange}
         >
-          {options.map((o, i) => (
-            <StyledMenuItem key={o.id} tabIndex={i} value={o.label}>
-              {o.label}
-            </StyledMenuItem>
-          ))}
+          {children ||
+            options.map((o, i) => (
+              <StyledMenuItem key={o.id} tabIndex={i} value={o.label}>
+                {o.label}
+              </StyledMenuItem>
+            ))}
         </StyledSelect>
       </FormControl>
     )}

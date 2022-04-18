@@ -18,23 +18,35 @@ import {
 import { isStringArray } from '../../helpers';
 import { StyledInputLabel, StyledSelect, StyledMenuItem } from './styled';
 
-export interface MultiSelectProps {
+interface MultiSelectBaseProps {
   control: Control;
   setValue: UseFormSetValue<FieldValues>;
   name: string;
   label: string;
   required?: boolean;
-  options: FormOptionValue[];
 }
 
-export const MultiSelect = ({
+interface withOptions extends MultiSelectBaseProps {
+  options: FormOptionValue[];
+  children?: never;
+}
+
+interface withChildren extends MultiSelectBaseProps {
+  options?: never;
+  children: React.ReactNode;
+}
+
+export type MultiSelectProps = withOptions | withChildren;
+
+export const MultiSelect: React.FC<MultiSelectProps> = ({
   control,
   setValue,
   name,
   label,
   required = false,
-  options,
-}: MultiSelectProps) => {
+  options = [],
+  children,
+}) => {
   const handleDeleteOnChip = (
     e: React.MouseEvent,
     value: string,
@@ -83,19 +95,20 @@ export const MultiSelect = ({
               );
             }}
           >
-            {options.map((o, i) => (
-              <StyledMenuItem key={o.id} tabIndex={i} value={o.label}>
-                <ListItemText primary={o.label} />
-                <ListItemIcon
-                  sx={{
-                    display: value.indexOf(o.label) > -1 ? 'block' : 'none',
-                    height: '24px',
-                  }}
-                >
-                  <CheckIcon fontSize="small" />
-                </ListItemIcon>
-              </StyledMenuItem>
-            ))}
+            {children ||
+              options.map((o, i) => (
+                <StyledMenuItem key={o.id} tabIndex={i} value={o.label}>
+                  <ListItemText primary={o.label} />
+                  <ListItemIcon
+                    sx={{
+                      display: value.indexOf(o.label) > -1 ? 'block' : 'none',
+                      height: '24px',
+                    }}
+                  >
+                    <CheckIcon fontSize="small" />
+                  </ListItemIcon>
+                </StyledMenuItem>
+              ))}
           </StyledSelect>
         </FormControl>
       )}

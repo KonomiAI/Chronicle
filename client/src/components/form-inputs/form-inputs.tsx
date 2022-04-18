@@ -6,50 +6,16 @@ import { FormOptionValue } from '@konomi.ai/c-form';
 import { FormInputField } from './FormInputField';
 import { FormSelect } from './FormSelect';
 import { MultiSelect } from './MultiSelect';
+import { StyledMenuItem } from './styled';
 import Spacer from '../spacer/Spacer';
 
-const options: FormOptionValue[] = [
-  {
-    id: '1id',
-    label: '1label',
-  },
-  {
-    id: '2id',
-    label: '2label',
-  },
-  {
-    id: '3id',
-    label: '3label',
-  },
-  {
-    id: '4id',
-    label: '4label',
-  },
-  {
-    id: '5id',
-    label: '5label',
-  },
-  {
-    id: '6id',
-    label: '6label',
-  },
-  {
-    id: '7id',
-    label: '7label',
-  },
-  {
-    id: '8id',
-    label: '8label',
-  },
-  {
-    id: '9id',
-    label: '9label',
-  },
-  {
-    id: '10id',
-    label: '10label',
-  },
-];
+const options: FormOptionValue[] = [];
+for (let i = 0; i < 10; i += 1) {
+  options.push({
+    id: `id${i}`,
+    label: `Option ${i}`,
+  });
+}
 
 export const AllFormInputs = () => {
   const { control, setValue } = useForm();
@@ -93,18 +59,39 @@ export const AllFormInputs = () => {
       <Spacer size="lg" />
       <FormSelect
         control={control}
-        name="Form Select"
-        label="Form Select"
+        name="form-select-with-options"
+        label="Form Select with Options prop"
+        options={options}
+      />
+      <Spacer size="lg" />
+      <FormSelect
+        control={control}
+        name="form-select-with-children"
+        label="Form Select with Children"
+      >
+        <StyledMenuItem value="option1">Option 1</StyledMenuItem>
+        <StyledMenuItem value="option2">Option 2</StyledMenuItem>
+        <StyledMenuItem value="option3">Option 3</StyledMenuItem>
+      </FormSelect>
+      <Spacer size="lg" />
+      <MultiSelect
+        control={control}
+        setValue={setValue}
+        name="multi-select-with-options"
+        label="Multi-Select with Options"
         options={options}
       />
       <Spacer size="lg" />
       <MultiSelect
         control={control}
         setValue={setValue}
-        name="Multi-Select"
-        label="Multi-Select"
-        options={options}
-      />
+        name="multi-select-with-children"
+        label="Multi-Select with Children"
+      >
+        <StyledMenuItem value="option1">Option 1</StyledMenuItem>
+        <StyledMenuItem value="option2">Option 2</StyledMenuItem>
+        <StyledMenuItem value="option3">Option 3</StyledMenuItem>
+      </MultiSelect>
     </Container>
   );
 };
