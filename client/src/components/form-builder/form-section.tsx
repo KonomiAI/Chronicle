@@ -18,6 +18,7 @@ import Spacer from '../spacer/Spacer';
 interface FormSectionProps {
   index: number;
   sectionCount: number;
+  context: string;
   onRemove: () => void;
 }
 
@@ -25,12 +26,13 @@ export const FormSection = ({
   index,
   onRemove,
   sectionCount,
+  context,
 }: FormSectionProps) => {
   const { control } = useFormContext();
   const [shouldShowDescription, setShouldShowDescription] = useState(false);
   const { fields, append, remove } = useFieldArray({
     control,
-    name: `sections.${index}.fields`,
+    name: `${context}sections.${index}.fields`,
   });
 
   return (
@@ -55,7 +57,7 @@ export const FormSection = ({
           <Grid container spacing={2}>
             <Grid item xs={12} sx={{ display: 'flex' }}>
               <TextInput
-                name={`sections.${index}.name`}
+                name={`${context}sections.${index}.name`}
                 control={control}
                 rules={{
                   required: true,
@@ -76,7 +78,7 @@ export const FormSection = ({
               {shouldShowDescription ? (
                 <TextInput
                   control={control}
-                  name={`sections.${index}.description`}
+                  name={`${context}sections.${index}.description`}
                   label="Section description (optional)"
                   testId="input-section-description"
                 />
@@ -99,6 +101,7 @@ export const FormSection = ({
       </Typography>
       {fields.map((f, i) => (
         <FormField
+          context={context}
           key={f.id}
           index={i}
           sectionIndex={index}

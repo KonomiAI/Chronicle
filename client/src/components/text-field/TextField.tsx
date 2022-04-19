@@ -1,11 +1,12 @@
 import React from 'react';
 import { TextField } from '@mui/material';
-import { Control, Controller, RegisterOptions } from 'react-hook-form';
+import { Controller, RegisterOptions } from 'react-hook-form';
 import { getFormErrorMessage } from '../../utils';
+import { ßwillFixThisTypeLater } from '../../types';
 
 export interface TextInputProps {
   name: string;
-  control: Control;
+  control: ßwillFixThisTypeLater;
   rules?: Omit<
     RegisterOptions,
     'valueAsNumber' | 'valueAsDate' | 'setValueAs' | 'disabled'

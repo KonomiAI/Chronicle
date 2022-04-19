@@ -2,6 +2,7 @@ import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 import {
+  Alert,
   Box,
   Button,
   Chip,
@@ -26,10 +27,6 @@ const Forms = () => {
 
   if (isLoading) {
     return <LinearProgress />;
-  }
-
-  if (forms === undefined || forms.length === 0) {
-    return <div>No forms found.</div>;
   }
 
   const generateListItems = () =>
@@ -71,13 +68,20 @@ const Forms = () => {
         }
       />
       <Spacer size="lg" />
-      <List
-        component={Paper}
-        sx={{ width: '100%', bgcolor: 'background.paper' }}
-      >
-        {generateListItems()}
-      </List>
-      <Spacer size="lg" />
+      {forms?.length ? (
+        <List
+          component={Paper}
+          sx={{ width: '100%', bgcolor: 'background.paper' }}
+        >
+          {generateListItems()}
+        </List>
+      ) : (
+        <Alert severity="info">
+          You have no forms available, press CREATE to get started
+        </Alert>
+      )}
+
+      <Spacer size="xl" />
     </Container>
   );
 };
