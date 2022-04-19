@@ -9,11 +9,11 @@ import {
   IconButton,
   Typography,
 } from '@mui/material';
-import { useFieldArray, useFormContext } from 'react-hook-form';
+import { useFieldArray, useFormContext, useWatch } from 'react-hook-form';
 import { DEFAULT_FIELD_VAL } from './const';
 import { FormField } from './form-field';
-import { TextInput } from '../text-field/TextField';
 import Spacer from '../spacer/Spacer';
+import { FormInputField } from '../form-inputs/FormInputField';
 
 interface FormSectionProps {
   index: number;
@@ -29,11 +29,18 @@ export const FormSection = ({
   context,
 }: FormSectionProps) => {
   const { control } = useFormContext();
-  const [shouldShowDescription, setShouldShowDescription] = useState(false);
   const { fields, append, remove } = useFieldArray({
     control,
     name: `${context}sections.${index}.fields`,
   });
+
+  const description = useWatch({
+    name: `${context}sections.${index}.description`,
+  });
+
+  const [shouldShowDescription, setShouldShowDescription] = useState(
+    !!description,
+  );
 
   return (
     <>
@@ -56,7 +63,7 @@ export const FormSection = ({
         <CardContent>
           <Grid container spacing={2}>
             <Grid item xs={12} sx={{ display: 'flex' }}>
-              <TextInput
+              <FormInputField
                 name={`${context}sections.${index}.name`}
                 control={control}
                 rules={{
@@ -76,11 +83,12 @@ export const FormSection = ({
             </Grid>
             <Grid item xs={12}>
               {shouldShowDescription ? (
-                <TextInput
+                <FormInputField
                   control={control}
                   name={`${context}sections.${index}.description`}
                   label="Section description (optional)"
                   testId="input-section-description"
+                  multiline={2}
                 />
               ) : (
                 <Button
