@@ -5,6 +5,7 @@ export enum FormPurpose {
   CUSTOMER = 'CUSTOMER',
   STAFF = 'STAFF',
   ACTIVITY_ENTRY = 'ACTIVITY_ENTRY',
+  NO_PURPOSE = 'NO_PURPOSE',
 }
 
 export interface FormVersion {

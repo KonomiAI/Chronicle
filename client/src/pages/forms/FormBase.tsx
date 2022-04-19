@@ -10,14 +10,16 @@ import {
   InputLabel,
   MenuItem,
   Select,
-  TextField,
   Typography,
 } from '@mui/material';
 
 import { FormPurpose, PostFormBody, Form } from '../../types/form';
 import { getFormErrorMessage } from '../../utils';
 
-import { SaveBar } from '../../components';
+import { FormBuilder, SaveBar, TextInput } from '../../components';
+import Spacer from '../../components/spacer/Spacer';
+import { DEFAULT_SCHEMA_VAL } from '../../components/form-builder/const';
+import { useSaveBar } from '../../components/save-bar/use-save-bar';
 
 interface FormBaseProps {
   onSave: (body: PostFormBody) => void;
@@ -25,77 +27,50 @@ interface FormBaseProps {
 }
 
 const FormBase: React.FC<FormBaseProps> = ({ onSave, formData }) => {
-  const { control, handleSubmit } = useForm<PostFormBody>({
+  const form = useForm<PostFormBody>({
     defaultValues: {
-      title: formData?.title,
-      description: formData?.description,
-      purpose: formData?.purpose,
-      body: {},
+      title: formData?.title ?? '',
+      description: formData?.description ?? '',
+      purpose: formData?.purpose ?? FormPurpose.NO_PURPOSE,
+      body: formData?.latestFormVersion?.body ?? DEFAULT_SCHEMA_VAL,
     },
   });
+
+  const shouldShowSave = useSaveBar(form.watch);
 
   return (
     <>
       <Card>
         <CardContent>
-          <Typography variant="h4" sx={{ mb: 2 }}>
-            Details
-          </Typography>
+          <Typography variant="h5">About form</Typography>
+          <Spacer />
           <Grid container spacing={2}>
             <Grid item xs={12}>
-              <Controller
-                name="title"
-                control={control}
+              <TextInput
+                control={form.control}
                 rules={{
                   required: true,
                   minLength: 1,
                 }}
-                render={({
-                  field: { onChange, value },
-                  fieldState: { invalid, error },
-                }) => (
-                  <TextField
-                    fullWidth
-                    label="Title"
-                    variant="outlined"
-                    onChange={onChange}
-                    value={value}
-                    required
-                    error={invalid}
-                    helperText={getFormErrorMessage(error?.type)}
-                  />
-                )}
+                label="Form Title"
+                name="title"
               />
             </Grid>
             <Grid item xs={12}>
-              <Controller
-                name="description"
-                control={control}
+              <TextInput
+                control={form.control}
                 rules={{
                   required: true,
                   minLength: 1,
                 }}
-                render={({
-                  field: { onChange, value },
-                  fieldState: { invalid, error },
-                }) => (
-                  <TextField
-                    fullWidth
-                    label="Description"
-                    variant="outlined"
-                    onChange={onChange}
-                    value={value}
-                    required
-                    error={invalid}
-                    helperText={getFormErrorMessage(error?.type)}
-                  />
-                )}
+                label="Form Description"
+                name="description"
               />
             </Grid>
             <Grid item xs={12}>
               <Controller
                 name="purpose"
-                control={control}
+                control={form.control}
                 rules={{
                   required: true,
                 }}
@@ -114,6 +89,9 @@ const FormBase: React.FC<FormBaseProps> = ({ onSave, formData }) => {
                       value={value}
                       error={invalid}
                     >
+                      <MenuItem value={FormPurpose.NO_PURPOSE}>
+                        No specific purpose
+                      </MenuItem>
                       <MenuItem value={FormPurpose.ACTIVITY_ENTRY}>
                         Activity Entry
                       </MenuItem>
@@ -133,9 +111,12 @@ const FormBase: React.FC<FormBaseProps> = ({ onSave, formData }) => {
           </Grid>
         </CardContent>
       </Card>
+      <Spacer size="lg" />
+      <FormBuilder form={form} name="body" />
+      <Spacer size="saveBar" />
       <SaveBar
-        open
-        onSave={handleSubmit((data) => {
+        open={shouldShowSave}
+        onSave={form.handleSubmit((data) => {
           onSave(data);
         })}
       />
