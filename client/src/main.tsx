@@ -25,6 +25,7 @@ import NotFoundPage from './pages/not-found';
 import Forms, { CreateForm, UpdateForm } from './pages/forms';
 
 import { FormBuilder } from './components/form-builder/form-builder';
+import { AllFormInputs } from './components/form-inputs/form-inputs';
 
 const queryClient = new QueryClient();
 
@@ -51,6 +52,7 @@ ReactDOM.render(
               <Route path="roles/:id" element={<UpdateRoleForm />} />
               <Route path="allowlist" element={<AllowList />} />
               <Route path="formBuilderTest" element={<FormBuilder />} />
+              <Route path="formInputsTest" element={<AllFormInputs />} />
               <Route path="forms" element={<Forms />} />
               <Route path="forms/:formId" element={<UpdateForm />} />
               <Route path="forms/create" element={<CreateForm />} />
