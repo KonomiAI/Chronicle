@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { Card, CardContent, Grid, MenuItem, Typography } from '@mui/material';
@@ -26,6 +26,18 @@ const FormBase: React.FC<FormBaseProps> = ({ onSave, formData }) => {
       body: formData?.latestFormVersion?.body ?? DEFAULT_SCHEMA_VAL,
     },
   });
+
+  useEffect(() => {
+    if (formData) {
+      const { latestFormVersion, description, purpose, title } = formData;
+      form.reset({
+        title,
+        purpose,
+        description,
+        body: latestFormVersion?.body ?? DEFAULT_SCHEMA_VAL,
+      });
+    }
+  }, [formData]);
 
   const shouldShowSave = useSaveBar(form.watch);
 

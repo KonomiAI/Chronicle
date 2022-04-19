@@ -31,6 +31,8 @@ const UpdateForm = () => {
     return <LinearProgress />;
   }
 
+  console.log(form);
+
   return (
     <Container>
       <PageHeader pageTitle="Update a form" backURL="/forms" />
