@@ -1,11 +1,10 @@
 import React from 'react';
-import { Control, Controller, RegisterOptions } from 'react-hook-form';
+import { Control, Controller, RegisterOptions, Path } from 'react-hook-form';
 import { getFormErrorMessage } from '../../utils';
 import { StyledTextField } from './styled';
-import { ßwillFixThisTypeLater } from '../../types';
 
-export interface FormInputProps<T = ßwillFixThisTypeLater> {
-  name: string;
+export interface FormInputProps<T> {
+  name: Path<T>;
   control: Control<T>;
   rules?: Omit<RegisterOptions, 'valueAsDate' | 'setValueAs' | 'disabled'>;
   label: string;
@@ -15,7 +14,7 @@ export interface FormInputProps<T = ßwillFixThisTypeLater> {
   multiline?: number;
 }
 
-export const FormInputField = ({
+export const FormInputField = <T,>({
   control,
   name,
   rules,
@@ -24,7 +23,7 @@ export const FormInputField = ({
   variant = 'outlined',
   multiline = 0,
   numberField = false,
-}: FormInputProps) => (
+}: FormInputProps<T>) => (
   <Controller
     name={name}
     control={control}
