@@ -1,11 +1,12 @@
 import React from 'react';
 import { FormOptionValue } from '@konomi.ai/c-form';
 import { FormControl } from '@mui/material';
-import { Control, Controller } from 'react-hook-form';
+import { Controller } from 'react-hook-form';
 import { StyledInputLabel, StyledSelect, StyledMenuItem } from './styled';
+import { ßwillFixThisTypeLater } from '../../types';
 
 export interface FormSelectBaseProps {
-  control: Control;
+  control: ßwillFixThisTypeLater;
   name: string;
   label: string;
   required?: boolean;

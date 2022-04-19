@@ -2,10 +2,11 @@ import React from 'react';
 import { Control, Controller, RegisterOptions } from 'react-hook-form';
 import { getFormErrorMessage } from '../../utils';
 import { StyledTextField } from './styled';
+import { ßwillFixThisTypeLater } from '../../types';
 
-export interface FormInputProps {
+export interface FormInputProps<T = ßwillFixThisTypeLater> {
   name: string;
-  control: Control;
+  control: Control<T>;
   rules?: Omit<RegisterOptions, 'valueAsDate' | 'setValueAs' | 'disabled'>;
   label: string;
   testId?: string;
@@ -33,6 +34,7 @@ export const FormInputField = ({
       fieldState: { invalid, error },
     }) => (
       <StyledTextField
+        required={!!rules?.required ?? false}
         size="small"
         fullWidth
         label={label}

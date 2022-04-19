@@ -1,25 +1,16 @@
 import React from 'react';
-import { Controller, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 
-import {
-  Card,
-  CardContent,
-  FormControl,
-  FormHelperText,
-  Grid,
-  InputLabel,
-  MenuItem,
-  Select,
-  Typography,
-} from '@mui/material';
+import { Card, CardContent, Grid, MenuItem, Typography } from '@mui/material';
 
 import { FormPurpose, PostFormBody, Form } from '../../types/form';
-import { getFormErrorMessage } from '../../utils';
 
-import { FormBuilder, SaveBar, TextInput } from '../../components';
+import { FormBuilder, SaveBar } from '../../components';
 import Spacer from '../../components/spacer/Spacer';
 import { DEFAULT_SCHEMA_VAL } from '../../components/form-builder/const';
 import { useSaveBar } from '../../components/save-bar/use-save-bar';
+import { FormInputField } from '../../components/form-inputs/FormInputField';
+import { FormSelect } from '../../components/form-inputs/FormSelect';
 
 interface FormBaseProps {
   onSave: (body: PostFormBody) => void;
@@ -46,18 +37,18 @@ const FormBase: React.FC<FormBaseProps> = ({ onSave, formData }) => {
           <Spacer />
           <Grid container spacing={2}>
             <Grid item xs={12}>
-              <TextInput
+              <FormInputField
                 control={form.control}
                 rules={{
                   required: true,
                   minLength: 1,
                 }}
-                label="Form Title"
+                label="Form title"
                 name="title"
               />
             </Grid>
             <Grid item xs={12}>
-              <TextInput
+              <FormInputField
                 control={form.control}
                 rules={{
                   required: true,
@@ -65,48 +56,26 @@ const FormBase: React.FC<FormBaseProps> = ({ onSave, formData }) => {
                 }}
                 label="Form Description"
                 name="description"
+                multiline={3}
               />
             </Grid>
             <Grid item xs={12}>
-              <Controller
-                name="purpose"
+              <FormSelect
                 control={form.control}
-                rules={{
-                  required: true,
-                }}
-                render={({
-                  field: { onChange, value },
-                  fieldState: { invalid, error },
-                }) => (
-                  <FormControl fullWidth required error={!!error}>
-                    <InputLabel id="demo-simple-select-label">
-                      Purpose
-                    </InputLabel>
-                    <Select
-                      id="purpose"
-                      label="Purpose"
-                      onChange={onChange}
-                      value={value}
-                      error={invalid}
-                    >
-                      <MenuItem value={FormPurpose.NO_PURPOSE}>
-                        No specific purpose
-                      </MenuItem>
-                      <MenuItem value={FormPurpose.ACTIVITY_ENTRY}>
-                        Activity Entry
-                      </MenuItem>
-                      <MenuItem value={FormPurpose.CUSTOMER}>Customer</MenuItem>
-                      <MenuItem value={FormPurpose.INVENTORY}>
-                        Inventory
-                      </MenuItem>
-                      <MenuItem value={FormPurpose.STAFF}>Staff</MenuItem>
-                    </Select>
-                    <FormHelperText>
-                      {getFormErrorMessage(error?.type)}
-                    </FormHelperText>
-                  </FormControl>
-                )}
-              />
+                name="purpose"
+                label="Form purpose"
+                required
+              >
+                <MenuItem value={FormPurpose.NO_PURPOSE}>
+                  No specific purpose
+                </MenuItem>
+                <MenuItem value={FormPurpose.ACTIVITY_ENTRY}>
+                  Activity Entry
+                </MenuItem>
+                <MenuItem value={FormPurpose.CUSTOMER}>Customer</MenuItem>
+                <MenuItem value={FormPurpose.INVENTORY}>Inventory</MenuItem>
+                <MenuItem value={FormPurpose.STAFF}>Staff</MenuItem>
+              </FormSelect>
             </Grid>
           </Grid>
         </CardContent>

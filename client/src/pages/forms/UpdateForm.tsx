@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useMutation } from 'react-query';
 
 import { Container, LinearProgress } from '@mui/material';
@@ -13,15 +13,14 @@ import FormBase from './FormBase';
 
 const UpdateForm = () => {
   const { formId } = useParams();
-  const navigate = useNavigate();
 
   const id = formId || '';
 
-  const { data: form, isLoading } = useGetForm(id);
+  const { data: form, isLoading, refetch } = useGetForm(id);
 
   const updateFormAndMutate = useMutation(updateForm, {
     onSuccess: () => {
-      navigate('/forms');
+      refetch();
     },
   });
 
