@@ -6,7 +6,12 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   // TODO we should configure this once we go to production
   app.enableCors();
-  app.useGlobalPipes(new ValidationPipe());
+  app.useGlobalPipes(
+    new ValidationPipe({
+      forbidNonWhitelisted: true,
+      whitelist: true,
+    }),
+  );
   // TODO enable this when we go to production
   // app.useGlobalGuards(
   //   new IPAllowlistGuard(app.get(IPService), new Reflector()),

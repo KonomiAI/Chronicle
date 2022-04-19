@@ -1,4 +1,4 @@
-import useAxios from './axois';
+import useAxios from './axios';
 import { AuthBody, User, UserNoAccessToken } from '../types';
 import { ACCESS_TOKEN_EXPIRY_KEY, ACCESS_TOKEN_KEY } from '../vars';
 import { useLocalStorage } from '../utils';

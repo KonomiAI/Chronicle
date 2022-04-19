@@ -11,6 +11,7 @@ import { AuthModule } from './auth/auth.module';
 import { ProductModule } from './models/products/product.module';
 import { FormModule } from './models/forms/form.module';
 import { ResponseModule } from './models/responses/response.module';
+import { CustomerModule } from './models/customers/customer.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { ResponseModule } from './models/responses/response.module';
     IPModule,
     FormModule,
     ResponseModule,
+    CustomerModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -6,7 +6,7 @@ import {
   SetMetadata,
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { IPService } from 'src/models/ip/ip.service';
+import { IPService } from '../models/ip/ip.service';
 
 const IP_CHECK_KEY = 'shouldCheckIPAddress';
 

@@ -12,7 +12,7 @@ import { Variant as VariantModel } from '@prisma/client';
 
 import { VariantService } from './variant.service';
 import { CreateVariantDto, UpdateVariantDto } from './variant.dto';
-import { TransformInterceptor } from 'src/interceptors/transform.interceptor';
+import { TransformInterceptor } from '../../../interceptors/transform.interceptor';
 
 @Controller('products/:productId/variants')
 @UseInterceptors(TransformInterceptor)
