@@ -1,10 +1,5 @@
-name: Build Frontend Image
-on:
-  push:
-    branches:
-      - main
-    paths:
-      - 'client/**'
+name:  Build DB Seed Image
+on: [push]
 jobs:
   build-and-push-to-gcr:
     runs-on: ubuntu-latest
@@ -16,5 +11,6 @@ jobs:
           gcloud_service_key: ${{ secrets.GCP_GCR_SERVICE_KEY }}
           registry: gcr.io
           project_id: konomi-ai
-          image_name: chronicle-frontend
-          context: client
+          image_name: chronicle-seed
+          context: server
+          dockerfile: ./server/Seed.Dockerfile
