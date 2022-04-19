@@ -1,5 +1,10 @@
-name:  Build DB Seed Image
-on: [push]
+name: Build DB Seed Image
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'server/**'
 jobs:
   build-and-push-to-gcr:
     runs-on: ubuntu-latest
