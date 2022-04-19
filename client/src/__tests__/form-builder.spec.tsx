@@ -2,13 +2,16 @@ import React from 'react';
 
 import { test, describe } from 'vitest';
 
+import { useForm } from 'react-hook-form';
+
 import { FormBuilder } from '../components';
 import { render, screen } from './testUtil';
 import '@testing-library/jest-dom';
 
 describe('FormBuilder Component', () => {
   beforeEach(() => {
-    render(<FormBuilder />);
+    const form = useForm();
+    render(<FormBuilder form={form} name="" />);
   });
   test('will render', () => {
     expect(screen.getByText('Section 1 of 1')).toBeInTheDocument();
