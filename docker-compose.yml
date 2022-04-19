@@ -18,7 +18,7 @@ services:
     container_name: chronicle-api
     image: chronicle-api:1.0.0
     env_file:
-      - .env
+      - .env.development
     build:
       context: ./server
       target: development
@@ -39,13 +39,13 @@ services:
     image: mongo:5
     container_name: mongodb
     env_file:
-      - .env
+      - .env.development
     ports:
       - 27017:27017
   mongo_replica:
     build: ./mongo_replica
     env_file:
-      - .env
+      - .env.development
     ports:
       - 27018:27018
   db_seed:
@@ -56,5 +56,4 @@ services:
       - chronicle-database
       - mongo_replica
     env_file:
-      - .env
-  
+      - .env.development
