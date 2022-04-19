@@ -27,19 +27,18 @@ const FormBase: React.FC<FormBaseProps> = ({ onSave, formData }) => {
     },
   });
 
-  useEffect(() => {
-    if (formData) {
-      const { latestFormVersion, description, purpose, title } = formData;
-      form.reset({
-        title,
-        purpose,
-        description,
-        body: latestFormVersion?.body ?? DEFAULT_SCHEMA_VAL,
-      });
-    }
-  }, [formData]);
+  const [shouldShowSave, setFormData] = useSaveBar<PostFormBody>(form);
 
-  const shouldShowSave = useSaveBar(form.watch);
+  useEffect(() => {
+    const { latestFormVersion, description, purpose, title } = formData ?? {};
+
+    setFormData({
+      title,
+      purpose,
+      description,
+      body: latestFormVersion?.body ?? DEFAULT_SCHEMA_VAL,
+    });
+  }, [formData]);
 
   return (
     <>

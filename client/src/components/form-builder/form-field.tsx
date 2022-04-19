@@ -21,8 +21,8 @@ import {
 } from '@mui/material';
 import { Clear, Delete, RadioButtonUnchecked } from '@mui/icons-material';
 import { secureRandomString } from '../../utils';
-import { TextInput } from '../text-field/TextField';
 import { FieldTypeSelect } from './FieldTypeSelect';
+import { FormInputField } from '../form-inputs/FormInputField';
 
 interface FormFieldProps {
   sectionIndex: number;
@@ -63,7 +63,7 @@ export const FormField = ({
       <CardContent>
         <Grid container spacing={2}>
           <Grid item xs={8}>
-            <TextInput
+            <FormInputField
               control={control}
               name={getFormName('name')}
               label="Question title"
@@ -96,10 +96,11 @@ export const FormField = ({
           </Grid>
           <Grid item xs={12}>
             {shouldShowDescription && (
-              <TextInput
+              <FormInputField
                 name={getFormName('description')}
                 control={control}
                 label="Description (optional)"
+                multiline={2}
               />
             )}
           </Grid>

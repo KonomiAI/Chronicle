@@ -1,6 +1,6 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import { useMutation } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 
 import { Container, LinearProgress } from '@mui/material';
 
@@ -13,14 +13,15 @@ import FormBase from './FormBase';
 
 const UpdateForm = () => {
   const { formId } = useParams();
+  const queryClient = useQueryClient();
 
   const id = formId || '';
 
-  const { data: form, isLoading, refetch } = useGetForm(id);
+  const { data: form, isLoading } = useGetForm(id);
 
   const updateFormAndMutate = useMutation(updateForm, {
-    onSuccess: () => {
-      refetch();
+    onSuccess: async () => {
+      queryClient.invalidateQueries(['forms', formId]);
     },
   });
 
@@ -31,11 +32,9 @@ const UpdateForm = () => {
     return <LinearProgress />;
   }
 
-  console.log(form);
-
   return (
     <Container>
-      <PageHeader pageTitle="Update a form" backURL="/forms" />
+      <PageHeader pageTitle={`${form?.title}`} backURL="/forms" />
       <Spacer size="lg" />
       <FormBase formData={form} onSave={saveChanges} />
       <Spacer size="lg" />

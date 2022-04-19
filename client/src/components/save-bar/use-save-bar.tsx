@@ -1,16 +1,33 @@
 import { useEffect, useState } from 'react';
-import { UseFormWatch } from 'react-hook-form';
+import { DeepPartial, UnpackNestedValue, UseFormReturn } from 'react-hook-form';
 
 export interface UseSaveBarConfig {
   default?: boolean;
 }
 
-export function useSaveBar<T>(watch: UseFormWatch<T>) {
+export function useSaveBar<T>(
+  form: UseFormReturn<T>,
+): [
+  boolean,
+  React.Dispatch<
+    React.SetStateAction<
+      UnpackNestedValue<DeepPartial<T>> | UnpackNestedValue<T> | undefined
+    >
+  >,
+] {
   const [shouldShowSave, setShouldShowSave] = useState(false);
+  const [data, setData] = useState<
+    UnpackNestedValue<DeepPartial<T>> | UnpackNestedValue<T>
+  >();
   useEffect(() => {
-    const subscription = watch(() => setShouldShowSave(true));
-    return () => subscription.unsubscribe();
-  }, []);
+    console.log('test');
 
-  return shouldShowSave;
+    if (data) {
+      form.reset(data);
+    }
+    const subscription = form.watch(() => setShouldShowSave(true));
+    return () => subscription.unsubscribe();
+  }, [data]);
+
+  return [shouldShowSave, setData];
 }
