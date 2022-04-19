@@ -1,10 +1,5 @@
-name: Build Backend Image
-on:
-  push:
-    branches:
-      - main
-    paths:
-      - 'server/**'
+name: Build Frontend Image
+on: [push]
 jobs:
   build-and-push-to-gcr:
     runs-on: ubuntu-latest
@@ -16,5 +11,5 @@ jobs:
           gcloud_service_key: ${{ secrets.GCP_GCR_SERVICE_KEY }}
           registry: gcr.io
           project_id: konomi-ai
-          image_name: chronicle-api
-          context: server
+          image_name: chronicle-frontend
+          context: client
