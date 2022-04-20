@@ -19,15 +19,11 @@ variable "number_of_nodes" {
 }
 
 variable "machine_type" {
-  description = "The machine type of the cluster nodes"
+  description = "The machine type of the cluster nodes. List of costs can be found here: https://gcpinstances.doit-intl.com"
 }
 
 variable "disk_size" {
   description = "The disk size of the cluster nodes"
-}
-
-variable "ip_address_name" {
-  description = "The name of the static IP Address for the load balancer. The name must be 1-63 characters long and match the regular expression [a-z]([-a-z0-9]*[a-z0-9])?"
 }
 
 variable "network_name" {
@@ -48,11 +44,4 @@ variable "ssl_cert_key" {
 
 variable "https" {
   description = "Whether to set up the load balancer with HTTPS or not"
-}
-
-resource "google_compute_network" "default" {
-  project                 = var.project_id
-  name                    = var.network_name
-  auto_create_subnetworks = "false"
-  routing_mode            = "REGIONAL" 
 }

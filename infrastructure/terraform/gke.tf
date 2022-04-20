@@ -96,4 +96,3 @@ resource "null_resource" "local_k8s_context" {
     command = "for i in 1 2 3 4 5; do gcloud container clusters get-credentials ${var.gke_cluster_name} --project=${var.project_id} --zone=${var.zone} && break || sleep 60; done"
   }
 }
-
