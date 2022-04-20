@@ -12,6 +12,7 @@ async function bootstrap() {
       whitelist: true,
     }),
   );
+  app.enableShutdownHooks();
   // TODO enable this when we go to production
   // app.useGlobalGuards(
   //   new IPAllowlistGuard(app.get(IPService), new Reflector()),
