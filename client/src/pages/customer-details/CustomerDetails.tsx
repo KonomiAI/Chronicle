@@ -201,6 +201,7 @@ export function ManageCustomerForm() {
 
   const doSave = (data: CustomerCreateDto) => {
     setIsSavingChanges(true);
+    setErrorMessage('');
     updateCustomerAndMutate.mutate({
       data,
       id,
