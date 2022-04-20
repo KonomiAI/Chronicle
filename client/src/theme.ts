@@ -9,7 +9,9 @@ const theme = createTheme({
     '0 0.063em 0.313em 0 rgba(0,0,0,.07), 0 0.438em 1.063em 0 rgba(0,0,0,.1)',
     '0 0.938em 2.188em rgba(50,50,93,.1), 0 0.313em 0.938em rgba(0,0,0,.07)',
     '0 0.938em 2.188em rgba(50,50,93,.15), 0 0.313em 0.938em rgba(0,0,0,.1)',
-    ...Array(19).fill('none'),
+    ...Array(19).fill(
+      '0 0.938em 2.188em rgba(50,50,93,.15), 0 0.313em 0.938em rgba(0,0,0,.1)',
+    ),
   ] as Shadows,
   palette: {
     primary: {

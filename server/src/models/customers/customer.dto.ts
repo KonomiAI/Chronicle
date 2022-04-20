@@ -5,7 +5,6 @@ import {
   IsISO8601,
   IsNotEmpty,
   IsOptional,
-  IsPhoneNumber,
   IsString,
 } from 'class-validator';
 
@@ -31,6 +30,5 @@ export class CustomerDto {
   gender: Gender;
 
   @IsOptional()
-  @IsPhoneNumber()
   phone: string;
 }

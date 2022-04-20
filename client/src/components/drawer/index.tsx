@@ -97,7 +97,13 @@ export default function ChronicleDrawer({
           </ListItemIcon>
           <ListItemText primary="Home" />
         </ListItemButton>
-        <ListItem button key="customers">
+        <ListItem
+          component="a"
+          href="/customers"
+          selected={pathname === '/customers'}
+          key="customers"
+          sx={{ color: 'inherit' }}
+        >
           <ListItemIcon>
             <Face />
           </ListItemIcon>
