@@ -19,12 +19,14 @@ ENV NODE_ENV=${NODE_ENV}
 
 WORKDIR /usr/src/app
 
-COPY package*.json ./
+COPY package*.json yarn.lock ./
 
 RUN yarn
 
 COPY . .
 
+RUN npx prisma generate
+
 COPY --from=development /usr/src/app/dist ./dist
 
-CMD ["node", "dist/main"] 
+CMD ["node", "dist/src/main"] 
