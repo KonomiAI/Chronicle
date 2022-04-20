@@ -9,7 +9,7 @@ import {
 } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useMutation } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 
 import { SaveBar, TextInput, DateInput } from '../../components';
 import PageHeader from '../../components/page-header/PageHeader';
@@ -181,21 +181,21 @@ export function ManageCustomerForm() {
   if (!id) {
     return <ErrorPage message="Customer ID is not defined" />;
   }
-  const { data: currentData, isLoading, refetch } = useCustomer(id);
+  const client = useQueryClient();
+  const { data: currentData, isLoading } = useCustomer(id);
   const [errorMessage, setErrorMessage] = useState('');
   const [isSavingChanges, setIsSavingChanges] = useState(false);
 
   const updateCustomerAndMutate = useMutation(updateCustomer, {
-    onSuccess: () => {
-      refetch();
-    },
-    onSettled: () => {
+    onSuccess: async () => {
+      await client.invalidateQueries(['customer', id]);
       setIsSavingChanges(false);
     },
     onError: () => {
       setErrorMessage(
         "Failed to update the customer's record. Please try again.",
       );
+      setIsSavingChanges(false);
     },
   });
 
