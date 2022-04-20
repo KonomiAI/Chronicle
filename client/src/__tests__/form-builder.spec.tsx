@@ -7,11 +7,15 @@ import { useForm } from 'react-hook-form';
 import { FormBuilder } from '../components';
 import { render, screen } from './testUtil';
 import '@testing-library/jest-dom';
+import { DEFAULT_SCHEMA_VAL } from '../components/form-builder/const';
 
 describe('FormBuilder Component', () => {
   beforeEach(() => {
-    const form = useForm();
-    render(<FormBuilder form={form} name="" />);
+    const TestComp = () => {
+      const form = useForm({ defaultValues: DEFAULT_SCHEMA_VAL });
+      return <FormBuilder form={form} name="" />;
+    };
+    render(<TestComp />);
   });
   test('will render', () => {
     expect(screen.getByText('Section 1 of 1')).toBeInTheDocument();

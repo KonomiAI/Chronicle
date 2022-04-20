@@ -24,9 +24,6 @@ import {
 import NotFoundPage from './pages/not-found';
 import Forms, { CreateForm, UpdateForm } from './pages/forms';
 
-import { FormBuilder } from './components/form-builder/form-builder';
-import { AllFormInputs } from './components/form-inputs/form-inputs';
-
 const queryClient = new QueryClient();
 
 ReactDOM.render(
