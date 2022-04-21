@@ -4,8 +4,17 @@ resource "google_compute_network" "default" {
   auto_create_subnetworks = "false"
   routing_mode            = "REGIONAL" 
 }
+resource "google_compute_subnetwork" "default" {
+  depends_on    = [google_compute_network.default]
+  name          = "${var.gke_cluster_name}-subnet"
+  project       = google_compute_network.default.project
+  region        = var.region
+  network       = google_compute_network.default.name
+  ip_cidr_range = "10.0.0.0/24"
+}
 
 resource "google_compute_router" "router" {
+  depends_on    = [google_compute_network.default]
   name    = "${var.gke_cluster_name}-router"
   project = var.project_id
   region  = var.region
@@ -23,6 +32,7 @@ resource "google_compute_router_nat" "nat" {
 }
 
 resource "google_compute_address" "default" {
+  depends_on    = [google_compute_subnetwork.default]
   name = "${var.gke_cluster_name}-ip"
   project = google_compute_subnetwork.default.project
   region  = google_compute_subnetwork.default.region
