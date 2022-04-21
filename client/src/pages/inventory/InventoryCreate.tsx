@@ -17,23 +17,29 @@ import {
   TableRow,
   Paper,
   Dialog,
+  Alert,
+  AlertTitle,
+  Chip,
 } from '@mui/material';
 
 import PageHeader from '../../components/page-header/PageHeader';
 import Spacer from '../../components/spacer/Spacer';
 import VaraintCreateDialog from './VariantCreate';
 import { PostVariantBody, Variant } from '../../types';
+import { SaveBar } from '../../components';
 
 export default function InventoryCreatePage() {
   const [isVariantDialogOpen, setIsVariantDialogOpen] = useState(false);
   const [variants, setVariants] = useState<Variant[]>([]);
 
   const generateTableRows = () =>
-    variants.map(({ description, price, createdAt, barcode }) => (
+    variants.map(({ description, price, barcode }) => (
       <TableRow>
         <TableCell>{description}</TableCell>
         <TableCell>{price}</TableCell>
-        <TableCell>{createdAt}</TableCell>
+        <TableCell>
+          <Chip label="Pending creation" size="small" />
+        </TableCell>
         <TableCell>{barcode}</TableCell>
       </TableRow>
     ));
@@ -105,20 +111,30 @@ export default function InventoryCreatePage() {
           </Button>
         </Box>
       </Box>
-      <TableContainer component={Paper}>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>Variant Name</TableCell>
-              <TableCell>Price</TableCell>
-              <TableCell>Date</TableCell>
-              <TableCell>Barcode</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>{generateTableRows()}</TableBody>
-        </Table>
-      </TableContainer>
+      {variants.length === 0 ? (
+        <>
+          <Alert severity="warning">
+            <AlertTitle>At least one variant must be created.</AlertTitle>
+            Please use the &quot;add&quot; button to add a variant
+          </Alert>
+        </>
+      ) : (
+        <TableContainer component={Paper}>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>Variant Name</TableCell>
+                <TableCell>Price</TableCell>
+                <TableCell>Date</TableCell>
+                <TableCell>Barcode</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>{generateTableRows()}</TableBody>
+          </Table>
+        </TableContainer>
+      )}
       <Spacer size="lg" />
+      <SaveBar open onSave={() => {}} />
     </Container>
   );
 }
