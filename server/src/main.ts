@@ -1,6 +1,8 @@
 import { ValidationPipe } from '@nestjs/common';
-import { NestFactory } from '@nestjs/core';
+import { NestFactory, Reflector } from '@nestjs/core';
 import { AppModule } from './app.module';
+import { IPAllowlistGuard } from './auth/ip.guard';
+import { IPService } from './models/ip/ip.service';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -14,9 +16,12 @@ async function bootstrap() {
   );
   app.enableShutdownHooks();
   // TODO enable this when we go to production
-  // app.useGlobalGuards(
-  //   new IPAllowlistGuard(app.get(IPService), new Reflector()),
-  // );
+  if (process.env.CHRONICLE_SKIP_AUTH !== 'YES') {
+    app.useGlobalGuards(
+      new IPAllowlistGuard(app.get(IPService), new Reflector()),
+    );
+  }
+
   await app.listen(3001);
 }
 bootstrap();
