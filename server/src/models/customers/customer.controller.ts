@@ -35,26 +35,17 @@ export class CustomerController {
   }
 
   @Post()
-  createCustomer(@Body() { dateOfBirth, ...data }: CustomerDto) {
+  createCustomer(@Body() data: CustomerDto) {
     return this.customerService.createCustomer({
-      data: {
-        ...data,
-        dateOfBirth: new Date(dateOfBirth),
-      },
+      data,
     });
   }
 
   @Put(':id')
-  async updateCustomer(
-    @Body() { dateOfBirth, ...data }: CustomerDto,
-    @Param('id') id: string,
-  ) {
+  async updateCustomer(@Body() data: CustomerDto, @Param('id') id: string) {
     await this.getCustomer(id);
     return this.customerService.updateCustomer({
-      data: {
-        ...data,
-        dateOfBirth: new Date(dateOfBirth),
-      },
+      data,
       id,
     });
   }

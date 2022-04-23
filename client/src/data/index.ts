@@ -3,3 +3,4 @@ export * from './axios';
 export * from './staff';
 export * from './roles';
 export * from './features';
+export * from './customers';
