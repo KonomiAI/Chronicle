@@ -7,6 +7,8 @@ import {
   Put,
   UseInterceptors,
 } from '@nestjs/common';
+import { Actions, Features } from 'src/auth/constants';
+import { Auth } from 'src/auth/role.decorator';
 import { TransformInterceptor } from '../../interceptors/transform.interceptor';
 import { CreateFormDto, UpdateFormDto } from './form.dto';
 import { FormService } from './form.service';
@@ -32,10 +34,12 @@ export class FormController {
   constructor(private readonly formService: FormService) {}
 
   @Get()
+  @Auth(Actions.READ, [Features.Form])
   async getForms() {
     return this.formService.forms({ select: DEFAULT_FORM_SELECT });
   }
 
+  @Auth(Actions.READ, [Features.Form])
   @Get(':id')
   async getForm(@Param('id') id: string) {
     return this.formService.form(
@@ -46,6 +50,7 @@ export class FormController {
     );
   }
 
+  @Auth(Actions.READ, [Features.Form])
   @Get('version/:id')
   async getFormVersion(@Param('id') id: string) {
     return this.formService.formVersion({
@@ -53,6 +58,7 @@ export class FormController {
     });
   }
 
+  @Auth(Actions.WRITE, [Features.Form])
   @Post()
   async createForm(@Body() { body, ...data }: CreateFormDto) {
     const initialForm = await this.formService.createForm(
@@ -63,6 +69,7 @@ export class FormController {
     return this.formService.attachVersion(formId, body, DEFAULT_FORM_SELECT);
   }
 
+  @Auth(Actions.WRITE, [Features.Form])
   @Put(':id')
   async updateForm(
     @Param('id') id: string,
