@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
 import {
@@ -13,24 +13,45 @@ import {
 
 import Spacer from '../../components/spacer/Spacer';
 import { PostVariantBody } from '../../types';
-import { getFormErrorMessage, floatToPennies } from '../../utils';
+import {
+  getFormErrorMessage,
+  floatToPennies,
+  penniesToFloat,
+} from '../../utils';
 
 interface VariantCreateDialogProps {
   isOpen: boolean;
   handleClose: () => void;
   handleCreate: (variant: PostVariantBody) => void;
+  variant?: PostVariantBody;
 }
 
 const VariantCreateDialog: React.FC<VariantCreateDialogProps> = ({
   handleClose,
   isOpen,
   handleCreate,
+  variant,
 }) => {
-  const { control, handleSubmit, reset } = useForm<PostVariantBody>({});
+  const { control, handleSubmit, reset } = useForm<PostVariantBody>();
+
+  useEffect(() => {
+    reset({
+      description: variant?.description,
+      price: penniesToFloat(variant?.price || 0),
+      barcode: variant?.barcode,
+    });
+  }, [variant]);
+
+  const closeActions = () => {
+    handleClose();
+    reset();
+  };
 
   return (
-    <Dialog open={isOpen} onClose={handleClose}>
-      <DialogTitle>Create a New Variant</DialogTitle>
+    <Dialog open={isOpen} onClose={closeActions}>
+      <DialogTitle>
+        {variant ? 'Update a variant' : 'Create a new variant'}
+      </DialogTitle>
       <DialogContent>
         <Spacer />
         <Grid container spacing={2}>
@@ -118,7 +139,7 @@ const VariantCreateDialog: React.FC<VariantCreateDialogProps> = ({
         </Grid>
       </DialogContent>
       <DialogActions>
-        <Button color="inherit" onClick={handleClose}>
+        <Button color="inherit" onClick={closeActions}>
           Cancel
         </Button>
         <Button
@@ -127,11 +148,10 @@ const VariantCreateDialog: React.FC<VariantCreateDialogProps> = ({
               ...data,
               price: floatToPennies(data.price),
             });
-            handleClose();
-            reset();
+            closeActions();
           })}
         >
-          Create
+          {variant ? 'Save' : 'Create'}
         </Button>
       </DialogActions>
     </Dialog>

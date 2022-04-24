@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import {
   Button,
@@ -26,6 +26,7 @@ import { penniesToPrice } from '../../utils';
 
 const ProductsTableContainer = () => {
   const { data: products, isLoading, isError } = useGetProducts();
+  const navigate = useNavigate();
 
   if (isLoading) {
     return <LoadingCard title="Fetching products..." />;
@@ -52,10 +53,22 @@ const ProductsTableContainer = () => {
   return (
     <ProductsTable
       tableContents={products
-        .map(({ name, variants, brand, isArchived }) =>
+        .map(({ id: productId, name, variants, brand, isArchived }) =>
           variants.map(
-            ({ id, price, barcode, createdAt, updatedAt, isAvailable }) => (
-              <TableRow key={id}>
+            ({
+              id: variantId,
+              price,
+              barcode,
+              createdAt,
+              updatedAt,
+              isAvailable,
+            }) => (
+              <TableRow
+                key={variantId}
+                hover
+                sx={{ cursor: 'pointer' }}
+                onClick={() => navigate(`products/${productId}`)}
+              >
                 <TableCell>{name}</TableCell>
                 <TableCell>{brand}</TableCell>
                 <TableCell>{penniesToPrice(price)}</TableCell>
@@ -112,7 +125,11 @@ export default function InventoryPage() {
       <PageHeader
         pageTitle="Inventory"
         action={
-          <Button component={Link} to="/inventory/create" variant="contained">
+          <Button
+            component={Link}
+            to="/inventory/products/create"
+            variant="contained"
+          >
             Create
           </Button>
         }
@@ -141,6 +158,8 @@ export default function InventoryPage() {
       <TabPanel value={value} index={1}>
         <InventoryTable tableContents={ProductList()} />
       </TabPanel>
+
+      <Spacer size="lg" />
     </Container>
   );
 }

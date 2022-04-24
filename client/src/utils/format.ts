@@ -5,3 +5,7 @@ export const floatToPennies = (value: number): number => {
 export const penniesToPrice = (value: number): string => {
   return `$${(value/100).toString()}`
 }
+
+export const penniesToFloat = (value: number): number => {
+  return value/100;
+}

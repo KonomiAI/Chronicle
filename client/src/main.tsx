@@ -16,7 +16,6 @@ import AllowList from './pages/allowlist/Allowlist';
 import StaffListPage from './pages/staff-list/StaffList';
 import StaffDetailsPage from './pages/staff-details/StaffDetails';
 import InventoryListPage from './pages/inventory/InventoryList';
-import InventoryCreatePage from './pages/inventory/InventoryCreate';
 import InventoryEditPage from './pages/inventory/InventoryEdit';
 import RolesListPage from './pages/roles-list/RolesList';
 import {
@@ -31,6 +30,8 @@ import {
   CreateCustomerForm,
   ManageCustomerForm,
 } from './pages/customer-details';
+import ProductCreate from './pages/inventory/ProductCreate';
+import ProductEdit from './pages/inventory/ProductEdit';
 
 const queryClient = new QueryClient();
 
@@ -49,10 +50,13 @@ ReactDOM.render(
                 <Route path="staff/:id" element={<StaffDetailsPage />} />
                 <Route path="inventory" element={<InventoryListPage />} />
                 <Route
-                  path="inventory/create"
-                  element={<InventoryCreatePage />}
+                  path="inventory/products/create"
+                  element={<ProductCreate />}
                 />
-                <Route path="inventory/:id" element={<InventoryEditPage />} />
+                <Route
+                  path="inventory/products/:productId"
+                  element={<ProductEdit />}
+                />
                 <Route path="roles" element={<RolesListPage />} />
                 <Route path="roles/new" element={<CreateRoleForm />} />
                 <Route path="roles/:id" element={<UpdateRoleForm />} />

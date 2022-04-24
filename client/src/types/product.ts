@@ -27,6 +27,12 @@ export interface PostProductBody {
   variants: PostVariantBody[];
 }
 
+export interface PutProductBody {
+  name: string;
+  brand: string;
+  imageUrl?: string[];
+}
+
 export interface PostVariantBody {
   description: string;
   price: number;

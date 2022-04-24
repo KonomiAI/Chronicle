@@ -1,7 +1,5 @@
-import React, { useState } from 'react';
-import { useMutation } from 'react-query';
+import React, { useState, useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
 
 import {
   Box,
@@ -24,37 +22,42 @@ import {
   Chip,
 } from '@mui/material';
 
-import PageHeader from '../../components/page-header/PageHeader';
-import Spacer from '../../components/spacer/Spacer';
-import VaraintCreateDialog from './VariantCreate';
-import { PostProductBody, PostVariantBody } from '../../types';
-import { SaveBar } from '../../components';
-import { createProduct } from '../../data';
+import {
+  PostProductBody,
+  PostVariantBody,
+  Product,
+  Variant,
+} from '../../types';
 import { getFormErrorMessage, penniesToPrice } from '../../utils';
+import Spacer from '../../components/spacer/Spacer';
+import VariantCreateDialog from './VariantCreate';
+import { SaveBar } from '../../components';
 
-export default function InventoryCreatePage() {
+interface ProductBaseProps {
+  product?: Product;
+  variants: Variant[] | PostVariantBody[];
+  onSave: (body: PostProductBody) => void;
+  onAddVariant: (variant: PostVariantBody) => void;
+  isLoading?: boolean;
+}
+
+const ProductBase: React.FC<ProductBaseProps> = ({
+  variants,
+  onSave,
+  onAddVariant,
+  isLoading,
+  product,
+}) => {
   const [isVariantDialogOpen, setIsVariantDialogOpen] = useState(false);
   const [variantToEdit, setVariantToEdit] = useState<
     PostVariantBody | undefined
   >();
-  const [variants, setVariants] = useState<PostVariantBody[]>([]);
 
-  const { control, handleSubmit } = useForm<PostProductBody>({});
+  const { control, handleSubmit, reset } = useForm<PostProductBody>({});
 
-  const createProductAndMutate = useMutation(createProduct, {
-    onSuccess: () => {
-      navigate('/inventory');
-    },
-  });
-
-  const navigate = useNavigate();
-
-  const onSave = (body: PostProductBody) => {
-    createProductAndMutate.mutate({
-      ...body,
-      variants,
-    });
-  };
+  useEffect(() => {
+    reset(product);
+  }, [product]);
 
   const generateTableRows = () =>
     variants.map((variant) => {
@@ -81,17 +84,6 @@ export default function InventoryCreatePage() {
 
   return (
     <Container>
-      <PageHeader pageTitle="Create a product" backURL="/inventory" />
-      <Spacer size="lg" />
-      {createProductAndMutate.isError && (
-        <>
-          <Alert severity="error">
-            <AlertTitle>An unexpected error has occured</AlertTitle>
-            Something went wrong while creating a product
-          </Alert>
-          <Spacer size="lg" />
-        </>
-      )}
       <Card>
         <CardContent>
           <Typography variant="h4" sx={{ mb: 2 }}>
@@ -164,17 +156,11 @@ export default function InventoryCreatePage() {
           Variants
         </Typography>
         <Box>
-          <VaraintCreateDialog
+          <VariantCreateDialog
             isOpen={isVariantDialogOpen}
             handleClose={() => setIsVariantDialogOpen(false)}
             handleCreate={(variant: PostVariantBody) => {
-              const newVariants = [
-                ...variants,
-                {
-                  ...variant,
-                },
-              ];
-              setVariants(newVariants);
+              onAddVariant(variant);
             }}
             variant={variantToEdit}
           />
@@ -213,7 +199,7 @@ export default function InventoryCreatePage() {
       )}
       <Spacer size="lg" />
       <SaveBar
-        loading={createProductAndMutate.isLoading}
+        loading={isLoading}
         disabled={variants.length === 0}
         open
         onSave={handleSubmit((data) => {
@@ -222,4 +208,6 @@ export default function InventoryCreatePage() {
       />
     </Container>
   );
-}
+};
+
+export default ProductBase;
