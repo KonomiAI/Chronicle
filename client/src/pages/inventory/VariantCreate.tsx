@@ -13,7 +13,7 @@ import {
 
 import Spacer from '../../components/spacer/Spacer';
 import { PostVariantBody } from '../../types';
-import { getFormErrorMessage } from '../../utils';
+import { getFormErrorMessage, floatToPennies } from '../../utils';
 
 interface VariantCreateDialogProps {
   isOpen: boolean;
@@ -26,7 +26,7 @@ const VariantCreateDialog: React.FC<VariantCreateDialogProps> = ({
   isOpen,
   handleCreate,
 }) => {
-  const { control, handleSubmit } = useForm<PostVariantBody>({});
+  const { control, handleSubmit, reset } = useForm<PostVariantBody>({});
 
   return (
     <Dialog open={isOpen} onClose={handleClose}>
@@ -66,6 +66,10 @@ const VariantCreateDialog: React.FC<VariantCreateDialogProps> = ({
               rules={{
                 required: true,
                 minLength: 1,
+                pattern: {
+                  value: /^\d*(\.\d{0,2})?$/,
+                  message: 'Please enter a valid price (eg: 1.00)',
+                },
               }}
               render={({
                 field: { onChange, value },
@@ -73,10 +77,11 @@ const VariantCreateDialog: React.FC<VariantCreateDialogProps> = ({
               }) => (
                 <TextField
                   type="number"
+                  inputMode="numeric"
                   fullWidth
                   label="Price"
                   variant="outlined"
-                  onChange={onChange}
+                  onChange={(e) => onChange(parseFloat(e.target.value))}
                   value={value}
                   required
                   error={invalid}
@@ -118,8 +123,12 @@ const VariantCreateDialog: React.FC<VariantCreateDialogProps> = ({
         </Button>
         <Button
           onClick={handleSubmit((data) => {
-            handleCreate(data);
+            handleCreate({
+              ...data,
+              price: floatToPennies(data.price),
+            });
             handleClose();
+            reset();
           })}
         >
           Create

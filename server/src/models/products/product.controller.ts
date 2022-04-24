@@ -8,6 +8,7 @@ import {
   Post,
   UseInterceptors,
 } from '@nestjs/common';
+import { Product } from '@prisma/client';
 
 import { ProductService } from './product.service';
 import { CreateProductDto, UpdateProductDto } from './product.dto';
@@ -15,12 +16,15 @@ import {
   Response,
   TransformInterceptor,
 } from '../../interceptors/transform.interceptor';
-import { Product } from '@prisma/client';
+import { VariantService } from './variants/variant.service';
 
 @Controller('products')
 @UseInterceptors(TransformInterceptor)
 export class ProductController {
-  constructor(private readonly productService: ProductService) {}
+  constructor(
+    private readonly productService: ProductService,
+    private readonly variantService: VariantService
+  ) {}
 
   @Get()
   async getProducts(): Promise<Response<Product[]>> {
@@ -42,12 +46,22 @@ export class ProductController {
   async createProduct(
     @Body() { ...data }: CreateProductDto,
   ): Promise<Response<Product>> {
-    const { name, brand, imageUrl } = data;
+    const { name, brand, imageUrl, variants } = data;
     const product = await this.productService.createProduct({
       name,
       brand,
       imageUrl,
     });
+
+    const variantsWithProductId = variants.map((variant) => {
+      return {
+        ...variant,
+        productId: product.id,
+      }
+    })
+
+    await this.variantService.createVariants(variantsWithProductId);
+
     return {
       data: product,
     };

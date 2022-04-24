@@ -24,6 +24,7 @@ export interface PostProductBody {
   name: string;
   brand: string;
   imageUrl?: string[];
+  variants: PostVariantBody[];
 }
 
 export interface PostVariantBody {

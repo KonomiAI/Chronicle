@@ -1,4 +1,7 @@
 import React, { useState } from 'react';
+import { useMutation } from 'react-query';
+import { Controller, useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 
 import {
   Box,
@@ -16,7 +19,6 @@ import {
   TableHead,
   TableRow,
   Paper,
-  Dialog,
   Alert,
   AlertTitle,
   Chip,
@@ -25,18 +27,39 @@ import {
 import PageHeader from '../../components/page-header/PageHeader';
 import Spacer from '../../components/spacer/Spacer';
 import VaraintCreateDialog from './VariantCreate';
-import { PostVariantBody, Variant } from '../../types';
+import { PostProductBody, PostVariantBody, Product } from '../../types';
 import { SaveBar } from '../../components';
+import { createProduct, createVariant } from '../../data';
+import { getFormErrorMessage, penniesToPrice } from '../../utils';
 
 export default function InventoryCreatePage() {
   const [isVariantDialogOpen, setIsVariantDialogOpen] = useState(false);
-  const [variants, setVariants] = useState<Variant[]>([]);
+  const [variants, setVariants] = useState<PostVariantBody[]>([]);
+
+  const { control, handleSubmit } = useForm<PostProductBody>({});
+
+  const createProductAndMutate = useMutation(createProduct, {
+    onSuccess: () => {
+      navigate('/inventory');
+    },
+  });
+
+  const navigate = useNavigate();
+
+  const onSave = (body: PostProductBody) => {
+    createProductAndMutate.mutate({
+      ...body,
+      variants,
+    });
+  };
+
+  console.log(penniesToPrice(1234));
 
   const generateTableRows = () =>
     variants.map(({ description, price, barcode }) => (
-      <TableRow>
+      <TableRow key={barcode}>
         <TableCell>{description}</TableCell>
-        <TableCell>{price}</TableCell>
+        <TableCell>{penniesToPrice(price)}</TableCell>
         <TableCell>
           <Chip label="Pending creation" size="small" />
         </TableCell>
@@ -48,6 +71,15 @@ export default function InventoryCreatePage() {
     <Container>
       <PageHeader pageTitle="Create a product" backURL="/inventory" />
       <Spacer size="lg" />
+      {createProductAndMutate.isError && (
+        <>
+          <Alert severity="error">
+            <AlertTitle>An unexpected error has occured</AlertTitle>
+            Something went wrong while creating a product
+          </Alert>
+          <Spacer size="lg" />
+        </>
+      )}
       <Card>
         <CardContent>
           <Typography variant="h4" sx={{ mb: 2 }}>
@@ -55,23 +87,53 @@ export default function InventoryCreatePage() {
           </Typography>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
-              <TextField
-                id="productName"
-                variant="outlined"
-                required
-                fullWidth
-                label="Product Name"
-                autoFocus
+              <Controller
+                name="name"
+                control={control}
+                rules={{
+                  required: true,
+                  minLength: 1,
+                }}
+                render={({
+                  field: { onChange, value },
+                  fieldState: { invalid, error },
+                }) => (
+                  <TextField
+                    fullWidth
+                    label="Product name"
+                    variant="outlined"
+                    onChange={onChange}
+                    value={value}
+                    required
+                    error={invalid}
+                    helperText={getFormErrorMessage(error?.type)}
+                  />
+                )}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <TextField
-                id="productBrand"
-                variant="outlined"
-                required
-                fullWidth
-                label="Brand Name"
-                autoFocus
+              <Controller
+                name="brand"
+                control={control}
+                rules={{
+                  required: true,
+                  minLength: 1,
+                }}
+                render={({
+                  field: { onChange, value },
+                  fieldState: { invalid, error },
+                }) => (
+                  <TextField
+                    fullWidth
+                    label="Brand name"
+                    variant="outlined"
+                    onChange={onChange}
+                    value={value}
+                    required
+                    error={invalid}
+                    helperText={getFormErrorMessage(error?.type)}
+                  />
+                )}
               />
             </Grid>
           </Grid>
@@ -134,7 +196,14 @@ export default function InventoryCreatePage() {
         </TableContainer>
       )}
       <Spacer size="lg" />
-      <SaveBar open onSave={() => {}} />
+      <SaveBar
+        loading={createProductAndMutate.isLoading}
+        disabled={variants.length === 0}
+        open
+        onSave={handleSubmit((data) => {
+          onSave(data);
+        })}
+      />
     </Container>
   );
 }

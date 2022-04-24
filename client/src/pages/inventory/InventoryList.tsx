@@ -22,6 +22,7 @@ import ProductsTable from '../../components/products-table/ProductsTable';
 import YesNoChip from '../../components/yes-no-chip/YesNoChip';
 
 import { useGetProducts } from '../../data';
+import { penniesToPrice } from '../../utils';
 
 const ProductsTableContainer = () => {
   const { data: products, isLoading, isError } = useGetProducts();
@@ -53,11 +54,11 @@ const ProductsTableContainer = () => {
       tableContents={products
         .map(({ name, variants, brand, isArchived }) =>
           variants.map(
-            ({ price, barcode, createdAt, updatedAt, isAvailable }) => (
-              <TableRow>
+            ({ id, price, barcode, createdAt, updatedAt, isAvailable }) => (
+              <TableRow key={id}>
                 <TableCell>{name}</TableCell>
                 <TableCell>{brand}</TableCell>
-                <TableCell>{price}</TableCell>
+                <TableCell>{penniesToPrice(price)}</TableCell>
                 <TableCell>{barcode}</TableCell>
                 <TableCell>
                   <YesNoChip isYes={isArchived} />
