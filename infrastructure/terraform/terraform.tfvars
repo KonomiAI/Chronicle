@@ -10,9 +10,3 @@ machine_type     = "e2-medium"
 disk_size        = 10
 network_name     = "chronicle-staging-network"
 ip_address_name  = "chronicle-staging"
-ssl_cert_name    = "chronicle-ssl-cert"
-ssl_cert_crt     = "certs/self-signed.crt"
-ssl_cert_key     = "certs/self-signed.key"
-
-# Change to true to enable HTTPS and HTTP redirect for the load balancer
-https            = false

@@ -14,10 +14,6 @@ variable "zone" {
   description = "The zone to host the GKE cluster in (required for zonal clusters)"
 }
 
-variable "number_of_nodes" {
-  description = "The number of cluster nodes"
-}
-
 variable "machine_type" {
   description = "The machine type of the cluster nodes. List of costs can be found here: https://gcpinstances.doit-intl.com"
 }
@@ -28,20 +24,4 @@ variable "disk_size" {
 
 variable "network_name" {
   description = "The name of the network. Must be 1-63 characters long and match the regular expression [a-z]([-a-z0-9]*[a-z0-9])?"
-}
-
-variable "ssl_cert_name" {
-  description = "The name of the SSL certificate for the load balancer"
-}
-
-variable "ssl_cert_crt" {
-  description = "Path to the SSL certificate .crt"
-}
-
-variable "ssl_cert_key" {
-  description = "Path to the SSL certificate private .key"
-}
-
-variable "https" {
-  description = "Whether to set up the load balancer with HTTPS or not"
 }
