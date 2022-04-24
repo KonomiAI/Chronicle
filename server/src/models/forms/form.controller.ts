@@ -2,11 +2,14 @@ import {
   Body,
   Controller,
   Get,
+  HttpException,
+  HttpStatus,
   Param,
   Post,
   Put,
   UseInterceptors,
 } from '@nestjs/common';
+import { validateWithLatest } from '@konomi.ai/c-form';
 import { Actions, Features } from 'src/auth/constants';
 import { Auth } from 'src/auth/role.decorator';
 import { TransformInterceptor } from '../../interceptors/transform.interceptor';
@@ -61,6 +64,12 @@ export class FormController {
   @Auth(Actions.WRITE, [Features.Form])
   @Post()
   async createForm(@Body() { body, ...data }: CreateFormDto) {
+    if (!validateWithLatest(data)) {
+      throw new HttpException(
+        'Failed form validation.',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
     const initialForm = await this.formService.createForm(
       data,
       DEFAULT_FORM_SELECT,
@@ -75,6 +84,12 @@ export class FormController {
     @Param('id') id: string,
     @Body() { body, ...data }: UpdateFormDto,
   ) {
+    if (!validateWithLatest(data)) {
+      throw new HttpException(
+        'Failed form validation.',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
     await this.formService.updateForm({
       where: { id },
       data,
