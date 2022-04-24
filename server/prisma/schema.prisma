@@ -149,7 +149,7 @@ model Customer {
   firstName   String
   lastName    String
   gender      Gender
-  dateOfBirth DateTime
+  dateOfBirth String
   email       String     @unique // property is unique so the tenant can use it as a unique identifier
   phone       String?
   responses   Response[]

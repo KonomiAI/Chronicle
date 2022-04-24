@@ -5,3 +5,4 @@ export * from './storage';
 export * from './storage-helpers';
 export * from './auth';
 export * from './format';
+export * from './date';

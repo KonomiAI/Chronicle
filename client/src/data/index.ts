@@ -5,3 +5,4 @@ export * from './roles';
 export * from './features';
 export * from './form';
 export * from './product';
+export * from './customers';
