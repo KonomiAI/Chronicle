@@ -15,6 +15,22 @@ resource "google_container_cluster" "default" {
   subnetwork = google_compute_subnetwork.default.name
 
   enable_autopilot = true
+  initial_node_count = var.number_of_nodes
+  node_config {
+    # More info on Spot VMs with GKE https://cloud.google.com/kubernetes-engine/docs/how-to/spot-vms#create_a_cluster_with_enabled
+    # spot = true
+    machine_type = var.machine_type
+    disk_size_gb = var.disk_size
+    tags = ["${var.gke_cluster_name}"]
+    oauth_scopes = [
+      "https://www.googleapis.com/auth/cloud-platform",
+      "https://www.googleapis.com/auth/trace.append",
+      "https://www.googleapis.com/auth/service.management.readonly",
+      "https://www.googleapis.com/auth/monitoring",
+      "https://www.googleapis.com/auth/devstorage.read_only",
+      "https://www.googleapis.com/auth/servicecontrol",
+    ]
+  }
 
   private_cluster_config {
     # Need to use private nodes for VPC-native GKE clusters

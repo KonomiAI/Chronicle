@@ -14,6 +14,10 @@ variable "zone" {
   description = "The zone to host the GKE cluster in (required for zonal clusters)"
 }
 
+variable "number_of_nodes" {
+  description = "The number of cluster nodes"
+}
+
 variable "machine_type" {
   description = "The machine type of the cluster nodes. List of costs can be found here: https://gcpinstances.doit-intl.com"
 }
