@@ -94,6 +94,7 @@ enum FormPurpose {
   CUSTOMER
   STAFF
   ACTIVITY_ENTRY
+  NO_PURPOSE
 }
 
 model Form {

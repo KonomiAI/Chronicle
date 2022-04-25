@@ -21,24 +21,26 @@ import {
 } from '@mui/material';
 import { Clear, Delete, RadioButtonUnchecked } from '@mui/icons-material';
 import { secureRandomString } from '../../utils';
-import { TextInput } from '../text-field/TextField';
 import { FieldTypeSelect } from './FieldTypeSelect';
+import { FormInputField } from '../form-inputs/FormInputField';
 
 interface FormFieldProps {
   sectionIndex: number;
   index: number;
   onRemove: () => void;
+  context: string;
 }
 
 export const FormField = ({
   index,
   sectionIndex,
   onRemove,
+  context,
 }: FormFieldProps) => {
   const getFormName = (
     name: keyof FormFieldSchema,
-  ): `sections.${number}.fields.${number}.${keyof FormFieldSchema}` =>
-    `sections.${sectionIndex}.fields.${index}.${name}`;
+  ): `${string}sections.${number}.fields.${number}.${keyof FormFieldSchema}` =>
+    `${context}sections.${sectionIndex}.fields.${index}.${name}`;
   const { control, setValue } = useFormContext();
   const [shouldShowDescription, setShouldShowDescription] = useState(false);
   const type = useWatch({
@@ -53,7 +55,7 @@ export const FormField = ({
     type === 'multipleChoice' || type === 'multiSelect';
   const { append, remove, fields } = useFieldArray({
     control,
-    name: `sections.${sectionIndex}.fields.${index}.options`,
+    name: `${context}sections.${sectionIndex}.fields.${index}.options`,
   });
   const isFieldOptionsAnArray = useMemo(() => Array.isArray(fields), [fields]);
   return (
@@ -61,7 +63,7 @@ export const FormField = ({
       <CardContent>
         <Grid container spacing={2}>
           <Grid item xs={8}>
-            <TextInput
+            <FormInputField
               control={control}
               name={getFormName('name')}
               label="Question title"
@@ -94,10 +96,11 @@ export const FormField = ({
           </Grid>
           <Grid item xs={12}>
             {shouldShowDescription && (
-              <TextInput
+              <FormInputField
                 name={getFormName('description')}
                 control={control}
                 label="Description (optional)"
+                multiline={2}
               />
             )}
           </Grid>
@@ -111,7 +114,7 @@ export const FormField = ({
                     sx={{ color: 'action.active', mr: 1, my: 0.5 }}
                   />
                   <Controller
-                    name={`sections.${sectionIndex}.fields.${index}.options.${i}.label`}
+                    name={`${context}sections.${sectionIndex}.fields.${index}.options.${i}.label`}
                     control={control}
                     rules={{
                       required: true,

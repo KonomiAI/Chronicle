@@ -32,5 +32,5 @@ export const updateForm = ({ formId, data }: UpdateFormVariables) => {
 };
 
 export const useGetForm = (formId: string) =>
-  useQuery(['getForm', formId], () => getForm(formId));
-export const useGetForms = () => useQuery('getForms', getForms);
+  useQuery(['forms', formId], () => getForm(formId));
+export const useGetForms = () => useQuery('forms', getForms);
