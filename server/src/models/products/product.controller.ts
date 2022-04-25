@@ -16,12 +16,15 @@ import {
   TransformInterceptor,
 } from '../../interceptors/transform.interceptor';
 import { Product } from '@prisma/client';
+import { Actions, Features } from 'src/auth/constants';
+import { Auth } from 'src/auth/role.decorator';
 
 @Controller('products')
 @UseInterceptors(TransformInterceptor)
 export class ProductController {
   constructor(private readonly productService: ProductService) {}
 
+  @Auth(Actions.READ, [Features.Inventory])
   @Get()
   async getProducts(): Promise<Response<Product[]>> {
     const products = await this.productService.products({});
@@ -30,6 +33,7 @@ export class ProductController {
     };
   }
 
+  @Auth(Actions.READ, [Features.Inventory])
   @Get(':id')
   async getProductById(@Param('id') id: string): Promise<Response<Product>> {
     const product = await this.productService.product({ id });
@@ -38,6 +42,7 @@ export class ProductController {
     };
   }
 
+  @Auth(Actions.WRITE, [Features.Inventory])
   @Post()
   async createProduct(
     @Body() { ...data }: CreateProductDto,
@@ -53,6 +58,7 @@ export class ProductController {
     };
   }
 
+  @Auth(Actions.WRITE, [Features.Inventory])
   @Put(':id')
   async updateProduct(
     @Param('id') id: string,
@@ -68,6 +74,7 @@ export class ProductController {
     };
   }
 
+  @Auth(Actions.WRITE, [Features.Inventory])
   @Delete(':id')
   async deleteProduct(@Param('id') id: string): Promise<Response<Product>> {
     const product = await this.productService.deleteProduct({ id });

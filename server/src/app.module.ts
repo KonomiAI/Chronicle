@@ -12,6 +12,7 @@ import { ProductModule } from './models/products/product.module';
 import { FormModule } from './models/forms/form.module';
 import { ResponseModule } from './models/responses/response.module';
 import { CustomerModule } from './models/customers/customer.module';
+import { HealthModule } from './health/health.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { CustomerModule } from './models/customers/customer.module';
     FormModule,
     ResponseModule,
     CustomerModule,
+    HealthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
