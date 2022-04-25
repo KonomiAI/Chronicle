@@ -2,6 +2,8 @@ import React, { useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
 import {
+  Alert,
+  AlertTitle,
   DialogTitle,
   DialogContent,
   TextField,
@@ -10,6 +12,7 @@ import {
   Grid,
   Dialog,
 } from '@mui/material';
+import { LoadingButton } from '@mui/lab';
 
 import Spacer from '../../components/spacer/Spacer';
 import { PostVariantBody, Variant } from '../../types';
@@ -25,7 +28,19 @@ interface VariantCreateDialogProps {
   handleCreate: (variant: PostVariantBody) => void;
   handleDelete: (variantId: string) => void;
   variant?: Variant | PostVariantBody;
+  isCreateVariantLoading?: boolean;
+  hasCreateVariantError?: boolean;
+  isDeleteVariantLoading?: boolean;
+  hasDeleteVariantError?: boolean;
 }
+
+const defaultProps = {
+  variant: undefined,
+  isCreateVariantLoading: false,
+  hasCreateVariantError: false,
+  isDeleteVariantLoading: false,
+  hasDeleteVariantError: false,
+};
 
 const VariantCreateDialog: React.FC<VariantCreateDialogProps> = ({
   handleClose,
@@ -33,6 +48,10 @@ const VariantCreateDialog: React.FC<VariantCreateDialogProps> = ({
   handleCreate,
   handleDelete,
   variant,
+  isCreateVariantLoading,
+  hasCreateVariantError,
+  isDeleteVariantLoading,
+  hasDeleteVariantError,
 }) => {
   const { control, handleSubmit, reset } = useForm<PostVariantBody>();
 
@@ -55,6 +74,18 @@ const VariantCreateDialog: React.FC<VariantCreateDialogProps> = ({
         {variant ? 'Update a variant' : 'Create a new variant'}
       </DialogTitle>
       <DialogContent>
+        {hasCreateVariantError && (
+          <Alert severity="error">
+            <AlertTitle>An unexpected error has occured</AlertTitle>
+            Something went wrong while creating a variant
+          </Alert>
+        )}
+        {hasDeleteVariantError && (
+          <Alert severity="error">
+            <AlertTitle>An unexpected error has occured</AlertTitle>
+            Something went wrong while deleting a variant
+          </Alert>
+        )}
         <Spacer />
         <Grid container spacing={2}>
           <Grid item xs={12}>
@@ -145,7 +176,8 @@ const VariantCreateDialog: React.FC<VariantCreateDialogProps> = ({
           Cancel
         </Button>
         {variant && (
-          <Button
+          <LoadingButton
+            loading={isDeleteVariantLoading}
             onClick={() => {
               handleDelete(variant.barcode);
               closeActions();
@@ -153,9 +185,10 @@ const VariantCreateDialog: React.FC<VariantCreateDialogProps> = ({
             sx={{ color: 'error.main' }}
           >
             Delete
-          </Button>
+          </LoadingButton>
         )}
-        <Button
+        <LoadingButton
+          loading={isCreateVariantLoading}
           onClick={handleSubmit((data) => {
             handleCreate({
               ...data,
@@ -165,10 +198,12 @@ const VariantCreateDialog: React.FC<VariantCreateDialogProps> = ({
           })}
         >
           {variant ? 'Save' : 'Create'}
-        </Button>
+        </LoadingButton>
       </DialogActions>
     </Dialog>
   );
 };
+
+VariantCreateDialog.defaultProps = defaultProps;
 
 export default VariantCreateDialog;

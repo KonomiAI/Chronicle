@@ -138,20 +138,16 @@ const ProductEdit = () => {
           <Spacer size="lg" />
         </>
       )}
-      {hasCreateVariantError && (
-        <>
-          <Alert severity="error">
-            <AlertTitle>An unexpected error has occured</AlertTitle>
-            Something went wrong while creating a variant
-          </Alert>
-          <Spacer size="lg" />
-        </>
-      )}
       <ProductBase
+        isLoading={isUpdateProductLoading}
         variants={variants}
         onSave={onSave}
         onAddVariant={handleAddVariant}
+        isCreateVariantLoading={isCreateVariantLoading}
+        hasCreateVariantError={hasCreateVariantError}
         onDeleteVariant={handleDeleteVariant}
+        isDeleteVariantLoading={isDeleteVariantLoading}
+        hasDeleteVariantError={hasDeleteVariantError}
         product={product}
       />
       <Card>

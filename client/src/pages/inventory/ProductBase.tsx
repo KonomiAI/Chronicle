@@ -36,9 +36,22 @@ interface ProductBaseProps {
   variants: Variant[] | PostVariantBody[];
   onSave: (body: PostProductBody) => void;
   onAddVariant: (variant: PostVariantBody) => void;
+  isCreateVariantLoading?: boolean;
+  hasCreateVariantError?: boolean;
   onDeleteVariant: (id: string) => void;
+  isDeleteVariantLoading?: boolean;
+  hasDeleteVariantError?: boolean;
   isLoading?: boolean;
 }
+
+const defaultProps = {
+  product: undefined,
+  isLoading: false,
+  isCreateVariantLoading: false,
+  hasCreateVariantError: false,
+  isDeleteVariantLoading: false,
+  hasDeleteVariantError: false,
+};
 
 const ProductBase: React.FC<ProductBaseProps> = ({
   variants,
@@ -47,6 +60,10 @@ const ProductBase: React.FC<ProductBaseProps> = ({
   onDeleteVariant,
   isLoading,
   product,
+  isCreateVariantLoading,
+  hasCreateVariantError,
+  isDeleteVariantLoading,
+  hasDeleteVariantError,
 }) => {
   const [isVariantDialogOpen, setIsVariantDialogOpen] = useState(false);
   const [variantToEdit, setVariantToEdit] = useState<
@@ -161,6 +178,10 @@ const ProductBase: React.FC<ProductBaseProps> = ({
             }}
             handleDelete={onDeleteVariant}
             variant={variantToEdit}
+            isCreateVariantLoading={isCreateVariantLoading}
+            hasCreateVariantError={hasCreateVariantError}
+            isDeleteVariantLoading={isDeleteVariantLoading}
+            hasDeleteVariantError={hasDeleteVariantError}
           />
           <Button
             variant="contained"
@@ -174,12 +195,10 @@ const ProductBase: React.FC<ProductBaseProps> = ({
         </Box>
       </Box>
       {variants.length === 0 ? (
-        <>
-          <Alert severity="warning">
-            <AlertTitle>At least one variant must be created.</AlertTitle>
-            Please use the &quot;add&quot; button to add a variant
-          </Alert>
-        </>
+        <Alert severity="warning">
+          <AlertTitle>At least one variant must be created.</AlertTitle>
+          Please use the &quot;add&quot; button to add a variant
+        </Alert>
       ) : (
         <TableContainer component={Paper}>
           <Table>
@@ -206,5 +225,7 @@ const ProductBase: React.FC<ProductBaseProps> = ({
     </>
   );
 };
+
+ProductBase.defaultProps = defaultProps;
 
 export default ProductBase;

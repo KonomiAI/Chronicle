@@ -20,6 +20,12 @@ export interface Product {
   variants: Variant[];
 }
 
+export interface PostVariantBody {
+  description: string;
+  price: number;
+  barcode: string;
+}
+
 export interface PostProductBody {
   name: string;
   brand: string;
@@ -31,10 +37,4 @@ export interface PutProductBody {
   name: string;
   brand: string;
   imageUrl?: string[];
-}
-
-export interface PostVariantBody {
-  description: string;
-  price: number;
-  barcode: string;
 }
