@@ -16,7 +16,6 @@ import AllowList from './pages/allowlist/Allowlist';
 import StaffListPage from './pages/staff-list/StaffList';
 import StaffDetailsPage from './pages/staff-details/StaffDetails';
 import InventoryListPage from './pages/inventory/InventoryList';
-import InventoryEditPage from './pages/inventory/InventoryEdit';
 import RolesListPage from './pages/roles-list/RolesList';
 import {
   CreateRoleForm,

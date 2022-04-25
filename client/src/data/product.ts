@@ -47,3 +47,18 @@ export const createVariant = ({productId, data}: CreateVariantVariables) => {
     .post<Data<Variant>>(`/products/${productId}/variants`, data)
     .then((res) => res.data.data);
 };
+
+export const deleteProduct = (productId: string): Promise<Product> => {
+  const axios = useAxios();
+  return axios.delete<Data<Product>>(`/products/${productId}`).then((res) => res.data.data);
+};
+
+interface DeleteVariantVariables {
+  productId: string;
+  variantId: string;
+}
+
+export const deleteVariant = ({productId, variantId}: DeleteVariantVariables): Promise<Variant> => {
+  const axios = useAxios();
+  return axios.delete<Data<Variant>>(`/products/${productId}/variants/${variantId}`).then((res) => res.data.data);
+};

@@ -20,6 +20,7 @@
     "@emotion/styled": "^11.6.0",
     "@konomi.ai/c-form": "^1.0.2",
     "@mui/icons-material": "^5.4.1",
+    "@mui/lab": "^5.0.0-alpha.78",
     "@mui/material": "^5.4.0",
     "@mui/x-date-pickers": "^5.0.0-alpha.1",
     "ajv": "^8.11.0",

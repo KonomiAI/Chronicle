@@ -12,7 +12,7 @@ import {
 } from '@mui/material';
 
 import Spacer from '../../components/spacer/Spacer';
-import { PostVariantBody } from '../../types';
+import { PostVariantBody, Variant } from '../../types';
 import {
   getFormErrorMessage,
   floatToPennies,
@@ -23,13 +23,15 @@ interface VariantCreateDialogProps {
   isOpen: boolean;
   handleClose: () => void;
   handleCreate: (variant: PostVariantBody) => void;
-  variant?: PostVariantBody;
+  handleDelete: (variantId: string) => void;
+  variant?: Variant | PostVariantBody;
 }
 
 const VariantCreateDialog: React.FC<VariantCreateDialogProps> = ({
   handleClose,
   isOpen,
   handleCreate,
+  handleDelete,
   variant,
 }) => {
   const { control, handleSubmit, reset } = useForm<PostVariantBody>();
@@ -142,6 +144,17 @@ const VariantCreateDialog: React.FC<VariantCreateDialogProps> = ({
         <Button color="inherit" onClick={closeActions}>
           Cancel
         </Button>
+        {variant && (
+          <Button
+            onClick={() => {
+              handleDelete(variant.barcode);
+              closeActions();
+            }}
+            sx={{ color: 'error.main' }}
+          >
+            Delete
+          </Button>
+        )}
         <Button
           onClick={handleSubmit((data) => {
             handleCreate({

@@ -32,6 +32,13 @@ const ProductCreate = () => {
     setVariants(newVariants);
   };
 
+  const handleDeleteVariant = (barcode: string) => {
+    const newVariants = variants.filter(
+      (variant) => variant.barcode !== barcode,
+    );
+    setVariants(newVariants);
+  };
+
   return (
     <Container>
       <PageHeader pageTitle="Create a product" backURL="/inventory" />
@@ -49,6 +56,7 @@ const ProductCreate = () => {
         variants={variants}
         onSave={onSave}
         onAddVariant={handleAddVariant}
+        onDeleteVariant={handleDeleteVariant}
         isLoading={isLoading}
       />
       <Spacer size="lg" />

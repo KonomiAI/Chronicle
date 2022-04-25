@@ -6,7 +6,6 @@ import {
   Button,
   Card,
   CardContent,
-  Container,
   Grid,
   TextField,
   Typography,
@@ -19,7 +18,6 @@ import {
   Paper,
   Alert,
   AlertTitle,
-  Chip,
 } from '@mui/material';
 
 import {
@@ -38,6 +36,7 @@ interface ProductBaseProps {
   variants: Variant[] | PostVariantBody[];
   onSave: (body: PostProductBody) => void;
   onAddVariant: (variant: PostVariantBody) => void;
+  onDeleteVariant: (id: string) => void;
   isLoading?: boolean;
 }
 
@@ -45,12 +44,13 @@ const ProductBase: React.FC<ProductBaseProps> = ({
   variants,
   onSave,
   onAddVariant,
+  onDeleteVariant,
   isLoading,
   product,
 }) => {
   const [isVariantDialogOpen, setIsVariantDialogOpen] = useState(false);
   const [variantToEdit, setVariantToEdit] = useState<
-    PostVariantBody | undefined
+    PostVariantBody | Variant | undefined
   >();
 
   const { control, handleSubmit, reset } = useForm<PostProductBody>({});
@@ -74,16 +74,13 @@ const ProductBase: React.FC<ProductBaseProps> = ({
         >
           <TableCell>{description}</TableCell>
           <TableCell>{penniesToPrice(price)}</TableCell>
-          <TableCell>
-            <Chip label="Pending creation" size="small" />
-          </TableCell>
           <TableCell>{barcode}</TableCell>
         </TableRow>
       );
     });
 
   return (
-    <Container>
+    <>
       <Card>
         <CardContent>
           <Typography variant="h4" sx={{ mb: 2 }}>
@@ -162,6 +159,7 @@ const ProductBase: React.FC<ProductBaseProps> = ({
             handleCreate={(variant: PostVariantBody) => {
               onAddVariant(variant);
             }}
+            handleDelete={onDeleteVariant}
             variant={variantToEdit}
           />
           <Button
@@ -187,9 +185,8 @@ const ProductBase: React.FC<ProductBaseProps> = ({
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell>Variant Name</TableCell>
+                <TableCell>Name</TableCell>
                 <TableCell>Price</TableCell>
-                <TableCell>Date</TableCell>
                 <TableCell>Barcode</TableCell>
               </TableRow>
             </TableHead>
@@ -206,7 +203,7 @@ const ProductBase: React.FC<ProductBaseProps> = ({
           onSave(data);
         })}
       />
-    </Container>
+    </>
   );
 };
 
