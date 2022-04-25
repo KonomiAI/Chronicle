@@ -3,8 +3,7 @@
 ## Prerequisites
 
 ### Install the gcloud CLI
-https://cloud.google.com/sdk/docs/install
-Install gcloud CLI
+Install gcloud binary: https://cloud.google.com/sdk/docs/install
 
 ```
 ## General Installation
@@ -32,6 +31,18 @@ gcloud config set compute/region us-west4
 gcloud config set compute/zone us-west4-a
 ```
 
+## Connecting to Kubernetes
+```
+# view available clusters
+gcloud container clusters list
+
+# get cluster credentials to your kubeconfig
+gcloud container clusters get-credentials chronicle-staging --region us-west4
+
+# switch to your cluster
+kubectl config use-context ${YOUR_CLUSTER}
+kubectl config use-context gke_konomi-ai_us-west4_chronicle-staging
+```
 
 ## Secrets Management in GCP
 
@@ -54,41 +65,27 @@ gcloud secrets versions access latest --secret ${YOUR_SECRET_NAME}
 # deleting secrets
 gcloud secrets delete ${YOUR_SECRET_NAME} 
 ```
+### Persisting Secrets to Kubernetes Pods via the External Secrets Controller
+Refer to [Infrastructure Overview](kubernetes/external-secrets/README.md)
 
-## Manually Pushing Images to GCR
+## Pushing Images to GCR
 - [Publish a Docker container image to Google Container Registry (GCR)](https://support.terra.bio/hc/en-us/articles/360035638032-Publish-a-Docker-container-image-to-Google-Container-Registry-GCR-)
-### Building and Pushing the Image (Manual Example)
+### Building and Pushing the Image (Manually)
 1. To tag the image run the command  `docker build . -t gcr.io/konomi-ai/chronicle-api:1.0.0` in the directory `Chronicle/server`
 2. To push the image to GCR, run the command `docker push gcr.io/konomi-ai/chronicle-api:1.0.0`
 ### Find the Image in the GCP Console
 https://console.cloud.google.com/gcr/images/konomi-ai/GLOBAL
-
-
-## Connecting to Kubernetes
-```
-# view available clusters
-gcloud container clusters list
-
-# get cluster credentials to your kubeconfig
-gcloud container clusters get-credentials chronicle-staging --region us-west4-a
-
-# switch to your cluster
-kubectl config use-context ${YOUR_CLUSTER}
-kubectl config use-context gke_chronicle-340503_us-west4-a_chronicle-staging
-
-```
 
 ## MongoDB Atlas
 https://www.mongodb.com/basics/mongodb-atlas-tutorial
 
 ### Tutorial to Set Up GKE Connectivity Via Cloud NAT
 https://dchaykin.medium.com/connect-a-gke-cluster-with-mongodb-atlas-through-cloud-nat-b0ffb2683b7d
-For our case, all the GCP resources were terraformed for easy infrastructure replicability. 
+For our case, all the GCP resources were provisioned via terraform for easy infrastructure replicability. 
 
 ### Testing MongoDB Connectivity
-
 ```
-# runs an ephermeral mongodb shell
+# run an ephermeral mongodb shell
 kubectl run --image=mongo:latest -it mongo-shell --rm -- /bin/sh
 
 # when inside the shell run the following command to test the connection
