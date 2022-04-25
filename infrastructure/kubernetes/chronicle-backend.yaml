@@ -41,11 +41,11 @@ spec:
           requiredDuringSchedulingIgnoredDuringExecution:
             - labelSelector:
                 matchExpressions:
-                  - key: "app"
+                  - key: 'app'
                     operator: In
                     values:
                       - chronicle
-              topologyKey: "kubernetes.io/hostname"
+              topologyKey: 'kubernetes.io/hostname'
 ---
 apiVersion: v1
 kind: Service
@@ -60,5 +60,3 @@ spec:
       protocol: TCP
   selector:
     app: chronicle
-
-
