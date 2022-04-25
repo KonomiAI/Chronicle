@@ -26,11 +26,11 @@ kubectl annotate serviceaccount --namespace sandbox external-secrets iam.gke.io/
 ```
 
 ## Creating the ExternalSecret Object for Pod to Consume
-
+See examples regarding how to create the externalsecrets manifest in `/secrets`. Eventually we may want to automate or script this process
 ```
-echo -n '{"value": "my-secret-value"}' | gcloud secrets create my-secret --replication-policy="automatic" --data-file=-
+echo -n '{"value": "my-secret-value"}' | gcloud secrets create my-secret --replication-policy="automatic" --data-file=- --locations=us-west4
 kubectl apply -f secrets/my-gcp-secret.yaml
 
-echo -n 'mongodb-password' | gcloud secrets create chronicle-staging-mongodb-password --replication-policy="automatic" --data-file=- 
+echo -n 'mongodb-password' | gcloud secrets create chronicle-staging-mongodb-password --replication-policy="automatic" --data-file=- --locations=us-west4
 kubectl apply -f secrets/chronicle-staging-mongodb-password-secret.yaml
 ```
