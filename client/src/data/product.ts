@@ -1,12 +1,20 @@
 import { useQuery } from 'react-query';
 
-import { PostProductBody, PostVariantBody, Product, PutProductBody, Variant } from '../types';
+import {
+  PostProductBody,
+  PostVariantBody,
+  Product,
+  PutProductBody,
+  Variant,
+} from '../types';
 import { Data } from '../types/data';
 import useAxios from './axios';
 
 const getProduct = (productId: string): Promise<Product> => {
   const axios = useAxios();
-  return axios.get<Data<Product>>(`/products/${productId}`).then((res) => res.data.data);
+  return axios
+    .get<Data<Product>>(`/products/${productId}`)
+    .then((res) => res.data.data);
 };
 export const useGetProduct = (productId: string) =>
   useQuery(['getProduct', productId], () => getProduct(productId));
@@ -27,7 +35,7 @@ export const updateProduct = ({ productId, data }: UpdateProductVariables) => {
   return axios
     .put<Data<Product>>(`/products/${productId}`, data)
     .then((res) => res.data.data);
-}
+};
 
 export const createProduct = (data: PostProductBody) => {
   const axios = useAxios();
@@ -41,7 +49,7 @@ interface CreateVariantVariables {
   data: PostVariantBody;
 }
 
-export const createVariant = ({productId, data}: CreateVariantVariables) => {
+export const createVariant = ({ productId, data }: CreateVariantVariables) => {
   const axios = useAxios();
   return axios
     .post<Data<Variant>>(`/products/${productId}/variants`, data)
@@ -50,7 +58,9 @@ export const createVariant = ({productId, data}: CreateVariantVariables) => {
 
 export const deleteProduct = (productId: string): Promise<Product> => {
   const axios = useAxios();
-  return axios.delete<Data<Product>>(`/products/${productId}`).then((res) => res.data.data);
+  return axios
+    .delete<Data<Product>>(`/products/${productId}`)
+    .then((res) => res.data.data);
 };
 
 interface DeleteVariantVariables {
@@ -58,7 +68,12 @@ interface DeleteVariantVariables {
   variantId: string;
 }
 
-export const deleteVariant = ({productId, variantId}: DeleteVariantVariables): Promise<Variant> => {
+export const deleteVariant = ({
+  productId,
+  variantId,
+}: DeleteVariantVariables): Promise<Variant> => {
   const axios = useAxios();
-  return axios.delete<Data<Variant>>(`/products/${productId}/variants/${variantId}`).then((res) => res.data.data);
+  return axios
+    .delete<Data<Variant>>(`/products/${productId}/variants/${variantId}`)
+    .then((res) => res.data.data);
 };

@@ -25,7 +25,7 @@ import { Auth } from 'src/auth/role.decorator';
 export class ProductController {
   constructor(
     private readonly productService: ProductService,
-    private readonly variantService: VariantService
+    private readonly variantService: VariantService,
   ) {}
 
   @Auth(Actions.READ, [Features.Inventory])
@@ -62,8 +62,8 @@ export class ProductController {
       return {
         ...variant,
         productId: product.id,
-      }
-    })
+      };
+    });
 
     await this.variantService.createVariants(variantsWithProductId);
 

@@ -1,4 +1,10 @@
-import { ArrayNotEmpty, IsBoolean, IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import {
+  ArrayNotEmpty,
+  IsBoolean,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+} from 'class-validator';
 import { CreateVariantDto } from './variants/variant.dto';
 
 export class CreateProductDto {
