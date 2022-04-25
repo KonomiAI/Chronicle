@@ -20,8 +20,6 @@ export function useSaveBar<T>(
     UnpackNestedValue<DeepPartial<T>> | UnpackNestedValue<T>
   >();
   useEffect(() => {
-    console.log('test');
-
     if (data) {
       form.reset(data);
     }
