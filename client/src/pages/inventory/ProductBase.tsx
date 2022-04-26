@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Controller, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 
 import {
   Box,
@@ -7,7 +7,6 @@ import {
   Card,
   CardContent,
   Grid,
-  TextField,
   Typography,
   Table,
   TableBody,
@@ -30,6 +29,7 @@ import { getFormErrorMessage, penniesToPrice } from '../../utils';
 import Spacer from '../../components/spacer/Spacer';
 import VariantCreateDialog from './VariantCreate';
 import { SaveBar } from '../../components';
+import { FormInputField } from '../../components/form-inputs/FormInputField';
 
 interface ProductBaseProps {
   product?: Product;
@@ -105,53 +105,25 @@ const ProductBase: React.FC<ProductBaseProps> = ({
           </Typography>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
-              <Controller
+              <FormInputField
                 name="name"
                 control={control}
                 rules={{
                   required: true,
                   minLength: 1,
                 }}
-                render={({
-                  field: { onChange, value },
-                  fieldState: { invalid, error },
-                }) => (
-                  <TextField
-                    fullWidth
-                    label="Product name"
-                    variant="outlined"
-                    onChange={onChange}
-                    value={value}
-                    required
-                    error={invalid}
-                    helperText={getFormErrorMessage(error?.type)}
-                  />
-                )}
+                label="Name"
               />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <Controller
+              <FormInputField
                 name="brand"
                 control={control}
                 rules={{
                   required: true,
                   minLength: 1,
                 }}
-                render={({
-                  field: { onChange, value },
-                  fieldState: { invalid, error },
-                }) => (
-                  <TextField
-                    fullWidth
-                    label="Brand name"
-                    variant="outlined"
-                    onChange={onChange}
-                    value={value}
-                    required
-                    error={invalid}
-                    helperText={getFormErrorMessage(error?.type)}
-                  />
-                )}
+                label="Brand"
               />
             </Grid>
           </Grid>

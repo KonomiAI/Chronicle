@@ -1,12 +1,11 @@
 import React, { useEffect } from 'react';
-import { Controller, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 
 import {
   Alert,
   AlertTitle,
   DialogTitle,
   DialogContent,
-  TextField,
   DialogActions,
   Button,
   Grid,
@@ -14,13 +13,10 @@ import {
 } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 
+import { FormInputField } from '../../components/form-inputs/FormInputField';
 import Spacer from '../../components/spacer/Spacer';
 import { PostVariantBody, Variant } from '../../types';
-import {
-  getFormErrorMessage,
-  floatToPennies,
-  penniesToFloat,
-} from '../../utils';
+import { floatToPennies, penniesToFloat, priceCheck } from '../../utils';
 
 interface VariantCreateDialogProps {
   isOpen: boolean;
@@ -89,84 +85,38 @@ const VariantCreateDialog: React.FC<VariantCreateDialogProps> = ({
         <Spacer />
         <Grid container spacing={2}>
           <Grid item xs={12}>
-            <Controller
+            <FormInputField
               name="description"
               control={control}
               rules={{
                 required: true,
                 minLength: 1,
               }}
-              render={({
-                field: { onChange, value },
-                fieldState: { invalid, error },
-              }) => (
-                <TextField
-                  fullWidth
-                  label="Variant Descriptor (i.e 500ml, blue)"
-                  variant="outlined"
-                  onChange={onChange}
-                  value={value}
-                  required
-                  error={invalid}
-                  helperText={getFormErrorMessage(error?.type)}
-                />
-              )}
+              label="Variant descriptor"
             />
           </Grid>
           <Grid item xs={6}>
-            <Controller
+            <FormInputField
+              numberField
               name="price"
               control={control}
               rules={{
                 required: true,
                 minLength: 1,
-                pattern: {
-                  value: /^\d*(\.\d{0,2})?$/,
-                  message: 'Please enter a valid price (eg: 1.00)',
-                },
+                pattern: priceCheck,
               }}
-              render={({
-                field: { onChange, value },
-                fieldState: { invalid, error },
-              }) => (
-                <TextField
-                  type="number"
-                  inputMode="numeric"
-                  fullWidth
-                  label="Price"
-                  variant="outlined"
-                  onChange={(e) => onChange(parseFloat(e.target.value))}
-                  value={value}
-                  required
-                  error={invalid}
-                  helperText={getFormErrorMessage(error?.type)}
-                />
-              )}
+              label="Price"
             />
           </Grid>
           <Grid item xs={6}>
-            <Controller
+            <FormInputField
               name="barcode"
               control={control}
               rules={{
                 required: true,
                 minLength: 1,
               }}
-              render={({
-                field: { onChange, value },
-                fieldState: { invalid, error },
-              }) => (
-                <TextField
-                  fullWidth
-                  label="Barcode"
-                  variant="outlined"
-                  onChange={onChange}
-                  value={value}
-                  required
-                  error={invalid}
-                  helperText={getFormErrorMessage(error?.type)}
-                />
-              )}
+              label="Barcode"
             />
           </Grid>
         </Grid>
