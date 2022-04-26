@@ -14,17 +14,18 @@ gcloud projects add-iam-policy-binding konomi-ai \
 
 # install external secrets controller
 helm repo add external-secrets https://external-secrets.github.io/kubernetes-external-secrets/
+kubectl create namespace external-secrets
 helm install external-secrets external-secrets/kubernetes-external-secrets \
     --set serviceAccount.annotations."iam\.gke\.io/gcp-service-account"=' external-secrets@konomi-ai.iam.gserviceaccount.com' \
     --set serviceAccount.create=true \
-    --set serviceAccount.name="external-secrets" \
+    --set serviceAccount.name="secret-ksa" \
     --namespace external-secrets
 
-# bind generated kubernetes service account to gcp service account, "sandbox" is cluster namepspace, "external-secrets" is the service name
+# bind generated kubernetes service account to gcp service account, "external-secrets" is cluster namespace, "secret-ksa" is the service account name
 gcloud iam service-accounts add-iam-policy-binding external-secrets@konomi-ai.iam.gserviceaccount.com \
     --role roles/iam.workloadIdentityUser \
-    --member "serviceAccount:konomi-ai.svc.id.goog[sandbox/external-secrets]"
-kubectl annotate serviceaccount --namespace sandbox external-secrets iam.gke.io/gcp-service-account=external-secrets@konomi-ai.iam.gserviceaccount.com --overwrite
+    --member "serviceAccount:konomi-ai.svc.id.goog[external-secrets/secret-ksa]"
+kubectl annotate serviceaccount --namespace external-secrets secret-ksa iam.gke.io/gcp-service-account=external-secrets@konomi-ai.iam.gserviceaccount.com --overwrite
 ```
 
 ## Creating the ExternalSecret Object for Pod to Consume
