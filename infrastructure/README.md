@@ -29,8 +29,8 @@ Please enter numeric choice or text value (must exactly match list item):  1
 gcloud auth login
 
 # configure regions
-gcloud config set compute/region us-west4
-gcloud config set compute/zone us-west4-a
+gcloud config set compute/region us-east1
+gcloud config set compute/zone us-east1-a
 ```
 
 ## Connecting to Kubernetes
@@ -40,11 +40,11 @@ gcloud config set compute/zone us-west4-a
 gcloud container clusters list
 
 # get cluster credentials to your kubeconfig
-gcloud container clusters get-credentials chronicle-staging --region us-west4
+gcloud container clusters get-credentials chronicle-staging --region us-east1
 
 # switch to your cluster
 kubectl config use-context ${YOUR_CLUSTER}
-kubectl config use-context gke_konomi-ai_us-west4_chronicle-staging
+kubectl config use-context gke_konomi-ai_us-east1_chronicle-staging
 ```
 
 ## Secrets Management in GCP
@@ -57,10 +57,10 @@ gcloud config set project konomi-ai
 gcloud secrets list
 
 # creating file based secrets
-gcloud secrets create ${YOUR_SECRET_NAME} --date-file=./secret.txt --replication-policy=user-managed --locations=us-west4
+gcloud secrets create ${YOUR_SECRET_NAME} --date-file=./secret.txt --replication-policy=user-managed --locations=us-east1
 
 # creating single value secrets
-echo -n $YOUR_SECRET_VALUE | gcloud secrets create ${YOUR_SECRET_NAME} --data-file=- --replication-policy=user-managed --locations=us-west4
+echo -n $YOUR_SECRET_VALUE | gcloud secrets create ${YOUR_SECRET_NAME} --data-file=- --replication-policy=user-managed --locations=us-east1
 
 # reading secret values
 gcloud secrets versions access latest --secret ${YOUR_SECRET_NAME}
