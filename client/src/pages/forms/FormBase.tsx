@@ -1,23 +1,16 @@
-import React from 'react';
-import { Controller, useForm } from 'react-hook-form';
+import React, { useEffect } from 'react';
+import { useForm } from 'react-hook-form';
 
-import {
-  Card,
-  CardContent,
-  FormControl,
-  FormHelperText,
-  Grid,
-  InputLabel,
-  MenuItem,
-  Select,
-  TextField,
-  Typography,
-} from '@mui/material';
+import { Card, CardContent, Grid, MenuItem, Typography } from '@mui/material';
 
 import { FormPurpose, PostFormBody, Form } from '../../types/form';
-import { getFormErrorMessage } from '../../utils';
 
-import { SaveBar } from '../../components';
+import { FormBuilder, SaveBar } from '../../components';
+import Spacer from '../../components/spacer/Spacer';
+import { DEFAULT_SCHEMA_VAL } from '../../components/form-builder/const';
+import { useSaveBar } from '../../components/save-bar/use-save-bar';
+import { FormInputField } from '../../components/form-inputs/FormInputField';
+import { FormSelect } from '../../components/form-inputs/FormSelect';
 
 interface FormBaseProps {
   onSave: (body: PostFormBody) => void;
@@ -25,117 +18,85 @@ interface FormBaseProps {
 }
 
 const FormBase: React.FC<FormBaseProps> = ({ onSave, formData }) => {
-  const { control, handleSubmit } = useForm<PostFormBody>({
+  const form = useForm<PostFormBody>({
     defaultValues: {
-      title: formData?.title,
-      description: formData?.description,
-      purpose: formData?.purpose,
-      body: {},
+      title: formData?.title ?? '',
+      description: formData?.description ?? '',
+      purpose: formData?.purpose ?? FormPurpose.NO_PURPOSE,
+      body: formData?.latestFormVersion?.body ?? DEFAULT_SCHEMA_VAL,
     },
   });
+
+  const [shouldShowSave, setFormData] = useSaveBar<PostFormBody>(form);
+
+  useEffect(() => {
+    const { latestFormVersion, description, purpose, title } = formData ?? {};
+
+    setFormData({
+      title,
+      purpose,
+      description,
+      body: latestFormVersion?.body ?? DEFAULT_SCHEMA_VAL,
+    });
+  }, [formData]);
 
   return (
     <>
       <Card>
         <CardContent>
-          <Typography variant="h4" sx={{ mb: 2 }}>
-            Details
-          </Typography>
+          <Typography variant="h5">About form</Typography>
+          <Spacer />
           <Grid container spacing={2}>
             <Grid item xs={12}>
-              <Controller
+              <FormInputField
+                control={form.control}
+                rules={{
+                  required: true,
+                  minLength: 1,
+                }}
+                label="Form title"
                 name="title"
-                control={control}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <FormInputField
+                control={form.control}
                 rules={{
                   required: true,
                   minLength: 1,
                 }}
-                render={({
-                  field: { onChange, value },
-                  fieldState: { invalid, error },
-                }) => (
-                  <TextField
-                    fullWidth
-                    label="Title"
-                    variant="outlined"
-                    onChange={onChange}
-                    value={value}
-                    required
-                    error={invalid}
-                    helperText={getFormErrorMessage(error?.type)}
-                  />
-                )}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <Controller
+                label="Form Description"
                 name="description"
-                control={control}
-                rules={{
-                  required: true,
-                  minLength: 1,
-                }}
-                render={({
-                  field: { onChange, value },
-                  fieldState: { invalid, error },
-                }) => (
-                  <TextField
-                    fullWidth
-                    label="Description"
-                    variant="outlined"
-                    onChange={onChange}
-                    value={value}
-                    required
-                    error={invalid}
-                    helperText={getFormErrorMessage(error?.type)}
-                  />
-                )}
+                multiline={3}
               />
             </Grid>
             <Grid item xs={12}>
-              <Controller
+              <FormSelect
+                control={form.control}
                 name="purpose"
-                control={control}
-                rules={{
-                  required: true,
-                }}
-                render={({
-                  field: { onChange, value },
-                  fieldState: { invalid, error },
-                }) => (
-                  <FormControl fullWidth required error={!!error}>
-                    <InputLabel id="demo-simple-select-label">
-                      Purpose
-                    </InputLabel>
-                    <Select
-                      id="purpose"
-                      label="Purpose"
-                      onChange={onChange}
-                      value={value}
-                      error={invalid}
-                    >
-                      <MenuItem value={FormPurpose.ACTIVITY_ENTRY}>
-                        Activity Entry
-                      </MenuItem>
-                      <MenuItem value={FormPurpose.CUSTOMER}>Customer</MenuItem>
-                      <MenuItem value={FormPurpose.INVENTORY}>
-                        Inventory
-                      </MenuItem>
-                      <MenuItem value={FormPurpose.STAFF}>Staff</MenuItem>
-                    </Select>
-                    <FormHelperText>
-                      {getFormErrorMessage(error?.type)}
-                    </FormHelperText>
-                  </FormControl>
-                )}
-              />
+                label="Form purpose"
+                required
+              >
+                <MenuItem value={FormPurpose.NO_PURPOSE}>
+                  No specific purpose
+                </MenuItem>
+                <MenuItem value={FormPurpose.ACTIVITY_ENTRY}>
+                  Activity Entry
+                </MenuItem>
+                <MenuItem value={FormPurpose.CUSTOMER}>Customer</MenuItem>
+                <MenuItem value={FormPurpose.INVENTORY}>Inventory</MenuItem>
+                <MenuItem value={FormPurpose.STAFF}>Staff</MenuItem>
+              </FormSelect>
             </Grid>
           </Grid>
         </CardContent>
       </Card>
+      <Spacer size="lg" />
+      <FormBuilder form={form} name="body" />
+      <Spacer size="saveBar" />
       <SaveBar
-        open
-        onSave={handleSubmit((data) => {
+        open={shouldShowSave}
+        onSave={form.handleSubmit((data) => {
           onSave(data);
         })}
       />
