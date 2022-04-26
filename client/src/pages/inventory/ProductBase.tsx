@@ -25,7 +25,7 @@ import {
   Product,
   Variant,
 } from '../../types';
-import { getFormErrorMessage, penniesToPrice } from '../../utils';
+import { penniesToPrice } from '../../utils';
 import Spacer from '../../components/spacer/Spacer';
 import VariantCreateDialog from './VariantCreate';
 import { SaveBar } from '../../components';
