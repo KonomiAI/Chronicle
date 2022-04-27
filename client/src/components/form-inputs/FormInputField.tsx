@@ -24,7 +24,6 @@ export const FormInputField = <T,>({
   variant = 'outlined',
   multiline = 0,
   numberField = false,
-  required = false,
 }: FormInputProps<T>) => (
   <Controller
     name={name}
@@ -40,7 +39,6 @@ export const FormInputField = <T,>({
         fullWidth
         label={label}
         onChange={onChange}
-        required={required}
         value={value}
         variant={variant}
         error={invalid}
