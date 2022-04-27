@@ -1,6 +1,7 @@
 import { Prisma, PrismaClient } from '@prisma/client';
 import * as bcrypt from 'bcrypt';
 import { devCustomerFixtures } from './fixtures/dev/customers';
+import { devFormFixtures, formBody } from './fixtures/dev/forms';
 
 export const seedSuperUser = async (
   roleIds: string[],
@@ -18,6 +19,28 @@ export const seedTestCustomers = async (prisma: PrismaClient) =>
     data: devCustomerFixtures,
   });
 
+export const seedTestForms = async (prisma: PrismaClient) => {
+  const form = await prisma.form.create({
+    data: devFormFixtures,
+  });
+
+  const formVersion = await prisma.formVersion.create({
+    data: {
+      formId: form.id,
+      body: formBody,
+    },
+  });
+
+  prisma.form.update({
+    where: {
+      id: form.id,
+    },
+    data: {
+      latestFormId: formVersion.id,
+    },
+  });
+};
+
 export const devSeedProcedure = async (prisma: PrismaClient) => {
   const roles = await prisma.role.findMany({
     select: {
@@ -30,4 +53,5 @@ export const devSeedProcedure = async (prisma: PrismaClient) => {
   });
 
   await seedTestCustomers(prisma);
+  await seedTestForms(prisma);
 };

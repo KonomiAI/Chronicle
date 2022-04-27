@@ -42,9 +42,10 @@ export const FormSelect: React.FC<FormSelectProps> = ({
           size="small"
           label={label}
           labelId={name}
-          value={value}
+          value={value ?? ''}
           error={invalid}
           onChange={onChange}
+          defaultValue=""
         >
           {children ||
             options.map((o, i) => (

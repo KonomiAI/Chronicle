@@ -12,6 +12,7 @@ export interface FormInputProps {
   variant?: 'filled' | 'standard' | 'outlined';
   numberField?: boolean;
   multiline?: number;
+  required?: boolean;
 }
 
 export const FormInputField = ({
@@ -23,6 +24,7 @@ export const FormInputField = ({
   variant = 'outlined',
   multiline = 0,
   numberField = false,
+  required = false,
 }: FormInputProps) => (
   <Controller
     name={name}
@@ -37,6 +39,7 @@ export const FormInputField = ({
         fullWidth
         label={label}
         onChange={onChange}
+        required={required}
         value={value}
         variant={variant}
         error={invalid}
