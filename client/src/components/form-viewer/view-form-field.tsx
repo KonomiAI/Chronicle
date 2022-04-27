@@ -91,9 +91,6 @@ export const ViewFormField = ({
         </Typography>
       );
     default:
-      // type should always be one of the above
-      console.error('Field Type Impossible');
-
       return <Typography variant="h6">Field Type Not Supported</Typography>;
   }
 };
