@@ -18,7 +18,7 @@ export default function TabPanel(props: TabPanelProps) {
       id={`scrollable-auto-tabpanel-${index}`}
       aria-labelledby={`scrollable-auto-tab-${index}`}
     >
-      <Box p={3}>{children}</Box>
+      <Box pt={3}>{children}</Box>
     </Typography>
   );
 }

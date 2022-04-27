@@ -2,6 +2,7 @@ import { Prisma, PrismaClient } from '@prisma/client';
 import * as bcrypt from 'bcrypt';
 import { devCustomerFixtures } from './fixtures/dev/customers';
 import { devFormFixtures, formBody } from './fixtures/dev/forms';
+import { devProductFixtures } from './fixtures/dev/products';
 
 export const seedSuperUser = async (
   roleIds: string[],
@@ -41,6 +42,11 @@ export const seedTestForms = async (prisma: PrismaClient) => {
   });
 };
 
+export const seedTestProducts = async (prisma: PrismaClient) =>
+  prisma.product.createMany({
+    data: devProductFixtures,
+  });
+
 export const devSeedProcedure = async (prisma: PrismaClient) => {
   const roles = await prisma.role.findMany({
     select: {
@@ -54,4 +60,5 @@ export const devSeedProcedure = async (prisma: PrismaClient) => {
 
   await seedTestCustomers(prisma);
   await seedTestForms(prisma);
+  await seedTestProducts(prisma);
 };
