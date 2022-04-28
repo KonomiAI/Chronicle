@@ -15,8 +15,8 @@ const CreateForm = () => {
   const navigate = useNavigate();
 
   const createFormAndMutate = useMutation(createForm, {
-    onSuccess: () => {
-      navigate('/forms');
+    onSuccess: (data) => {
+      navigate(`/forms/${data.id}`);
     },
   });
 

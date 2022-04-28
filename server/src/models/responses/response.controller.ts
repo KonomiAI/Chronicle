@@ -18,7 +18,13 @@ import { Actions, Features } from '../../auth/constants';
 export class ResponseController {
   constructor(private readonly responseService: ResponseService) {}
 
-  @Auth(Actions.WRITE, [Features.Form])
+  @Auth(Actions.WRITE, [
+    Features.Form,
+    Features.Customer,
+    Features.Entry,
+    Features.Inventory,
+    Features.Security,
+  ])
   @Post()
   async createResponse(@Body() data: CreateResponseDto, @Request() req) {
     const response = await this.responseService.createResponse();
@@ -30,7 +36,13 @@ export class ResponseController {
     );
   }
 
-  @Auth(Actions.WRITE, [Features.Form])
+  @Auth(Actions.WRITE, [
+    Features.Form,
+    Features.Customer,
+    Features.Entry,
+    Features.Inventory,
+    Features.Security,
+  ])
   @Put(':id')
   async updateResponse(
     @Param('id') id: string,

@@ -23,7 +23,13 @@ export default function AdminList() {
   const { pathname } = useLocation();
   return (
     <List>
-      <ListItem button key="form_builder">
+      <ListItem
+        component="a"
+        href="/forms"
+        selected={pathname === '/forms'}
+        key="forms"
+        sx={{ color: 'inherit' }}
+      >
         <ListItemIcon>
           <DynamicForm />
         </ListItemIcon>
