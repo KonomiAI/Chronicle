@@ -12,7 +12,6 @@ export interface FormInputProps<T> {
   variant?: 'filled' | 'standard' | 'outlined';
   numberField?: boolean;
   multiline?: number;
-  required?: boolean;
 }
 
 export const FormInputField = <T,>({
