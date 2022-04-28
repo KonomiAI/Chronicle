@@ -37,7 +37,7 @@ export const ViewFormField = ({
         <FormInputField
           name={name}
           control={control}
-          required={!optional}
+          rules={{ required: !optional }}
           label={description || name}
         />
       );
@@ -46,7 +46,7 @@ export const ViewFormField = ({
         <FormInputField
           name={name}
           control={control}
-          required={!optional}
+          rules={{ required: !optional }}
           multiline={5}
           label={description || name}
         />
@@ -56,7 +56,7 @@ export const ViewFormField = ({
         <FormInputField
           name={name}
           control={control}
-          required={!optional}
+          rules={{ required: !optional }}
           numberField
           label={description || name}
         />
