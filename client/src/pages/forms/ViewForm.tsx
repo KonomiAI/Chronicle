@@ -3,7 +3,8 @@ import { FormViewer } from '../../components/form-viewer/form-viewer';
 import { useGetForm } from '../../data/form';
 
 const ViewForm = () => {
-  const { data } = useGetForm('6268d8c1a34ccc522cc5df19');
+  const formId = '' // Add testing form id here
+  const { data } = useGetForm(`${formId}`);
 
   if (!data) return <div>404 on Form</div>;
 
