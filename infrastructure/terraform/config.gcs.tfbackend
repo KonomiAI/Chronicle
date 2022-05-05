@@ -1,0 +1,2 @@
+bucket  = "chronicle-staging-terraform"
+prefix  = "terraform/state"
