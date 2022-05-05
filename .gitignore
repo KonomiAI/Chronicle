@@ -105,3 +105,6 @@ dist
 
 # mdbook build files
 book/
+
+# OSX
+.DS_Store

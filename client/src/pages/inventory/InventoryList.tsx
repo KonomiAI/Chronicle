@@ -1,5 +1,5 @@
-import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 
 import {
   Button,
@@ -16,12 +16,12 @@ import {
 import PageHeader from '../../components/page-header/PageHeader';
 import Spacer from '../../components/spacer/Spacer';
 import TabPanel from '../../components/tabs/TabPanel';
-import InventoryTable from '../../components/inventory/InventoryTable';
 import LoadingCard from '../../components/loading-card';
 import ProductsTable from '../../components/products-table/ProductsTable';
+import ActivitiesTable from '../../components/activities-table/ActivitiesTable';
 import YesNoChip from '../../components/yes-no-chip/YesNoChip';
 
-import { useGetProducts } from '../../data';
+import { useGetActivities, useGetProducts } from '../../data';
 import { penniesToPrice } from '../../utils';
 
 const ProductsTableContainer = () => {
@@ -90,20 +90,55 @@ const ProductsTableContainer = () => {
   );
 };
 
-const productList = [
-  { name: 'Massage 1', price: '$420.69', date: '1999-07-29', barcode: '66666' },
-  { name: 'Massage 2', price: '$420.69', date: '1999-07-29', barcode: '66666' },
-];
+const ActivitiesTableContainer = () => {
+  const { data: activities, isLoading, isError } = useGetActivities();
+  const navigate = useNavigate();
 
-const ProductList = () =>
-  productList.map(({ name, price, date, barcode }) => (
-    <TableRow>
-      <TableCell>{name}</TableCell>
-      <TableCell>{price}</TableCell>
-      <TableCell>{date}</TableCell>
-      <TableCell>{barcode}</TableCell>
-    </TableRow>
-  ));
+  if (isLoading) {
+    return <LoadingCard title="Fetching activities..." />;
+  }
+
+  if (isError || !activities) {
+    return (
+      <Alert severity="error">
+        <AlertTitle>An unexpected error has occured</AlertTitle>
+        Something went wrong while fetching activities
+      </Alert>
+    );
+  }
+
+  if (activities.length === 0) {
+    return (
+      <Alert severity="info">
+        <AlertTitle>No activities found</AlertTitle>
+        Please use the &quot;create&quot; button to add an activity
+      </Alert>
+    );
+  }
+
+  return (
+    <ActivitiesTable
+      tableContents={activities.map(
+        ({ id, name, price, isArchived, createdAt, updatedAt }) => (
+          <TableRow
+            key={id}
+            hover
+            sx={{ cursor: 'pointer' }}
+            onClick={() => navigate(`activities/${id}`)}
+          >
+            <TableCell>{name}</TableCell>
+            <TableCell>{penniesToPrice(price)}</TableCell>
+            <TableCell>
+              <YesNoChip isYes={isArchived} />
+            </TableCell>
+            <TableCell>{new Date(createdAt).toLocaleString()}</TableCell>
+            <TableCell>{new Date(updatedAt).toLocaleString()}</TableCell>
+          </TableRow>
+        ),
+      )}
+    />
+  );
+};
 
 const TabSection = (label: string, index: number) => (
   <Tab
@@ -114,10 +149,30 @@ const TabSection = (label: string, index: number) => (
 );
 
 export default function InventoryPage() {
-  const [value, setValue] = React.useState(0);
+  const [tabValue, setTabValue] = React.useState(0);
+  const [searchParams] = useSearchParams();
 
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-    setValue(newValue);
+  useEffect(() => {
+    const currentTab = searchParams.get('tab');
+    setTabValue(parseInt(currentTab || '0'));
+  }, []);
+
+  const handleTabChange = (
+    event: React.SyntheticEvent,
+    newTabValue: number,
+  ) => {
+    setTabValue(newTabValue);
+  };
+
+  const handleCreateLink = () => {
+    switch (tabValue) {
+      case 0:
+        return '/inventory/products/create';
+      case 1:
+        return '/inventory/activities/create';
+      default:
+        return '';
+    }
   };
 
   return (
@@ -125,11 +180,7 @@ export default function InventoryPage() {
       <PageHeader
         pageTitle="Inventory"
         action={
-          <Button
-            component={Link}
-            to="/inventory/products/create"
-            variant="contained"
-          >
+          <Button component={Link} to={handleCreateLink()} variant="contained">
             Create
           </Button>
         }
@@ -138,8 +189,8 @@ export default function InventoryPage() {
 
       <AppBar position="static" color="default">
         <Tabs
-          value={value}
-          onChange={handleChange}
+          value={tabValue}
+          onChange={handleTabChange}
           indicatorColor="primary"
           textColor="primary"
           variant="scrollable"
@@ -151,12 +202,12 @@ export default function InventoryPage() {
         </Tabs>
       </AppBar>
 
-      <TabPanel value={value} index={0}>
+      <TabPanel value={tabValue} index={0}>
         <ProductsTableContainer />
       </TabPanel>
 
-      <TabPanel value={value} index={1}>
-        <InventoryTable tableContents={ProductList()} />
+      <TabPanel value={tabValue} index={1}>
+        <ActivitiesTableContainer />
       </TabPanel>
 
       <Spacer size="lg" />

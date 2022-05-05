@@ -7,3 +7,5 @@ export * from './util';
 export * from './form';
 export * from './product';
 export * from './customer';
+export * from './data';
+export * from './activity';
