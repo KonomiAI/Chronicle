@@ -154,7 +154,7 @@ export default function InventoryPage() {
 
   useEffect(() => {
     const currentTab = searchParams.get('tab');
-    setTabValue(parseInt(currentTab || '0'));
+    setTabValue(parseInt(currentTab || '0', 10));
   }, []);
 
   const handleTabChange = (
