@@ -5,7 +5,7 @@ import { createSearchParams, useNavigate } from 'react-router-dom';
 import { Alert, AlertTitle, Container } from '@mui/material';
 
 import { createActivity } from '../../data';
-import { PostActivityBody } from '../../types';
+import { InventoryTabs, PostActivityBody } from '../../types';
 
 import PageHeader from '../../components/page-header/PageHeader';
 import Spacer from '../../components/spacer/Spacer';
@@ -19,7 +19,7 @@ const ActivityCreate = () => {
       navigate({
         pathname: '/inventory',
         search: createSearchParams({
-          tab: '1',
+          tab: 'ACTIVITIES',
         }).toString(),
       });
     },
@@ -31,7 +31,10 @@ const ActivityCreate = () => {
 
   return (
     <Container>
-      <PageHeader pageTitle="Create an activity" backURL="/inventory?tab=1" />
+      <PageHeader
+        pageTitle="Create an activity"
+        backURL="/inventory?tab=ACTIVITIES"
+      />
       <Spacer size="lg" />
       {isError && (
         <>

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 
 import {
@@ -23,6 +23,7 @@ import YesNoChip from '../../components/yes-no-chip/YesNoChip';
 
 import { useGetActivities, useGetProducts } from '../../data';
 import { penniesToPrice } from '../../utils';
+import { InventoryTabs } from '../../types';
 
 const ProductsTableContainer = () => {
   const { data: products, isLoading, isError } = useGetProducts();
@@ -149,12 +150,15 @@ const TabSection = (label: string, index: number) => (
 );
 
 export default function InventoryPage() {
-  const [tabValue, setTabValue] = React.useState(0);
+  const [tabValue, setTabValue] = useState(InventoryTabs.PRODUCTS);
   const [searchParams] = useSearchParams();
 
   useEffect(() => {
     const currentTab = searchParams.get('tab');
-    setTabValue(parseInt(currentTab || '0', 10));
+
+    if (currentTab && currentTab in InventoryTabs) {
+      setTabValue(InventoryTabs[currentTab as keyof typeof InventoryTabs]);
+    }
   }, []);
 
   const handleTabChange = (
@@ -166,9 +170,9 @@ export default function InventoryPage() {
 
   const handleCreateLink = () => {
     switch (tabValue) {
-      case 0:
+      case InventoryTabs.PRODUCTS:
         return '/inventory/products/create';
-      case 1:
+      case InventoryTabs.ACTIVITIES:
         return '/inventory/activities/create';
       default:
         return '';
@@ -197,16 +201,16 @@ export default function InventoryPage() {
           scrollButtons="auto"
           aria-label="scrollable auto tabs example"
         >
-          {TabSection('Products', 0)}
-          {TabSection('Activities', 1)}
+          {TabSection('Products', InventoryTabs.PRODUCTS)}
+          {TabSection('Activities', InventoryTabs.ACTIVITIES)}
         </Tabs>
       </AppBar>
 
-      <TabPanel value={tabValue} index={0}>
+      <TabPanel value={tabValue} index={InventoryTabs.PRODUCTS}>
         <ProductsTableContainer />
       </TabPanel>
 
-      <TabPanel value={tabValue} index={1}>
+      <TabPanel value={tabValue} index={InventoryTabs.ACTIVITIES}>
         <ActivitiesTableContainer />
       </TabPanel>
 

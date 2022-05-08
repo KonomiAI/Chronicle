@@ -13,7 +13,7 @@ import {
 } from '@mui/material';
 
 import { deleteActivity, updateActivity, useGetActivity } from '../../data';
-import { PutActivityBody } from '../../types';
+import { InventoryTabs, PutActivityBody } from '../../types';
 
 import PageHeader from '../../components/page-header/PageHeader';
 import Spacer from '../../components/spacer/Spacer';
@@ -38,7 +38,7 @@ const ActivityEdit = () => {
       navigate({
         pathname: '/inventory',
         search: createSearchParams({
-          tab: '1',
+          tab: 'ACTIVITIES',
         }).toString(),
       });
     },
@@ -53,7 +53,7 @@ const ActivityEdit = () => {
       navigate({
         pathname: '/inventory',
         search: createSearchParams({
-          tab: '1',
+          tab: 'ACTIVITIES',
         }).toString(),
       });
     },
@@ -80,7 +80,10 @@ const ActivityEdit = () => {
 
   return (
     <Container>
-      <PageHeader pageTitle="Update an activity" backURL="/inventory?tab=1" />
+      <PageHeader
+        pageTitle="Update an activity"
+        backURL="/inventory?tab=ACTIVITIES"
+      />
       <Spacer size="lg" />
       {hasUpdateActivityError && (
         <>

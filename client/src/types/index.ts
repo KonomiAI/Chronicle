@@ -9,3 +9,4 @@ export * from './product';
 export * from './customer';
 export * from './data';
 export * from './activity';
+export * from './inventory-tabs';
