@@ -5,7 +5,7 @@ import { createSearchParams, useNavigate } from 'react-router-dom';
 import { Alert, AlertTitle, Container } from '@mui/material';
 
 import { createActivity } from '../../data';
-import { InventoryTabs, PostActivityBody } from '../../types';
+import { PostActivityBody } from '../../types';
 
 import PageHeader from '../../components/page-header/PageHeader';
 import Spacer from '../../components/spacer/Spacer';

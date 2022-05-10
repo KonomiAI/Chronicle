@@ -13,7 +13,7 @@ import {
 } from '@mui/material';
 
 import { deleteActivity, updateActivity, useGetActivity } from '../../data';
-import { InventoryTabs, PutActivityBody } from '../../types';
+import { PutActivityBody } from '../../types';
 
 import PageHeader from '../../components/page-header/PageHeader';
 import Spacer from '../../components/spacer/Spacer';
