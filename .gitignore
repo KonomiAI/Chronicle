@@ -109,3 +109,6 @@ book/
 # Terraform
 .terraform/
 .terraform.lock.hcl
+
+# OSX
+.DS_Store
