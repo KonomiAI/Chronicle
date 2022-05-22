@@ -81,13 +81,6 @@ const finalTheme = createTheme(theme, {
     },
   },
   components: {
-    MuiCard: {
-      styleOverrides: {
-        root: {
-          boxShadow: theme.shadows[3],
-        },
-      },
-    },
     MuiCardContent: {
       styleOverrides: {
         root: {

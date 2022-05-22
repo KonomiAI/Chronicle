@@ -7,6 +7,7 @@ import {
   Param,
   Post,
   Put,
+  Query,
   UseInterceptors,
 } from '@nestjs/common';
 import { validateWithLatest } from '@konomi.ai/c-form';
@@ -15,6 +16,7 @@ import { Auth } from 'src/auth/role.decorator';
 import { TransformInterceptor } from '../../interceptors/transform.interceptor';
 import { CreateFormDto, UpdateFormDto } from './form.dto';
 import { FormService } from './form.service';
+import { FormPurpose, Prisma } from '@prisma/client';
 
 const DEFAULT_FORM_SELECT = {
   id: true,
@@ -38,8 +40,23 @@ export class FormController {
 
   @Get()
   @Auth(Actions.READ, [Features.Form])
-  async getForms() {
-    return this.formService.forms({ select: DEFAULT_FORM_SELECT });
+  async getForms(
+    @Query('purpose') purpose?: FormPurpose,
+    @Query('title') title?: string,
+  ) {
+    const searchObj: Prisma.FormWhereInput = {};
+    if (purpose) {
+      searchObj.purpose = purpose;
+    }
+    if (title) {
+      searchObj.title = {
+        contains: title,
+      };
+    }
+    return this.formService.forms({
+      select: DEFAULT_FORM_SELECT,
+      where: searchObj,
+    });
   }
 
   @Auth(Actions.READ, [Features.Form])

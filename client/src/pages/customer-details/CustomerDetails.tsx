@@ -11,7 +11,7 @@ import { useForm } from 'react-hook-form';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useMutation, useQueryClient } from 'react-query';
 
-import { SaveBar, TextInput, DateInput } from '../../components';
+import { SaveBar, TextInput, DateInput, If } from '../../components';
 import PageHeader from '../../components/page-header/PageHeader';
 import Spacer from '../../components/spacer/Spacer';
 import { Customer, CustomerCreateDto, Gender } from '../../types';
@@ -21,6 +21,7 @@ import {
   LoadingPage,
 } from '../../components/simple-pages/SimplePages';
 import { DATE_REGEXP, EMAIL_REGEXP } from '../../utils';
+import { FormBrowser } from '../../components/form-browser/form-browser';
 
 export interface CustomerDetailsPageProps {
   isCreate?: boolean;
@@ -131,12 +132,19 @@ const CustomerDetailsPage: React.FC<CustomerDetailsPageProps> = ({
         <CardContent>
           <Typography variant="h5">Custom forms</Typography>
           <Spacer />
-          {isCreate && (
+          <If
+            condition={isCreate}
+            el={
+              <FormBrowser
+                prompt={`Add one of the following forms to ${defaultValues.firstName} ${defaultValues.lastName} to collect more information about this customer.`}
+              />
+            }
+          >
             <Alert severity="info">
               Custom forms are available to this customer once you complete
               their basic information and press save.
             </Alert>
-          )}
+          </If>
         </CardContent>
       </Card>
       <SaveBar

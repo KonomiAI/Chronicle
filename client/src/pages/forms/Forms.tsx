@@ -20,6 +20,7 @@ import PageHeader from '../../components/page-header/PageHeader';
 import Spacer from '../../components/spacer/Spacer';
 import { useGetForms } from '../../data/form';
 import { Form } from '../../types/form';
+import { If } from '../../components';
 
 const Forms = () => {
   const navigate = useNavigate();
@@ -43,10 +44,12 @@ const Forms = () => {
                 <Typography variant="h5">{form.title}</Typography>
               </Box>
               <Box marginLeft={1}>
-                <Chip
-                  size="small"
-                  label={form.purpose.toLowerCase().replace('_', ' ')}
-                />
+                <If condition={form.purpose}>
+                  <Chip
+                    size="small"
+                    label={form.purpose?.toLowerCase().replace('_', ' ')}
+                  />
+                </If>
               </Box>
             </Stack>
             <Spacer />

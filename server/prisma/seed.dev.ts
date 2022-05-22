@@ -33,7 +33,7 @@ export const seedTestForms = async (prisma: PrismaClient) => {
     },
   });
 
-  prisma.form.update({
+  await prisma.form.update({
     where: {
       id: form.id,
     },
