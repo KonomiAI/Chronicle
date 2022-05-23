@@ -29,9 +29,13 @@ export const FormViewer = ({ form }: FormViewerProps): JSX.Element => {
                 <Typography variant="h4" sx={{ mb: 2 }}>
                   Section #{i + 1} - {section.name}
                 </Typography>
-                <Typography variant="h5" sx={{ mb: 2 }}>
-                  {section.description}
-                </Typography>
+
+                {section.description ? (
+                  <Typography variant="h5" sx={{ mb: 2 }}>
+                    {section.description}
+                  </Typography>
+                ) : null}
+
                 {section.fields.map((field) => (
                   <Box key={field.id} sx={{ mb: 2 }}>
                     <ViewFormField
