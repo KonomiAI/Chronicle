@@ -31,6 +31,8 @@ import {
 } from './pages/customer-details';
 import ProductCreate from './pages/inventory/ProductCreate';
 import ProductEdit from './pages/inventory/ProductEdit';
+import ActivityCreate from './pages/inventory/ActivityCreate';
+import ActivityEdit from './pages/inventory/ActivityEdit';
 
 const queryClient = new QueryClient();
 
@@ -55,6 +57,14 @@ ReactDOM.render(
                 <Route
                   path="inventory/products/:productId"
                   element={<ProductEdit />}
+                />
+                <Route
+                  path="inventory/activities/create"
+                  element={<ActivityCreate />}
+                />
+                <Route
+                  path="inventory/activities/:activityId"
+                  element={<ActivityEdit />}
                 />
                 <Route path="roles" element={<RolesListPage />} />
                 <Route path="roles/new" element={<CreateRoleForm />} />
