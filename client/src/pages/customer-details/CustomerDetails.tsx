@@ -21,7 +21,7 @@ import {
   LoadingPage,
 } from '../../components/simple-pages/SimplePages';
 import { DATE_REGEXP, EMAIL_REGEXP } from '../../utils';
-import { FormBrowser } from '../../components/form-browser/form-browser';
+import { FormIntegration } from '../../components/form-integration/form-integration';
 
 export interface CustomerDetailsPageProps {
   isCreate?: boolean;
@@ -135,10 +135,7 @@ const CustomerDetailsPage: React.FC<CustomerDetailsPageProps> = ({
           <If
             condition={isCreate}
             el={
-              <FormBrowser
-                purpose={FormPurpose.CUSTOMER}
-                prompt={`Add one of the following forms to ${defaultValues.firstName} ${defaultValues.lastName} to collect more information about this customer.`}
-              />
+              <FormIntegration responses={[]} purpose={FormPurpose.CUSTOMER} />
             }
           >
             <Alert severity="info">

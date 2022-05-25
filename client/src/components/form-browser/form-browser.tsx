@@ -11,32 +11,24 @@ import {
 import Spacer from '../spacer/Spacer';
 import { If } from '../utils/util-components';
 import { useGetForms } from '../../data';
-import { FormPurpose } from '../../types';
+import { Form, FormPurpose } from '../../types';
 
 export interface FormBrowserProps {
-  prompt?: string;
   purpose?: FormPurpose;
+  onFormOpen?: (form: Form) => void;
 }
 
-export function FormBrowser({ prompt, purpose }: FormBrowserProps) {
+export function FormBrowser({ purpose, onFormOpen }: FormBrowserProps) {
   const { data } = useGetForms({ purpose });
   return (
     <div>
-      <If
-        condition={prompt}
-        el={
-          <Typography variant="body2">
-            The following forms can be added to this record.
-          </Typography>
-        }
-      >
-        <Typography variant="body2">{prompt}</Typography>
-      </If>
-      <Spacer size="md" />
       <Grid container spacing={2}>
         {data?.map((form) => (
           <Grid key={form.id} item xs={12} md={6} lg={4}>
-            <Card variant="outlined">
+            <Card
+              variant="outlined"
+              onClick={() => onFormOpen && onFormOpen(form)}
+            >
               <CardActionArea>
                 <CardContent>
                   <Typography variant="h5">{form.title}</Typography>
