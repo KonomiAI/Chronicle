@@ -104,4 +104,5 @@ export const formBody = {
 export const devFormFixtures: Prisma.FormCreateInput = {
   title: 'Form 1',
   description: 'Test form #1',
+  purpose: 'NO_PURPOSE',
 };

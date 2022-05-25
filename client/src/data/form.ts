@@ -4,25 +4,34 @@ import useAxios from './axios';
 import { Data } from '../types/data';
 import { Form, PostFormBody } from '../types/form';
 
+export interface UpdateFormVariables {
+  formId: string;
+  data: PostFormBody;
+}
+
+export interface GetFormsQueryParams {
+  purpose?: string;
+  title?: string;
+}
+
 const getForm = (formId: string): Promise<Form> => {
   const axios = useAxios();
   return axios.get<Data<Form>>(`/forms/${formId}`).then((res) => res.data.data);
 };
 
-const getForms = (): Promise<Form[]> => {
+const getForms = (params?: GetFormsQueryParams): Promise<Form[]> => {
   const axios = useAxios();
-  return axios.get<Data<Form[]>>('/forms').then((res) => res.data.data);
+  return axios
+    .get<Data<Form[]>>('/forms', {
+      params,
+    })
+    .then((res) => res.data.data);
 };
 
 export const createForm = (data: PostFormBody) => {
   const axios = useAxios();
   return axios.post<Data<Form>>('/forms', data).then((res) => res.data.data);
 };
-
-export interface UpdateFormVariables {
-  formId: string;
-  data: PostFormBody;
-}
 
 export const updateForm = ({ formId, data }: UpdateFormVariables) => {
   const axios = useAxios();
@@ -33,4 +42,6 @@ export const updateForm = ({ formId, data }: UpdateFormVariables) => {
 
 export const useGetForm = (formId: string) =>
   useQuery(['forms', formId], () => getForm(formId));
-export const useGetForms = () => useQuery('forms', getForms);
+
+export const useGetForms = (params?: GetFormsQueryParams) =>
+  useQuery('forms', () => getForms(params));

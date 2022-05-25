@@ -10,12 +10,16 @@ import {
 } from '@mui/material';
 import Spacer from '../spacer/Spacer';
 import { If } from '../utils/util-components';
+import { useGetForms } from '../../data';
+import { FormPurpose } from '../../types';
 
 export interface FormBrowserProps {
   prompt?: string;
+  purpose?: FormPurpose;
 }
 
-export function FormBrowser({ prompt }: FormBrowserProps) {
+export function FormBrowser({ prompt, purpose }: FormBrowserProps) {
+  const { data } = useGetForms({ purpose });
   return (
     <div>
       <If
@@ -30,25 +34,38 @@ export function FormBrowser({ prompt }: FormBrowserProps) {
       </If>
       <Spacer size="md" />
       <Grid container spacing={2}>
-        <Grid item xs={12} md={6} lg={4}>
-          <Card variant="outlined">
-            <CardActionArea>
-              <CardContent>
-                <Typography variant="h5">
-                  Customer health information
-                </Typography>
+        {data?.map((form) => (
+          <Grid key={form.id} item xs={12} md={6} lg={4}>
+            <Card variant="outlined">
+              <CardActionArea>
+                <CardContent>
+                  <Typography variant="h5">{form.title}</Typography>
 
-                <Typography variant="body2">
-                  No description available.
-                </Typography>
-                <Spacer size="md" />
-                <Box>
-                  <Chip label="Recommended" size="small" variant="outlined" />
-                </Box>
-              </CardContent>
-            </CardActionArea>
-          </Card>
-        </Grid>
+                  <If
+                    condition={form.description}
+                    el={
+                      <Typography variant="body2">
+                        No description available.
+                      </Typography>
+                    }
+                  >
+                    <Typography variant="body2">{form.description}</Typography>
+                  </If>
+                  <Spacer size="md" />
+                  <Box>
+                    <If condition={purpose && form.purpose === purpose}>
+                      <Chip
+                        label="Recommended"
+                        size="small"
+                        variant="outlined"
+                      />
+                    </If>
+                  </Box>
+                </CardContent>
+              </CardActionArea>
+            </Card>
+          </Grid>
+        ))}
       </Grid>
     </div>
   );

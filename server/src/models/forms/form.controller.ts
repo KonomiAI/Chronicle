@@ -10,13 +10,13 @@ import {
   Query,
   UseInterceptors,
 } from '@nestjs/common';
-import { validateWithLatest } from '@konomi.ai/c-form';
 import { Actions, Features } from 'src/auth/constants';
 import { Auth } from 'src/auth/role.decorator';
 import { TransformInterceptor } from '../../interceptors/transform.interceptor';
 import { CreateFormDto, UpdateFormDto } from './form.dto';
 import { FormService } from './form.service';
 import { FormPurpose, Prisma } from '@prisma/client';
+import { validateWithLatest } from '@konomi.ai/c-form';
 
 const DEFAULT_FORM_SELECT = {
   id: true,
@@ -46,7 +46,14 @@ export class FormController {
   ) {
     const searchObj: Prisma.FormWhereInput = {};
     if (purpose) {
-      searchObj.purpose = purpose;
+      searchObj.OR = [
+        {
+          purpose: 'NO_PURPOSE',
+        },
+        {
+          purpose,
+        },
+      ];
     }
     if (title) {
       searchObj.title = {
@@ -81,7 +88,7 @@ export class FormController {
   @Auth(Actions.WRITE, [Features.Form])
   @Post()
   async createForm(@Body() { body, ...data }: CreateFormDto) {
-    if (!validateWithLatest(data)) {
+    if (!validateWithLatest(body)) {
       throw new HttpException(
         'Failed form validation.',
         HttpStatus.BAD_REQUEST,
@@ -101,7 +108,7 @@ export class FormController {
     @Param('id') id: string,
     @Body() { body, ...data }: UpdateFormDto,
   ) {
-    if (!validateWithLatest(data)) {
+    if (!validateWithLatest(body)) {
       throw new HttpException(
         'Failed form validation.',
         HttpStatus.BAD_REQUEST,

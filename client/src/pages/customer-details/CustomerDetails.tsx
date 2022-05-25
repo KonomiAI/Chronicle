@@ -14,7 +14,7 @@ import { useMutation, useQueryClient } from 'react-query';
 import { SaveBar, TextInput, DateInput, If } from '../../components';
 import PageHeader from '../../components/page-header/PageHeader';
 import Spacer from '../../components/spacer/Spacer';
-import { Customer, CustomerCreateDto, Gender } from '../../types';
+import { Customer, CustomerCreateDto, FormPurpose, Gender } from '../../types';
 import { createCustomer, updateCustomer, useCustomer } from '../../data';
 import {
   ErrorPage,
@@ -136,6 +136,7 @@ const CustomerDetailsPage: React.FC<CustomerDetailsPageProps> = ({
             condition={isCreate}
             el={
               <FormBrowser
+                purpose={FormPurpose.CUSTOMER}
                 prompt={`Add one of the following forms to ${defaultValues.firstName} ${defaultValues.lastName} to collect more information about this customer.`}
               />
             }
