@@ -1,16 +1,10 @@
-import React from 'react';
-import {
-  Box,
-  Button,
-  Card,
-  CardContent,
-  IconButton,
-  Typography,
-} from '@mui/material';
+import React, { useState } from 'react';
+import { Box, Card, CardContent, IconButton, Typography } from '@mui/material';
 
 import { FormProvider, useForm } from 'react-hook-form';
 import { ArrowBack } from '@mui/icons-material';
 import { useMutation } from 'react-query';
+import { LoadingButton } from '@mui/lab';
 import {
   FormResponse,
   FormVersionWithForm,
@@ -19,7 +13,7 @@ import {
 } from '../../types';
 import { ViewFormField } from './view-form-field';
 import Spacer from '../spacer/Spacer';
-import { createResponse } from '../../data/response';
+import { createResponse, updateResponse } from '../../data/response';
 
 interface FormViewerProps {
   form: FormVersionWithForm;
@@ -34,18 +28,37 @@ export const FormViewer = ({
   onResponseSaved,
   response,
 }: FormViewerProps): JSX.Element => {
+  const [isFormLoading, setIsFormLoading] = useState(false);
   const methods = useForm({
     defaultValues: response?.latestResponseVersion?.body ?? {},
   });
   const createResponseAndMutate = useMutation(createResponse, {
     onSuccess: (data) => onResponseSaved(data),
+    onSettled: () => setIsFormLoading(false),
+  });
+  const updateResponseAndMutate = useMutation(updateResponse, {
+    onSuccess: (data) => onResponseSaved(data),
+    onSettled: () => setIsFormLoading(false),
   });
 
-  const saveForm = (body: ResponseBody) =>
+  const saveForm = (body: ResponseBody) => {
+    setIsFormLoading(true);
+    if (response) {
+      updateResponseAndMutate.mutate({
+        id: response.id,
+        data: {
+          formVersionId: form.id,
+          body,
+        },
+      });
+      return;
+    }
     createResponseAndMutate.mutate({
       formVersionId: form.id,
       body,
     });
+  };
+
   const { sections } = form.body;
 
   return (
@@ -112,13 +125,14 @@ export const FormViewer = ({
           </Box>
         ))}
       </FormProvider>
-      <Button
+      <LoadingButton
         variant="contained"
         fullWidth
         onClick={methods.handleSubmit(saveForm)}
+        loading={isFormLoading}
       >
         Save {form.form.title} changes
-      </Button>
+      </LoadingButton>
     </>
   );
 };

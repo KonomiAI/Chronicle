@@ -118,7 +118,7 @@ export const FormSection = ({
       ))}
       <Box sx={{ mt: 2 }}>
         <Button
-          onClick={() => append(DEFAULT_FIELD_VAL)}
+          onClick={() => append(DEFAULT_FIELD_VAL())}
           data-testid="btn-add-field"
         >
           Add question to section
