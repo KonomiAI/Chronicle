@@ -9,6 +9,7 @@ import {
 import { AuthService } from './auth.service';
 import { LoginDto } from './auth.dto';
 import { JwtAuthGuard } from './jwt-auth.guard';
+import { SkipIPCheck } from './ip.guard';
 
 //TODO: return roles associated as well when that relation has been established
 const SELECT = {
@@ -32,8 +33,11 @@ const SELECT = {
 export class AuthController {
   constructor(private authService: AuthService) {}
 
+  @SkipIPCheck()
   @Post('login')
   async getFeatures(@Body() login: LoginDto) {
+    console.log(login);
+
     const user = await this.authService.validateUser(
       login.email,
       login.password,

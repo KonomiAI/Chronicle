@@ -14,7 +14,14 @@ import { useMutation, useQueryClient } from 'react-query';
 import { SaveBar, TextInput, DateInput, If } from '../../components';
 import PageHeader from '../../components/page-header/PageHeader';
 import Spacer from '../../components/spacer/Spacer';
-import { Customer, CustomerCreateDto, FormPurpose, Gender } from '../../types';
+import {
+  Customer,
+  CustomerCreateDto,
+  FormPurpose,
+  FormResponse,
+  Gender,
+  SimpleResponse,
+} from '../../types';
 import { createCustomer, updateCustomer, useCustomer } from '../../data';
 import {
   ErrorPage,
@@ -27,6 +34,7 @@ export interface CustomerDetailsPageProps {
   isCreate?: boolean;
   errorMessage?: string;
   defaultValues: CustomerCreateDto;
+  responses?: FormResponse[];
   saveChanges: (data: CustomerCreateDto) => void | Promise<void>;
 }
 
@@ -55,11 +63,17 @@ const CustomerDetailsPage: React.FC<CustomerDetailsPageProps> = ({
   defaultValues,
   saveChanges,
   errorMessage,
+  responses,
 }) => {
   const { control, watch, handleSubmit } = useForm<CustomerCreateDto>({
     defaultValues: stripAndCleanData(defaultValues),
   });
   const [isSaveOpen, setIsSaveOpen] = useState(false);
+
+  const handleCustomFieldUpdate = (res: SimpleResponse) => {
+    saveChanges({ ...stripAndCleanData(defaultValues), responseIds: [res.id] });
+  };
+
   useEffect(() => {
     const subscription = watch(() => setIsSaveOpen(true));
     return () => subscription.unsubscribe();
@@ -135,7 +149,11 @@ const CustomerDetailsPage: React.FC<CustomerDetailsPageProps> = ({
           <If
             condition={isCreate}
             el={
-              <FormIntegration responses={[]} purpose={FormPurpose.CUSTOMER} />
+              <FormIntegration
+                responses={responses ?? []}
+                purpose={FormPurpose.CUSTOMER}
+                onResponseSaved={handleCustomFieldUpdate}
+              />
             }
           >
             <Alert severity="info">
@@ -220,6 +238,7 @@ export function ManageCustomerForm() {
     <CustomerDetailsPage
       defaultValues={currentData}
       saveChanges={doSave}
+      responses={currentData.responses}
       errorMessage={errorMessage}
     />
   );

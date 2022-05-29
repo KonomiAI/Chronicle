@@ -32,9 +32,8 @@ const Forms = () => {
 
   const generateListItems = () =>
     forms?.map((form: Form, index) => (
-      <>
+      <Box key={form.id}>
         <ListItemButton
-          key={form.id}
           sx={{ cursor: 'pointer' }}
           onClick={() => navigate(form.id)}
         >
@@ -57,7 +56,7 @@ const Forms = () => {
           </Stack>
         </ListItemButton>
         {index !== forms.length - 1 && <Divider />}
-      </>
+      </Box>
     ));
 
   return (

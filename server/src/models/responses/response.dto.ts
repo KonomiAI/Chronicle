@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsObject, IsOptional, IsString } from 'class-validator';
+import { IsNotEmpty, IsObject, IsString } from 'class-validator';
 
 export class CreateResponseDto {
   @IsString()
@@ -16,6 +16,6 @@ export class UpdateResponseDto {
   formVersionId: string;
 
   @IsObject()
-  @IsOptional()
+  @IsNotEmpty()
   body: object;
 }

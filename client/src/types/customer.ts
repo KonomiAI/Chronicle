@@ -1,4 +1,5 @@
 import { Gender } from './gender';
+import { FormResponse } from './response';
 
 export interface Customer {
   id: string;
@@ -13,7 +14,11 @@ export interface Customer {
   isDeleted: boolean;
 }
 
+export interface CustomerWithResponses extends Customer {
+  responses: FormResponse[];
+}
+
 export type CustomerCreateDto = Omit<
   Customer,
   'id' | 'createdAt' | 'updatedAt' | 'isDeleted'
->;
+> & { responseIds?: string[] };

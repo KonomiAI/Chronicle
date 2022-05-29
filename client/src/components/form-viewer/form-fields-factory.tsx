@@ -11,7 +11,7 @@ import { FormInputField } from '../form-inputs/FormInputField';
 import { FormSelect } from '../form-inputs/FormSelect';
 import { MultiSelect } from '../form-inputs/MultiSelect';
 
-export type FormFieldProps = Omit<FormFieldSchema, 'id'>;
+export type FormFieldProps = FormFieldSchema;
 
 export type FieldFactoryFunction = (
   props: FormFieldProps,
@@ -20,11 +20,11 @@ export type FieldFactoryFunction = (
 ) => JSX.Element;
 
 export const TextFieldFactory: FieldFactoryFunction = (
-  { name, optional }: FormFieldProps,
+  { name, optional, id }: FormFieldProps,
   control,
 ): JSX.Element => (
   <FormInputField
-    name={name}
+    name={id}
     control={control}
     rules={{ required: !optional }}
     label={name}
@@ -32,11 +32,11 @@ export const TextFieldFactory: FieldFactoryFunction = (
 );
 
 export const LongTextFieldFactory: FieldFactoryFunction = (
-  { name, optional }: FormFieldProps,
+  { name, optional, id }: FormFieldProps,
   control,
 ): JSX.Element => (
   <FormInputField
-    name={name}
+    name={id}
     control={control}
     rules={{ required: !optional }}
     multiline={5}
@@ -45,11 +45,11 @@ export const LongTextFieldFactory: FieldFactoryFunction = (
 );
 
 export const NumberFieldFactory: FieldFactoryFunction = (
-  { name, optional }: FormFieldProps,
+  { name, optional, id }: FormFieldProps,
   control,
 ): JSX.Element => (
   <FormInputField
-    name={name}
+    name={id}
     control={control}
     rules={{ required: !optional }}
     numberField
@@ -68,12 +68,12 @@ const isOptionValueArray = (options: unknown): options is FormOptionValue[] =>
   Array.isArray(options) && options.every((option) => isOptionValue(option));
 
 export const MultipleChoiceFactory: FieldFactoryFunction = (
-  { name, optional, options }: FormFieldProps,
+  { name, optional, options, id }: FormFieldProps,
   control,
 ) =>
   isOptionValueArray(options) ? (
     <FormSelect
-      name={name}
+      name={id}
       control={control}
       required={!optional}
       label={name}
@@ -86,13 +86,13 @@ export const MultipleChoiceFactory: FieldFactoryFunction = (
   );
 
 export const MultiSelectFactory: FieldFactoryFunction = (
-  { name, optional, options }: FormFieldProps,
+  { name, optional, options, id }: FormFieldProps,
   control,
   setValue,
 ) =>
   isOptionValueArray(options) ? (
     <MultiSelect
-      name={name}
+      name={id}
       control={control}
       setValue={setValue}
       required={!optional}

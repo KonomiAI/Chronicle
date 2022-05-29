@@ -1,5 +1,6 @@
 import { Gender } from '@prisma/client';
 import {
+  IsArray,
   IsEmail,
   IsEnum,
   IsISO8601,
@@ -31,4 +32,8 @@ export class CustomerDto {
 
   @IsOptional()
   phone: string;
+
+  @IsOptional()
+  @IsArray()
+  responseIds: string[];
 }

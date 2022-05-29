@@ -127,7 +127,7 @@ model Response {
   updatedAt               DateTime          @updatedAt
   allResponseVersions     ResponseVersion[] @relation("allResponseVersions")
   latestResponseVersion   ResponseVersion?  @relation("latestResponseVersion", fields: [latestResponseVersionId], references: [id])
-  latestResponseVersionId String?           @unique @db.ObjectId
+  latestResponseVersionId String?           @db.ObjectId @unique
   Customer                Customer?         @relation(fields: [customerId], references: [id])
   customerId              String?           @db.ObjectId
 }
@@ -139,7 +139,7 @@ model ResponseVersion {
   respondent     Staff       @relation(references: [id], fields: [staffId])
   staffId        String      @db.ObjectId
   latestResponse Response?   @relation("latestResponseVersion")
-  response       Response    @relation("allResponseVersions", references: [id], onUpdate: NoAction, fields: [responseId])
+  response       Response?   @relation("allResponseVersions", references: [id], onUpdate: NoAction, fields: [responseId])
   responseId     String      @db.ObjectId
   formVersion    FormVersion @relation(fields: [formVersionId], references: [id])
   formVersionId  String      @db.ObjectId

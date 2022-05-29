@@ -14,7 +14,7 @@ export default function useAxios(config?: Partial<AxiosClientConfig>) {
   const { skipSetAuthHeaders } = config ?? {};
   const headers: Record<string, string> = {};
   if (!skipSetAuthHeaders && checkIsLoggedIn()) {
-    headers.Bearer = getAccessToken();
+    headers.Authorization = `bearer ${getAccessToken()}`;
   }
   return axios.create({
     baseURL: import.meta.env.VITE_SERVER_URL,
