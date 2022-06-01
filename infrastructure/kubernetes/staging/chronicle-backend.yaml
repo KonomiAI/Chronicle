@@ -1,0 +1,67 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: chronicle
+  name: chronicle
+  namespace: staging
+spec:
+  selector:
+    matchLabels:
+      app: chronicle
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: chronicle
+    spec:
+      containers:
+        - name: chronicle
+          image: gcr.io/konomi-ai/chronicle-api:latest
+          resources:
+            requests:
+              memory: '100Mi'
+              cpu: '500m'
+          ports:
+            - containerPort: 3001
+              name: http
+          env:
+            - name: MONGODB_USER
+              value: chronicle
+            - name: MONGODB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: chronicle-staging-mongodb-password-secret
+                  key: value
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: chronicle-staging-mongodb-url-secret
+                  key: value
+      affinity:
+        # Since the cluster uses spot nodes that can be shut down at any time, having at least
+        # 2 replicas with antiAffinity is recommended for application resilency when a node shuts down
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                  - key: 'app'
+                    operator: In
+                    values:
+                      - chronicle
+              topologyKey: 'kubernetes.io/hostname'
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: chronicle
+  namespace: staging
+  labels:
+    service: chronicle
+spec:
+  ports:
+    - port: 3001
+      protocol: TCP
+      targetPort: http
+  selector:
+    app: chronicle
