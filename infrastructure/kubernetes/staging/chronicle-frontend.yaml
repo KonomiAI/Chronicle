@@ -1,0 +1,46 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: chronicle-frontend
+spec:
+  selector:
+    app: chronicle-frontend
+    tier: frontend
+  ports:
+    - protocol: 'TCP'
+      port: 80
+      targetPort: 8080
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: chronicle-frontend
+spec:
+  selector:
+    matchLabels:
+      app: chronicle-frontend
+      tier: frontend
+      track: stable
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: chronicle-frontend
+        tier: frontend
+        track: stable
+    spec:
+      containers:
+        - name: nginx
+          image: 'gcr.io/konomi-ai/chronicle-frontend:latest'
+          imagePullPolicy: Always
+          ports:
+            - name: http
+              containerPort: 8080
+          lifecycle:
+            preStop:
+              exec:
+                command: ['/usr/sbin/nginx', '-s', 'quit']
+      nodeSelector:
+        cloud.google.com/gke-spot: 'true'
