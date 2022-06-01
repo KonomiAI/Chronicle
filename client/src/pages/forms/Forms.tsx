@@ -2,6 +2,7 @@ import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 import {
+  Alert,
   Box,
   Button,
   Chip,
@@ -9,7 +10,7 @@ import {
   Divider,
   LinearProgress,
   List,
-  ListItem,
+  ListItemButton,
   Paper,
   Stack,
   Typography,
@@ -28,22 +29,18 @@ const Forms = () => {
     return <LinearProgress />;
   }
 
-  if (forms === undefined || forms.length === 0) {
-    return <div>No forms found.</div>;
-  }
-
   const generateListItems = () =>
     forms?.map((form: Form, index) => (
       <>
-        <ListItem
+        <ListItemButton
           key={form.id}
           sx={{ cursor: 'pointer' }}
           onClick={() => navigate(form.id)}
         >
-          <Box>
+          <Stack>
             <Stack direction="row" alignItems="center">
               <Box>
-                <Typography variant="h2">{form.title}</Typography>
+                <Typography variant="h5">{form.title}</Typography>
               </Box>
               <Box marginLeft={1}>
                 <Chip
@@ -52,9 +49,10 @@ const Forms = () => {
                 />
               </Box>
             </Stack>
+            <Spacer />
             <Typography variant="body2">{form.description}</Typography>
-          </Box>
-        </ListItem>
+          </Stack>
+        </ListItemButton>
         {index !== forms.length - 1 && <Divider />}
       </>
     ));
@@ -63,7 +61,7 @@ const Forms = () => {
     <Container>
       <PageHeader
         pageTitle="Forms"
-        helpText="Create, edit, or delete a form"
+        helpText="Chronicle custom forms allow you and your organization to collect information in the way you want. You can attach forms to customers, activity entries, inventory items, and staff."
         action={
           <Button component={Link} to="/forms/create" variant="contained">
             Create
@@ -71,13 +69,17 @@ const Forms = () => {
         }
       />
       <Spacer size="lg" />
-      <List
-        component={Paper}
-        sx={{ width: '100%', bgcolor: 'background.paper' }}
-      >
-        {generateListItems()}
-      </List>
-      <Spacer size="lg" />
+      {forms?.length ? (
+        <List component={Paper} sx={{ width: '100%' }}>
+          {generateListItems()}
+        </List>
+      ) : (
+        <Alert severity="info">
+          You have no forms available, press CREATE to get started
+        </Alert>
+      )}
+
+      <Spacer size="xl" />
     </Container>
   );
 };

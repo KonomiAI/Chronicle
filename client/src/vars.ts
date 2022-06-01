@@ -4,6 +4,7 @@ export const SPACER_OPTIONS = {
   md: 1,
   lg: 2,
   xl: 3,
+  saveBar: 5,
 };
 
 export const ACCESS_TOKEN_KEY = 'auth.accessToken';

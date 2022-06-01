@@ -105,3 +105,10 @@ dist
 
 # mdbook build files
 book/
+
+# Terraform
+.terraform/
+.terraform.lock.hcl
+
+# OSX
+.DS_Store

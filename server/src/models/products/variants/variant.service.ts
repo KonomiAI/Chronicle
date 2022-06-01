@@ -38,6 +38,14 @@ export class VariantService {
     });
   }
 
+  async createVariants(
+    data: Prisma.VariantCreateManyInput[],
+  ): Promise<Prisma.BatchPayload> {
+    return this.prisma.variant.createMany({
+      data,
+    });
+  }
+
   async updateVariant(params: {
     where: Prisma.VariantWhereUniqueInput;
     data: Prisma.VariantUpdateInput;

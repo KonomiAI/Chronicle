@@ -11,27 +11,34 @@ interface AppBarProps extends MuiAppBarProps {
 export interface SaveBarProps {
   open: boolean;
   loading?: boolean;
+  disabled?: boolean;
   onSave: () => void;
 }
 
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== 'open',
 })<AppBarProps>(({ theme, open }) => ({
-  transition: theme.transitions.create(['width', 'margin'], {
+  transition: theme.transitions.create(['width', 'margin', 'left'], {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,
   }),
+  left: 57,
   ...(open && {
-    marginLeft: DRAWER_WIDTH,
+    left: DRAWER_WIDTH,
     width: `calc(100% - ${DRAWER_WIDTH}px)`,
-    transition: theme.transitions.create(['width', 'margin'], {
+    transition: theme.transitions.create(['width', 'margin', 'left'], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,
     }),
   }),
 }));
 
-export default function SaveBar({ onSave, open, loading }: SaveBarProps) {
+export default function SaveBar({
+  onSave,
+  open,
+  loading,
+  disabled,
+}: SaveBarProps) {
   const [isOpen, setIsOpen] = useState(open);
   const [isLoading] = useState(!!loading);
   const minState = useStore.getState().sidebarOpen;
@@ -59,7 +66,11 @@ export default function SaveBar({ onSave, open, loading }: SaveBarProps) {
             </Grid>
             <Grid item xs={7} />
             <Grid item xs={1}>
-              <Button variant="text" onClick={onSave} disabled={isLoading}>
+              <Button
+                variant="text"
+                onClick={onSave}
+                disabled={isLoading || disabled}
+              >
                 Save
               </Button>
             </Grid>
