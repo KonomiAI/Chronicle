@@ -23,6 +23,7 @@ spec:
       containers:
         - name: chronicle-api
           image: gcr.io/konomi-ai/chronicle-api:latest
+          imagePullPolicy: Always
           resources:
             requests:
               memory: '100Mi'
