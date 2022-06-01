@@ -22,7 +22,7 @@ export default function InventoryTable({
             <TableCell>Name</TableCell>
             <TableCell>Price</TableCell>
             <TableCell>Date Added</TableCell>
-            <TableCell>Date Barcode</TableCell>
+            <TableCell>Barcode</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>{tableContents}</TableBody>

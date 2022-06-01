@@ -8,6 +8,7 @@ import {
   Post,
   UseInterceptors,
 } from '@nestjs/common';
+import { Product } from '@prisma/client';
 
 import { ProductService } from './product.service';
 import { CreateProductDto, UpdateProductDto } from './product.dto';
@@ -15,13 +16,19 @@ import {
   Response,
   TransformInterceptor,
 } from '../../interceptors/transform.interceptor';
-import { Product } from '@prisma/client';
+import { VariantService } from './variants/variant.service';
+import { Actions, Features } from 'src/auth/constants';
+import { Auth } from 'src/auth/role.decorator';
 
 @Controller('products')
 @UseInterceptors(TransformInterceptor)
 export class ProductController {
-  constructor(private readonly productService: ProductService) {}
+  constructor(
+    private readonly productService: ProductService,
+    private readonly variantService: VariantService,
+  ) {}
 
+  @Auth(Actions.READ, [Features.Inventory])
   @Get()
   async getProducts(): Promise<Response<Product[]>> {
     const products = await this.productService.products({});
@@ -30,6 +37,7 @@ export class ProductController {
     };
   }
 
+  @Auth(Actions.READ, [Features.Inventory])
   @Get(':id')
   async getProductById(@Param('id') id: string): Promise<Response<Product>> {
     const product = await this.productService.product({ id });
@@ -38,21 +46,33 @@ export class ProductController {
     };
   }
 
+  @Auth(Actions.WRITE, [Features.Inventory])
   @Post()
   async createProduct(
     @Body() { ...data }: CreateProductDto,
   ): Promise<Response<Product>> {
-    const { name, brand, imageUrl } = data;
+    const { name, brand, imageUrl, variants } = data;
     const product = await this.productService.createProduct({
       name,
       brand,
       imageUrl,
     });
+
+    const variantsWithProductId = variants.map((variant) => {
+      return {
+        ...variant,
+        productId: product.id,
+      };
+    });
+
+    await this.variantService.createVariants(variantsWithProductId);
+
     return {
       data: product,
     };
   }
 
+  @Auth(Actions.WRITE, [Features.Inventory])
   @Put(':id')
   async updateProduct(
     @Param('id') id: string,
@@ -68,6 +88,7 @@ export class ProductController {
     };
   }
 
+  @Auth(Actions.WRITE, [Features.Inventory])
   @Delete(':id')
   async deleteProduct(@Param('id') id: string): Promise<Response<Product>> {
     const product = await this.productService.deleteProduct({ id });

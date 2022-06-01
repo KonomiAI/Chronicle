@@ -3,7 +3,7 @@ import { Box } from '@mui/material';
 import { SPACER_OPTIONS } from '../../vars';
 
 export interface SpacerProps {
-  size?: 'sm' | 'md' | 'lg' | 'xl' | number;
+  size?: 'sm' | 'md' | 'lg' | 'xl' | 'saveBar' | number;
 }
 
 export default function Spacer({ size = 'sm' }: SpacerProps) {
