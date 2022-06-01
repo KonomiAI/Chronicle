@@ -1,22 +1,27 @@
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: chronicle
-  name: chronicle
+    app: chronicle-api
+  name: chronicle-api
   namespace: staging
 spec:
   selector:
     matchLabels:
-      app: chronicle
+      app: chronicle-api
+      tier: backend
+      track: stable
   replicas: 2
   template:
     metadata:
       labels:
-        app: chronicle
+        app: chronicle-api
+        tier: backend
+        track: stable
     spec:
       containers:
-        - name: chronicle
+        - name: chronicle-api
           image: gcr.io/konomi-ai/chronicle-api:latest
           resources:
             requests:
@@ -48,20 +53,21 @@ spec:
                   - key: 'app'
                     operator: In
                     values:
-                      - chronicle
+                      - chronicle-api
               topologyKey: 'kubernetes.io/hostname'
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: chronicle
+  name: chronicle-api
   namespace: staging
   labels:
-    service: chronicle
+    service: chronicle-api
 spec:
   ports:
-    - port: 3001
+    - port: 80
       protocol: TCP
-      targetPort: http
+      targetPort: 3001
   selector:
-    app: chronicle
+    app: chronicle-api
+    tier: backend
