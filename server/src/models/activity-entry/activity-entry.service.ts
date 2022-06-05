@@ -29,4 +29,13 @@ export class ActivityEntryService {
   createActivityEntry(data: Prisma.ActivityEntryCreateInput) {
     return this.prisma.activityEntry.create({ data });
   }
+
+  updateActivityEntry(id: string, data: Prisma.ActivityEntryUpdateInput) {
+    return this.prisma.activityEntry.update({
+      where: {
+        id,
+      },
+      data,
+    });
+  }
 }

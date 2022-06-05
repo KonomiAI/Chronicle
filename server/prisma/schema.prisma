@@ -43,21 +43,22 @@ model Role {
 }
 
 model Staff {
-  id          String            @id @default(auto()) @map("_id") @db.ObjectId
-  firstName   String
-  lastName    String
-  email       String            @unique
-  dateOfBirth String?
-  authKey     String
-  gender      Gender            @default(NOT_SPECIFIED)
-  isSuperUser Boolean           @default(false)
-  isSuspended Boolean           @default(false)
-  createdAt   DateTime          @default(now())
-  updatedAt   DateTime          @updatedAt
-  isDeleted   Boolean           @default(false)
-  roles       Role[]            @relation(fields: [roleIds], references: [id])
-  roleIds     String[]          @db.ObjectId
-  responses   ResponseVersion[]
+  id              String            @id @default(auto()) @map("_id") @db.ObjectId
+  firstName       String
+  lastName        String
+  email           String            @unique
+  dateOfBirth     String?
+  authKey         String
+  gender          Gender            @default(NOT_SPECIFIED)
+  isSuperUser     Boolean           @default(false)
+  isSuspended     Boolean           @default(false)
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+  isDeleted       Boolean           @default(false)
+  roles           Role[]            @relation(fields: [roleIds], references: [id])
+  roleIds         String[]          @db.ObjectId
+  responses       ResponseVersion[]
+  activityEntries ActivityEntry[]
 }
 
 model Variant {
@@ -130,9 +131,11 @@ model Response {
   updatedAt               DateTime          @updatedAt
   allResponseVersions     ResponseVersion[] @relation("allResponseVersions")
   latestResponseVersion   ResponseVersion?  @relation("latestResponseVersion", fields: [latestResponseVersionId], references: [id])
-  latestResponseVersionId String?           @db.ObjectId @unique
-  Customer                Customer?         @relation(fields: [customerId], references: [id])
+  latestResponseVersionId String?           @unique @db.ObjectId
+  customer                Customer?         @relation(fields: [customerId], references: [id])
   customerId              String?           @db.ObjectId
+  activityEntry           ActivityEntry     @relation(fields: [activityEntryId], references: [id])
+  activityEntryId         String            @db.ObjectId
 }
 
 model ResponseVersion {
@@ -149,28 +152,31 @@ model ResponseVersion {
 }
 
 model Customer {
-  id            String          @id @default(auto()) @map("_id") @db.ObjectId
-  firstName     String
-  lastName      String
-  gender        Gender
-  dateOfBirth   String
-  email         String          @unique // property is unique so the tenant can use it as a unique identifier
-  phone         String?
-  responses     Response[]
-  isDeleted     Boolean         @default(false)
-  createdAt     DateTime        @default(now())
-  updatedAt     DateTime        @updatedAt
-  ActivityEntry ActivityEntry[]
+  id              String          @id @default(auto()) @map("_id") @db.ObjectId
+  firstName       String
+  lastName        String
+  gender          Gender
+  dateOfBirth     String
+  email           String          @unique // property is unique so the tenant can use it as a unique identifier
+  phone           String?
+  responses       Response[]
+  isDeleted       Boolean         @default(false)
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+  activityEntries ActivityEntry[]
 }
 
 model ActivityEntry {
-  id         String    @id @default(auto()) @map("_id") @db.ObjectId
-  customer   Customer  @relation(fields: [customerId], references: [id])
-  activity   Activity? @relation(fields: [activityId], references: [id])
-  products   Variant[] @relation(fields: [variantId], references: [id])
-  variantId  String[]  @db.ObjectId
-  customerId String    @db.ObjectId
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime  @updatedAt
-  activityId String?   @db.ObjectId
+  id         String     @id @default(auto()) @map("_id") @db.ObjectId
+  customer   Customer   @relation(fields: [customerId], references: [id])
+  activity   Activity?  @relation(fields: [activityId], references: [id])
+  products   Variant[]  @relation(fields: [variantId], references: [id])
+  variantId  String[]   @db.ObjectId
+  customerId String     @db.ObjectId
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
+  activityId String?    @db.ObjectId
+  author     Staff      @relation(fields: [staffId], references: [id])
+  staffId    String     @db.ObjectId
+  responses  Response[]
 }
