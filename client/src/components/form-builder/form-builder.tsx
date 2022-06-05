@@ -40,7 +40,7 @@ export const FormBuilder: React.FC<FormBuilderProps> = ({ form, name }) => {
         <Divider>
           <Button
             fullWidth
-            onClick={() => append(DEFAULT_SECTION_VAL)}
+            onClick={() => append(DEFAULT_SECTION_VAL())}
             data-testid="btn-add-section"
           >
             Add new section

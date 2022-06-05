@@ -1,37 +1,108 @@
-import React from 'react';
-import { Box, Card, CardContent, Container, Typography } from '@mui/material';
+import React, { useState } from 'react';
+import { Box, Card, CardContent, IconButton, Typography } from '@mui/material';
 
 import { FormProvider, useForm } from 'react-hook-form';
-import { Form } from '../../types';
+import { ArrowBack } from '@mui/icons-material';
+import { useMutation } from 'react-query';
+import { LoadingButton } from '@mui/lab';
+import {
+  FormResponse,
+  FormVersionWithForm,
+  ResponseBody,
+  SimpleResponse,
+} from '../../types';
 import { ViewFormField } from './view-form-field';
-import PageHeader from '../page-header/PageHeader';
 import Spacer from '../spacer/Spacer';
+import { createResponse, updateResponse } from '../../data/response';
 
 interface FormViewerProps {
-  form: Form;
-  // TODO: response
+  form: FormVersionWithForm;
+  onGoBack?: () => void;
+  onResponseSaved: (body: SimpleResponse) => void;
+  response?: FormResponse | null;
 }
 
-export const FormViewer = ({ form }: FormViewerProps): JSX.Element => {
-  const methods = useForm();
-  const { sections } = form.latestFormVersion.body;
+export const FormViewer = ({
+  form,
+  onGoBack,
+  onResponseSaved,
+  response,
+}: FormViewerProps): JSX.Element => {
+  const [isFormLoading, setIsFormLoading] = useState(false);
+  const methods = useForm({
+    defaultValues: response?.latestResponseVersion?.body ?? {},
+  });
+  const createResponseAndMutate = useMutation(createResponse, {
+    onSuccess: (data) => onResponseSaved(data),
+    onSettled: () => setIsFormLoading(false),
+  });
+  const updateResponseAndMutate = useMutation(updateResponse, {
+    onSuccess: (data) => onResponseSaved(data),
+    onSettled: () => setIsFormLoading(false),
+  });
+
+  const saveForm = (body: ResponseBody) => {
+    setIsFormLoading(true);
+    if (response) {
+      updateResponseAndMutate.mutate({
+        id: response.id,
+        data: {
+          formVersionId: form.id,
+          body,
+        },
+      });
+      return;
+    }
+    createResponseAndMutate.mutate({
+      formVersionId: form.id,
+      body,
+    });
+  };
+
+  const { sections } = form.body;
 
   return (
-    <Container>
+    <>
+      <Box
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+        }}
+      >
+        {onGoBack && (
+          <IconButton
+            aria-label="go back to form browser"
+            size="large"
+            sx={{ mr: 1 }}
+            color="inherit"
+            onClick={() => onGoBack()}
+          >
+            <ArrowBack />
+          </IconButton>
+        )}
+        <Box>
+          <Typography variant="h4">{form.form.title}</Typography>
+          {form.form.description && (
+            <Box>
+              <Typography variant="body2">{form.form.description}</Typography>
+            </Box>
+          )}
+        </Box>
+      </Box>
+
+      <Spacer size="md" />
       {/* eslint-disable-next-line react/jsx-props-no-spreading */}
       <FormProvider {...methods}>
-        <PageHeader pageTitle={form.title} backURL="/forms" />
-        <Spacer size="lg" />
         {sections.map((section, i) => (
-          <>
-            <Card key={section.id}>
+          <Box key={section.id}>
+            <Card variant="outlined">
               <CardContent>
-                <Typography variant="h4" sx={{ mb: 2 }}>
+                <Typography variant="h5" sx={{ mb: 2 }}>
                   Section #{i + 1} - {section.name}
                 </Typography>
 
                 {section.description ? (
-                  <Typography variant="h5" sx={{ mb: 2 }}>
+                  <Typography variant="body2" sx={{ mb: 2 }}>
                     {section.description}
                   </Typography>
                 ) : null}
@@ -39,6 +110,7 @@ export const FormViewer = ({ form }: FormViewerProps): JSX.Element => {
                 {section.fields.map((field) => (
                   <Box key={field.id} sx={{ mb: 2 }}>
                     <ViewFormField
+                      id={field.id}
                       name={field.name}
                       type={field.type}
                       optional={field.optional}
@@ -49,10 +121,22 @@ export const FormViewer = ({ form }: FormViewerProps): JSX.Element => {
                 ))}
               </CardContent>
             </Card>
-            <Spacer size="lg" />
-          </>
+            <Spacer size="md" />
+          </Box>
         ))}
       </FormProvider>
-    </Container>
+      <LoadingButton
+        variant="contained"
+        fullWidth
+        onClick={methods.handleSubmit(saveForm)}
+        loading={isFormLoading}
+      >
+        Save {form.form.title} changes
+      </LoadingButton>
+    </>
   );
+};
+
+FormViewer.defaultProps = {
+  response: null,
 };

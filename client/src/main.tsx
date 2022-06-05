@@ -22,7 +22,7 @@ import {
   UpdateRoleForm,
 } from './pages/role-details/RoleDetails';
 import NotFoundPage from './pages/not-found';
-import Forms, { CreateForm, UpdateForm, ViewForm } from './pages/forms';
+import Forms, { CreateForm, UpdateForm } from './pages/forms';
 
 import { CustomerListPage } from './pages/customer-list';
 import {
@@ -73,7 +73,6 @@ ReactDOM.render(
                 <Route path="forms" element={<Forms />} />
                 <Route path="forms/:formId" element={<UpdateForm />} />
                 <Route path="forms/create" element={<CreateForm />} />
-                <Route path="forms/testViewForm" element={<ViewForm />} />
                 <Route path="customers" element={<CustomerListPage />} />
                 <Route path="customers/new" element={<CreateCustomerForm />} />
                 <Route path="customers/:id" element={<ManageCustomerForm />} />

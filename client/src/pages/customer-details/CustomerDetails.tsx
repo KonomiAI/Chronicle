@@ -11,21 +11,30 @@ import { useForm } from 'react-hook-form';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useMutation, useQueryClient } from 'react-query';
 
-import { SaveBar, TextInput, DateInput } from '../../components';
+import { SaveBar, TextInput, DateInput, If } from '../../components';
 import PageHeader from '../../components/page-header/PageHeader';
 import Spacer from '../../components/spacer/Spacer';
-import { Customer, CustomerCreateDto, Gender } from '../../types';
+import {
+  Customer,
+  CustomerCreateDto,
+  FormPurpose,
+  FormResponse,
+  Gender,
+  SimpleResponse,
+} from '../../types';
 import { createCustomer, updateCustomer, useCustomer } from '../../data';
 import {
   ErrorPage,
   LoadingPage,
 } from '../../components/simple-pages/SimplePages';
 import { DATE_REGEXP, EMAIL_REGEXP } from '../../utils';
+import { FormIntegration } from '../../components/form-integration/form-integration';
 
 export interface CustomerDetailsPageProps {
   isCreate?: boolean;
   errorMessage?: string;
   defaultValues: CustomerCreateDto;
+  responses?: FormResponse[];
   saveChanges: (data: CustomerCreateDto) => void | Promise<void>;
 }
 
@@ -54,11 +63,17 @@ const CustomerDetailsPage: React.FC<CustomerDetailsPageProps> = ({
   defaultValues,
   saveChanges,
   errorMessage,
+  responses,
 }) => {
   const { control, watch, handleSubmit } = useForm<CustomerCreateDto>({
     defaultValues: stripAndCleanData(defaultValues),
   });
   const [isSaveOpen, setIsSaveOpen] = useState(false);
+
+  const handleCustomFieldUpdate = (res: SimpleResponse) => {
+    saveChanges({ ...stripAndCleanData(defaultValues), responseIds: [res.id] });
+  };
+
   useEffect(() => {
     const subscription = watch(() => setIsSaveOpen(true));
     return () => subscription.unsubscribe();
@@ -131,12 +146,21 @@ const CustomerDetailsPage: React.FC<CustomerDetailsPageProps> = ({
         <CardContent>
           <Typography variant="h5">Custom forms</Typography>
           <Spacer />
-          {isCreate && (
+          <If
+            condition={isCreate}
+            el={
+              <FormIntegration
+                responses={responses ?? []}
+                purpose={FormPurpose.CUSTOMER}
+                onResponseSaved={handleCustomFieldUpdate}
+              />
+            }
+          >
             <Alert severity="info">
               Custom forms are available to this customer once you complete
               their basic information and press save.
             </Alert>
-          )}
+          </If>
         </CardContent>
       </Card>
       <SaveBar
@@ -214,6 +238,7 @@ export function ManageCustomerForm() {
     <CustomerDetailsPage
       defaultValues={currentData}
       saveChanges={doSave}
+      responses={currentData.responses}
       errorMessage={errorMessage}
     />
   );

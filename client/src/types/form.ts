@@ -11,6 +11,7 @@ export enum FormPurpose {
 export interface FormVersion {
   id: string;
   body: FormTemplateSchema;
+  version: string;
 }
 
 export interface Form {
@@ -21,6 +22,19 @@ export interface Form {
   createdAt: string;
   updatedAt: string;
   latestFormVersion: FormVersion;
+}
+
+export interface FormWithoutLatestForm {
+  id: string;
+  title: string;
+  description: string;
+  purpose: FormPurpose;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface FormVersionWithForm extends FormVersion {
+  form: FormWithoutLatestForm;
 }
 
 export interface PostFormBody {

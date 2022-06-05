@@ -1,5 +1,5 @@
 import { useQuery } from 'react-query';
-import { Customer, CustomerCreateDto } from '../types';
+import { Customer, CustomerCreateDto, CustomerWithResponses } from '../types';
 import { Data } from '../types/data';
 import useAxios from './axios';
 
@@ -11,7 +11,7 @@ const getCustomerList = () => {
 const getCustomer = (id: string) => {
   const axios = useAxios();
   return axios
-    .get<Data<Customer>>(`customers/${id}`)
+    .get<Data<CustomerWithResponses>>(`customers/${id}`)
     .then((res) => res.data.data);
 };
 
