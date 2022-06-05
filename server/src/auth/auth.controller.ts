@@ -36,8 +36,6 @@ export class AuthController {
   @SkipIPCheck()
   @Post('login')
   async getFeatures(@Body() login: LoginDto) {
-    console.log(login);
-
     const user = await this.authService.validateUser(
       login.email,
       login.password,
