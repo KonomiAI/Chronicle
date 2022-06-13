@@ -1,15 +1,19 @@
+export enum Features {
+  INVENTORY = 'Inventory',
+  SECURITY = 'Security',
+  CUSTOMER = 'Customer',
+  ENTRY = 'Entry',
+  FORM = 'Form',
+}
+
 export interface PermissionDetail {
   read: boolean;
   write: boolean;
 }
 
-export interface Permissions {
-  Inventory: PermissionDetail;
-  Security: PermissionDetail;
-  Customer: PermissionDetail;
-  Entry: PermissionDetail;
-  Form: PermissionDetail;
-}
+export type Permissions = {
+  [key in Features]: PermissionDetail;
+};
 
 export interface Role {
   id: string;

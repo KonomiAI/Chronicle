@@ -21,3 +21,9 @@ export const checkIsLoggedIn = () => {
     +getSafely(ACCESS_TOKEN_EXPIRY_KEY) < +Date.now()
   );
 };
+
+export const clearSession = () => {
+  const { remove } = useLocalStorage();
+  remove(ACCESS_TOKEN_KEY);
+  remove(ACCESS_TOKEN_EXPIRY_KEY);
+};

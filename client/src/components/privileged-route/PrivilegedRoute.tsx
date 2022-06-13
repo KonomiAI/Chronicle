@@ -1,27 +1,32 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
+
 import NotAuthorizedPage from '../../pages/not-authorized/NotAuthorized';
 
-interface ProtectedRouteProps {
+import { useStore } from '../../store';
+
+interface PrivelegedRouteProps {
   children?: React.ReactElement;
-  isAllowed: boolean;
+  feature: string;
 }
 
 const defaultProps = {
   children: undefined,
 };
 
-const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
+const PrivelegedRoute: React.FC<PrivelegedRouteProps> = ({
   children,
-  isAllowed,
+  feature,
 }) => {
-  if (!isAllowed) {
+  const { permissions, user } = useStore();
+
+  if (!(user?.isSuperUser || permissions[feature]?.read)) {
     return <NotAuthorizedPage />;
   }
 
   return children || <Outlet />;
 };
 
-ProtectedRoute.defaultProps = defaultProps;
+PrivelegedRoute.defaultProps = defaultProps;
 
-export default ProtectedRoute;
+export default PrivelegedRoute;

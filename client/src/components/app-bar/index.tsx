@@ -1,11 +1,14 @@
 import React, { useEffect } from 'react';
+
 import { Box, IconButton, Toolbar, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
 import MenuIcon from '@mui/icons-material/Menu';
 import AccountCircle from '@mui/icons-material/AccountCircle';
+
 import { DRAWER_WIDTH } from '../../vars';
 import { useStore } from '../../store';
+import AccountMenu from '../account-menu';
 
 interface AppBarProps extends MuiAppBarProps {
   open: boolean;
@@ -60,15 +63,7 @@ export default function ChronicleAppBar({
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Pemberley Springs
           </Typography>
-          <IconButton
-            size="large"
-            edge="end"
-            aria-label="account of current user"
-            aria-haspopup="true"
-            color="inherit"
-          >
-            <AccountCircle />
-          </IconButton>
+          <AccountMenu />
         </Toolbar>
       </AppBar>
     </Box>
