@@ -30,7 +30,7 @@ export const collectPermissions = (roles: StaffIdLessRole[]) => {
 
   roles.forEach((role: StaffIdLessRole) => {
     const currentPermissions = role.permissions;
-    for (let key in currentPermissions) {
+    Object.keys(currentPermissions).forEach((key) => {
       if (DEFAULT_KEYS.has(key)) {
         if (currentPermissions[key].read) {
           results[key].read = true;
@@ -39,7 +39,7 @@ export const collectPermissions = (roles: StaffIdLessRole[]) => {
           results[key].write = true;
         }
       }
-    }
+    });
   });
 
   return results;

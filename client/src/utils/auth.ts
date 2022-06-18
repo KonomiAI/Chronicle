@@ -16,7 +16,6 @@ import { collectPermissions } from './permission';
 
 export const useAuth = () => {
   const navigate = useNavigate();
-  const store = useStore();
   const queryClient = useQueryClient();
 
   const authQuery = (

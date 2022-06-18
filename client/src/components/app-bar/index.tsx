@@ -4,7 +4,6 @@ import { Box, IconButton, Toolbar, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
 import MenuIcon from '@mui/icons-material/Menu';
-import AccountCircle from '@mui/icons-material/AccountCircle';
 
 import { DRAWER_WIDTH } from '../../vars';
 import { useStore } from '../../store';
