@@ -1,14 +1,11 @@
-import { Gender, PrismaClient } from '@prisma/client';
+import { Gender } from '@prisma/client';
 import { randomUUID } from 'crypto';
 import { testClient } from './testClient';
 
-const prisma = new PrismaClient();
-
-fdescribe('/activity-entry', () => {
+describe('/activity-entry', () => {
   let token = '';
   let customerId = '';
   let activityId = '';
-  let productIds: string[] = [];
   beforeEach(async () => {
     const caseId = randomUUID();
     const {
