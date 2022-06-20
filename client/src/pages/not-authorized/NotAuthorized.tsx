@@ -15,7 +15,7 @@ const NotAuthorizedPage = () => (
     <Spacer size="md" />
     <Typography>
       Think this is a mistake? Try contacting your adminstrator to view your
-      current account&apos;s permissions.
+      current account&apos;s permissions or go back to the{' '}
       <Link to="/">home page</Link>.
     </Typography>
   </Container>

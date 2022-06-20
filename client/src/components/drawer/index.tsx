@@ -1,4 +1,6 @@
 import React from 'react';
+import { useLocation } from 'react-router-dom';
+
 import { styled, Theme, CSSObject } from '@mui/material/styles';
 import MuiDrawer from '@mui/material/Drawer';
 import {
@@ -10,8 +12,6 @@ import {
   ListItemText,
   ListItemButton,
 } from '@mui/material';
-import { useLocation } from 'react-router-dom';
-
 import {
   Article,
   Face,
@@ -20,8 +20,11 @@ import {
   Inventory,
   ChevronLeft,
 } from '@mui/icons-material';
+
 import { DRAWER_WIDTH } from '../../vars';
+import { useStore } from '../../store';
 import AdminList from './AdminList';
+import { Features } from '../../types';
 
 const openedMixin = (theme: Theme): CSSObject => ({
   width: DRAWER_WIDTH,
@@ -77,6 +80,8 @@ export default function ChronicleDrawer({
   handleDrawerClose,
 }: DrawerProps) {
   const { pathname } = useLocation();
+  const { permissions } = useStore();
+
   return (
     <Drawer variant="permanent" open={open}>
       <DrawerHeader>
@@ -97,34 +102,44 @@ export default function ChronicleDrawer({
           </ListItemIcon>
           <ListItemText primary="Home" />
         </ListItemButton>
-        <ListItem
-          component="a"
-          href="/customers"
-          selected={pathname === '/customers'}
-          key="customers"
-          sx={{ color: 'inherit' }}
-        >
-          <ListItemIcon>
-            <Face />
-          </ListItemIcon>
-          <ListItemText primary="Customer Profiles" />
-        </ListItem>
-        <ListItem button key="entries">
-          <ListItemIcon>
-            <Article />
-          </ListItemIcon>
-          <ListItemText primary="Activity Entries" />
-        </ListItem>
-        <ListItemButton
-          component="a"
-          href="/inventory"
-          selected={pathname === '/inventory'}
-        >
-          <ListItemIcon>
-            <Inventory />
-          </ListItemIcon>
-          <ListItemText primary="Inventory" />
-        </ListItemButton>
+
+        {permissions[Features.CUSTOMER].read && (
+          <ListItem
+            component="a"
+            href="/customers"
+            selected={pathname === '/customers'}
+            key="customers"
+            sx={{ color: 'inherit' }}
+          >
+            <ListItemIcon>
+              <Face />
+            </ListItemIcon>
+            <ListItemText primary="Customer Profiles" />
+          </ListItem>
+        )}
+
+        {permissions[Features.ENTRY].read && (
+          <ListItem button key="entries">
+            <ListItemIcon>
+              <Article />
+            </ListItemIcon>
+            <ListItemText primary="Activity Entries" />
+          </ListItem>
+        )}
+
+        {permissions[Features.INVENTORY].read && (
+          <ListItemButton
+            component="a"
+            href="/inventory"
+            selected={pathname === '/inventory'}
+          >
+            <ListItemIcon>
+              <Inventory />
+            </ListItemIcon>
+            <ListItemText primary="Inventory" />
+          </ListItemButton>
+        )}
+
         <ListItem button key="analytics">
           <ListItemIcon>
             <Insights />
