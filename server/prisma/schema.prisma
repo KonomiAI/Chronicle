@@ -134,8 +134,8 @@ model Response {
   latestResponseVersionId String?           @unique @db.ObjectId
   customer                Customer?         @relation(fields: [customerId], references: [id])
   customerId              String?           @db.ObjectId
-  activityEntry           ActivityEntry     @relation(fields: [activityEntryId], references: [id])
-  activityEntryId         String            @db.ObjectId
+  activityEntry           ActivityEntry?    @relation(fields: [activityEntryId], references: [id])
+  activityEntryId         String?           @db.ObjectId
 }
 
 model ResponseVersion {

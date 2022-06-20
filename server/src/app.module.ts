@@ -18,6 +18,7 @@ import { ActivityEntryModule } from './models/activity-entry/activity-entry.modu
 @Module({
   imports: [
     ActivityModule,
+    ActivityEntryModule,
     StaffModule,
     FeatureModule,
     RoleModule,

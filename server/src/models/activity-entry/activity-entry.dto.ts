@@ -12,7 +12,7 @@ export class ActivityEntryDto {
   variantId?: string[];
 
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
   activityId?: string;
 
   @IsOptional()
