@@ -26,6 +26,8 @@ export interface User {
   email: string;
   gender: string;
   isSuperUser: boolean;
+  roles: StaffIdLessRole[];
+  roleIds: string[];
 }
 
 export type UserNoAccessToken = Omit<User, 'accessToken'>;

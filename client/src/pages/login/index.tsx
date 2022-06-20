@@ -1,4 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Controller, useForm } from 'react-hook-form';
+import { AxiosError } from 'axios';
+
 import {
   Alert,
   Box,
@@ -10,12 +14,11 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import { Controller, useForm } from 'react-hook-form';
-import { AxiosError } from 'axios';
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../../utils';
-import { AuthBody } from '../../types';
+
 import Spacer from '../../components/spacer/Spacer';
+
+import { checkIsLoggedIn, useAuth } from '../../utils';
+import { AuthBody } from '../../types';
 
 function LoginPage() {
   const { login } = useAuth();
@@ -29,13 +32,23 @@ function LoginPage() {
     },
   });
 
+  const goToHome = () => {
+    navigate('/', { replace: true });
+  };
+
+  useEffect(() => {
+    if (checkIsLoggedIn()) {
+      goToHome();
+    }
+  }, []);
+
   const handleLoginResponse = (err: null | AxiosError) => {
     if (err) {
       setLoading(false);
       setError('Login failed. Double check you email and password combination');
       return;
     }
-    navigate('/', { replace: true });
+    goToHome();
   };
 
   const loginAction = login(handleLoginResponse);

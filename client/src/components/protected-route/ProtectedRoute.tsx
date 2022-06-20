@@ -1,12 +1,12 @@
 import React from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
+
 import NotAuthorizedPage from '../../pages/not-authorized/NotAuthorized';
+import { checkIsLoggedIn } from '../../utils';
 
 const DEFAULT_REDIRECT = '/login';
 
 interface ProtectedRouteProps {
-  // TODO: Change this to the official user object later
-  user: boolean;
   redirect?: string;
   children?: React.ReactElement;
   isAllowed?: boolean;
@@ -19,13 +19,11 @@ const defaultProps = {
 };
 
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
-  user,
   children,
   redirect,
   isAllowed,
 }) => {
-  if (!user) {
-    // TODO: Remove all identities
+  if (!checkIsLoggedIn()) {
     return <Navigate to={redirect || DEFAULT_REDIRECT} replace />;
   }
 
