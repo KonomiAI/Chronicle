@@ -214,6 +214,7 @@ export default function RoleDetails({ create, data, saveChanges }: RoleProps) {
           </Card>
         )}
       </>
+      {isSaveOpen ? <Spacer size="saveBar" /> : <Spacer size="lg" />}
       <SaveBar
         open={isSaveOpen}
         onSave={handleSubmit((res) => {
