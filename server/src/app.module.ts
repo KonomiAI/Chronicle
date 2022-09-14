@@ -13,10 +13,12 @@ import { FormModule } from './models/forms/form.module';
 import { ResponseModule } from './models/responses/response.module';
 import { CustomerModule } from './models/customers/customer.module';
 import { HealthModule } from './health/health.module';
+import { ActivityEntryModule } from './models/activity-entry/activity-entry.module';
 
 @Module({
   imports: [
     ActivityModule,
+    ActivityEntryModule,
     StaffModule,
     FeatureModule,
     RoleModule,
