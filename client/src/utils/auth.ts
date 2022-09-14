@@ -1,15 +1,23 @@
 import { AxiosError } from 'axios';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { useNavigate } from 'react-router-dom';
+
 import { getUser, login } from '../data/auth';
 import { UserNoAccessToken } from '../types';
+import { useStore } from '../store';
+
 import {
   checkIsLoggedIn,
+  clearSession,
   getAccessToken,
   getAccessTokenExpiry,
 } from './storage-helpers';
+import { collectPermissions } from './permission';
 
 export const useAuth = () => {
+  const navigate = useNavigate();
   const queryClient = useQueryClient();
+
   const authQuery = (
     callback: (
       error: null | AxiosError,
@@ -17,8 +25,15 @@ export const useAuth = () => {
     ) => void,
   ) =>
     useMutation(login, {
-      onSuccess: (data) => {
+      onSuccess: (data: UserNoAccessToken) => {
         queryClient.invalidateQueries('currentUser');
+
+        const permissions = collectPermissions(data.roles);
+        useStore.setState({
+          user: data,
+          permissions,
+        });
+
         callback(null, data);
       },
       onError: (err: AxiosError) => {
@@ -37,8 +52,17 @@ export const useAuth = () => {
     accessTokenExpiry = new Date(+getAccessTokenExpiry());
   }
 
+  const logout = () => {
+    clearSession();
+    useStore.persist.clearStorage();
+    accessToken = null;
+    accessTokenExpiry = null;
+    navigate('/login');
+  };
+
   return {
     login: authQuery,
+    logout,
     getUser: getUserQuery,
     isLoggedIn,
     accessToken,

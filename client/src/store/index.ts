@@ -1,12 +1,21 @@
 import create, { GetState, SetState, Mutate, StoreApi } from 'zustand';
-import { devtools, NamedSet, subscribeWithSelector } from 'zustand/middleware';
+import {
+  devtools,
+  NamedSet,
+  subscribeWithSelector,
+  persist,
+} from 'zustand/middleware';
 
-interface IuiState {
+import { PermissionDetail, UserNoAccessToken } from '../types';
+
+interface IGlobalState {
   sidebarOpen: boolean;
+  user: UserNoAccessToken | undefined;
+  permissions: Record<string, PermissionDetail>;
 }
 
 // Allows for cross-slice access
-export type StoreState = IuiState;
+export type StoreState = IGlobalState;
 
 export type StoreSlice<T> = (
   set: NamedSet<StoreState>,
@@ -19,6 +28,23 @@ export const useStore = create<
   GetState<StoreState>,
   Mutate<
     StoreApi<StoreState>,
-    [['zustand/subscribeWithSelector', never], ['zustand/devtools', never]]
+    [
+      ['zustand/subscribeWithSelector', never],
+      ['zustand/devtools', never],
+      ['zustand/persist', Partial<IGlobalState>],
+    ]
   >
->(devtools(subscribeWithSelector((): StoreState => ({ sidebarOpen: true }))));
+>(
+  devtools(
+    subscribeWithSelector(
+      persist(
+        (): StoreState => ({
+          sidebarOpen: true,
+          user: undefined,
+          permissions: {},
+        }),
+        { name: 'settings' },
+      ),
+    ),
+  ),
+);
