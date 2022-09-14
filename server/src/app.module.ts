@@ -29,7 +29,6 @@ import { ActivityEntryModule } from './models/activity-entry/activity-entry.modu
     ResponseModule,
     CustomerModule,
     HealthModule,
-    ActivityEntryModule,
   ],
   controllers: [AppController],
   providers: [AppService],
