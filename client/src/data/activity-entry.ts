@@ -1,6 +1,6 @@
 import { useQuery } from 'react-query';
 import { Data } from '../types';
-import { ActivityEntry, ActivityEntryCreate } from '../types/activity-entry';
+import { ActivityEntry, ActivityEntryDto } from '../types/activity-entry';
 
 import useAxios from './axios';
 
@@ -18,10 +18,23 @@ const getActivityEntry = (activityEntryId: string): Promise<ActivityEntry> => {
     .then((res) => res.data.data);
 };
 
-export const createActivityEntry = (activityEntry: ActivityEntryCreate) => {
+export const createActivityEntry = (activityEntry: ActivityEntryDto) => {
   const axios = useAxios();
   return axios
     .post<Data<ActivityEntry>>('/activity-entry', activityEntry)
+    .then((res) => res.data.data);
+};
+
+export const updateActivityEntry = ({
+  id,
+  activityEntry,
+}: {
+  id: string;
+  activityEntry: ActivityEntryDto;
+}) => {
+  const axios = useAxios();
+  return axios
+    .put<Data<ActivityEntry>>(`/activity-entry/${id}`, activityEntry)
     .then((res) => res.data.data);
 };
 

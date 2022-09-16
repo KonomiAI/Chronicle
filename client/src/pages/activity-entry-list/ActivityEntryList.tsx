@@ -77,7 +77,10 @@ export function ActivityEntryList() {
                     <TableCell>Yonglin Wang</TableCell>
                     <TableCell>{d.activity?.name ?? 'N/A'}</TableCell>
                     <TableCell>
-                      <Chip clickable label={`${d.products.length} variants`} />
+                      <Chip
+                        clickable
+                        label={`${d.products?.length ?? 0} variants`}
+                      />
                     </TableCell>
                     <TableCell>
                       <Tooltip title={format(parseJSON(d.updatedAt), 'PPPpp')}>

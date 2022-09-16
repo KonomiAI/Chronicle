@@ -1,3 +1,5 @@
+import { FormResponse } from './response';
+
 interface Activity {
   id: string;
   name: string;
@@ -46,14 +48,16 @@ export interface ActivityEntry {
   id: string;
   customer: Customer;
   activity?: Activity;
-  products: Product[];
+  products?: Product[];
+  responses?: FormResponse[];
   createdAt: string;
   updatedAt: string;
   author: Author;
 }
 
-export interface ActivityEntryCreate {
+export interface ActivityEntryDto {
   customerId: string;
-  activityId?: string;
-  productIds?: string[];
+  activityId?: string | null;
+  variantId?: string[] | null;
+  responseIds?: string[] | null;
 }
