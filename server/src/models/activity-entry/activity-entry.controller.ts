@@ -20,7 +20,26 @@ const DEFAULT_ENTRY_SELECT: Prisma.ActivityEntrySelect = {
   id: true,
   customer: true,
   activity: true,
-  products: true,
+  products: {
+    select: {
+      id: true,
+      description: true,
+      isAvailable: true,
+      price: true,
+      barcode: true,
+      createdAt: true,
+      updatedAt: true,
+      product: {
+        select: {
+          id: true,
+          brand: true,
+          name: true,
+          createdAt: true,
+          updatedAt: true,
+        },
+      },
+    },
+  },
   createdAt: true,
   updatedAt: true,
   author: {
