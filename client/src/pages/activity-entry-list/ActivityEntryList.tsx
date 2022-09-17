@@ -18,7 +18,7 @@ import { format, parseJSON } from 'date-fns';
 import { useNavigate } from 'react-router-dom';
 import PageHeader from '../../components/page-header/PageHeader';
 import Spacer from '../../components/spacer/Spacer';
-import { useListActivityEntries } from '../../data/activity-entry';
+import { useListActivityEntries } from '../../data';
 
 export function ActivityEntryList() {
   const { isLoading, data } = useListActivityEntries();
@@ -26,7 +26,6 @@ export function ActivityEntryList() {
   return (
     <Container>
       {isLoading && <LinearProgress />}
-
       {data && (
         <>
           <PageHeader

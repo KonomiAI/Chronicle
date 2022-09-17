@@ -13,10 +13,6 @@ import { useParams } from 'react-router-dom';
 import { format, parseJSON } from 'date-fns';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useMutation, useQueryClient } from 'react-query';
-import {
-  updateActivityEntry,
-  useGetActivityEntry,
-} from '../../data/activity-entry';
 import PageHeader from '../../components/page-header/PageHeader';
 import Spacer from '../../components/spacer/Spacer';
 import { If } from '../../components';
@@ -25,6 +21,9 @@ import { FormPurpose } from '../../types';
 import { CustomerSelectDialog } from '../../components/customer-select-dialog/CustomerSelectDialog';
 import { ActivityEntryDto } from '../../types/activity-entry';
 import { ActivitySelectDialog } from '../../components/activity-select-dialog/ActivitySelectDialog';
+import { penniesToPrice } from '../../utils';
+import { updateActivityEntry, useGetActivityEntry } from '../../data';
+import { ProductPickerDialog } from '../../components/procuct-picker-dialog/ProductPickerDialog';
 
 export function ActivityEntryDetails() {
   // get id from route params
@@ -34,6 +33,7 @@ export function ActivityEntryDetails() {
     useState(false);
   const [openActivitySelectDialog, setOpenActivitySelectDialog] =
     useState(false);
+  const [openProductSelectDialog, setOpenProductSelectDialog] = useState(false);
   if (!id) {
     return <div>TODO page failed to load</div>;
   }
@@ -77,6 +77,24 @@ export function ActivityEntryDetails() {
             updateEntryAndMutate.mutate({
               id,
               activityEntry: { ...baseUpdateBody, activityId: a?.id },
+            });
+          }
+        }}
+      />
+      <ProductPickerDialog
+        open={openProductSelectDialog}
+        handleClose={(products) => {
+          setOpenProductSelectDialog(false);
+          if (products?.length) {
+            updateEntryAndMutate.mutate({
+              id,
+              activityEntry: {
+                ...baseUpdateBody,
+                variantId: [
+                  ...(baseUpdateBody.variantId ?? []),
+                  ...products.map((p) => p.id),
+                ],
+              },
             });
           }
         }}
@@ -130,11 +148,15 @@ export function ActivityEntryDetails() {
                 <Card variant="outlined">
                   <CardContent>
                     <Typography variant="h6">{data.activity.name}</Typography>
+                    <Typography>
+                      {penniesToPrice(data.activity.price)}
+                    </Typography>
                   </CardContent>
                 </Card>
               ) : (
                 <Button
-                  variant="outlined"
+                  variant="text"
+                  size="small"
                   onClick={() => setOpenActivitySelectDialog(true)}
                 >
                   Add Activity
@@ -195,12 +217,27 @@ export function ActivityEntryDetails() {
                       <Box>
                         <Box>
                           <Typography variant="h6">{p.product.name}</Typography>
+                          <Typography>{penniesToPrice(p.price)}</Typography>
                           <Typography variant="caption">
-                            {p.description}
+                            Variant: {p.description}
                           </Typography>
                         </Box>
                       </Box>
-                      <Button variant="text" size="small">
+                      <Button
+                        variant="text"
+                        size="small"
+                        onClick={() => {
+                          updateEntryAndMutate.mutate({
+                            id,
+                            activityEntry: {
+                              ...baseUpdateBody,
+                              variantId: data.products
+                                ?.filter((v) => v.id !== p.id)
+                                .map((v) => v.id),
+                            },
+                          });
+                        }}
+                      >
                         <DeleteIcon />
                       </Button>
                     </CardContent>
@@ -208,7 +245,12 @@ export function ActivityEntryDetails() {
                   <Spacer size="sm" />
                 </>
               ))}
-              <Button variant="text" size="small" sx={{ mr: '10px' }}>
+              <Button
+                variant="text"
+                size="small"
+                sx={{ mr: '10px' }}
+                onClick={() => setOpenProductSelectDialog(true)}
+              >
                 Add Product
               </Button>
             </CardContent>
