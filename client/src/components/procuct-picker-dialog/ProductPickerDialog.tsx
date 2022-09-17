@@ -55,6 +55,11 @@ export function ProductPickerDialog({
   const { data } = useGetProducts();
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [selectedVariants, setSelectedVariants] = useState<Variant[]>([]);
+  const closeModal = (res: Variant[] | null) => {
+    handleClose(res);
+    setSelectedVariants([]);
+    setSelectedProduct(null);
+  };
   return (
     <Dialog open={open}>
       <DialogTitle>Select product variants</DialogTitle>
@@ -112,6 +117,7 @@ export function ProductPickerDialog({
         )}
         <Spacer />
         <Typography variant="h6">Selected product variants</Typography>
+        <Spacer size="sm" />
         {selectedVariants.length > 0 ? (
           <List dense>{renderVariantList(selectedVariants)}</List>
         ) : (
@@ -121,9 +127,9 @@ export function ProductPickerDialog({
         )}
       </DialogContent>
       <DialogActions>
-        <Button onClick={() => handleClose(null)}>Cancel</Button>
+        <Button onClick={() => closeModal(null)}>Cancel</Button>
         <Button
-          onClick={() => handleClose(selectedVariants)}
+          onClick={() => closeModal(selectedVariants)}
           disabled={!selectedVariants.length}
         >
           Save
