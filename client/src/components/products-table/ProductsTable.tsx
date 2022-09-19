@@ -21,9 +21,6 @@ const ProductsTable: React.FC<ProductsTableProps> = ({ tableContents }) => (
           <TableCell>Name</TableCell>
           <TableCell>Brand</TableCell>
           <TableCell>Price</TableCell>
-          <TableCell>Barcode</TableCell>
-          <TableCell>Archived</TableCell>
-          <TableCell>Available</TableCell>
           <TableCell>Created on</TableCell>
           <TableCell>Last updated</TableCell>
         </TableRow>

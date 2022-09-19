@@ -11,6 +11,7 @@ import {
   Grid,
   Typography,
 } from '@mui/material';
+import { LoadingButton } from '@mui/lab';
 
 import { deleteActivity, updateActivity, useGetActivity } from '../../data';
 import { PutActivityBody } from '../../types';
@@ -19,7 +20,6 @@ import PageHeader from '../../components/page-header/PageHeader';
 import Spacer from '../../components/spacer/Spacer';
 import ActivityBase from './ActivityBase';
 import LoadingCard from '../../components/loading-card';
-import { LoadingButton } from '@mui/lab';
 
 const ActivityEdit = () => {
   const navigate = useNavigate();
