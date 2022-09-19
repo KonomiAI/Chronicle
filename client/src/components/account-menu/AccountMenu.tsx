@@ -61,7 +61,7 @@ export default function AccountMenu() {
   const firstLetter = user?.firstName[0] || '?';
 
   return (
-    <React.Fragment>
+    <>
       <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
         <Tooltip title="Acount Information">
           <IconButton
@@ -93,6 +93,6 @@ export default function AccountMenu() {
           Logout
         </MenuItem>
       </Menu>
-    </React.Fragment>
+    </>
   );
 }
