@@ -7,6 +7,7 @@ import { CssBaseline } from '@mui/material';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { SnackbarProvider } from 'notistack';
 
 import theme from './theme';
 import LoginPage from './pages/login';
@@ -39,72 +40,66 @@ import { Features } from './types';
 
 const queryClient = new QueryClient();
 
+const RouteMap = () => (
+  <BrowserRouter>
+    <Routes>
+      <Route path="/login" element={<LoginPage />} />
+      <Route element={<ProtectedRoute />}>
+        <Route path="/" element={<MainContainer />}>
+          <Route index element={<LandingPage />} />
+          <Route element={<PrivilegedRoute feature={Features.SECURITY} />}>
+            <Route path="staff" element={<StaffListPage />} />
+            <Route path="staff/:id" element={<StaffDetailsPage />} />
+            <Route path="roles" element={<RolesListPage />} />
+            <Route path="roles/new" element={<CreateRoleForm />} />
+            <Route path="roles/:id" element={<UpdateRoleForm />} />
+            <Route path="allowlist" element={<AllowList />} />
+          </Route>
+          <Route element={<PrivilegedRoute feature={Features.INVENTORY} />}>
+            <Route path="inventory" element={<InventoryListPage />} />
+            <Route
+              path="inventory/products/create"
+              element={<ProductCreate />}
+            />
+            <Route
+              path="inventory/products/:productId"
+              element={<ProductEdit />}
+            />
+            <Route
+              path="inventory/activities/create"
+              element={<ActivityCreate />}
+            />
+            <Route
+              path="inventory/activities/:activityId"
+              element={<ActivityEdit />}
+            />
+          </Route>
+          <Route element={<PrivilegedRoute feature={Features.FORM} />}>
+            <Route path="forms" element={<Forms />} />
+            <Route path="forms/:formId" element={<UpdateForm />} />
+            <Route path="forms/create" element={<CreateForm />} />
+          </Route>
+          <Route element={<PrivilegedRoute feature={Features.CUSTOMER} />}>
+            <Route path="customers" element={<CustomerListPage />} />
+            <Route path="customers/new" element={<CreateCustomerForm />} />
+            <Route path="customers/:id" element={<ManageCustomerForm />} />
+          </Route>
+        </Route>
+      </Route>
+      <Route path="*" element={<NotFoundPage />} />
+    </Routes>
+  </BrowserRouter>
+);
+
 ReactDOM.render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
       <ThemeProvider theme={theme}>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <CssBaseline />
-          <BrowserRouter>
-            <Routes>
-              <Route path="/login" element={<LoginPage />} />
-              <Route element={<ProtectedRoute />}>
-                <Route path="/" element={<MainContainer />}>
-                  <Route index element={<LandingPage />} />
-                  <Route
-                    element={<PrivilegedRoute feature={Features.SECURITY} />}
-                  >
-                    <Route path="staff" element={<StaffListPage />} />
-                    <Route path="staff/:id" element={<StaffDetailsPage />} />
-                    <Route path="roles" element={<RolesListPage />} />
-                    <Route path="roles/new" element={<CreateRoleForm />} />
-                    <Route path="roles/:id" element={<UpdateRoleForm />} />
-                    <Route path="allowlist" element={<AllowList />} />
-                  </Route>
-                  <Route
-                    element={<PrivilegedRoute feature={Features.INVENTORY} />}
-                  >
-                    <Route path="inventory" element={<InventoryListPage />} />
-                    <Route
-                      path="inventory/products/create"
-                      element={<ProductCreate />}
-                    />
-                    <Route
-                      path="inventory/products/:productId"
-                      element={<ProductEdit />}
-                    />
-                    <Route
-                      path="inventory/activities/create"
-                      element={<ActivityCreate />}
-                    />
-                    <Route
-                      path="inventory/activities/:activityId"
-                      element={<ActivityEdit />}
-                    />
-                  </Route>
-                  <Route element={<PrivilegedRoute feature={Features.FORM} />}>
-                    <Route path="forms" element={<Forms />} />
-                    <Route path="forms/:formId" element={<UpdateForm />} />
-                    <Route path="forms/create" element={<CreateForm />} />
-                  </Route>
-                  <Route
-                    element={<PrivilegedRoute feature={Features.CUSTOMER} />}
-                  >
-                    <Route path="customers" element={<CustomerListPage />} />
-                    <Route
-                      path="customers/new"
-                      element={<CreateCustomerForm />}
-                    />
-                    <Route
-                      path="customers/:id"
-                      element={<ManageCustomerForm />}
-                    />
-                  </Route>
-                </Route>
-              </Route>
-              <Route path="*" element={<NotFoundPage />} />
-            </Routes>
-          </BrowserRouter>
+          <SnackbarProvider>
+            <CssBaseline />
+            <RouteMap />
+          </SnackbarProvider>
         </LocalizationProvider>
       </ThemeProvider>
     </QueryClientProvider>
