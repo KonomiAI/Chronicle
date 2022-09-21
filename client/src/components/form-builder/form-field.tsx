@@ -1,18 +1,22 @@
+/* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useMemo, useState } from 'react';
+import React, { useState } from 'react';
 import { FormFieldSchema } from '@konomi.ai/c-form';
 import {
+  Control,
   Controller,
   useFieldArray,
   useFormContext,
   useWatch,
 } from 'react-hook-form';
 import {
+  Autocomplete,
   Box,
   Button,
   Card,
   CardContent,
   Divider,
+  FormControl,
   FormControlLabel,
   Grid,
   IconButton,
@@ -23,6 +27,10 @@ import { Clear, Delete, RadioButtonUnchecked } from '@mui/icons-material';
 import { secureRandomString } from '../../utils';
 import { FieldTypeSelect } from './FieldTypeSelect';
 import { FormInputField } from '../form-inputs/FormInputField';
+import {
+  SUPPORTED_OPTION_SOURCES,
+  SUPPORTED_OPTION_SOURCE_NAME_MAP,
+} from './const';
 
 interface FormFieldProps {
   sectionIndex: number;
@@ -30,6 +38,126 @@ interface FormFieldProps {
   onRemove: () => void;
   context: string;
 }
+
+interface StaticBuilderProps {
+  sectionIndex: number;
+  index: number;
+  context: string;
+  control: Control;
+}
+
+const StaticMultipleChoiceBuilder = ({
+  context,
+  sectionIndex,
+  index,
+  control,
+}: StaticBuilderProps) => {
+  const { append, remove, fields } = useFieldArray({
+    control,
+    name: `${context}sections.${sectionIndex}.fields.${index}.options`,
+  });
+  return (
+    <>
+      {fields.map((f: any, i) => (
+        <Grid item xs={12} key={f.id}>
+          <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
+            <RadioButtonUnchecked
+              sx={{ color: 'action.active', mr: 1, my: 0.5 }}
+            />
+            <Controller
+              name={`${context}sections.${sectionIndex}.fields.${index}.options.${i}.label`}
+              control={control}
+              rules={{
+                required: true,
+                minLength: 1,
+              }}
+              render={({
+                field: { onChange, value },
+                fieldState: { invalid },
+              }) => (
+                <TextField
+                  fullWidth
+                  label="Option title"
+                  variant="standard"
+                  onChange={onChange}
+                  value={value}
+                  error={invalid}
+                />
+              )}
+            />
+            <IconButton
+              aria-label="delete multiple select option"
+              onClick={() => remove(i)}
+              data-testid="btn-delete-option"
+            >
+              <Clear />
+            </IconButton>
+          </Box>
+        </Grid>
+      ))}
+      <Grid item xs={12}>
+        <Button
+          variant="text"
+          color="inherit"
+          onClick={() =>
+            append({
+              id: secureRandomString(12),
+              label: '',
+            })
+          }
+        >
+          Add option
+        </Button>
+      </Grid>
+    </>
+  );
+};
+
+interface DynamicBuilderProps {
+  control: Control;
+  name: string;
+}
+
+const DynamicMultipleChoiceBuilder = ({
+  control,
+  name,
+}: DynamicBuilderProps) => (
+  <Grid item xs={12}>
+    <Controller
+      name={name}
+      control={control}
+      rules={{ required: true }}
+      render={({
+        field: { onChange: onControllerChange, value: controllerValue },
+        fieldState: { invalid },
+      }) => (
+        <FormControl fullWidth>
+          <Autocomplete
+            disableClearable
+            value={
+              Array.isArray(controllerValue)
+                ? controllerValue[0]
+                : controllerValue
+            }
+            options={SUPPORTED_OPTION_SOURCES}
+            getOptionLabel={(option) =>
+              SUPPORTED_OPTION_SOURCE_NAME_MAP[option.url]
+            }
+            onChange={(_, value) => onControllerChange(value)}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                error={invalid}
+                label="Data Sources"
+                size="small"
+              />
+            )}
+          />
+        </FormControl>
+      )}
+    />
+  </Grid>
+);
 
 export const FormField = ({
   index,
@@ -51,13 +179,12 @@ export const FormField = ({
     control,
     name: getFormName('options'),
   });
-  const isOptionQuestionType =
+
+  const isStaticOptionQuestionType =
     type === 'multipleChoice' || type === 'multiSelect';
-  const { append, remove, fields } = useFieldArray({
-    control,
-    name: `${context}sections.${sectionIndex}.fields.${index}.options`,
-  });
-  const isFieldOptionsAnArray = useMemo(() => Array.isArray(fields), [fields]);
+
+  const isDynamicOptionQuestionType = type === 'dataSourceSelect';
+
   return (
     <Card sx={{ mb: 3 }} data-testid="form-field">
       <CardContent>
@@ -80,9 +207,14 @@ export const FormField = ({
               onChange={(e) => {
                 if (
                   e.target.value !== 'multipleChoice' &&
-                  e.target.value !== 'multiSelect'
+                  e.target.value !== 'multiSelect' &&
+                  e.target.value !== 'dataSourceSelect'
                 ) {
                   setValue(getFormName('options'), []);
+                } else if (e.target.value === 'dataSourceSelect') {
+                  setValue(getFormName('options'), [
+                    SUPPORTED_OPTION_SOURCES[0],
+                  ]);
                 } else if (Array.isArray(options) && !options?.length) {
                   setValue(getFormName('options'), [
                     {
@@ -104,61 +236,19 @@ export const FormField = ({
               />
             )}
           </Grid>
-          {/* TODO integrate dynamic data selection availability */}
-          {isOptionQuestionType &&
-            isFieldOptionsAnArray &&
-            fields.map((f: any, i) => (
-              <Grid item xs={12} key={f.id}>
-                <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
-                  <RadioButtonUnchecked
-                    sx={{ color: 'action.active', mr: 1, my: 0.5 }}
-                  />
-                  <Controller
-                    name={`${context}sections.${sectionIndex}.fields.${index}.options.${i}.label`}
-                    control={control}
-                    rules={{
-                      required: true,
-                      minLength: 1,
-                    }}
-                    render={({
-                      field: { onChange, value },
-                      fieldState: { invalid },
-                    }) => (
-                      <TextField
-                        fullWidth
-                        label="Option title"
-                        variant="standard"
-                        onChange={onChange}
-                        value={value}
-                        error={invalid}
-                      />
-                    )}
-                  />
-                  <IconButton
-                    aria-label="delete multiple select option"
-                    onClick={() => remove(i)}
-                    data-testid="btn-delete-option"
-                  >
-                    <Clear />
-                  </IconButton>
-                </Box>
-              </Grid>
-            ))}
-          {isOptionQuestionType && (
-            <Grid item xs={12}>
-              <Button
-                variant="text"
-                color="inherit"
-                onClick={() =>
-                  append({
-                    id: secureRandomString(12),
-                    label: '',
-                  })
-                }
-              >
-                Add option
-              </Button>
-            </Grid>
+          {isStaticOptionQuestionType && (
+            <StaticMultipleChoiceBuilder
+              context={context}
+              control={control}
+              index={index}
+              sectionIndex={sectionIndex}
+            />
+          )}
+          {isDynamicOptionQuestionType && (
+            <DynamicMultipleChoiceBuilder
+              name={getFormName('options')}
+              control={control}
+            />
           )}
         </Grid>
         <Divider sx={{ my: 2 }} />

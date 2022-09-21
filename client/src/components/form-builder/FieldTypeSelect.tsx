@@ -49,6 +49,7 @@ export const FieldTypeSelect = ({
           <Divider textAlign="left">Choice</Divider>
           <MenuItem value="multipleChoice">Multiple choice</MenuItem>
           <MenuItem value="multiSelect">Multi-select</MenuItem>
+          <MenuItem value="dataSourceSelect">Dynamic data select</MenuItem>
           <Divider textAlign="left">Other</Divider>
           <MenuItem value="number">Number</MenuItem>
         </Select>

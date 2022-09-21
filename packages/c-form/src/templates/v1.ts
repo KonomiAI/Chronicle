@@ -19,7 +19,13 @@ export interface FormOptionDataSource {
 }
 
 export interface FormFieldSchema extends FormCommons {
-  type: 'text' | 'multipleChoice' | 'longText' | 'number' | 'multiSelect';
+  type:
+    | 'text'
+    | 'multipleChoice'
+    | 'longText'
+    | 'number'
+    | 'multiSelect'
+    | 'dataSourceSelect';
   optional: boolean;
   options: FormOptionValue[] | FormOptionDataSource;
 }
@@ -60,6 +66,7 @@ const FormTemplateSchemaV1: JSONSchemaType<FormTemplateSchema> = {
                     'multipleChoice',
                     'number',
                     'text',
+                    'dataSourceSelect',
                   ],
                 },
                 optional: {
