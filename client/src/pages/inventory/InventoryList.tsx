@@ -19,10 +19,9 @@ import TabPanel from '../../components/tabs/TabPanel';
 import LoadingCard from '../../components/loading-card';
 import ProductsTable from '../../components/products-table/ProductsTable';
 import ActivitiesTable from '../../components/activities-table/ActivitiesTable';
-import YesNoChip from '../../components/yes-no-chip/YesNoChip';
 
 import { useGetActivities, useGetProducts } from '../../data';
-import { penniesToPrice } from '../../utils';
+import { formatDate, getPenniesPriceRange, penniesToPrice } from '../../utils';
 import { InventoryTabs } from '../../types';
 
 const ProductsTableContainer = () => {
@@ -54,36 +53,22 @@ const ProductsTableContainer = () => {
   return (
     <ProductsTable
       tableContents={products
-        .map(({ id: productId, name, variants, brand, isArchived }) =>
-          variants.map(
-            ({
-              id: variantId,
-              price,
-              barcode,
-              createdAt,
-              updatedAt,
-              isAvailable,
-            }) => (
-              <TableRow
-                key={variantId}
-                hover
-                sx={{ cursor: 'pointer' }}
-                onClick={() => navigate(`products/${productId}`)}
-              >
-                <TableCell>{name}</TableCell>
-                <TableCell>{brand}</TableCell>
-                <TableCell>{penniesToPrice(price)}</TableCell>
-                <TableCell>{barcode}</TableCell>
-                <TableCell>
-                  <YesNoChip isYes={isArchived} />
-                </TableCell>
-                <TableCell>
-                  <YesNoChip isYes={isAvailable} />
-                </TableCell>
-                <TableCell>{new Date(createdAt).toLocaleString()}</TableCell>
-                <TableCell>{new Date(updatedAt).toLocaleString()}</TableCell>
-              </TableRow>
-            ),
+        .map(
+          ({ id: productId, name, brand, variants, createdAt, updatedAt }) => (
+            <TableRow
+              key={productId}
+              hover
+              sx={{ cursor: 'pointer' }}
+              onClick={() => navigate(`products/${productId}`)}
+            >
+              <TableCell>{name}</TableCell>
+              <TableCell>{brand}</TableCell>
+              <TableCell>
+                {getPenniesPriceRange(variants.map((v) => v.price))}
+              </TableCell>
+              <TableCell>{formatDate(createdAt, 'PP')}</TableCell>
+              <TableCell>{formatDate(updatedAt, 'PP')}</TableCell>
+            </TableRow>
           ),
         )
         .flat()}
@@ -119,8 +104,9 @@ const ActivitiesTableContainer = () => {
 
   return (
     <ActivitiesTable
-      tableContents={activities.map(
-        ({ id, name, price, isArchived, createdAt, updatedAt }) => (
+      tableContents={activities
+        .filter((a) => !a.isArchived)
+        .map(({ id, name, price, createdAt, updatedAt }) => (
           <TableRow
             key={id}
             hover
@@ -129,14 +115,10 @@ const ActivitiesTableContainer = () => {
           >
             <TableCell>{name}</TableCell>
             <TableCell>{penniesToPrice(price)}</TableCell>
-            <TableCell>
-              <YesNoChip isYes={isArchived} />
-            </TableCell>
-            <TableCell>{new Date(createdAt).toLocaleString()}</TableCell>
-            <TableCell>{new Date(updatedAt).toLocaleString()}</TableCell>
+            <TableCell>{formatDate(createdAt, 'PP')}</TableCell>
+            <TableCell>{formatDate(updatedAt, 'PP')}</TableCell>
           </TableRow>
-        ),
-      )}
+        ))}
     />
   );
 };

@@ -72,13 +72,13 @@ const VariantCreateDialog: React.FC<VariantCreateDialogProps> = ({
       <DialogContent>
         {hasCreateVariantError && (
           <Alert severity="error">
-            <AlertTitle>An unexpected error has occured</AlertTitle>
+            <AlertTitle>An unexpected error has occurred</AlertTitle>
             Something went wrong while creating a variant
           </Alert>
         )}
         {hasDeleteVariantError && (
           <Alert severity="error">
-            <AlertTitle>An unexpected error has occured</AlertTitle>
+            <AlertTitle>An unexpected error has occurred</AlertTitle>
             Something went wrong while deleting a variant
           </Alert>
         )}

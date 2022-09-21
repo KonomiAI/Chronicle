@@ -4,8 +4,8 @@ export interface Variant {
   price: number;
   barcode: string;
   isAvailable: boolean;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt: string;
+  updatedAt: string;
   productId: string;
 }
 
@@ -15,8 +15,8 @@ export interface Product {
   brand: string;
   imageUrl: string[];
   isArchived: boolean;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt: string;
+  updatedAt: string;
   variants: Variant[];
 }
 
