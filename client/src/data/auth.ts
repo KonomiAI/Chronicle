@@ -20,7 +20,10 @@ export const login = async (data: AuthBody): Promise<UserNoAccessToken> => {
     .then((res) => res.data);
   // Set data in localStorage
   set(ACCESS_TOKEN_KEY, accessToken);
-  set(ACCESS_TOKEN_EXPIRY_KEY, `${getExpiryOfJwt(accessToken)}`);
+  // converting jwt expiry in seconds to milliseconds
+  // https://github.com/KonomiAI/Chronicle/pull/239
+  // view the above for more context
+  set(ACCESS_TOKEN_EXPIRY_KEY, `${getExpiryOfJwt(accessToken)}000`);
   return user;
 };
 

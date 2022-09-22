@@ -19,8 +19,18 @@ export const checkIsLoggedIn = () => {
   return (
     has(ACCESS_TOKEN_KEY) &&
     has(ACCESS_TOKEN_EXPIRY_KEY) &&
-    +getSafely(ACCESS_TOKEN_EXPIRY_KEY) > Math.floor(Date.now() / 1000)
+    +getSafely(ACCESS_TOKEN_EXPIRY_KEY) > +Date.now()
   );
+};
+
+export const checkIsExpired = () => {
+  const { getSafely, has } = useLocalStorage();
+
+  if (has(ACCESS_TOKEN_KEY) && has(ACCESS_TOKEN_EXPIRY_KEY)) {
+    return +getSafely(ACCESS_TOKEN_EXPIRY_KEY) < +Date.now();
+  }
+
+  return false;
 };
 
 export const clearSession = () => {

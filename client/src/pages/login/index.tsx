@@ -17,7 +17,12 @@ import {
 
 import Spacer from '../../components/spacer/Spacer';
 
-import { checkIsLoggedIn, useAuth } from '../../utils';
+import {
+  checkIsExpired,
+  checkIsLoggedIn,
+  clearSession,
+  useAuth,
+} from '../../utils';
 import { AuthBody } from '../../types';
 
 function LoginPage() {
@@ -39,6 +44,11 @@ function LoginPage() {
   useEffect(() => {
     if (checkIsLoggedIn()) {
       goToHome();
+    }
+
+    if (checkIsExpired()) {
+      setError('Your session has expired. Please login again to continue.');
+      clearSession();
     }
   }, []);
 
