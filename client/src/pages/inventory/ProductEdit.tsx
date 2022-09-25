@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useMutation } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
+import { useSnackbar } from 'notistack';
 
 import {
   Alert,
@@ -30,6 +31,8 @@ const ProductEdit = () => {
   const [variants, setVariants] = useState<Variant[]>([]);
   const navigate = useNavigate();
   const { productId } = useParams();
+  const queryClient = useQueryClient();
+  const { enqueueSnackbar } = useSnackbar();
 
   const id = productId || '';
 
@@ -54,8 +57,9 @@ const ProductEdit = () => {
     isError: hasUpdateProductError,
     mutate: mutateUpdateProduct,
   } = useMutation(updateProduct, {
-    onSuccess: () => {
-      navigate('/inventory');
+    onSuccess: async () => {
+      await queryClient.invalidateQueries(['getProduct', productId]);
+      enqueueSnackbar('Product updated successfully', { variant: 'success' });
     },
   });
 
