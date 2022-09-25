@@ -30,7 +30,6 @@ export const StaticMultipleChoiceBuilder = ({
   const { append, remove, fields } = useFieldArray({
     control,
     name: `${context}sections.${sectionIndex}.fields.${index}.options`,
-    shouldUnregister: true,
   });
   return (
     <>

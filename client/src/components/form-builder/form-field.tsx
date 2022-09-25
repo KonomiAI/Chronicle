@@ -45,10 +45,6 @@ export const FormField = ({
     control,
     name: getFormName('type'),
   });
-  const options = useWatch({
-    control,
-    name: getFormName('options'),
-  });
 
   const isStaticOptionQuestionType =
     type === 'multipleChoice' || type === 'multiSelect';
@@ -75,17 +71,17 @@ export const FormField = ({
               control={control}
               name={getFormName('type')}
               onChange={(e) => {
-                if (
-                  e.target.value !== 'multipleChoice' &&
-                  e.target.value !== 'multiSelect' &&
-                  e.target.value !== 'dataSourceSelect'
-                ) {
-                  setValue(getFormName('options'), []);
-                } else if (e.target.value === 'dataSourceSelect') {
+                if (e.target.value === 'dataSourceSelect') {
                   unregister(getFormName('options'));
                   setValue(getFormName('options'), SUPPORTED_OPTION_SOURCES[0]);
                   register(getFormName('options'));
-                } else if (Array.isArray(options) && !options?.length) {
+                } else if (
+                  e.target.value !== 'multipleChoice' &&
+                  e.target.value !== 'multiSelect'
+                ) {
+                  // Change from multiple choice to a different type
+                  setValue(getFormName('options'), []);
+                } else {
                   setValue(getFormName('options'), [
                     {
                       id: secureRandomString(12),
