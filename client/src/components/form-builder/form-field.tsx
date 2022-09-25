@@ -2,35 +2,25 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState } from 'react';
 import { FormFieldSchema } from '@konomi.ai/c-form';
+import { Controller, useFormContext, useWatch } from 'react-hook-form';
 import {
-  Control,
-  Controller,
-  useFieldArray,
-  useFormContext,
-  useWatch,
-} from 'react-hook-form';
-import {
-  Autocomplete,
   Box,
   Button,
   Card,
   CardContent,
   Divider,
-  FormControl,
   FormControlLabel,
   Grid,
   IconButton,
   Switch,
-  TextField,
 } from '@mui/material';
-import { Clear, Delete, RadioButtonUnchecked } from '@mui/icons-material';
+import { Delete } from '@mui/icons-material';
 import { secureRandomString } from '../../utils';
 import { FieldTypeSelect } from './FieldTypeSelect';
 import { FormInputField } from '../form-inputs/FormInputField';
-import {
-  SUPPORTED_OPTION_SOURCES,
-  SUPPORTED_OPTION_SOURCE_NAME_MAP,
-} from './const';
+import { SUPPORTED_OPTION_SOURCES } from './const';
+import { StaticMultipleChoiceBuilder } from './components/StaticMultipleChoiceBuilder';
+import { DynamicMultipleChoiceBuilder } from './components/DynamicMultipleChoiceBuilder';
 
 interface FormFieldProps {
   sectionIndex: number;
@@ -38,126 +28,6 @@ interface FormFieldProps {
   onRemove: () => void;
   context: string;
 }
-
-interface StaticBuilderProps {
-  sectionIndex: number;
-  index: number;
-  context: string;
-  control: Control;
-}
-
-const StaticMultipleChoiceBuilder = ({
-  context,
-  sectionIndex,
-  index,
-  control,
-}: StaticBuilderProps) => {
-  const { append, remove, fields } = useFieldArray({
-    control,
-    name: `${context}sections.${sectionIndex}.fields.${index}.options`,
-  });
-  return (
-    <>
-      {fields.map((f: any, i) => (
-        <Grid item xs={12} key={f.id}>
-          <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
-            <RadioButtonUnchecked
-              sx={{ color: 'action.active', mr: 1, my: 0.5 }}
-            />
-            <Controller
-              name={`${context}sections.${sectionIndex}.fields.${index}.options.${i}.label`}
-              control={control}
-              rules={{
-                required: true,
-                minLength: 1,
-              }}
-              render={({
-                field: { onChange, value },
-                fieldState: { invalid },
-              }) => (
-                <TextField
-                  fullWidth
-                  label="Option title"
-                  variant="standard"
-                  onChange={onChange}
-                  value={value}
-                  error={invalid}
-                />
-              )}
-            />
-            <IconButton
-              aria-label="delete multiple select option"
-              onClick={() => remove(i)}
-              data-testid="btn-delete-option"
-            >
-              <Clear />
-            </IconButton>
-          </Box>
-        </Grid>
-      ))}
-      <Grid item xs={12}>
-        <Button
-          variant="text"
-          color="inherit"
-          onClick={() =>
-            append({
-              id: secureRandomString(12),
-              label: '',
-            })
-          }
-        >
-          Add option
-        </Button>
-      </Grid>
-    </>
-  );
-};
-
-interface DynamicBuilderProps {
-  control: Control;
-  name: string;
-}
-
-const DynamicMultipleChoiceBuilder = ({
-  control,
-  name,
-}: DynamicBuilderProps) => (
-  <Grid item xs={12}>
-    <Controller
-      name={name}
-      control={control}
-      rules={{ required: true }}
-      render={({
-        field: { onChange: onControllerChange, value: controllerValue },
-        fieldState: { invalid },
-      }) => (
-        <FormControl fullWidth>
-          <Autocomplete
-            disableClearable
-            value={
-              Array.isArray(controllerValue)
-                ? controllerValue[0]
-                : controllerValue
-            }
-            options={SUPPORTED_OPTION_SOURCES}
-            getOptionLabel={(option) =>
-              SUPPORTED_OPTION_SOURCE_NAME_MAP[option.url]
-            }
-            onChange={(_, value) => onControllerChange(value)}
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                error={invalid}
-                label="Data Sources"
-                size="small"
-              />
-            )}
-          />
-        </FormControl>
-      )}
-    />
-  </Grid>
-);
 
 export const FormField = ({
   index,
@@ -169,7 +39,7 @@ export const FormField = ({
     name: keyof FormFieldSchema,
   ): `${string}sections.${number}.fields.${number}.${keyof FormFieldSchema}` =>
     `${context}sections.${sectionIndex}.fields.${index}.${name}`;
-  const { control, setValue } = useFormContext();
+  const { control, setValue, unregister, register } = useFormContext();
   const [shouldShowDescription, setShouldShowDescription] = useState(false);
   const type = useWatch({
     control,
@@ -212,9 +82,9 @@ export const FormField = ({
                 ) {
                   setValue(getFormName('options'), []);
                 } else if (e.target.value === 'dataSourceSelect') {
-                  setValue(getFormName('options'), [
-                    SUPPORTED_OPTION_SOURCES[0],
-                  ]);
+                  unregister(getFormName('options'));
+                  setValue(getFormName('options'), SUPPORTED_OPTION_SOURCES[0]);
+                  register(getFormName('options'));
                 } else if (Array.isArray(options) && !options?.length) {
                   setValue(getFormName('options'), [
                     {
