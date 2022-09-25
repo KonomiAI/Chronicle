@@ -8,8 +8,9 @@ import {
   Typography,
 } from '@mui/material';
 import { useForm } from 'react-hook-form';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useMutation, useQueryClient } from 'react-query';
+import { useSnackbar } from 'notistack';
 
 import { SaveBar, TextInput, DateInput, If } from '../../components';
 import PageHeader from '../../components/page-header/PageHeader';
@@ -175,10 +176,14 @@ const CustomerDetailsPage: React.FC<CustomerDetailsPageProps> = ({
 };
 
 export function CreateCustomerForm() {
-  const navigate = useNavigate();
+  const { enqueueSnackbar } = useSnackbar();
+  const queryClient = useQueryClient();
   const createCustomerAndMutate = useMutation(createCustomer, {
-    onSuccess: (data) => {
-      navigate(`/customers/${data.data.id}`);
+    onSuccess: async ({ data }) => {
+      await queryClient.invalidateQueries(['customer', data.id]);
+      enqueueSnackbar('Customer profile updated successfully', {
+        variant: 'success',
+      });
     },
   });
   const doSave = (data: CustomerCreateDto) => {
@@ -209,10 +214,14 @@ export function ManageCustomerForm() {
   const { data: currentData, isLoading } = useCustomer(id);
   const [errorMessage, setErrorMessage] = useState('');
   const [isSavingChanges, setIsSavingChanges] = useState(false);
+  const { enqueueSnackbar } = useSnackbar();
 
   const updateCustomerAndMutate = useMutation(updateCustomer, {
     onSuccess: async () => {
       await client.invalidateQueries(['customer', id]);
+      enqueueSnackbar('Customer profile created successfully', {
+        variant: 'success',
+      });
       setIsSavingChanges(false);
     },
     onError: () => {
