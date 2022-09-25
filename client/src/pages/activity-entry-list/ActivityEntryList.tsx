@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Avatar,
   Button,
@@ -16,22 +16,50 @@ import {
 } from '@mui/material';
 import { format, parseJSON } from 'date-fns';
 import { useNavigate } from 'react-router-dom';
+import { useMutation } from 'react-query';
+
 import PageHeader from '../../components/page-header/PageHeader';
 import Spacer from '../../components/spacer/Spacer';
-import { useListActivityEntries } from '../../data';
+import { createActivityEntry, useListActivityEntries } from '../../data';
+import { CustomerSelectDialog } from '../../components/customer-select-dialog/CustomerSelectDialog';
 
 export function ActivityEntryList() {
   const { isLoading, data } = useListActivityEntries();
+  const [open, setOpen] = useState(false);
   const navigate = useNavigate();
+  const { mutate, isLoading: isMutationLoading } = useMutation(
+    createActivityEntry,
+    {
+      onSuccess: (e) => {
+        navigate(`/activity-entries/${e.id}`);
+      },
+    },
+  );
   return (
     <Container>
+      <CustomerSelectDialog
+        open={open}
+        handleClose={(c) => {
+          setOpen(false);
+          if (c) {
+            mutate({
+              customerId: c.id,
+            });
+          }
+        }}
+      />
       {isLoading && <LinearProgress />}
       {data && (
         <>
           <PageHeader
             pageTitle="Activity Entries"
             action={
-              <Button variant="contained" data-testid="btn-create-entry">
+              <Button
+                variant="contained"
+                data-testid="btn-create-entry"
+                onClick={() => setOpen(true)}
+                disabled={isMutationLoading}
+              >
                 New Entry
               </Button>
             }
