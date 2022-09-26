@@ -1,10 +1,15 @@
 import { format, parseJSON } from 'date-fns';
 
+const i18nMoneyFormatter = new Intl.NumberFormat('en-US', {
+  style: 'currency',
+  currency: 'CAD',
+});
+
 export const floatToPennies = (value: number): number =>
   Math.floor(value * 100);
 
 export const penniesToPrice = (value: number): string =>
-  `$${(value / 100).toFixed(2)}`;
+  `${i18nMoneyFormatter.format(value / 100)}`;
 
 export const penniesToFloat = (value: number): number => value / 100;
 

@@ -15,10 +15,11 @@ export const getAccessTokenExpiry = () => {
 
 export const checkIsLoggedIn = () => {
   const { getSafely, has } = useLocalStorage();
+
   return (
     has(ACCESS_TOKEN_KEY) &&
     has(ACCESS_TOKEN_EXPIRY_KEY) &&
-    +getSafely(ACCESS_TOKEN_EXPIRY_KEY) < +Date.now()
+    +getSafely(ACCESS_TOKEN_EXPIRY_KEY) > Math.floor(Date.now() / 1000)
   );
 };
 

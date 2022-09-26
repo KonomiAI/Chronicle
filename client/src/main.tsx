@@ -37,6 +37,8 @@ import ActivityEdit from './pages/inventory/ActivityEdit';
 import ProtectedRoute from './components/protected-route';
 import PrivilegedRoute from './components/privileged-route';
 import { Features } from './types';
+import { ActivityEntryList } from './pages/activity-entry-list';
+import { ActivityEntryDetails } from './pages/activity-entry-details/ActivityEntryDetails';
 
 const queryClient = new QueryClient();
 
@@ -83,6 +85,13 @@ const RouteMap = () => (
             <Route path="customers" element={<CustomerListPage />} />
             <Route path="customers/new" element={<CreateCustomerForm />} />
             <Route path="customers/:id" element={<ManageCustomerForm />} />
+          </Route>
+          <Route element={<PrivilegedRoute feature={Features.ENTRY} />}>
+            <Route path="activity-entries" element={<ActivityEntryList />} />
+            <Route
+              path="activity-entries/:id"
+              element={<ActivityEntryDetails />}
+            />
           </Route>
         </Route>
       </Route>
