@@ -30,7 +30,10 @@ export class ActivityEntryService {
     return this.prisma.activityEntry.create({ data });
   }
 
-  updateActivityEntry(id: string, data: Prisma.ActivityEntryUpdateInput) {
+  updateActivityEntry(
+    id: string,
+    data: Prisma.ActivityEntryUncheckedUpdateInput,
+  ) {
     return this.prisma.activityEntry.update({
       where: {
         id,
