@@ -7,6 +7,7 @@ import {
   NumberFieldFactory,
   MultipleChoiceFactory,
   MultiSelectFactory,
+  DatSourceSelectFactory,
 } from './form-fields-factory';
 
 const FieldRenderDirectory: Record<string, FieldFactoryFunction> = {
@@ -15,6 +16,7 @@ const FieldRenderDirectory: Record<string, FieldFactoryFunction> = {
   number: NumberFieldFactory,
   multipleChoice: MultipleChoiceFactory,
   multiSelect: MultiSelectFactory,
+  dataSourceSelect: DatSourceSelectFactory,
 };
 
 export const ViewFormField = (props: FormFieldProps) => {

@@ -1,9 +1,17 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
-import { Autocomplete, FormControl, Grid, TextField } from '@mui/material';
+import {
+  Autocomplete,
+  Box,
+  FormControl,
+  Grid,
+  TextField,
+  Typography,
+} from '@mui/material';
 import { Control, Controller } from 'react-hook-form';
 import {
   SUPPORTED_OPTION_SOURCES,
+  SUPPORTED_OPTION_SOURCE_DESCRIPTION_MAP,
   SUPPORTED_OPTION_SOURCE_NAME_MAP,
 } from '../const';
 
@@ -39,6 +47,28 @@ export const DynamicMultipleChoiceBuilder = ({
             }
             isOptionEqualToValue={(option, value) => option.url === value.url}
             onChange={(_, value) => onControllerChange(value)}
+            renderOption={(props, option) => (
+              <Box
+                component="li"
+                sx={{
+                  flexDirection: 'column',
+                  alignContent: 'start',
+                  justifyContent: 'start',
+                }}
+                {...props}
+              >
+                <Box>
+                  <Typography variant="h6">
+                    {SUPPORTED_OPTION_SOURCE_NAME_MAP[option.url]}
+                  </Typography>
+                </Box>
+                <Box>
+                  <Typography variant="caption">
+                    {SUPPORTED_OPTION_SOURCE_DESCRIPTION_MAP[option.url]}
+                  </Typography>
+                </Box>
+              </Box>
+            )}
             renderInput={(params) => (
               <TextField
                 {...params}

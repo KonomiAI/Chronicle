@@ -52,3 +52,12 @@ export const SUPPORTED_OPTION_SOURCE_NAME_MAP: Record<string, string> = {
   '/activities': 'Activities',
   '/products': 'Products',
 };
+
+export const SUPPORTED_OPTION_SOURCE_DESCRIPTION_MAP: Record<string, string> = {
+  '/customers':
+    'Select a customer from all customer profiles in your organization. This is useful for fields that link customers to each other (referrals etc.)',
+  '/activities':
+    'Select an activity from all available activities in your organization. This is useful for fields that link customers to activities (e.g. "recommended" activities).',
+  '/products':
+    'Select a product from all available products in your organization. This is useful for fields that link customers to products (e.g. "recommended" products).',
+};
