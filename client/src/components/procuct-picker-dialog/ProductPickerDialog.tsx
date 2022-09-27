@@ -23,8 +23,9 @@ import { Product, Variant } from '../../types';
 import { penniesToPrice } from '../../utils';
 import Spacer from '../spacer/Spacer';
 
-export interface ActivitySelectDialogProps {
+export interface ProductPickerDialogProps {
   open: boolean;
+  variantCount?: number;
   handleClose: (products: Variant[] | null) => void;
 }
 
@@ -51,7 +52,7 @@ const renderVariantList = (variants: Variant[]) => {
 export function ProductPickerDialog({
   handleClose,
   open,
-}: ActivitySelectDialogProps) {
+}: ProductPickerDialogProps) {
   const { data } = useGetProducts();
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [selectedVariants, setSelectedVariants] = useState<Variant[]>([]);

@@ -144,13 +144,15 @@ const buildDataSourceSelector = (
         <Spacer size="sm" />
         {result &&
           Array.isArray(result) &&
-          result.map((product) => (
+          result.map((variant) => (
             <>
               <Card variant="outlined">
                 <CardContent>
-                  <Typography variant="h6">{product.description}</Typography>
+                  <Typography variant="h6">
+                    {variant.product.brand} - {variant.product.name}
+                  </Typography>
                   <Typography variant="caption">
-                    {penniesToPrice(product.price)}
+                    {variant.description} {penniesToPrice(variant.price)}
                   </Typography>
                 </CardContent>
               </Card>

@@ -7,6 +7,8 @@ export interface Variant {
   createdAt: string;
   updatedAt: string;
   productId: string;
+  // eslint-disable-next-line no-use-before-define
+  product: ProductWithoutVariant;
 }
 
 export interface Product {
@@ -19,6 +21,8 @@ export interface Product {
   updatedAt: string;
   variants: Variant[];
 }
+
+export type ProductWithoutVariant = Omit<Product, 'variants'>;
 
 export interface PostVariantBody {
   description: string;
