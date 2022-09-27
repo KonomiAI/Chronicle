@@ -1,6 +1,8 @@
+import { Gender } from './gender';
+import { Variant } from './product';
 import { FormResponse } from './response';
 
-interface Activity {
+interface ActivityEntryActivity {
   id: string;
   name: string;
   price: number;
@@ -18,37 +20,20 @@ interface Customer {
   id: string;
   firstName: string;
   lastName: string;
-  gender: string;
+  gender: Gender;
   dateOfBirth: string;
   email: string;
-  phone: string | null;
+  phone?: string | null;
   isDeleted: boolean;
   createdAt: string;
   updatedAt: string;
 }
 
-interface Product {
-  id: string;
-  description: string;
-  price: number;
-  barcode: string;
-  isAvailable: boolean;
-  createdAt: string;
-  updatedAt: string;
-  product: {
-    id: string;
-    brand: string;
-    name: string;
-    createdAt: string;
-    updatedAt: string;
-  };
-}
-
 export interface ActivityEntry {
   id: string;
   customer: Customer;
-  activity?: Activity;
-  products?: Product[];
+  activity?: ActivityEntryActivity;
+  products?: Variant[];
   responses?: FormResponse[];
   createdAt: string;
   updatedAt: string;

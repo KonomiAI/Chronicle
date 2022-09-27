@@ -17,6 +17,7 @@ import {
 import { format, parseJSON } from 'date-fns';
 import { useNavigate } from 'react-router-dom';
 import { useMutation } from 'react-query';
+import { useSnackbar } from 'notistack';
 
 import PageHeader from '../../components/page-header/PageHeader';
 import Spacer from '../../components/spacer/Spacer';
@@ -27,10 +28,14 @@ export function ActivityEntryList() {
   const { isLoading, data } = useListActivityEntries();
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
+  const { enqueueSnackbar } = useSnackbar();
   const { mutate, isLoading: isMutationLoading } = useMutation(
     createActivityEntry,
     {
       onSuccess: (e) => {
+        enqueueSnackbar(`Activity entry for ${e.customer.firstName} created`, {
+          variant: 'success',
+        });
         navigate(`/activity-entries/${e.id}`);
       },
     },

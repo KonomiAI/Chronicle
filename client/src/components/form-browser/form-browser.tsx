@@ -24,7 +24,7 @@ export function FormBrowser({ purpose, onFormOpen }: FormBrowserProps) {
     <div>
       <Grid container spacing={2}>
         {data?.map((form) => (
-          <Grid key={form.id} item xs={12} md={6} lg={4}>
+          <Grid key={form.id} item xs={12}>
             <Card
               variant="outlined"
               onClick={() => onFormOpen && onFormOpen(form)}
@@ -32,7 +32,6 @@ export function FormBrowser({ purpose, onFormOpen }: FormBrowserProps) {
               <CardActionArea>
                 <CardContent>
                   <Typography variant="h5">{form.title}</Typography>
-
                   <If
                     condition={form.description}
                     el={

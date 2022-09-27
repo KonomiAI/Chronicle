@@ -12,8 +12,7 @@ import {
   useWatch,
 } from 'react-hook-form';
 import Typography from '@mui/material/Typography';
-import { Alert, Box, Button, Card, CardContent } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Alert, Box, Button } from '@mui/material';
 
 import { FormInputField } from '../form-inputs/FormInputField';
 import { FormSelect } from '../form-inputs/FormSelect';
@@ -22,8 +21,10 @@ import { ProductPickerDialog } from '../procuct-picker-dialog/ProductPickerDialo
 import { Activity, Customer, Variant } from '../../types';
 import { ActivitySelectDialog } from '../activity-select-dialog/ActivitySelectDialog';
 import { CustomerSelectDialog } from '../customer-select-dialog/CustomerSelectDialog';
-import { penniesToPrice } from '../../utils';
 import Spacer from '../spacer/Spacer';
+import { ActivityCard } from '../activity-card/activity-card';
+import { VariantCard } from '../variant-card/variant-card';
+import { CustomerCard } from '../customer-card/customer-card';
 
 export type FormFieldProps = FormFieldSchema;
 
@@ -150,18 +151,7 @@ const buildDataSourceSelector = (
           Array.isArray(result) &&
           result.map((variant) => (
             <>
-              <Card variant="outlined">
-                <CardContent>
-                  <Link to={`/inventory/products/${variant.product.id}`}>
-                    <Typography variant="h6">
-                      {variant.product.brand} - {variant.product.name}
-                    </Typography>
-                  </Link>
-                  <Typography variant="caption">
-                    {variant.description} {penniesToPrice(variant.price)}
-                  </Typography>
-                </CardContent>
-              </Card>
+              <VariantCard variant={variant} />
               <Spacer size="sm" />
             </>
           ))}
@@ -178,16 +168,7 @@ const buildDataSourceSelector = (
         <Spacer size="sm" />
         {result && (
           <>
-            <Card variant="outlined">
-              <CardContent>
-                <Link to={`/inventory/activities/${result.id}`}>
-                  <Typography variant="h6">{result.name}</Typography>
-                </Link>
-                <Typography variant="caption">
-                  {penniesToPrice(result.price)}
-                </Typography>
-              </CardContent>
-            </Card>
+            <ActivityCard activity={result} />
             <Spacer size="sm" />
           </>
         )}
@@ -204,18 +185,7 @@ const buildDataSourceSelector = (
         <Spacer size="sm" />
         {result && (
           <>
-            <Card variant="outlined">
-              <CardContent>
-                <Link to={`/customers/${result.id}`}>
-                  <Typography variant="h6">
-                    {result.firstName} {result.lastName}
-                  </Typography>
-                </Link>
-                <Typography variant="caption">
-                  {result.email} {result.phone}
-                </Typography>
-              </CardContent>
-            </Card>
+            <CustomerCard customer={result} />
             <Spacer size="sm" />
           </>
         )}
