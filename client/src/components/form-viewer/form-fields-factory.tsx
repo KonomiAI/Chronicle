@@ -13,6 +13,7 @@ import {
 } from 'react-hook-form';
 import Typography from '@mui/material/Typography';
 import { Alert, Box, Button, Card, CardContent } from '@mui/material';
+import { Link } from 'react-router-dom';
 
 import { FormInputField } from '../form-inputs/FormInputField';
 import { FormSelect } from '../form-inputs/FormSelect';
@@ -151,9 +152,11 @@ const buildDataSourceSelector = (
             <>
               <Card variant="outlined">
                 <CardContent>
-                  <Typography variant="h6">
-                    {variant.product.brand} - {variant.product.name}
-                  </Typography>
+                  <Link to={`/inventory/products/${variant.product.id}`}>
+                    <Typography variant="h6">
+                      {variant.product.brand} - {variant.product.name}
+                    </Typography>
+                  </Link>
                   <Typography variant="caption">
                     {variant.description} {penniesToPrice(variant.price)}
                   </Typography>
@@ -177,7 +180,9 @@ const buildDataSourceSelector = (
           <>
             <Card variant="outlined">
               <CardContent>
-                <Typography variant="h6">{result.name}</Typography>
+                <Link to={`/inventory/activities/${result.id}`}>
+                  <Typography variant="h6">{result.name}</Typography>
+                </Link>
                 <Typography variant="caption">
                   {penniesToPrice(result.price)}
                 </Typography>
@@ -201,9 +206,11 @@ const buildDataSourceSelector = (
           <>
             <Card variant="outlined">
               <CardContent>
-                <Typography variant="h6">
-                  {result.firstName} {result.lastName}
-                </Typography>
+                <Link to={`/customers/${result.id}`}>
+                  <Typography variant="h6">
+                    {result.firstName} {result.lastName}
+                  </Typography>
+                </Link>
                 <Typography variant="caption">
                   {result.email} {result.phone}
                 </Typography>
