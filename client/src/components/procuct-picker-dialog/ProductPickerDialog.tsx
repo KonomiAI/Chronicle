@@ -43,6 +43,9 @@ const renderVariantList = (variants: Variant[]) => {
   return uniqueVariants.map((variant) => (
     <ListItem key={variant.id}>
       <ListItemText>
+        <Box>
+          {variant.product.brand} - {variant.product.name}
+        </Box>
         {variant.description} ({variantCountMap[variant.id]})
       </ListItemText>
     </ListItem>
