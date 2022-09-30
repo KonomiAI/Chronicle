@@ -18,14 +18,17 @@ export interface FormOptionDataSource {
   optionsLocation: string;
 }
 
+export enum FormSupportedFieldTypes {
+  TEXT = 'text',
+  MULTIPLE_CHOICE = 'multipleChoice',
+  LONG_TEXT = 'longText',
+  NUMBER = 'number',
+  MULTI_SELECT = 'multiSelect',
+  DATA_SOURCE_SELECT = 'dataSourceSelect',
+}
+
 export interface FormFieldSchema extends FormCommons {
-  type:
-    | 'text'
-    | 'multipleChoice'
-    | 'longText'
-    | 'number'
-    | 'multiSelect'
-    | 'dataSourceSelect';
+  type: FormSupportedFieldTypes;
   optional: boolean;
   options: FormOptionValue[] | FormOptionDataSource;
 }
@@ -61,12 +64,12 @@ const FormTemplateSchemaV1: JSONSchemaType<FormTemplateSchema> = {
                 type: {
                   type: 'string',
                   enum: [
-                    'longText',
-                    'multiSelect',
-                    'multipleChoice',
-                    'number',
-                    'text',
-                    'dataSourceSelect',
+                    FormSupportedFieldTypes.DATA_SOURCE_SELECT,
+                    FormSupportedFieldTypes.LONG_TEXT,
+                    FormSupportedFieldTypes.MULTIPLE_CHOICE,
+                    FormSupportedFieldTypes.MULTI_SELECT,
+                    FormSupportedFieldTypes.NUMBER,
+                    FormSupportedFieldTypes.TEXT,
                   ],
                 },
                 optional: {

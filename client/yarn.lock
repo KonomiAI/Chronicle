@@ -476,10 +476,10 @@
     "@jridgewell/resolve-uri" "^3.0.3"
     sourcemap-codec "1.4.8"
 
-"@konomi.ai/c-form@^1.0.2":
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/@konomi.ai/c-form/-/c-form-1.0.2.tgz#14ca70619163a8a456bb97e178f78601b92c7edf"
-  integrity sha512-PcNphjZDW62ERc7jh0OJghlz0A1KXxRlRWe9UE+z7pQdM0H+iKu00pJ5kUjfnnqNPolAX2tWo+z3iKF9okVbsQ==
+"@konomi.ai/c-form@^1.0.4":
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/@konomi.ai/c-form/-/c-form-1.0.4.tgz#be3ebd7885c1bf3a9a3f0d6f6887ea246c2eb811"
+  integrity sha512-RPRWHjSKEBXvsa9kSbfZPZnqgBMLihsUNE8VQKybqYNhRiZzOCotjH24FiaaYTSkFNVaH0XSUR0uDkC562KQcg==
 
 "@mui/base@5.0.0-alpha.70":
   version "5.0.0-alpha.70"

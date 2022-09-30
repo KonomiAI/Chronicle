@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState } from 'react';
-import { FormFieldSchema } from '@konomi.ai/c-form';
+import { FormFieldSchema, FormSupportedFieldTypes } from '@konomi.ai/c-form';
 import { Controller, useFormContext, useWatch } from 'react-hook-form';
 import {
   Box,
@@ -47,9 +47,11 @@ export const FormField = ({
   });
 
   const isStaticOptionQuestionType =
-    type === 'multipleChoice' || type === 'multiSelect';
+    type === FormSupportedFieldTypes.MULTIPLE_CHOICE ||
+    type === FormSupportedFieldTypes.MULTI_SELECT;
 
-  const isDynamicOptionQuestionType = type === 'dataSourceSelect';
+  const isDynamicOptionQuestionType =
+    type === FormSupportedFieldTypes.DATA_SOURCE_SELECT;
 
   return (
     <Card sx={{ mb: 3 }} data-testid="form-field">
@@ -71,7 +73,9 @@ export const FormField = ({
               control={control}
               name={getFormName('type')}
               onChange={(e) => {
-                if (e.target.value === 'dataSourceSelect') {
+                if (
+                  e.target.value === FormSupportedFieldTypes.DATA_SOURCE_SELECT
+                ) {
                   unregister(getFormName('options'));
                   setValue(getFormName('options'), SUPPORTED_OPTION_SOURCES[0]);
                   register(getFormName('options'));

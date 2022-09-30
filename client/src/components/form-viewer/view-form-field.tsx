@@ -1,3 +1,4 @@
+import { FormSupportedFieldTypes } from '@konomi.ai/c-form';
 import { useFormContext } from 'react-hook-form';
 import {
   FormFieldProps,
@@ -11,12 +12,12 @@ import {
 } from './form-fields-factory';
 
 const FieldRenderDirectory: Record<string, FieldFactoryFunction> = {
-  text: TextFieldFactory,
-  longText: LongTextFieldFactory,
-  number: NumberFieldFactory,
-  multipleChoice: MultipleChoiceFactory,
-  multiSelect: MultiSelectFactory,
-  dataSourceSelect: DatSourceSelectFactory,
+  [FormSupportedFieldTypes.TEXT]: TextFieldFactory,
+  [FormSupportedFieldTypes.LONG_TEXT]: LongTextFieldFactory,
+  [FormSupportedFieldTypes.NUMBER]: NumberFieldFactory,
+  [FormSupportedFieldTypes.MULTIPLE_CHOICE]: MultipleChoiceFactory,
+  [FormSupportedFieldTypes.MULTI_SELECT]: MultiSelectFactory,
+  [FormSupportedFieldTypes.DATA_SOURCE_SELECT]: DatSourceSelectFactory,
 };
 
 export const ViewFormField = (props: FormFieldProps) => {
