@@ -139,7 +139,7 @@ const buildDataSourceSelector = (
     return (
       <Alert severity="error">
         There is an issue with this field. Please contact your administrator for
-        help
+        help.
       </Alert>
     );
   }
@@ -199,7 +199,7 @@ const buildDataSourceSelector = (
   return (
     <Alert severity="error">
       There is an issue with this field. Please contact your administrator for
-      help
+      help.
     </Alert>
   );
 };

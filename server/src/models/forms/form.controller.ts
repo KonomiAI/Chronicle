@@ -115,10 +115,7 @@ export class FormController {
     @Param('id') id: string,
     @Body() { body, ...data }: UpdateFormDto,
   ) {
-    console.log(validateWithLatest);
-
     if (!validateWithLatest(body)) {
-      console.log(validateWithLatest.errors);
       throw new HttpException(
         'Failed form validation.',
         HttpStatus.BAD_REQUEST,

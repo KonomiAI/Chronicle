@@ -54,6 +54,7 @@ export const seedTestActivities = async (prisma: PrismaClient) =>
   });
 
 export const devSeedProcedure = async (prisma: PrismaClient) => {
+  console.log('Seeding development data');
   const roles = await prisma.role.findMany({
     select: {
       id: true,
@@ -63,9 +64,9 @@ export const devSeedProcedure = async (prisma: PrismaClient) => {
   await prisma.staff.create({
     data: await seedSuperUser(roles.map((r) => r.id)),
   });
-
   await seedTestCustomers(prisma);
   await seedTestForms(prisma);
   await seedTestProducts(prisma);
   await seedTestActivities(prisma);
+  console.log('Development data seeding complete');
 };
