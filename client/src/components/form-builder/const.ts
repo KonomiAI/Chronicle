@@ -2,6 +2,7 @@ import {
   FormFieldSchema,
   FormOptionDataSource,
   FormSectionSchema,
+  FormSupportedFieldTypes,
   FormTemplateSchema,
 } from '@konomi.ai/c-form';
 import { secureRandomString } from '../../utils';
@@ -11,7 +12,7 @@ export const DEFAULT_FIELD_VAL: () => FormFieldSchema = () => ({
   name: '',
   description: '',
   optional: false,
-  type: 'text',
+  type: FormSupportedFieldTypes.TEXT,
   options: [],
 });
 
