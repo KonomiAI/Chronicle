@@ -1,12 +1,10 @@
 import React from 'react';
-import { Control, Controller, RegisterOptions, Path } from 'react-hook-form';
+import { Controller, FieldValues, UseControllerProps } from 'react-hook-form';
 import { getFormErrorMessage } from '../../utils';
 import { StyledTextField } from './styled';
 
-export interface FormInputProps<T> {
-  name: Path<T>;
-  control: Control<T>;
-  rules?: Omit<RegisterOptions, 'valueAsDate' | 'setValueAs' | 'disabled'>;
+export interface FormInputProps<T extends FieldValues>
+  extends UseControllerProps<T> {
   label: string;
   testId?: string;
   variant?: 'filled' | 'standard' | 'outlined';
@@ -14,7 +12,7 @@ export interface FormInputProps<T> {
   multiline?: number;
 }
 
-export const FormInputField = <T,>({
+export const FormInputField = <T extends FieldValues>({
   control,
   name,
   rules,

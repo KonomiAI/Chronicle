@@ -7,6 +7,7 @@ import {
   IsNotEmpty,
   IsOptional,
   IsString,
+  MinLength,
 } from 'class-validator';
 
 export class CreateStaffDto {
@@ -15,6 +16,7 @@ export class CreateStaffDto {
   email: string;
 
   @IsNotEmpty()
+  @MinLength(8)
   password: string;
 
   @IsNotEmpty()
@@ -40,6 +42,9 @@ export class CreateStaffDto {
 }
 
 export class UpdateStaffDto {
+  @IsOptional()
+  id: string;
+
   @IsEmail()
   @IsNotEmpty()
   email: string;
@@ -55,6 +60,10 @@ export class UpdateStaffDto {
   @IsISO8601()
   @IsOptional()
   dateOfBirth: string;
+
+  @IsOptional()
+  @MinLength(8)
+  password?: string;
 
   @IsEnum(Gender)
   gender: Gender;

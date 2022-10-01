@@ -15,6 +15,7 @@ import { CreateStaffDto, UpdateStaffDto } from './staff.dto';
 import { StaffService } from './staff.service';
 import { Actions, Features } from 'src/auth/constants';
 import { Auth } from 'src/auth/role.decorator';
+import { Prisma } from '@prisma/client';
 
 const DEFAULT_SELECT = {
   id: true,
@@ -74,7 +75,16 @@ export class StaffController {
     @Param('id') id: string,
     @Body() data: UpdateStaffDto,
   ) {
-    return this.service.update({ where: { id }, data, select: DEFAULT_SELECT });
+    const { password, ...rest } = data;
+    const updateData: Prisma.StaffUpdateInput = rest;
+    if (password) {
+      updateData.authKey = await this.bcrypt.hash(password);
+    }
+    return this.service.update({
+      where: { id },
+      data: updateData,
+      select: DEFAULT_SELECT,
+    });
   }
 
   @Auth(Actions.WRITE, [Features.Security])
