@@ -20,6 +20,7 @@ import { updateStaff } from '../../data';
 import { secureRandomString, useClipboard } from '../../utils';
 import { Staff, StaffUpdateData } from '../../types';
 import { cleanStaffForUpdate } from './utils';
+import { useSnackbar } from 'notistack';
 
 export interface StaffInviteDialogProps {
   handleClose: (created: boolean) => void;
@@ -84,8 +85,7 @@ const PasswordResetResult = ({
   details,
 }: StaffInviteResultProps) => {
   const copyToClipboard = useClipboard();
-
-  const [showSnack, setShowSnack] = useState(false);
+  const { enqueueSnackbar } = useSnackbar();
 
   return (
     <>
@@ -115,9 +115,9 @@ const PasswordResetResult = ({
                 <IconButton
                   color="inherit"
                   size="small"
-                  onClick={() => {
-                    copyToClipboard(details?.password ?? '');
-                    setShowSnack(true);
+                  onClick={async () => {
+                    await copyToClipboard(details?.password ?? '');
+                    enqueueSnackbar('Password copied to clipboard');
                   }}
                 >
                   <ContentCopy />
@@ -132,12 +132,6 @@ const PasswordResetResult = ({
           Done
         </Button>
       </DialogActions>
-      <Snackbar
-        open={showSnack}
-        autoHideDuration={2000}
-        onClose={() => setShowSnack(false)}
-        message="Password copied to clipboard!"
-      />
     </>
   );
 };
