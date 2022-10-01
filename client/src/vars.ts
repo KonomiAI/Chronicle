@@ -9,6 +9,7 @@ export const SPACER_OPTIONS = {
 
 export const ACCESS_TOKEN_KEY = 'auth.accessToken';
 export const ACCESS_TOKEN_EXPIRY_KEY = 'auth.accessTokenExpiry';
+export const REMEMBERED_USERNAME = 'remember.username';
 
 // Export all variables by default
 export default {
