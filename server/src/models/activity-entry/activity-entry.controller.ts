@@ -20,7 +20,50 @@ const DEFAULT_ENTRY_SELECT: Prisma.ActivityEntrySelect = {
   id: true,
   customer: true,
   activity: true,
-  products: true,
+  products: {
+    select: {
+      id: true,
+      description: true,
+      isAvailable: true,
+      price: true,
+      barcode: true,
+      createdAt: true,
+      updatedAt: true,
+      product: {
+        select: {
+          id: true,
+          brand: true,
+          name: true,
+          createdAt: true,
+          updatedAt: true,
+          imageUrl: true,
+          isArchived: true,
+        },
+      },
+    },
+  },
+  responses: {
+    select: {
+      id: true,
+      createdAt: true,
+      updatedAt: true,
+      latestResponseVersion: {
+        include: {
+          respondent: {
+            select: {
+              firstName: true,
+              lastName: true,
+            },
+          },
+          formVersion: {
+            include: {
+              form: true,
+            },
+          },
+        },
+      },
+    },
+  },
   createdAt: true,
   updatedAt: true,
   author: {
@@ -100,16 +143,18 @@ export class ActivityEntryController {
   @Put(':id')
   updateActivityEntry(
     @Param('id') id: string,
-    @Body() body: ActivityEntryDto,
+    @Body() { responseIds, ...body }: ActivityEntryDto,
     @Request() { user },
   ) {
-    return this.service.updateActivityEntry(id, {
+    const updateData: Prisma.ActivityEntryUncheckedUpdateInput = {
       ...body,
-      author: {
-        connect: {
-          id: user.id,
-        },
-      },
-    });
+      staffId: user.id,
+    };
+    if (responseIds) {
+      updateData.responses = {
+        connect: responseIds.map((id) => ({ id })),
+      };
+    }
+    return this.service.updateActivityEntry(id, updateData);
   }
 }

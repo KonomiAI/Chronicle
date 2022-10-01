@@ -3,8 +3,8 @@ export interface Activity {
   name: string;
   price: number;
   isArchived: boolean;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface PostActivityBody {

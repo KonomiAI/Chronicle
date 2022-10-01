@@ -33,7 +33,16 @@ export class ProductService {
       where,
       orderBy,
       include: {
-        variants: true,
+        variants: {
+          select: {
+            id: true,
+            barcode: true,
+            price: true,
+            isAvailable: true,
+            description: true,
+            product: true,
+          },
+        },
       },
     });
   }

@@ -103,31 +103,35 @@ export default function ChronicleDrawer({
           <ListItemText primary="Home" />
         </ListItemButton>
 
-        {permissions[Features.CUSTOMER].read && (
-          <ListItem
+        {permissions[Features.CUSTOMER]?.read && (
+          <ListItemButton
             component="a"
             href="/customers"
             selected={pathname === '/customers'}
             key="customers"
-            sx={{ color: 'inherit' }}
           >
             <ListItemIcon>
               <Face />
             </ListItemIcon>
             <ListItemText primary="Customer Profiles" />
-          </ListItem>
+          </ListItemButton>
         )}
 
-        {permissions[Features.ENTRY].read && (
-          <ListItem button key="entries">
+        {permissions[Features.ENTRY]?.read && (
+          <ListItemButton
+            key="entries"
+            component="a"
+            href="/activity-entries"
+            selected={pathname === '/activity-entries'}
+          >
             <ListItemIcon>
               <Article />
             </ListItemIcon>
             <ListItemText primary="Activity Entries" />
-          </ListItem>
+          </ListItemButton>
         )}
 
-        {permissions[Features.INVENTORY].read && (
+        {permissions[Features.INVENTORY]?.read && (
           <ListItemButton
             component="a"
             href="/inventory"

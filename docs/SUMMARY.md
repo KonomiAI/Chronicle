@@ -11,6 +11,11 @@
 - [User Stories](design/user_stories.md)
 - [Custom Form Design](design/custom-form.md)
 
+# User Manual
+
+- [Introduction](user-manual/introduction.md)
+- [Custom form](user-manual/custom-fields.md)
+
 # Appendix
 
 - [Glossary](design/glossary.md)

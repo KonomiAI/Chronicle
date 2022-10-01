@@ -8,6 +8,7 @@ import {
   SelectChangeEvent,
 } from '@mui/material';
 import { Control, Controller } from 'react-hook-form';
+import { FormSupportedFieldTypes } from '@konomi.ai/c-form';
 
 export interface FieldTypeSelectProps {
   control: Control;
@@ -44,13 +45,22 @@ export const FieldTypeSelect = ({
           error={invalid}
         >
           <Divider textAlign="left">Text</Divider>
-          <MenuItem value="text">Short text</MenuItem>
-          <MenuItem value="longText">Paragraph</MenuItem>
+          <MenuItem value={FormSupportedFieldTypes.TEXT}>Short text</MenuItem>
+          <MenuItem value={FormSupportedFieldTypes.LONG_TEXT}>
+            Paragraph
+          </MenuItem>
           <Divider textAlign="left">Choice</Divider>
-          <MenuItem value="multipleChoice">Multiple choice</MenuItem>
-          <MenuItem value="multiSelect">Multi-select</MenuItem>
+          <MenuItem value={FormSupportedFieldTypes.MULTIPLE_CHOICE}>
+            Multiple choice
+          </MenuItem>
+          <MenuItem value={FormSupportedFieldTypes.MULTI_SELECT}>
+            Multi-select
+          </MenuItem>
+          <MenuItem value={FormSupportedFieldTypes.DATA_SOURCE_SELECT}>
+            Dynamic data select
+          </MenuItem>
           <Divider textAlign="left">Other</Divider>
-          <MenuItem value="number">Number</MenuItem>
+          <MenuItem value={FormSupportedFieldTypes.NUMBER}>Number</MenuItem>
         </Select>
       </FormControl>
     )}
