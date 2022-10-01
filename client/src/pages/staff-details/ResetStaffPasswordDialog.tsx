@@ -10,17 +10,16 @@ import {
   IconButton,
   CardContent,
   Alert,
-  Snackbar,
 } from '@mui/material';
 import { ContentCopy } from '@mui/icons-material';
 import { useMutation, useQueryClient } from 'react-query';
+import { useSnackbar } from 'notistack';
 
 import Spacer from '../../components/spacer/Spacer';
 import { updateStaff } from '../../data';
 import { secureRandomString, useClipboard } from '../../utils';
 import { Staff, StaffUpdateData } from '../../types';
 import { cleanStaffForUpdate } from './utils';
-import { useSnackbar } from 'notistack';
 
 export interface StaffInviteDialogProps {
   handleClose: (created: boolean) => void;
