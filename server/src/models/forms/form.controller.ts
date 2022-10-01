@@ -48,10 +48,10 @@ export class FormController {
     if (purpose) {
       searchObj.OR = [
         {
-          purpose: 'NO_PURPOSE',
+          purpose,
         },
         {
-          purpose,
+          purpose: 'NO_PURPOSE',
         },
       ];
     }
@@ -60,10 +60,17 @@ export class FormController {
         contains: title,
       };
     }
-    return this.formService.forms({
+    const data: any[] = await this.formService.forms({
       select: DEFAULT_FORM_SELECT,
       where: searchObj,
     });
+    data.sort((a) => {
+      if (a.purpose === FormPurpose.NO_PURPOSE) {
+        return 1;
+      }
+      return -1;
+    });
+    return data;
   }
 
   @Auth(Actions.READ, [Features.Form])

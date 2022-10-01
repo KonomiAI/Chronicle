@@ -15,15 +15,15 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { useMutation, useQueryClient } from 'react-query';
 import PageHeader from '../../components/page-header/PageHeader';
 import Spacer from '../../components/spacer/Spacer';
-import { If } from '../../components';
+import { ActivityCard, CustomerCard, If } from '../../components';
 import { FormIntegration } from '../../components/form-integration/form-integration';
 import { FormPurpose } from '../../types';
 import { CustomerSelectDialog } from '../../components/customer-select-dialog/CustomerSelectDialog';
 import { ActivityEntryDto } from '../../types/activity-entry';
 import { ActivitySelectDialog } from '../../components/activity-select-dialog/ActivitySelectDialog';
-import { penniesToPrice } from '../../utils';
 import { updateActivityEntry, useGetActivityEntry } from '../../data';
 import { ProductPickerDialog } from '../../components/procuct-picker-dialog/ProductPickerDialog';
+import { penniesToPrice } from '../../utils';
 
 export function ActivityEntryDetails() {
   // get id from route params
@@ -114,16 +114,7 @@ export function ActivityEntryDetails() {
             <CardContent>
               <Typography variant="h5">Customer</Typography>
               <Spacer size="sm" />
-              <Card variant="outlined">
-                <CardContent>
-                  <Typography variant="h6">
-                    {data.customer.firstName} {data.customer.lastName}
-                  </Typography>
-                  <Typography variant="caption">
-                    {data.customer.email} {data.customer.phone}
-                  </Typography>
-                </CardContent>
-              </Card>
+              <CustomerCard customer={data.customer} />
               <Spacer size="sm" />
               <Button
                 variant="text"
@@ -141,18 +132,11 @@ export function ActivityEntryDetails() {
               <Typography variant="h5">Service</Typography>
               <Typography variant="caption">
                 Optional. Select the service performed on the customer during
-                this visit.
+                this visit, leave blank if none was performed.
               </Typography>
               <Spacer size="sm" />
               {data.activity ? (
-                <Card variant="outlined">
-                  <CardContent>
-                    <Typography variant="h6">{data.activity.name}</Typography>
-                    <Typography>
-                      {penniesToPrice(data.activity.price)}
-                    </Typography>
-                  </CardContent>
-                </Card>
+                <ActivityCard activity={data.activity} />
               ) : (
                 <Button
                   variant="text"
@@ -201,7 +185,7 @@ export function ActivityEntryDetails() {
               <Typography variant="h5">Products</Typography>
               <Typography variant="caption">
                 Optional. Select all products the customer purchased during this
-                visit.
+                visit, leave blank if none were purchased.
               </Typography>
               <Spacer size="sm" />
               {data.products?.map((p) => (

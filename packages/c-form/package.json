@@ -1,11 +1,11 @@
 {
   "name": "@konomi.ai/c-form",
-  "version": "1.0.2",
+  "version": "1.0.4",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "license": "MIT",
   "devDependencies": {
-    "@types/jest": "^27.4.1",
+    "@types/jest": "^29.1.1",
     "ajv": "^8.11.0",
     "jest": "^27.5.1",
     "rimraf": "^3.0.2",

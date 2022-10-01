@@ -1,12 +1,8 @@
+/* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useMemo, useState } from 'react';
-import { FormFieldSchema } from '@konomi.ai/c-form';
-import {
-  Controller,
-  useFieldArray,
-  useFormContext,
-  useWatch,
-} from 'react-hook-form';
+import React, { useState } from 'react';
+import { FormFieldSchema, FormSupportedFieldTypes } from '@konomi.ai/c-form';
+import { Controller, useFormContext, useWatch } from 'react-hook-form';
 import {
   Box,
   Button,
@@ -17,12 +13,14 @@ import {
   Grid,
   IconButton,
   Switch,
-  TextField,
 } from '@mui/material';
-import { Clear, Delete, RadioButtonUnchecked } from '@mui/icons-material';
+import { Delete } from '@mui/icons-material';
 import { secureRandomString } from '../../utils';
 import { FieldTypeSelect } from './FieldTypeSelect';
 import { FormInputField } from '../form-inputs/FormInputField';
+import { SUPPORTED_OPTION_SOURCES } from './const';
+import { StaticMultipleChoiceBuilder } from './components/StaticMultipleChoiceBuilder';
+import { DynamicMultipleChoiceBuilder } from './components/DynamicMultipleChoiceBuilder';
 
 interface FormFieldProps {
   sectionIndex: number;
@@ -41,23 +39,20 @@ export const FormField = ({
     name: keyof FormFieldSchema,
   ): `${string}sections.${number}.fields.${number}.${keyof FormFieldSchema}` =>
     `${context}sections.${sectionIndex}.fields.${index}.${name}`;
-  const { control, setValue } = useFormContext();
+  const { control, setValue, unregister, register } = useFormContext();
   const [shouldShowDescription, setShouldShowDescription] = useState(false);
   const type = useWatch({
     control,
     name: getFormName('type'),
   });
-  const options = useWatch({
-    control,
-    name: getFormName('options'),
-  });
-  const isOptionQuestionType =
-    type === 'multipleChoice' || type === 'multiSelect';
-  const { append, remove, fields } = useFieldArray({
-    control,
-    name: `${context}sections.${sectionIndex}.fields.${index}.options`,
-  });
-  const isFieldOptionsAnArray = useMemo(() => Array.isArray(fields), [fields]);
+
+  const isStaticOptionQuestionType =
+    type === FormSupportedFieldTypes.MULTIPLE_CHOICE ||
+    type === FormSupportedFieldTypes.MULTI_SELECT;
+
+  const isDynamicOptionQuestionType =
+    type === FormSupportedFieldTypes.DATA_SOURCE_SELECT;
+
   return (
     <Card sx={{ mb: 3 }} data-testid="form-field">
       <CardContent>
@@ -79,11 +74,18 @@ export const FormField = ({
               name={getFormName('type')}
               onChange={(e) => {
                 if (
+                  e.target.value === FormSupportedFieldTypes.DATA_SOURCE_SELECT
+                ) {
+                  unregister(getFormName('options'));
+                  setValue(getFormName('options'), SUPPORTED_OPTION_SOURCES[0]);
+                  register(getFormName('options'));
+                } else if (
                   e.target.value !== 'multipleChoice' &&
                   e.target.value !== 'multiSelect'
                 ) {
+                  // Change from multiple choice to a different type
                   setValue(getFormName('options'), []);
-                } else if (Array.isArray(options) && !options?.length) {
+                } else {
                   setValue(getFormName('options'), [
                     {
                       id: secureRandomString(12),
@@ -104,61 +106,19 @@ export const FormField = ({
               />
             )}
           </Grid>
-          {/* TODO integrate dynamic data selection availability */}
-          {isOptionQuestionType &&
-            isFieldOptionsAnArray &&
-            fields.map((f: any, i) => (
-              <Grid item xs={12} key={f.id}>
-                <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
-                  <RadioButtonUnchecked
-                    sx={{ color: 'action.active', mr: 1, my: 0.5 }}
-                  />
-                  <Controller
-                    name={`${context}sections.${sectionIndex}.fields.${index}.options.${i}.label`}
-                    control={control}
-                    rules={{
-                      required: true,
-                      minLength: 1,
-                    }}
-                    render={({
-                      field: { onChange, value },
-                      fieldState: { invalid },
-                    }) => (
-                      <TextField
-                        fullWidth
-                        label="Option title"
-                        variant="standard"
-                        onChange={onChange}
-                        value={value}
-                        error={invalid}
-                      />
-                    )}
-                  />
-                  <IconButton
-                    aria-label="delete multiple select option"
-                    onClick={() => remove(i)}
-                    data-testid="btn-delete-option"
-                  >
-                    <Clear />
-                  </IconButton>
-                </Box>
-              </Grid>
-            ))}
-          {isOptionQuestionType && (
-            <Grid item xs={12}>
-              <Button
-                variant="text"
-                color="inherit"
-                onClick={() =>
-                  append({
-                    id: secureRandomString(12),
-                    label: '',
-                  })
-                }
-              >
-                Add option
-              </Button>
-            </Grid>
+          {isStaticOptionQuestionType && (
+            <StaticMultipleChoiceBuilder
+              context={context}
+              control={control}
+              index={index}
+              sectionIndex={sectionIndex}
+            />
+          )}
+          {isDynamicOptionQuestionType && (
+            <DynamicMultipleChoiceBuilder
+              name={getFormName('options')}
+              control={control}
+            />
           )}
         </Grid>
         <Divider sx={{ my: 2 }} />

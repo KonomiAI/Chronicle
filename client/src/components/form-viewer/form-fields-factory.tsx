@@ -1,15 +1,30 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   FormFieldSchema,
   FormOptionDataSource,
   FormOptionValue,
 } from '@konomi.ai/c-form';
-import { Control, FieldValues, UseFormSetValue } from 'react-hook-form';
+import {
+  Control,
+  FieldValues,
+  useFormContext,
+  UseFormSetValue,
+  useWatch,
+} from 'react-hook-form';
 import Typography from '@mui/material/Typography';
+import { Alert, Box, Button } from '@mui/material';
 
 import { FormInputField } from '../form-inputs/FormInputField';
 import { FormSelect } from '../form-inputs/FormSelect';
 import { MultiSelect } from '../form-inputs/MultiSelect';
+import { ProductPickerDialog } from '../procuct-picker-dialog/ProductPickerDialog';
+import { Activity, Customer, Variant } from '../../types';
+import { ActivitySelectDialog } from '../activity-select-dialog/ActivitySelectDialog';
+import { CustomerSelectDialog } from '../customer-select-dialog/CustomerSelectDialog';
+import Spacer from '../spacer/Spacer';
+import { ActivityCard } from '../activity-card/activity-card';
+import { VariantCard } from '../variant-card/variant-card';
+import { CustomerCard } from '../customer-card/customer-card';
 
 export type FormFieldProps = FormFieldSchema;
 
@@ -104,3 +119,102 @@ export const MultiSelectFactory: FieldFactoryFunction = (
       Options from data source not supported currently
     </Typography>
   );
+
+const buildDataSourceSelector = (
+  id: string,
+  options: FormOptionDataSource | FormOptionValue[],
+) => {
+  const { setValue, control } = useFormContext();
+  const [isOpen, setIsOpen] = useState(false);
+  const result = useWatch({ name: id, control });
+  const handleClose = (data: Customer | Variant[] | Activity | null) => {
+    setIsOpen(false);
+    if (!data) {
+      return;
+    }
+    setValue(id, data);
+  };
+
+  if (Array.isArray(options)) {
+    return (
+      <Alert severity="error">
+        There is an issue with this field. Please contact your administrator for
+        help.
+      </Alert>
+    );
+  }
+  if (options.url === '/products') {
+    return (
+      <>
+        <Spacer size="sm" />
+        {result &&
+          Array.isArray(result) &&
+          result.map((variant) => (
+            <>
+              <VariantCard variant={variant} />
+              <Spacer size="sm" />
+            </>
+          ))}
+        <ProductPickerDialog open={isOpen} handleClose={handleClose} />
+        <Button onClick={() => setIsOpen(true)}>
+          Open product select dialog
+        </Button>
+      </>
+    );
+  }
+  if (options.url === '/activities') {
+    return (
+      <>
+        <Spacer size="sm" />
+        {result && (
+          <>
+            <ActivityCard activity={result} />
+            <Spacer size="sm" />
+          </>
+        )}
+        <ActivitySelectDialog open={isOpen} handleClose={handleClose} />
+        <Button size="small" onClick={() => setIsOpen(true)}>
+          Open activity select dialog
+        </Button>
+      </>
+    );
+  }
+  if (options.url === '/customers') {
+    return (
+      <>
+        <Spacer size="sm" />
+        {result && (
+          <>
+            <CustomerCard customer={result} />
+            <Spacer size="sm" />
+          </>
+        )}
+        <CustomerSelectDialog open={isOpen} handleClose={handleClose} />
+        <Button onClick={() => setIsOpen(true)}>
+          Open customer select dialog
+        </Button>
+      </>
+    );
+  }
+  return (
+    <Alert severity="error">
+      There is an issue with this field. Please contact your administrator for
+      help.
+    </Alert>
+  );
+};
+export const DatSourceSelectFactory: FieldFactoryFunction = ({
+  name,
+  optional,
+  id,
+  options,
+  description,
+}: FormFieldProps): JSX.Element => (
+  <Box data-testid={`field-${id}`}>
+    <Typography>
+      {name} {optional ? '(Optional)' : ''}
+    </Typography>
+    <Typography variant="caption">{description}</Typography>
+    {buildDataSourceSelector(id, options)}
+  </Box>
+);

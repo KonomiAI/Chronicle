@@ -36,6 +36,8 @@ const DEFAULT_ENTRY_SELECT: Prisma.ActivityEntrySelect = {
           name: true,
           createdAt: true,
           updatedAt: true,
+          imageUrl: true,
+          isArchived: true,
         },
       },
     },

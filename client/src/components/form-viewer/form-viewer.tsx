@@ -81,10 +81,9 @@ export const FormViewer = ({
           </IconButton>
         )}
         <Box>
-          <Typography variant="h4">{form.form.title}</Typography>
           {form.form.description && (
             <Box>
-              <Typography variant="body2">{form.form.description}</Typography>
+              <Typography variant="caption">{form.form.description}</Typography>
             </Box>
           )}
         </Box>

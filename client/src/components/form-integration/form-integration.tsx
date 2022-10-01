@@ -46,7 +46,7 @@ export function FormIntegration({
             <Tab label="New Form" value="newForm" />
           </TabList>
         </Box>
-        <TabPanel value="responses">
+        <TabPanel value="responses" sx={{ padding: '24px 0' }}>
           {!responses.length && (
             <Alert severity="info">
               No forms are attached to this record, click the New Form button to
@@ -54,7 +54,7 @@ export function FormIntegration({
             </Alert>
           )}
           {responses.map((r) => (
-            <Accordion key={r.id}>
+            <Accordion key={r.id} variant="outlined">
               <AccordionSummary
                 expandIcon={<ExpandMore />}
                 aria-controls="panel1a-content"
