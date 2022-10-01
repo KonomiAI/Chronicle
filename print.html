@@ -76,7 +76,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="index.html">Intro</a></li><li class="chapter-item expanded affix "><li class="part-title">Design</li><li class="chapter-item expanded "><a href="design/proposal.html">Project Proposal</a></li><li class="chapter-item expanded "><a href="design/mvp_scope.html">MVP Scope</a></li><li class="chapter-item expanded "><a href="design/tech_stack.html">Tech Stack</a></li><li class="chapter-item expanded "><a href="design/database.html">Database Design</a></li><li class="chapter-item expanded "><a href="design/user_stories.html">User Stories</a></li><li class="chapter-item expanded "><a href="design/custom-form.html">Custom Form Design</a></li><li class="chapter-item expanded affix "><li class="part-title">Appendix</li><li class="chapter-item expanded "><a href="design/glossary.html">Glossary</a></li><li class="chapter-item expanded "><a href="misc/useful-links.html">Useful Links</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="index.html">Intro</a></li><li class="chapter-item expanded affix "><li class="part-title">Design</li><li class="chapter-item expanded "><a href="design/proposal.html">Project Proposal</a></li><li class="chapter-item expanded "><a href="design/mvp_scope.html">MVP Scope</a></li><li class="chapter-item expanded "><a href="design/tech_stack.html">Tech Stack</a></li><li class="chapter-item expanded "><a href="design/database.html">Database Design</a></li><li class="chapter-item expanded "><a href="design/user_stories.html">User Stories</a></li><li class="chapter-item expanded "><a href="design/custom-form.html">Custom Form Design</a></li><li class="chapter-item expanded affix "><li class="part-title">User Manual</li><li class="chapter-item expanded "><a href="user-manual/introduction.html">Introduction</a></li><li class="chapter-item expanded "><a href="user-manual/custom-fields.html">Custom form</a></li><li class="chapter-item expanded affix "><li class="part-title">Appendix</li><li class="chapter-item expanded "><a href="design/glossary.html">Glossary</a></li><li class="chapter-item expanded "><a href="misc/useful-links.html">Useful Links</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -152,10 +152,10 @@
 <li>AI enabled natural language processing and analytics</li>
 </ul>
 <h2 id="stakeholder-contact"><a class="header" href="#stakeholder-contact">Stakeholder Contact:</a></h2>
-<table><thead><tr><th>Name</th><th>Email</th></tr></thead><tbody>
+<div class="table-wrapper"><table><thead><tr><th>Name</th><th>Email</th></tr></thead><tbody>
 <tr><td>Carina Wong</td><td>carina@pemberleysprings.com</td></tr>
 </tbody></table>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="mvp-scope"><a class="header" href="#mvp-scope">MVP Scope</a></h1>
+</div><div style="break-before: page; page-break-before: always;"></div><h1 id="mvp-scope"><a class="header" href="#mvp-scope">MVP Scope</a></h1>
 <p>The following represents the scope of our Minimum Viable Product (MVP) with a delivery target of April 2022.</p>
 <h2 id="top-priority-must-have"><a class="header" href="#top-priority-must-have">Top priority (Must have)</a></h2>
 <ul>
@@ -544,9 +544,49 @@ As an owner, I want to be able to view membership attendance and new members onb
     json responseData
   }
 </pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="chronicle-user-manual"><a class="header" href="#chronicle-user-manual">Chronicle User Manual</a></h1>
+<p>This is the user manual for Konomi.ai's Chronicle app. Chronicle is a personal practice tracking, customer relations management (CRM) application that aims to simplify the way you and your business track practice data and customer engagement.</p>
+<h2 id="table-of-content"><a class="header" href="#table-of-content">Table of content</a></h2>
+<p>TODO</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="customizable-forms"><a class="header" href="#customizable-forms">Customizable forms</a></h1>
+<p>Often, businesses have custom data collection requirements and forms that are tailored to their specific organization. Chronicle accommodates this by supporting the ability to create &quot;custom forms&quot;. Custom forms are Google Form like forms where you can add questions, set validation rules and require your staff to fill out during any business process, whether that's creating a new customer profile, logging a service entry, or enrolling a new staff member. Custom forms allow you to collect and analyze data the way you want.</p>
+<h2 id="how-to-access-custom-forms"><a class="header" href="#how-to-access-custom-forms">How to access custom forms</a></h2>
+<p>To see your custom forms and mange them:</p>
+<ol>
+<li>click on the <strong>Customize Forms</strong> option on the side navigation</li>
+<li>You should see a list of all custom forms in your organization.</li>
+</ol>
+<h3 id="what-if-i-dont-see-the-option-on-the-side-navigation"><a class="header" href="#what-if-i-dont-see-the-option-on-the-side-navigation">What if I don't see the option on the side navigation?</a></h3>
+<p>If the <strong>Customize Forms</strong> option is not available for you, it likely means you do not have access to the feature. Ask your administrator to grant you access to custom forms to access the feature.</p>
+<h2 id="how-to-create-a-new-custom-form"><a class="header" href="#how-to-create-a-new-custom-form">How to create a new custom form</a></h2>
+<p>To create a new custom form follow the following instructions,</p>
+<ol>
+<li>Access the custom form list, you can follow the instructions above if you need assistance.</li>
+<li>Click the <strong>Create</strong> button on the page.</li>
+</ol>
+<p>You are now navigated to a new form creation page, follow the form to create your form.</p>
+<ol>
+<li>Make sure to provide a title and description for your form, forms with clear description and title are more likely to be used.</li>
+<li>Select a purpose for the form, forms with specific purpose are displayed before all other forms when used by your staff, they are also marked as <strong>recommended</strong>.</li>
+<li>Give your first section a title, every form must have at least one section and one question.</li>
+<li>Add a question to the new section, a question must have a title.</li>
+<li>You can change the question type using the <strong>Question type</strong> dropdown next to the question title</li>
+<li>For <em>multiple choice</em> and <em>multi-select questions</em>, you must also create a list of options, add option titles and press <strong>Add option</strong> to create more options</li>
+<li>For <em>dynamic data select</em> questions, you must select a data source to populate the options from.</li>
+<li>You can add a description to a question by clicking <strong>Add description</strong>, question descriptions are optional</li>
+<li>You can make a question optional to complete by unchecking the <strong>required</strong> toggle.</li>
+<li>You can add more questions to the section by clicking on <strong>Add question</strong>.</li>
+<li>You can add more sections to the form by clicking on <strong>Add new section</strong>.</li>
+</ol>
+<h2 id="custom-form-best-practices"><a class="header" href="#custom-form-best-practices">Custom form best practices</a></h2>
+<ul>
+<li>While it is possible to create a form with no sections and no question, this is not a recommended practice.</li>
+<li>Use the paragraph option if you want your staff to provide text responses longer than a sentence.</li>
+</ul>
+<h2 id="custom-form-limitations-and-in-progress-features"><a class="header" href="#custom-form-limitations-and-in-progress-features">Custom form limitations and in-progress features</a></h2>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="chronicle-glossary"><a class="header" href="#chronicle-glossary">Chronicle Glossary</a></h1>
 <p>The following are terms used in Chronicle and what they mean</p>
-<table><thead><tr><th>Term</th><th>Definition</th></tr></thead><tbody>
+<div class="table-wrapper"><table><thead><tr><th>Term</th><th>Definition</th></tr></thead><tbody>
 <tr><td>Activity</td><td>A treatment provided to a customer, usually intangible like massage or haircut.</td></tr>
 <tr><td>Entry</td><td>A transaction recorded by the staff that describes an activity performed by a customer.</td></tr>
 <tr><td>Inventory</td><td>A collection of products and activities offered by a tenant.</td></tr>
@@ -555,7 +595,7 @@ As an owner, I want to be able to view membership attendance and new members onb
 <tr><td>Tenant</td><td>The client's company, store, or establishment using Chronicle for managing entries.</td></tr>
 <tr><td>Visit</td><td>TODO</td></tr>
 </tbody></table>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="useful-links"><a class="header" href="#useful-links">Useful links</a></h1>
+</div><div style="break-before: page; page-break-before: always;"></div><h1 id="useful-links"><a class="header" href="#useful-links">Useful links</a></h1>
 <p>Here are some useful links to navigate around the Chronicle project</p>
 <h3 id="figma"><a class="header" href="#figma">Figma</a></h3>
 <ul>

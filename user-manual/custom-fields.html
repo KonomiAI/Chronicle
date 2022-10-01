@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Tech Stack - Konomi Docs</title>
+        <title>Custom form - Konomi Docs</title>
         <!-- Custom HTML head -->
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="Internal Documents">
@@ -75,7 +75,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../index.html">Intro</a></li><li class="chapter-item expanded affix "><li class="part-title">Design</li><li class="chapter-item expanded "><a href="../design/proposal.html">Project Proposal</a></li><li class="chapter-item expanded "><a href="../design/mvp_scope.html">MVP Scope</a></li><li class="chapter-item expanded "><a href="../design/tech_stack.html" class="active">Tech Stack</a></li><li class="chapter-item expanded "><a href="../design/database.html">Database Design</a></li><li class="chapter-item expanded "><a href="../design/user_stories.html">User Stories</a></li><li class="chapter-item expanded "><a href="../design/custom-form.html">Custom Form Design</a></li><li class="chapter-item expanded affix "><li class="part-title">User Manual</li><li class="chapter-item expanded "><a href="../user-manual/introduction.html">Introduction</a></li><li class="chapter-item expanded "><a href="../user-manual/custom-fields.html">Custom form</a></li><li class="chapter-item expanded affix "><li class="part-title">Appendix</li><li class="chapter-item expanded "><a href="../design/glossary.html">Glossary</a></li><li class="chapter-item expanded "><a href="../misc/useful-links.html">Useful Links</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../index.html">Intro</a></li><li class="chapter-item expanded affix "><li class="part-title">Design</li><li class="chapter-item expanded "><a href="../design/proposal.html">Project Proposal</a></li><li class="chapter-item expanded "><a href="../design/mvp_scope.html">MVP Scope</a></li><li class="chapter-item expanded "><a href="../design/tech_stack.html">Tech Stack</a></li><li class="chapter-item expanded "><a href="../design/database.html">Database Design</a></li><li class="chapter-item expanded "><a href="../design/user_stories.html">User Stories</a></li><li class="chapter-item expanded "><a href="../design/custom-form.html">Custom Form Design</a></li><li class="chapter-item expanded affix "><li class="part-title">User Manual</li><li class="chapter-item expanded "><a href="../user-manual/introduction.html">Introduction</a></li><li class="chapter-item expanded "><a href="../user-manual/custom-fields.html" class="active">Custom form</a></li><li class="chapter-item expanded affix "><li class="part-title">Appendix</li><li class="chapter-item expanded "><a href="../design/glossary.html">Glossary</a></li><li class="chapter-item expanded "><a href="../misc/useful-links.html">Useful Links</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -134,64 +134,51 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="konomiai-chronicle-technology-stack"><a class="header" href="#konomiai-chronicle-technology-stack">Konomi.ai Chronicle Technology Stack</a></h1>
-<h2 id="front-end"><a class="header" href="#front-end">Front end</a></h2>
+                        <h1 id="customizable-forms"><a class="header" href="#customizable-forms">Customizable forms</a></h1>
+<p>Often, businesses have custom data collection requirements and forms that are tailored to their specific organization. Chronicle accommodates this by supporting the ability to create &quot;custom forms&quot;. Custom forms are Google Form like forms where you can add questions, set validation rules and require your staff to fill out during any business process, whether that's creating a new customer profile, logging a service entry, or enrolling a new staff member. Custom forms allow you to collect and analyze data the way you want.</p>
+<h2 id="how-to-access-custom-forms"><a class="header" href="#how-to-access-custom-forms">How to access custom forms</a></h2>
+<p>To see your custom forms and mange them:</p>
+<ol>
+<li>click on the <strong>Customize Forms</strong> option on the side navigation</li>
+<li>You should see a list of all custom forms in your organization.</li>
+</ol>
+<h3 id="what-if-i-dont-see-the-option-on-the-side-navigation"><a class="header" href="#what-if-i-dont-see-the-option-on-the-side-navigation">What if I don't see the option on the side navigation?</a></h3>
+<p>If the <strong>Customize Forms</strong> option is not available for you, it likely means you do not have access to the feature. Ask your administrator to grant you access to custom forms to access the feature.</p>
+<h2 id="how-to-create-a-new-custom-form"><a class="header" href="#how-to-create-a-new-custom-form">How to create a new custom form</a></h2>
+<p>To create a new custom form follow the following instructions,</p>
+<ol>
+<li>Access the custom form list, you can follow the instructions above if you need assistance.</li>
+<li>Click the <strong>Create</strong> button on the page.</li>
+</ol>
+<p>You are now navigated to a new form creation page, follow the form to create your form.</p>
+<ol>
+<li>Make sure to provide a title and description for your form, forms with clear description and title are more likely to be used.</li>
+<li>Select a purpose for the form, forms with specific purpose are displayed before all other forms when used by your staff, they are also marked as <strong>recommended</strong>.</li>
+<li>Give your first section a title, every form must have at least one section and one question.</li>
+<li>Add a question to the new section, a question must have a title.</li>
+<li>You can change the question type using the <strong>Question type</strong> dropdown next to the question title</li>
+<li>For <em>multiple choice</em> and <em>multi-select questions</em>, you must also create a list of options, add option titles and press <strong>Add option</strong> to create more options</li>
+<li>For <em>dynamic data select</em> questions, you must select a data source to populate the options from.</li>
+<li>You can add a description to a question by clicking <strong>Add description</strong>, question descriptions are optional</li>
+<li>You can make a question optional to complete by unchecking the <strong>required</strong> toggle.</li>
+<li>You can add more questions to the section by clicking on <strong>Add question</strong>.</li>
+<li>You can add more sections to the form by clicking on <strong>Add new section</strong>.</li>
+</ol>
+<h2 id="custom-form-best-practices"><a class="header" href="#custom-form-best-practices">Custom form best practices</a></h2>
 <ul>
-<li>Platform: Web</li>
-<li>Language: TypeScript</li>
-<li>UI Framework: React SPA</li>
-<li>Build tool: Vite</li>
-<li>Styling: MUI</li>
-<li>Libraries:
-<ul>
-<li>Data layer: React Query</li>
-<li>Form handling: React Hook Form</li>
-<li>State management: Zustand</li>
+<li>While it is possible to create a form with no sections and no question, this is not a recommended practice.</li>
+<li>Use the paragraph option if you want your staff to provide text responses longer than a sentence.</li>
 </ul>
-</li>
-<li>Testing:
-<ul>
-<li>Unit test: Vitest</li>
-<li>E2E test: CypressJS</li>
-</ul>
-</li>
-</ul>
-<h2 id="back-end"><a class="header" href="#back-end">Back end</a></h2>
-<ul>
-<li>Platform: NodeJS</li>
-<li>Language: TypeScript</li>
-<li>Framework: NestJS</li>
-<li>Testing:
-<ul>
-<li>Jest</li>
-</ul>
-</li>
-<li>Database:
-<ul>
-<li>MongoDB</li>
-</ul>
-</li>
-<li>Libraries
-<ul>
-<li>OR(D)M: Prisma/Mongoose</li>
-</ul>
-</li>
-</ul>
-<h2 id="infrastructure-management"><a class="header" href="#infrastructure-management">Infrastructure management</a></h2>
-<ul>
-<li>IaaC: Terraform</li>
-<li>CI: GitHub Action</li>
-<li>Cloud Service Provider: GCP</li>
-</ul>
+<h2 id="custom-form-limitations-and-in-progress-features"><a class="header" href="#custom-form-limitations-and-in-progress-features">Custom form limitations and in-progress features</a></h2>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../design/mvp_scope.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../user-manual/introduction.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
-                            <a rel="next" href="../design/database.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next" href="../design/glossary.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
                         <div style="clear: both"></div>
@@ -200,10 +187,10 @@
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../design/mvp_scope.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../user-manual/introduction.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
-                    <a rel="next" href="../design/database.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next" href="../design/glossary.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>
