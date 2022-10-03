@@ -9,10 +9,10 @@ import {
   InputLabel,
   MenuItem,
   Select,
-  TextField,
   Typography,
   Alert,
   LinearProgress,
+  Dialog,
 } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import { useMutation, useQueryClient } from 'react-query';
@@ -22,14 +22,11 @@ import PageHeader from '../../components/page-header/PageHeader';
 import Spacer from '../../components/spacer/Spacer';
 import { updateStaff, useRoleList, useStaff } from '../../data';
 import SaveBar from '../../components/save-bar/save-bar';
-import { Gender, Staff, StaffUpdateData } from '../../types';
-import { EMAIL_REGEXP, getFormErrorMessage } from '../../utils';
-
-const cleanStaff = (staff: Staff) => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { id, roles, ...clean } = staff;
-  return clean;
-};
+import { Gender, StaffUpdateData } from '../../types';
+import { EMAIL_REGEXP } from '../../utils';
+import { FormInputField } from '../../components/form-inputs/FormInputField';
+import ResetStaffPasswordDialog from './ResetStaffPasswordDialog';
+import { cleanStaffForUpdate } from './utils';
 
 export default function StaffDetailsPage() {
   const { id } = useParams();
@@ -44,6 +41,7 @@ export default function StaffDetailsPage() {
   const { data: roleListData } = useRoleList();
   const queryClient = useQueryClient();
   const [isSaveOpen, setIsSaveOpen] = useState(false);
+  const [isResetDialogOpen, setIsResetDialogOpen] = useState(false);
   const [isSavingChanges, setIsSavingChanges] = useState(false);
   const { control, reset, handleSubmit, watch } = useForm<StaffUpdateData>({
     defaultValues: {
@@ -55,8 +53,8 @@ export default function StaffDetailsPage() {
     },
   });
   const updateStaffAndMutate = useMutation(updateStaff, {
-    onSuccess: () => {
-      queryClient.invalidateQueries(['staff', id]);
+    onSuccess: async () => {
+      await queryClient.invalidateQueries(['staff', id]);
       setIsSaveOpen(false);
       setIsSavingChanges(false);
     },
@@ -64,7 +62,7 @@ export default function StaffDetailsPage() {
 
   useEffect(() => {
     if (data) {
-      reset(cleanStaff(data));
+      reset(cleanStaffForUpdate(data));
     }
     const subscription = watch(() => setIsSaveOpen(true));
     return () => subscription.unsubscribe();
@@ -81,6 +79,14 @@ export default function StaffDetailsPage() {
   return (
     <>
       <Container>
+        {data && (
+          <Dialog open={data && isResetDialogOpen}>
+            <ResetStaffPasswordDialog
+              staff={data}
+              handleClose={() => setIsResetDialogOpen(false)}
+            />
+          </Dialog>
+        )}
         {isLoading && <LinearProgress />}
         {data && (
           <>
@@ -96,77 +102,41 @@ export default function StaffDetailsPage() {
                 </Typography>
                 <Grid container spacing={2}>
                   <Grid item xs={12} md={6}>
-                    <Controller
-                      name="firstName"
+                    <FormInputField
                       control={control}
-                      rules={{
-                        required: true,
-                        minLength: 1,
-                      }}
-                      render={({
-                        field: { onChange, value },
-                        fieldState: { invalid, error },
-                      }) => (
-                        <TextField
-                          fullWidth
-                          label="First Name"
-                          variant="outlined"
-                          onChange={onChange}
-                          value={value}
-                          error={invalid}
-                          helperText={getFormErrorMessage(error?.type)}
-                        />
-                      )}
+                      name="firstName"
+                      label="First name"
+                      rules={{ required: true, minLength: 1 }}
                     />
                   </Grid>
                   <Grid item xs={12} md={6}>
-                    <Controller
-                      name="lastName"
+                    <FormInputField
                       control={control}
-                      rules={{
-                        required: true,
-                        minLength: 1,
-                      }}
-                      render={({
-                        field: { onChange, value },
-                        fieldState: { invalid, error },
-                      }) => (
-                        <TextField
-                          fullWidth
-                          label="Last Name"
-                          variant="outlined"
-                          onChange={onChange}
-                          value={value}
-                          error={invalid}
-                          helperText={getFormErrorMessage(error?.type)}
-                        />
-                      )}
+                      name="lastName"
+                      label="Last name"
+                      rules={{ required: true, minLength: 1 }}
                     />
                   </Grid>
                   <Grid item xs={12}>
-                    <Controller
-                      name="email"
+                    <FormInputField
                       control={control}
+                      name="email"
+                      label="Email"
                       rules={{
                         required: true,
                         minLength: 1,
                         pattern: EMAIL_REGEXP,
                       }}
-                      render={({
-                        field: { onChange, value },
-                        fieldState: { invalid, error },
-                      }) => (
-                        <TextField
-                          fullWidth
-                          label="Email"
-                          variant="outlined"
-                          onChange={onChange}
-                          value={value}
-                          error={invalid}
-                          helperText={getFormErrorMessage(error?.type)}
-                        />
-                      )}
                     />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Button
+                      fullWidth
+                      variant="outlined"
+                      onClick={() => setIsResetDialogOpen(true)}
+                    >
+                      Reset Password
+                    </Button>
                   </Grid>
                   <Grid item xs={12}>
                     <Controller
