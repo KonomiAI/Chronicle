@@ -31,9 +31,9 @@ export class ActivityDataView {
 
   private async addRevenueData(data: Activity[]) {
     const newData = await this.addCountData(data);
-    return newData.map((a) => ({
-      ...a,
-      revenue: (a.count ?? 0) * a.price,
+    return newData.map((activity) => ({
+      ...activity,
+      revenue: (activity.count ?? 0) * activity.price,
     }));
   }
 
