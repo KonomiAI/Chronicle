@@ -1,7 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, {
+  useState,
+  useEffect,
+  useMemo,
+  KeyboardEventHandler,
+} from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Controller, useForm } from 'react-hook-form';
 import { AxiosError } from 'axios';
+import { debounce } from 'lodash';
 
 import {
   Alert,
@@ -82,14 +88,39 @@ function LoginPage() {
   const loginAction = login(handleLoginResponse);
 
   const tryLogin = (data: AuthBody) => {
+    setError('');
     setLoading(true);
     loginAction.mutate(data);
+  };
+
+  const debouncedHandleSubmit = useMemo(
+    () => debounce(() => handleSubmit(tryLogin)(), 300),
+    [handleSubmit, tryLogin],
+  );
+
+  const handleEnterKey: KeyboardEventHandler<HTMLDivElement> = (event) => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+
+      debouncedHandleSubmit();
+    }
+  };
+
+  const handleFieldChange = () => {
+    if (error) {
+      setError('');
+    }
   };
 
   return (
     <Grid
       container
-      style={{ backgroundImage: `url(${FallbackBackground})`, height: '100vh' }}
+      style={{
+        backgroundImage: `url(${FallbackBackground})`,
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: 'cover',
+        height: '100vh',
+      }}
     >
       <Grid item xs={0} lg={8} />
       <Grid item xs={12} lg={4}>
@@ -131,7 +162,11 @@ function LoginPage() {
                       variant="outlined"
                       type="email"
                       value={value}
-                      onChange={onChange}
+                      onChange={(e) => {
+                        handleFieldChange();
+                        onChange(e);
+                      }}
+                      onKeyDown={handleEnterKey}
                       data-testId="input-username"
                     />
                   )}
@@ -149,7 +184,11 @@ function LoginPage() {
                       variant="outlined"
                       type="password"
                       value={value}
-                      onChange={onChange}
+                      onChange={(e) => {
+                        handleFieldChange();
+                        onChange(e);
+                      }}
+                      onKeyDown={handleEnterKey}
                       data-testId="input-password"
                     />
                   )}
