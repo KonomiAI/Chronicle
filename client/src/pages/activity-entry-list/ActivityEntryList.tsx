@@ -33,7 +33,7 @@ export function ActivityEntryList() {
     createActivityEntry,
     {
       onSuccess: (e) => {
-        enqueueSnackbar(`Activity entry for ${e.customer.firstName} created`, {
+        enqueueSnackbar(`Activity entry successfully created`, {
           variant: 'success',
         });
         navigate(`/activity-entries/${e.id}`);

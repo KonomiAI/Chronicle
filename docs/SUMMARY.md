@@ -10,6 +10,7 @@
 - [Database Design](design/database.md)
 - [User Stories](design/user_stories.md)
 - [Custom Form Design](design/custom-form.md)
+- [Data analytics system Design](design/data_analytics.md)
 
 # User Manual
 
