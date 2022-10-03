@@ -33,10 +33,26 @@ You are now navigated to a new form creation page, follow the form to create you
 9. You can make a question optional to complete by unchecking the **required** toggle.
 10. You can add more questions to the section by clicking on **Add question**.
 11. You can add more sections to the form by clicking on **Add new section**.
+12. Make sure to press save at the bottom of the page when you are done.
+
+## Update an existing form
+
+When you update an existing form, Chronicle creates a new version of the form and maintains the previous versions just in case they are being used in existing activity entries. This system ensures you will not lose any existing data when modifying form fields. You currently can't browse previous versions of your form, we are actively working to enable this feature.
+
+Steps:
+
+1. Access the custom form list, you can follow the instructions above if you need assistance.
+2. Click on the form you want to update.
+3. Follow the create form guide for details on how to use the form builder.
 
 ## Custom form best practices
 
 - While it is possible to create a form with no sections and no question, this is not a recommended practice.
 - Use the paragraph option if you want your staff to provide text responses longer than a sentence.
+- It is recommended to not delete fields from forms that are being used. While it will not affect any existing entries, you may potentially lose track of data.
 
 ## Custom form limitations and in-progress features
+
+-
+- Currently you cannot reorder the fields you created, this is an in-development feature.
+- Currently you cannot duplicate an existing field, this is an in-development feature.
