@@ -1,13 +1,7 @@
-import React, {
-  useState,
-  useEffect,
-  useMemo,
-  KeyboardEventHandler,
-} from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Controller, useForm } from 'react-hook-form';
 import { AxiosError } from 'axios';
-import { debounce } from 'lodash';
 
 import {
   Alert,
@@ -93,19 +87,6 @@ function LoginPage() {
     loginAction.mutate(data);
   };
 
-  const debouncedHandleSubmit = useMemo(
-    () => debounce(() => handleSubmit(tryLogin)(), 300),
-    [handleSubmit, tryLogin],
-  );
-
-  const handleEnterKey: KeyboardEventHandler<HTMLDivElement> = (event) => {
-    if (event.key === 'Enter') {
-      event.preventDefault();
-
-      debouncedHandleSubmit();
-    }
-  };
-
   const handleFieldChange = () => {
     if (error) {
       setError('');
@@ -138,87 +119,84 @@ function LoginPage() {
                 padding: '2em',
               }}
             >
-              <Stack spacing={2}>
-                <div>
-                  <Typography variant="h3">Sign in to Chronicle</Typography>
-                  <Typography>Enter your details below</Typography>
-                </div>
-                {error && (
-                  <>
-                    <Alert severity="error">{error}</Alert>
-                    <Spacer />
-                  </>
-                )}
-                <Controller
-                  name="email"
-                  control={control}
-                  rules={{
-                    required: true,
-                  }}
-                  render={({ field: { value, onChange } }) => (
-                    <TextField
-                      id="username"
-                      label="Username"
-                      variant="outlined"
-                      type="email"
-                      value={value}
-                      onChange={(e) => {
-                        handleFieldChange();
-                        onChange(e);
-                      }}
-                      onKeyDown={handleEnterKey}
-                      data-testId="input-username"
-                    />
+              <form
+                onSubmit={handleSubmit(tryLogin)}
+                onChange={handleFieldChange}
+              >
+                <Stack spacing={2}>
+                  <div>
+                    <Typography variant="h3">Sign in to Chronicle</Typography>
+                    <Typography>Enter your details below</Typography>
+                  </div>
+                  {error && (
+                    <>
+                      <Alert severity="error">{error}</Alert>
+                      <Spacer />
+                    </>
                   )}
-                />
-                <Controller
-                  name="password"
-                  control={control}
-                  rules={{
-                    required: true,
-                  }}
-                  render={({ field: { value, onChange } }) => (
-                    <TextField
-                      id="password"
-                      label="Password"
-                      variant="outlined"
-                      type="password"
-                      value={value}
-                      onChange={(e) => {
-                        handleFieldChange();
-                        onChange(e);
-                      }}
-                      onKeyDown={handleEnterKey}
-                      data-testId="input-password"
-                    />
-                  )}
-                />
+                  <Controller
+                    name="email"
+                    control={control}
+                    rules={{
+                      required: true,
+                    }}
+                    render={({ field: { value, onChange } }) => (
+                      <TextField
+                        id="username"
+                        label="Username"
+                        variant="outlined"
+                        type="email"
+                        value={value}
+                        onChange={onChange}
+                        data-testId="input-username"
+                      />
+                    )}
+                  />
+                  <Controller
+                    name="password"
+                    control={control}
+                    rules={{
+                      required: true,
+                    }}
+                    render={({ field: { value, onChange } }) => (
+                      <TextField
+                        id="password"
+                        label="Password"
+                        variant="outlined"
+                        type="password"
+                        value={value}
+                        onChange={onChange}
+                        data-testId="input-password"
+                      />
+                    )}
+                  />
 
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      style={{
-                        padding: 0,
-                        marginLeft: '-3px',
-                        marginRight: '4px',
-                      }}
-                      checked={rememberMe}
-                      onChange={() => setRememberMe(!rememberMe)}
-                    />
-                  }
-                  label="Remember username"
-                />
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        style={{
+                          padding: 0,
+                          marginLeft: '-3px',
+                          marginRight: '4px',
+                        }}
+                        checked={rememberMe}
+                        onChange={() => setRememberMe(!rememberMe)}
+                      />
+                    }
+                    label="Remember username"
+                  />
 
-                <Button
-                  variant="contained"
-                  size="large"
-                  onClick={handleSubmit(tryLogin)}
-                  disabled={loading}
-                  data-testId="btn-login"
-                >
-                  Login
-                </Button>
-              </Stack>
+                  <Button
+                    variant="contained"
+                    size="large"
+                    type="submit"
+                    disabled={loading}
+                    data-testId="btn-login"
+                  >
+                    Login
+                  </Button>
+                </Stack>
+              </form>
             </CardContent>
           </Card>
         </Box>
