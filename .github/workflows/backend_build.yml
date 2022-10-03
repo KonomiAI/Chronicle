@@ -1,4 +1,4 @@
-name: Build Backend Image
+name: Build Backend
 on:
   push:
     branches:
@@ -6,7 +6,7 @@ on:
     paths:
       - 'server/**'
 jobs:
-  build-and-push-to-gcr:
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -18,3 +18,49 @@ jobs:
           project_id: konomi-ai
           image_name: chronicle-api
           context: server
+  deploy-staging:
+    needs:
+      - build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Apply Ingress
+        uses: ameydev/gke-kubectl-action@v1.02
+        env:
+          PROJECT_ID: konomi-ai
+          APPLICATION_CREDENTIALS: ${{ secrets.GCP_K8S_SA }}
+          CLUSTER_NAME: chronicle-staging
+          ZONE_NAME: us-east1
+          ACTIONS_ALLOW_UNSECURE_COMMANDS: 'true'
+        with:
+          args: apply -f infrastructure/kubernetes/staging/ingress.yaml -n staging
+      - name: Apply Backend Manifest
+        uses: ameydev/gke-kubectl-action@v1.02
+        env:
+          PROJECT_ID: konomi-ai
+          APPLICATION_CREDENTIALS: ${{ secrets.GCP_K8S_SA }}
+          CLUSTER_NAME: chronicle-staging
+          ZONE_NAME: us-east1
+          ACTIONS_ALLOW_UNSECURE_COMMANDS: 'true'
+        with:
+          args: apply -f infrastructure/kubernetes/staging/chronicle-backend.yaml -n staging
+      - name: Force Backend Update
+        uses: ameydev/gke-kubectl-action@v1.02
+        env:
+          PROJECT_ID: konomi-ai
+          APPLICATION_CREDENTIALS: ${{ secrets.GCP_K8S_SA }}
+          CLUSTER_NAME: chronicle-staging
+          ZONE_NAME: us-east1
+          ACTIONS_ALLOW_UNSECURE_COMMANDS: 'true'
+        with:
+          args: rollout restart deployment/chronicle-api -n staging
+      - name: Check Rollout Status
+        uses: ameydev/gke-kubectl-action@v1.02
+        env:
+          PROJECT_ID: konomi-ai
+          APPLICATION_CREDENTIALS: ${{ secrets.GCP_K8S_SA }}
+          CLUSTER_NAME: chronicle-staging
+          ZONE_NAME: us-east1
+          ACTIONS_ALLOW_UNSECURE_COMMANDS: 'true'
+        with:
+          args: rollout status deployment/chronicle-api -n staging
