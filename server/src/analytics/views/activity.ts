@@ -1,7 +1,8 @@
 import { Activity } from '@prisma/client';
 import { PrismaService } from 'src/prisma.service';
+import { DataView, DataViewOptions } from '../types/data-view';
 
-export interface ActivityViewSupportedFields {
+export interface ActivityViewSupportedFields extends DataViewOptions {
   count?: boolean;
   revenue?: boolean;
 }
@@ -11,11 +12,13 @@ export interface ActivityView extends Activity {
   revenue?: number;
 }
 
-export class ActivityDataView {
-  constructor(private readonly prisma: PrismaService) {}
+export class ActivityDataView extends DataView<ActivityView> {
+  constructor(private readonly prisma: PrismaService) {
+    super();
+  }
 
   async get({ count, revenue }: ActivityViewSupportedFields) {
-    let baseData = await this.prisma.activity.findMany({
+    let baseData: ActivityView[] = await this.prisma.activity.findMany({
       where: {
         isArchived: false,
       },
