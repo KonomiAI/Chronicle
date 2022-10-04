@@ -55,7 +55,7 @@ const ActivityBase: React.FC<ActivityBaseProps> = ({
             </Grid>
             <Grid item xs={12} sm={6}>
               <FormInputField
-                numberField
+                type-="number"
                 name="price"
                 control={control}
                 rules={{
