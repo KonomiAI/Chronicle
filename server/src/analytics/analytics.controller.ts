@@ -1,5 +1,7 @@
-import { Controller, Get, HttpException, Query } from '@nestjs/common';
+import { Controller, Get, Query, ValidationPipe } from '@nestjs/common';
 import { PrismaService } from 'src/prisma.service';
+import { VALIDATION_PIPE_OPTION } from 'src/utils/consts';
+import { GetAnalyticsReportDto } from './analytics.dto';
 import { DataViewOptions } from './types/data-view';
 import { ActivityDataView } from './views/activity';
 import { CustomerDataView } from './views/customer';
@@ -13,27 +15,15 @@ const VIEWS = {
   staff: StaffDataView,
 };
 
-const SUPPORTED_VIEWS = new Set(Object.keys(VIEWS));
-
 @Controller('analytics')
 export class AnalyticsController {
   constructor(private readonly prisma: PrismaService) {}
 
   @Get()
   async getAnalyticsResult(
-    @Query() { source, aggregateCols, start, end }: Record<string, string>,
+    @Query(new ValidationPipe(VALIDATION_PIPE_OPTION))
+    { source, aggregateCols, start, end }: GetAnalyticsReportDto,
   ) {
-    if (!start || !end) {
-      throw new HttpException('start and end are required to be date', 400);
-    }
-
-    if (!SUPPORTED_VIEWS.has(source)) {
-      throw new HttpException(
-        'Invalid source, valid options: activity | product | customer | staff',
-        400,
-      );
-    }
-
     const options: DataViewOptions = {
       start: new Date(start),
       end: new Date(end),
