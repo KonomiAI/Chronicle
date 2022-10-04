@@ -15,27 +15,34 @@ export interface CustomerView extends Customer {
 export class CustomerDataView {
   constructor(private readonly prisma: PrismaService) {}
 
-  async get({ count, revenue }: CustomerViewSupportedFields) {
+  async get({ count, revenue, ...opts }: CustomerViewSupportedFields) {
     let baseData = await this.prisma.customer.findMany({
       where: {
         isDeleted: false,
       },
     });
     if (count) {
-      baseData = await this.addCountData(baseData);
+      baseData = await this.addCountData(baseData, opts);
     }
     if (revenue) {
-      baseData = await this.addRevenueData(baseData);
+      baseData = await this.addRevenueData(baseData, opts);
     }
     return baseData;
   }
 
-  private async addRevenueData(data: CustomerView[]) {
+  private async addRevenueData(
+    data: CustomerView[],
+    { start, end }: DataViewOptions,
+  ) {
     for (const customer of data) {
       let revenue = 0;
       const visits = await this.prisma.activityEntry.findMany({
         where: {
           customerId: customer.id,
+          createdAt: {
+            gte: start,
+            lte: end,
+          },
         },
         include: {
           activity: true,
@@ -53,11 +60,20 @@ export class CustomerDataView {
     return data;
   }
 
-  private async addCountData(data: CustomerView[]): Promise<CustomerView[]> {
+  private async addCountData(
+    data: CustomerView[],
+    { start, end }: DataViewOptions,
+  ): Promise<CustomerView[]> {
     const countData = await this.prisma.activityEntry.groupBy({
       by: ['customerId'],
       _count: {
         _all: true,
+      },
+      where: {
+        createdAt: {
+          gte: start,
+          lte: end,
+        },
       },
     });
     return data.map((customer) => {

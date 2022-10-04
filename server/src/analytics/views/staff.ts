@@ -50,6 +50,7 @@ export class StaffDataView {
     if ('count' in params) {
       baseData = await this.addCountData(
         baseData,
+        { end: params.end, start: params.start },
         params.activitiesPerformed,
         params.productsSold,
       );
@@ -57,6 +58,7 @@ export class StaffDataView {
     if ('revenue' in params) {
       baseData = await this.addRevenueData(
         baseData,
+        { end: params.end, start: params.start },
         params.activitiesRevenue,
         params.productsRevenue,
       );
@@ -66,6 +68,7 @@ export class StaffDataView {
 
   private async addRevenueData(
     data: StaffView[],
+    { end, start }: DataViewOptions,
     shouldAddActivityRevenue = false,
     shouldAddProductRevenue = false,
   ): Promise<StaffView[]> {
@@ -76,6 +79,10 @@ export class StaffDataView {
       const visits = await this.prisma.activityEntry.findMany({
         where: {
           staffId: staff.id,
+          createdAt: {
+            gte: start,
+            lte: end,
+          },
         },
         include: {
           activity: true,
@@ -103,6 +110,7 @@ export class StaffDataView {
 
   private async addCountData(
     data: StaffView[],
+    { end, start }: DataViewOptions,
     shouldAddActivityCount = false,
     shouldAddProductCount = false,
   ): Promise<StaffView[]> {
@@ -111,6 +119,12 @@ export class StaffDataView {
         include: {
           activity: true,
           products: true,
+        },
+        where: {
+          createdAt: {
+            gte: start,
+            lte: end,
+          },
         },
       })
     ).reduce((acc, entry) => {

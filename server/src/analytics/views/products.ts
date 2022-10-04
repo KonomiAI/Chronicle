@@ -24,7 +24,7 @@ export class ProductDataView extends DataView<ProductView> {
     super();
   }
 
-  async get({ count, revenue }: ProductViewSupportedFields) {
+  async get({ count, revenue, ...opts }: ProductViewSupportedFields) {
     let hasCount = false;
     let baseData: ProductView[] = await this.prisma.product.findMany({
       where: {
@@ -35,18 +35,22 @@ export class ProductDataView extends DataView<ProductView> {
       },
     });
     if (count) {
-      baseData = await this.addCountData(baseData);
+      baseData = await this.addCountData(baseData, opts);
       hasCount = true;
     }
     if (revenue) {
-      baseData = await this.addRevenueData(baseData, hasCount);
+      baseData = await this.addRevenueData(baseData, opts, hasCount);
     }
 
     return this.remapVariantToChildren(baseData);
   }
 
-  private async addRevenueData(data: ProductView[], hasCount = false) {
-    let newData = hasCount ? data : await this.addCountData(data);
+  private async addRevenueData(
+    data: ProductView[],
+    opts: DataViewOptions,
+    hasCount = false,
+  ) {
+    let newData = hasCount ? data : await this.addCountData(data, opts);
     newData = newData.map((product) => ({
       ...product,
       revenue: product.variants.reduce(
@@ -63,12 +67,19 @@ export class ProductDataView extends DataView<ProductView> {
     return newData;
   }
 
-  private async addCountData(data: ProductView[]): Promise<ProductView[]> {
+  private async addCountData(
+    data: ProductView[],
+    { start, end }: DataViewOptions,
+  ): Promise<ProductView[]> {
     const countData = (
       await this.prisma.activityEntry.findMany({
         where: {
           variantId: {
             isEmpty: false,
+          },
+          createdAt: {
+            gte: start,
+            lte: end,
           },
         },
       })

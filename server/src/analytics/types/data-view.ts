@@ -1,6 +1,6 @@
 export interface DataViewOptions {
-  start: string;
-  end: string;
+  start: Date;
+  end: Date;
 }
 
 export abstract class DataView<V> {

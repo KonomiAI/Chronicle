@@ -35,8 +35,8 @@ export class AnalyticsController {
     }
 
     const options: DataViewOptions = {
-      start,
-      end,
+      start: new Date(start),
+      end: new Date(end),
     };
 
     const view = new VIEWS[source](this.prisma);
