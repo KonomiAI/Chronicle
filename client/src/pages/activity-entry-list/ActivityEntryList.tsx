@@ -1,34 +1,50 @@
-import React, { useState } from 'react';
-import {
-  Avatar,
-  Button,
-  Chip,
-  Container,
-  LinearProgress,
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Tooltip,
-} from '@mui/material';
-import { format, parseJSON } from 'date-fns';
+import React, { SyntheticEvent, useState } from 'react';
+import { Button, Container, Tab } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useMutation } from 'react-query';
 import { useSnackbar } from 'notistack';
+import { TabContext, TabList, TabPanel } from '@mui/lab';
 
 import PageHeader from '../../components/page-header/PageHeader';
 import Spacer from '../../components/spacer/Spacer';
-import { createActivityEntry, useListActivityEntries } from '../../data';
+import {
+  createActivityEntry,
+  useListAllActivityEntries,
+  useListMyActivityEntries,
+} from '../../data';
 import { CustomerSelectDialog } from '../../components/customer-select-dialog/CustomerSelectDialog';
+import { ActivityEntryTable } from './components/ActivityEntryTable';
+import LoadingCard from '../../components/loading-card';
+
+const MyActivityEntriesPanel = () => {
+  const { data, isLoading } = useListMyActivityEntries();
+  return (
+    <TabPanel value="my-activity-entries" sx={{ padding: '0' }}>
+      {isLoading && <LoadingCard title="Loading activity entries" />}
+      {data && <ActivityEntryTable data={data} />}
+    </TabPanel>
+  );
+};
+
+const AllActivityEntriesPanel = () => {
+  const { data, isLoading } = useListAllActivityEntries();
+  return (
+    <TabPanel value="all-activity-entries" sx={{ padding: '0' }}>
+      {isLoading && <LoadingCard title="Loading activity entries" />}
+      {data && <ActivityEntryTable data={data} />}
+    </TabPanel>
+  );
+};
 
 export function ActivityEntryList() {
-  const { isLoading, data } = useListActivityEntries();
+  const [value, setValue] = useState('my-activity-entries');
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
+
+  const handleChange = (_: SyntheticEvent, newValue: string) => {
+    setValue(newValue);
+  };
   const { mutate, isLoading: isMutationLoading } = useMutation(
     createActivityEntry,
     {
@@ -53,79 +69,29 @@ export function ActivityEntryList() {
           }
         }}
       />
-      {isLoading && <LinearProgress />}
-      {data && (
-        <>
-          <PageHeader
-            pageTitle="Activity Entries"
-            action={
-              <Button
-                variant="contained"
-                data-testid="btn-create-entry"
-                onClick={() => setOpen(true)}
-                disabled={isMutationLoading}
-              >
-                New Entry
-              </Button>
-            }
-          />
-          <Spacer size="lg" />
-          <TableContainer component={Paper}>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell>Date</TableCell>
-                  <TableCell>Customer</TableCell>
-                  <TableCell>Author</TableCell>
-                  <TableCell>Activity</TableCell>
-                  <TableCell>Products</TableCell>
-                  <TableCell>Last updated</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {data.map((d) => (
-                  <TableRow
-                    key={d.id}
-                    hover
-                    sx={{ cursor: 'pointer' }}
-                    onClick={() => navigate(d.id)}
-                  >
-                    <TableCell>
-                      <Tooltip title={format(parseJSON(d.createdAt), 'PPPpp')}>
-                        <div>{format(parseJSON(d.createdAt), 'PP')}</div>
-                      </Tooltip>
-                    </TableCell>
-                    <TableCell>
-                      <Chip
-                        clickable
-                        avatar={
-                          <Avatar>
-                            {d.customer.firstName.substring(0, 1)}
-                          </Avatar>
-                        }
-                        label={`${d.customer.firstName} ${d.customer.lastName}`}
-                      />
-                    </TableCell>
-                    <TableCell>Yonglin Wang</TableCell>
-                    <TableCell>{d.activity?.name ?? 'N/A'}</TableCell>
-                    <TableCell>
-                      <Chip
-                        clickable
-                        label={`${d.products?.length ?? 0} variants`}
-                      />
-                    </TableCell>
-                    <TableCell>
-                      <Tooltip title={format(parseJSON(d.updatedAt), 'PPPpp')}>
-                        <div>{format(parseJSON(d.updatedAt), 'PP')}</div>
-                      </Tooltip>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </>
-      )}
+      <PageHeader
+        pageTitle="Activity Entries"
+        action={
+          <Button
+            variant="contained"
+            data-testid="btn-create-entry"
+            onClick={() => setOpen(true)}
+            disabled={isMutationLoading}
+          >
+            New Entry
+          </Button>
+        }
+      />
+      <Spacer size="lg" />
+      <TabContext value={value}>
+        <TabList onChange={handleChange} aria-label="activity entry tabs">
+          <Tab label="My entries" value="my-activity-entries" />
+          <Tab label="All entries" value="all-activity-entries" />
+        </TabList>
+        <Spacer size="md" />
+        <MyActivityEntriesPanel />
+        <AllActivityEntriesPanel />
+      </TabContext>
     </Container>
   );
 }
