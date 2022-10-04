@@ -37,7 +37,7 @@ export class AnalyticsController {
     return data;
   }
 
-  parseAggregateCols(aggregateCols: string) {
+  private parseAggregateCols(aggregateCols: string) {
     const res: Record<string, boolean> = {};
 
     aggregateCols.split(',').forEach((col) => {

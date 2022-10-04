@@ -1,4 +1,4 @@
-import { IsDateString, IsIn, IsString } from 'class-validator';
+import { IsDateString, IsIn, IsString, NotContains } from 'class-validator';
 
 export class GetAnalyticsReportDto {
   @IsDateString({
@@ -15,5 +15,9 @@ export class GetAnalyticsReportDto {
   public source: string;
 
   @IsString()
+  @NotContains(' ', {
+    message:
+      'aggregateCols should not contain space, use only comma to separate the columns',
+  })
   public aggregateCols: string;
 }
