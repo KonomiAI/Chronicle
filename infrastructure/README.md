@@ -104,3 +104,38 @@ kubectl run --image=mongo:latest -it mongo-shell --rm -- /bin/sh
 # when inside the shell run the following command to test the connection
 mongosh "mongodb+srv://chronicle-staging-2.ex0ca.mongodb.net/chronicle" --apiVersion 1 --username admin
 ```
+
+# Persisting a Secret to Kuberetes
+1. Encode your secret. This can be done via the following command:
+`echo "YOUR_SECRET_VALUE" | base64`
+
+2. Copy your base64 encoded secret create the following key value json pair with it:
+`{"value": "YOUR_BASE_64_ENCODED_SECRET"}`
+
+3. Navigate to https://github.com/KonomiAI/Chronicle/settings/secrets/actions and create a github actions secret, ex: `YOUR_SECRET_NAME`, and ensure the secret value is of the form described in the previous step.
+
+4. Add your secret to the github action `.github/workflows/secrets_push.yaml` by adding the following step:
+
+```
+- name: Push YOUR_SECRET_NAME k8s Secret
+  uses: azure/k8s-create-secret@v2
+  with:
+    namespace: 'staging'
+    secret-type: 'generic'
+    secret-name: chronicle-{staging|production}-YOUR_SECRET_NAME-secret
+    data: ${{ secrets.YOUR_SECRET_NAME }}
+```
+
+5. To inject your secret in the kubernetes environment itself, a reference to the secret will be required in the backend manifest, ex: `infrastructure/kubernetes/staging/chronicle-backend.yaml`:
+```
+spec:
+  template:
+    spec:
+      containers:
+          env:
+            - name: YOUR_SECRET_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: chronicle-{staging|production}-YOUR_SECRET_NAME-secret
+                  key: value
+```
