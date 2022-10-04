@@ -3,10 +3,14 @@ import { PrismaService } from 'src/prisma.service';
 import { DataViewOptions } from './types/data-view';
 import { ActivityDataView } from './views/activity';
 import { CustomerDataView } from './views/customer';
+import { ProductDataView } from './views/products';
+import { StaffDataView } from './views/staff';
 
 const VIEWS = {
   activity: ActivityDataView,
   customer: CustomerDataView,
+  product: ProductDataView,
+  staff: StaffDataView,
 };
 
 const SUPPORTED_VIEWS = new Set(Object.keys(VIEWS));
@@ -16,7 +20,7 @@ export class AnalyticsController {
   constructor(private readonly prisma: PrismaService) {}
 
   @Get()
-  async testEndpoint(
+  async getAnalyticsResult(
     @Query() { source, aggregateCols, start, end }: Record<string, string>,
   ) {
     if (!start || !end) {

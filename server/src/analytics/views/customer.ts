@@ -58,8 +58,6 @@ export class CustomerDataView {
       by: ['customerId'],
       _count: {
         _all: true,
-        activityId: true,
-        variantId: true,
       },
     });
     return data.map((customer) => {
