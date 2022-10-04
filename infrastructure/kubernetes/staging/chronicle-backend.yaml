@@ -35,7 +35,10 @@ spec:
               name: http
           env:
             - name: MONGODB_USER
-              value: chronicle
+              valueFrom:
+                secretKeyRef:
+                  name: chronicle-staging-mongodb-user-secret
+                  key: value
             - name: MONGODB_PASSWORD
               valueFrom:
                 secretKeyRef:
@@ -45,6 +48,16 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: chronicle-staging-mongodb-url-secret
+                  key: value
+            - name: ACCESS_TOKEN_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: chronicle-staging-access-token-key
+                  key: value
+            - name: ACCESS_TOKEN_EXPIRY_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: chronicle-staging-access-token-expiry-key
                   key: value
       affinity:
         # Since the cluster uses spot nodes that can be shut down at any time, having at least
