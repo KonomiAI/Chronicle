@@ -3,6 +3,7 @@ import { PrismaService } from 'src/prisma.service';
 import { VALIDATION_PIPE_OPTION } from 'src/utils/consts';
 import { GetAnalyticsReportDto } from './analytics.dto';
 import { DataViewOptions } from './types/data-view';
+import { parseAggregateCols } from './utils';
 import { ActivityDataView } from './views/activity';
 import { CustomerDataView } from './views/customer';
 import { ProductDataView } from './views/products';
@@ -32,17 +33,8 @@ export class AnalyticsController {
     const view = new VIEWS[source](this.prisma);
     const data = await view.get({
       ...options,
-      ...this.parseAggregateCols(aggregateCols),
+      ...parseAggregateCols(aggregateCols),
     });
     return data;
-  }
-
-  private parseAggregateCols(aggregateCols: string) {
-    const res: Record<string, boolean> = {};
-
-    aggregateCols.split(',').forEach((col) => {
-      res[col] = true;
-    });
-    return res;
   }
 }
