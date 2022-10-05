@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Controller, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { AxiosError } from 'axios';
 
 import {
@@ -13,7 +13,6 @@ import {
   FormControlLabel,
   Grid,
   Stack,
-  TextField,
   Typography,
 } from '@mui/material';
 
@@ -24,12 +23,14 @@ import {
   checkIsLoggedIn,
   clearRememberedUsername,
   clearSession,
+  EMAIL_REGEXP,
   getRememberedUsername,
   setRememberedUsername,
   useAuth,
 } from '../../utils';
 import { AuthBody, UserNoAccessToken } from '../../types';
 import FallbackBackground from './assets/fallback_background.png';
+import { FormInputField } from '../../components/form-inputs/FormInputField';
 
 function LoginPage() {
   const { login } = useAuth();
@@ -134,43 +135,26 @@ function LoginPage() {
                       <Spacer />
                     </>
                   )}
-                  <Controller
+                  <FormInputField
                     name="email"
+                    label="Email"
+                    type="email"
                     control={control}
                     rules={{
                       required: true,
+                      pattern: EMAIL_REGEXP,
                     }}
-                    render={({ field: { value, onChange } }) => (
-                      <TextField
-                        id="username"
-                        label="Username"
-                        variant="outlined"
-                        type="email"
-                        value={value}
-                        onChange={onChange}
-                        data-testId="input-username"
-                      />
-                    )}
                   />
-                  <Controller
+                  <FormInputField
+                    control={control}
                     name="password"
-                    control={control}
+                    label="Password"
+                    type="password"
+                    data-testId="input-password"
                     rules={{
                       required: true,
                     }}
-                    render={({ field: { value, onChange } }) => (
-                      <TextField
-                        id="password"
-                        label="Password"
-                        variant="outlined"
-                        type="password"
-                        value={value}
-                        onChange={onChange}
-                        data-testId="input-password"
-                      />
-                    )}
                   />
-
                   <FormControlLabel
                     control={
                       <Checkbox

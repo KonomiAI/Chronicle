@@ -97,7 +97,7 @@ const VariantCreateDialog: React.FC<VariantCreateDialogProps> = ({
           </Grid>
           <Grid item xs={6}>
             <FormInputField
-              numberField
+              type="number"
               name="price"
               control={control}
               rules={{

@@ -8,7 +8,7 @@ export interface FormInputProps<T extends FieldValues>
   label: string;
   testId?: string;
   variant?: 'filled' | 'standard' | 'outlined';
-  numberField?: boolean;
+  type?: React.InputHTMLAttributes<unknown>['type'];
   multiline?: number;
 }
 
@@ -20,7 +20,7 @@ export const FormInputField = <T extends FieldValues>({
   testId,
   variant = 'outlined',
   multiline = 0,
-  numberField = false,
+  type = 'text',
 }: FormInputProps<T>) => (
   <Controller
     name={name}
@@ -44,7 +44,7 @@ export const FormInputField = <T extends FieldValues>({
         multiline={!!multiline}
         minRows={multiline ?? 0}
         maxRows={10}
-        type={numberField ? 'number' : undefined}
+        type={type}
       />
     )}
   />

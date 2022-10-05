@@ -67,7 +67,7 @@ export const NumberFieldFactory: FieldFactoryFunction = (
     name={id}
     control={control}
     rules={{ required: !optional }}
-    numberField
+    type="number"
     label={name}
   />
 );
