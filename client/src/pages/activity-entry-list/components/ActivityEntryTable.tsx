@@ -64,7 +64,13 @@ export function ActivityEntryTable({ data }: ActivityEntryTableProps) {
                   label={`${d.customer.firstName} ${d.customer.lastName}`}
                 />
               </TableCell>
-              <TableCell>Yonglin Wang</TableCell>
+              <TableCell>
+                <Chip
+                  clickable
+                  avatar={<Avatar>{d.author.firstName.substring(0, 1)}</Avatar>}
+                  label={`${d.author.firstName} ${d.author.lastName}`}
+                />
+              </TableCell>
               <TableCell>{d.activity?.name ?? 'N/A'}</TableCell>
               <TableCell>
                 <Chip clickable label={`${d.products?.length ?? 0} variants`} />
