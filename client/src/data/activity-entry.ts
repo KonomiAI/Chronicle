@@ -4,10 +4,10 @@ import { ActivityEntry, ActivityEntryDto } from '../types/activity-entry';
 
 import useAxios from './axios';
 
-const listActivityEntries = () => {
+const listActivityEntries = (showAll: boolean) => {
   const axios = useAxios();
   return axios
-    .get<Data<ActivityEntry[]>>('/activity-entry/my')
+    .get<Data<ActivityEntry[]>>(`/activity-entry${showAll ? '' : '/my'}`)
     .then((res) => res.data.data);
 };
 
@@ -43,5 +43,8 @@ export const useGetActivityEntry = (activityEntryId: string) =>
     getActivityEntry(activityEntryId),
   );
 
-export const useListActivityEntries = () =>
-  useQuery('listActivityEntries', listActivityEntries);
+export const useListAllActivityEntries = () =>
+  useQuery('listAllActivityEntries', () => listActivityEntries(true));
+
+export const useListMyActivityEntries = () =>
+  useQuery('listMyActivityEntries', () => listActivityEntries(false));

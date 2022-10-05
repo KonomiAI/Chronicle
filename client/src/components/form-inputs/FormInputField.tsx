@@ -1,20 +1,18 @@
 import React from 'react';
-import { Control, Controller, RegisterOptions, Path } from 'react-hook-form';
+import { Controller, FieldValues, UseControllerProps } from 'react-hook-form';
 import { getFormErrorMessage } from '../../utils';
 import { StyledTextField } from './styled';
 
-export interface FormInputProps<T> {
-  name: Path<T>;
-  control: Control<T>;
-  rules?: Omit<RegisterOptions, 'valueAsDate' | 'setValueAs' | 'disabled'>;
+export interface FormInputProps<T extends FieldValues>
+  extends UseControllerProps<T> {
   label: string;
   testId?: string;
   variant?: 'filled' | 'standard' | 'outlined';
-  numberField?: boolean;
+  type?: React.InputHTMLAttributes<unknown>['type'];
   multiline?: number;
 }
 
-export const FormInputField = <T,>({
+export const FormInputField = <T extends FieldValues>({
   control,
   name,
   rules,
@@ -22,7 +20,7 @@ export const FormInputField = <T,>({
   testId,
   variant = 'outlined',
   multiline = 0,
-  numberField = false,
+  type = 'text',
 }: FormInputProps<T>) => (
   <Controller
     name={name}
@@ -46,7 +44,7 @@ export const FormInputField = <T,>({
         multiline={!!multiline}
         minRows={multiline ?? 0}
         maxRows={10}
-        type={numberField ? 'number' : undefined}
+        type={type}
       />
     )}
   />
