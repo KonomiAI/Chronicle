@@ -144,11 +144,9 @@ export class ActivityEntryController {
   updateActivityEntry(
     @Param('id') id: string,
     @Body() { responseIds, ...body }: ActivityEntryDto,
-    @Request() { user },
   ) {
     const updateData: Prisma.ActivityEntryUncheckedUpdateInput = {
       ...body,
-      staffId: user.id,
     };
     if (responseIds) {
       updateData.responses = {

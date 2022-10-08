@@ -52,7 +52,7 @@ export const AllFormInputs = () => {
           required: true,
           minLength: 1,
         }}
-        numberField
+        type="number"
         label="Number Input Field"
       />
       <Spacer size="lg" />
