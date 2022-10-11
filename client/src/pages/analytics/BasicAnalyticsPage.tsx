@@ -3,6 +3,8 @@ import { Card, CardContent, Container, Typography } from '@mui/material';
 import PageHeader from '../../components/page-header/PageHeader';
 import Spacer from '../../components/spacer/Spacer';
 import DateRangePicker, { DateRange } from './components/DateRangePicker';
+import { useStore } from '../../store';
+import { Features } from '../../types';
 
 const ActivityDataGrid = React.lazy(
   () => import('./components/ActivityDataGrid'),
@@ -23,6 +25,7 @@ export default function BasicAnalyticsPage() {
     start: '2021-01-01',
     end: '2022-12-31',
   });
+  const { permissions } = useStore();
   return (
     <Container>
       <PageHeader
@@ -47,10 +50,18 @@ export default function BasicAnalyticsPage() {
       </Card>
       <Spacer size="lg" />
       <Suspense fallback={<div>Loading...</div>}>
-        <ActivityDataGrid start={startEndDate.start} end={startEndDate.end} />
-        <ProductDataGrid start={startEndDate.start} end={startEndDate.end} />
-        <CustomerDataGrid start={startEndDate.start} end={startEndDate.end} />
-        <StaffDataGrid start={startEndDate.start} end={startEndDate.end} />
+        {permissions[Features.INVENTORY]?.read && (
+          <ActivityDataGrid start={startEndDate.start} end={startEndDate.end} />
+        )}
+        {permissions[Features.INVENTORY]?.read && (
+          <ProductDataGrid start={startEndDate.start} end={startEndDate.end} />
+        )}
+        {permissions[Features.CUSTOMER]?.read && (
+          <CustomerDataGrid start={startEndDate.start} end={startEndDate.end} />
+        )}
+        {permissions[Features.SECURITY]?.read && (
+          <StaffDataGrid start={startEndDate.start} end={startEndDate.end} />
+        )}
       </Suspense>
     </Container>
   );
