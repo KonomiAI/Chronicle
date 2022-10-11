@@ -1,32 +1,40 @@
-import { Controller, Get, HttpException, Query } from '@nestjs/common';
+import { Controller, Get, Query, ValidationPipe } from '@nestjs/common';
 import { PrismaService } from 'src/prisma.service';
+import { VALIDATION_PIPE_OPTION } from 'src/utils/consts';
+import { GetAnalyticsReportDto } from './analytics.dto';
+import { DataViewOptions } from './types/data-view';
+import { parseAggregateCols } from './utils';
 import { ActivityDataView } from './views/activity';
+import { CustomerDataView } from './views/customer';
+import { ProductDataView } from './views/products';
+import { StaffDataView } from './views/staff';
+
+const VIEWS = {
+  activity: ActivityDataView,
+  customer: CustomerDataView,
+  product: ProductDataView,
+  staff: StaffDataView,
+};
 
 @Controller('analytics')
 export class AnalyticsController {
   constructor(private readonly prisma: PrismaService) {}
 
   @Get()
-  async testEndpoint(
-    @Query() { source, aggregateCols }: Record<string, string>,
+  async getAnalyticsResult(
+    @Query(new ValidationPipe(VALIDATION_PIPE_OPTION))
+    { source, aggregateCols, start, end }: GetAnalyticsReportDto,
   ) {
-    if (source === 'activity') {
-      const view = new ActivityDataView(this.prisma);
-      const data = await view.get(this.parseAggregateCols(aggregateCols));
-      return data;
-    }
-    throw new HttpException(
-      'Invalid source, valid options: activity | product | customer',
-      400,
-    );
-  }
+    const options: DataViewOptions = {
+      start: new Date(start),
+      end: new Date(end),
+    };
 
-  parseAggregateCols(aggregateCols: string) {
-    const res: Record<string, boolean> = {};
-
-    aggregateCols.split(',').forEach((col) => {
-      res[col] = true;
+    const view = new VIEWS[source](this.prisma);
+    const data = await view.get({
+      ...options,
+      ...parseAggregateCols(aggregateCols),
     });
-    return res;
+    return data;
   }
 }
