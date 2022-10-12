@@ -18,7 +18,9 @@ import { IPAllowlistGuard } from './ip.guard';
     }),
     JwtModule.register({
       secret: jwtConstants.secret,
-      signOptions: { expiresIn: '7 hours' },
+      signOptions: {
+        expiresIn: process.env.CHRONICLE_JWT_DURATION ?? '7 hours',
+      },
     }),
     IPModule,
   ],

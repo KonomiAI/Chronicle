@@ -6,8 +6,9 @@ import { IPService } from './models/ip/ip.service';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  // TODO we should configure this once we go to production
-  app.enableCors();
+  app.enableCors({
+    origin: process.env.CHRONICLE_ALLOWED_ORIGINS?.split(',') ?? '*',
+  });
   app.useGlobalPipes(
     new ValidationPipe({
       forbidNonWhitelisted: true,
