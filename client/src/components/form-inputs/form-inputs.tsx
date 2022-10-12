@@ -51,9 +51,8 @@ export const AllFormInputs = () => {
         rules={{
           required: true,
           minLength: 1,
-          valueAsNumber: true,
         }}
-        numberField
+        type="number"
         label="Number Input Field"
       />
       <Spacer size="lg" />

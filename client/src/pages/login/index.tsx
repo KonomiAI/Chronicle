@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Controller, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { AxiosError } from 'axios';
 
 import {
@@ -9,9 +9,10 @@ import {
   Button,
   Card,
   CardContent,
-  Container,
+  Checkbox,
+  FormControlLabel,
+  Grid,
   Stack,
-  TextField,
   Typography,
 } from '@mui/material';
 
@@ -20,19 +21,27 @@ import Spacer from '../../components/spacer/Spacer';
 import {
   checkIsExpired,
   checkIsLoggedIn,
+  clearRememberedUsername,
   clearSession,
+  EMAIL_REGEXP,
+  getRememberedUsername,
+  setRememberedUsername,
   useAuth,
 } from '../../utils';
-import { AuthBody } from '../../types';
+import { AuthBody, UserNoAccessToken } from '../../types';
+import FallbackBackground from './assets/fallback_background.png';
+import { FormInputField } from '../../components/form-inputs/FormInputField';
 
 function LoginPage() {
   const { login } = useAuth();
   const navigate = useNavigate();
+  const [rememberMe, setRememberMe] = useState(!!getRememberedUsername());
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+
   const { control, handleSubmit } = useForm<AuthBody>({
     defaultValues: {
-      email: '',
+      email: getRememberedUsername(),
       password: '',
     },
   });
@@ -52,93 +61,131 @@ function LoginPage() {
     }
   }, []);
 
-  const handleLoginResponse = (err: null | AxiosError) => {
+  const handleLoginResponse = (
+    err: null | AxiosError,
+    user: null | UserNoAccessToken,
+  ) => {
     if (err) {
       setLoading(false);
       setError('Login failed. Double check you email and password combination');
       return;
     }
+
+    if (rememberMe) {
+      setRememberedUsername(user?.email || '');
+    } else {
+      clearRememberedUsername();
+    }
+
     goToHome();
   };
 
   const loginAction = login(handleLoginResponse);
 
   const tryLogin = (data: AuthBody) => {
+    setError('');
     setLoading(true);
     loginAction.mutate(data);
   };
 
-  return (
-    <Container maxWidth="sm">
-      <Box
-        sx={{
-          marginTop: '2em',
-        }}
-      >
-        <Card>
-          <CardContent>
-            <Stack spacing={2}>
-              <div>
-                <Typography variant="h3">Sign in to Chronicle</Typography>
-                <Typography>Enter your details below</Typography>
-              </div>
-              {error && (
-                <>
-                  <Alert severity="error">{error}</Alert>
-                  <Spacer />
-                </>
-              )}
-              <Controller
-                name="email"
-                control={control}
-                rules={{
-                  required: true,
-                }}
-                render={({ field: { value, onChange } }) => (
-                  <TextField
-                    id="username"
-                    label="Username"
-                    variant="outlined"
-                    type="email"
-                    value={value}
-                    onChange={onChange}
-                    data-testId="input-username"
-                  />
-                )}
-              />
-              <Controller
-                name="password"
-                control={control}
-                rules={{
-                  required: true,
-                }}
-                render={({ field: { value, onChange } }) => (
-                  <TextField
-                    id="password"
-                    label="Password"
-                    variant="outlined"
-                    type="password"
-                    value={value}
-                    onChange={onChange}
-                    data-testId="input-password"
-                  />
-                )}
-              />
+  const handleFieldChange = () => {
+    if (error) {
+      setError('');
+    }
+  };
 
-              <Button
-                variant="contained"
-                size="large"
-                onClick={handleSubmit(tryLogin)}
-                disabled={loading}
-                data-testId="btn-login"
+  return (
+    <Grid
+      container
+      style={{
+        backgroundImage: `url(${FallbackBackground})`,
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: 'cover',
+        height: '100vh',
+      }}
+    >
+      <Grid item xs={0} lg={8} />
+      <Grid item xs={12} lg={4}>
+        <Box
+          sx={{
+            padding: {
+              lg: '1em',
+            },
+          }}
+          style={{ height: '100%' }}
+        >
+          <Card style={{ height: '100%' }}>
+            <CardContent
+              style={{
+                padding: '2em',
+              }}
+            >
+              <form
+                onSubmit={handleSubmit(tryLogin)}
+                onChange={handleFieldChange}
               >
-                Login
-              </Button>
-            </Stack>
-          </CardContent>
-        </Card>
-      </Box>
-    </Container>
+                <Stack spacing={2}>
+                  <div>
+                    <Typography variant="h3">Sign in to Chronicle</Typography>
+                    <Typography>Enter your details below</Typography>
+                  </div>
+                  {error && (
+                    <>
+                      <Alert severity="error">{error}</Alert>
+                      <Spacer />
+                    </>
+                  )}
+                  <FormInputField
+                    name="email"
+                    label="Email"
+                    type="email"
+                    control={control}
+                    rules={{
+                      required: true,
+                      pattern: EMAIL_REGEXP,
+                    }}
+                  />
+                  <FormInputField
+                    control={control}
+                    name="password"
+                    label="Password"
+                    type="password"
+                    data-testId="input-password"
+                    rules={{
+                      required: true,
+                    }}
+                  />
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        style={{
+                          padding: 0,
+                          marginLeft: '-3px',
+                          marginRight: '4px',
+                        }}
+                        checked={rememberMe}
+                        onChange={() => setRememberMe(!rememberMe)}
+                      />
+                    }
+                    label="Remember username"
+                  />
+
+                  <Button
+                    variant="contained"
+                    size="large"
+                    type="submit"
+                    disabled={loading}
+                    data-testId="btn-login"
+                  >
+                    Login
+                  </Button>
+                </Stack>
+              </form>
+            </CardContent>
+          </Card>
+        </Box>
+      </Grid>
+    </Grid>
   );
 }
 
