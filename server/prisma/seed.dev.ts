@@ -43,10 +43,13 @@ export const seedTestForms = async (prisma: PrismaClient) => {
   });
 };
 
-export const seedTestProducts = async (prisma: PrismaClient) =>
-  prisma.product.createMany({
-    data: devProductFixtures,
-  });
+export const seedTestProducts = async (prisma: PrismaClient) => {
+  for (const fixture of devProductFixtures) {
+    await prisma.product.create({
+      data: fixture,
+    });
+  }
+};
 
 export const seedTestActivities = async (prisma: PrismaClient) =>
   prisma.activity.createMany({
