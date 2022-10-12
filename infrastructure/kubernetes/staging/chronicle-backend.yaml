@@ -52,12 +52,12 @@ spec:
             - name: ACCESS_TOKEN_KEY
               valueFrom:
                 secretKeyRef:
-                  name: chronicle-staging-access-token-key
+                  name: chronicle-staging-access-token-key-secret
                   key: value
             - name: ACCESS_TOKEN_EXPIRY_KEY
               valueFrom:
                 secretKeyRef:
-                  name: chronicle-staging-access-token-expiry-key
+                  name: chronicle-staging-access-token-expiry-key-secret
                   key: value
       affinity:
         # Since the cluster uses spot nodes that can be shut down at any time, having at least
