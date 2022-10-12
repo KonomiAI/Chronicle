@@ -1,0 +1,36 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: seed
+  namespace: staging
+spec:
+  template:
+    spec:
+      containers:
+        - name: seed
+          image: 'gcr.io/konomi-ai/chronicle-seed:latest'
+          imagePullPolicy: Always
+          resources:
+            requests:
+              memory: '100Mi'
+              cpu: '500m'
+          env:
+            - name: MONGODB_USER
+              value: chronicle
+            - name: CHRONICLE_ENV
+              value: DEV
+            - name: MONGODB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: chronicle-staging-mongodb-password-secret
+                  key: value
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: chronicle-staging-mongodb-url-secret
+                  key: value
+      restartPolicy: Never
+      nodeSelector:
+        cloud.google.com/gke-spot: 'true'
+  ttlSecondsAfterFinished: 130
+  backoffLimit: 1
