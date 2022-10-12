@@ -27,11 +27,12 @@ export const FormInputField = <T extends FieldValues>({
     control={control}
     rules={rules}
     render={({
-      field: { onChange, value },
+      field: { onChange, value, ref },
       fieldState: { invalid, error },
     }) => (
       <StyledTextField
         required={!!rules?.required ?? false}
+        inputRef={ref}
         size="small"
         fullWidth
         label={label}
