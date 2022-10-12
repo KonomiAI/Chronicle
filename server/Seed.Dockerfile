@@ -4,4 +4,6 @@ COPY package.json ./
 COPY prisma/ ./prisma/
 
 RUN prisma generate
-CMD ! npx prisma db push ... || npx prisma db seed
+# This is a awful hack to ensure the database is ready before we run the migrations
+# This is a hack because we should be using a healthcheck
+CMD sleep 10; ! npx prisma db push ... || npx prisma db seed
