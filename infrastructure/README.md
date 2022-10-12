@@ -106,11 +106,12 @@ mongosh "mongodb+srv://chronicle-staging-2.ex0ca.mongodb.net/chronicle" --apiVer
 ```
 
 # Persisting a Secret to Kubernetes
+
 1. Encode your secret. This can be done via the following command:
-`echo "YOUR_SECRET_VALUE" | base64`
+   `echo "YOUR_SECRET_VALUE" | base64`
 
 2. Copy your base64 encoded secret and create the following json key value pair:
-`{"value": "YOUR_BASE_64_ENCODED_SECRET"}`
+   `{"value": "YOUR_BASE_64_ENCODED_SECRET"}`
 
 3. Navigate to https://github.com/KonomiAI/Chronicle/settings/secrets/actions and create a github actions secret, ex: `YOUR_SECRET_NAME`, and ensure the secret value is of the format described in the previous step.
 
@@ -127,6 +128,7 @@ mongosh "mongodb+srv://chronicle-staging-2.ex0ca.mongodb.net/chronicle" --apiVer
 ```
 
 5. To ensure your secret will persist as an environment variable in the backend pod in kubernetes, a reference to the secret will be required in the backend manifest, ex: `infrastructure/kubernetes/staging/chronicle-backend.yaml`:
+
 ```
 spec:
   template:
