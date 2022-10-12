@@ -23,7 +23,9 @@ export class IPAllowlistGuard implements CanActivate {
       [context.getHandler(), context.getClass()],
     );
 
-    if (shouldCheckIP === false) {
+    const { user } = context.switchToHttp().getRequest();
+
+    if (shouldCheckIP === false || user?.isSuperUser) {
       return true;
     }
 
