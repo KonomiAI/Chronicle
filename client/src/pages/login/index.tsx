@@ -73,7 +73,11 @@ function LoginPage() {
   ) => {
     if (err) {
       setLoading(false);
-      setError('Login failed. Double check you email and password combination');
+
+      setError(
+        err.response?.data?.message ??
+          'Login failed. Double check you email and password combination',
+      );
       return;
     }
 
