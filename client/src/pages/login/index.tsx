@@ -39,7 +39,7 @@ function LoginPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-  const { control, handleSubmit } = useForm<AuthBody>({
+  const { control, handleSubmit, setFocus } = useForm<AuthBody>({
     defaultValues: {
       email: getRememberedUsername(),
       password: '',
@@ -59,6 +59,12 @@ function LoginPage() {
       setError('Your session has expired. Please login again to continue.');
       clearSession();
     }
+
+    if (getRememberedUsername()) {
+      setFocus('password');
+    } else {
+      setFocus('email');
+    }
   }, []);
 
   const handleLoginResponse = (
@@ -67,7 +73,11 @@ function LoginPage() {
   ) => {
     if (err) {
       setLoading(false);
-      setError('Login failed. Double check you email and password combination');
+
+      setError(
+        err.response?.data?.message ??
+          'Login failed. Double check you email and password combination',
+      );
       return;
     }
 
@@ -175,7 +185,7 @@ function LoginPage() {
                     size="large"
                     type="submit"
                     disabled={loading}
-                    data-testId="btn-login"
+                    data-testid="btn-login"
                   >
                     Login
                   </Button>
