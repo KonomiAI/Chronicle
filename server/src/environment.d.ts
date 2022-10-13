@@ -2,6 +2,7 @@ declare global {
   namespace NodeJS {
     interface ProcessEnv {
       CHRONICLE_SKIP_AUTH?: 'YES' | 'NO';
+      CHRONICLE_IGNORE_FORWARD_HEADERS?: 'YES' | 'NO';
     }
   }
 }
