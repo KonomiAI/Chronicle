@@ -6,7 +6,6 @@ import {
   CardContent,
   Container,
   Grid,
-  TextField,
   Typography,
   Checkbox,
 } from '@mui/material';
@@ -24,6 +23,7 @@ import PageHeader from '../../components/page-header/PageHeader';
 import Spacer from '../../components/spacer/Spacer';
 import SaveBar from '../../components/save-bar/save-bar';
 import { Feature, Role, RoleData } from '../../types';
+import { FormInputField } from '../../components/form-inputs/FormInputField';
 
 const cleanRole = (role: Role) => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -113,22 +113,7 @@ export default function RoleDetails({ create, data, saveChanges }: RoleProps) {
             </Typography>
             <Grid container spacing={2}>
               <Grid item xs={12}>
-                <Controller
-                  name="name"
-                  control={control}
-                  render={({ field: { onChange, value } }) => (
-                    <TextField
-                      fullWidth
-                      label="Name"
-                      variant="outlined"
-                      onChange={onChange}
-                      value={value}
-                    />
-                  )}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField fullWidth label="Description" variant="outlined" />
+                <FormInputField name="name" label="Name" control={control} />
               </Grid>
             </Grid>
           </CardContent>
