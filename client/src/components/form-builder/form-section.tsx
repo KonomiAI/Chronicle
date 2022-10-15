@@ -29,7 +29,7 @@ export const FormSection = ({
   context,
 }: FormSectionProps) => {
   const { control } = useFormContext();
-  const { fields, append, remove } = useFieldArray({
+  const { fields, append, remove, swap } = useFieldArray({
     control,
     name: `${context}sections.${index}.fields`,
   });
@@ -114,6 +114,10 @@ export const FormSection = ({
           index={i}
           sectionIndex={index}
           onRemove={() => remove(i)}
+          onMoveUp={() => swap(i, i - 1)}
+          onMoveDown={() => swap(i, i + 1)}
+          disableMoveDown={i === fields.length - 1}
+          disableMoveUp={i === 0}
         />
       ))}
       <Box sx={{ mt: 2 }}>
