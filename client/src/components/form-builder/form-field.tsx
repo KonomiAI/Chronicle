@@ -117,8 +117,8 @@ export const FormField = ({
           {isStaticOptionQuestionType && (
             <StaticMultipleChoiceBuilder
               context={context}
-              control={control}
               index={index}
+              control={control}
               sectionIndex={sectionIndex}
             />
           )}
