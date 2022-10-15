@@ -69,10 +69,9 @@ export default function RoleDetails({ create, data, saveChanges }: RoleProps) {
   const [isSaveOpen, setIsSaveOpen] = useState(false);
   const navigate = useNavigate();
 
-  const { control, reset, handleSubmit, watch, setValue, getValues } =
-    useForm<RoleData>({
-      defaultValues: rawRole,
-    });
+  const { control, reset, handleSubmit, watch, setValue } = useForm<RoleData>({
+    defaultValues: rawRole,
+  });
 
   useEffect(() => {
     const subscription = watch(() => setIsSaveOpen(true));
@@ -150,7 +149,7 @@ export default function RoleDetails({ create, data, saveChanges }: RoleProps) {
                         <Checkbox
                           checked={value}
                           onChange={onChange}
-                          disabled={getValues(`permissions.${s.name}.write`)}
+                          disabled={watch(`permissions.${s.name}.write`)}
                         />
                       )}
                     />
