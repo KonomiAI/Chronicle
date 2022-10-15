@@ -14,7 +14,7 @@ import {
   IconButton,
   Switch,
 } from '@mui/material';
-import { Delete } from '@mui/icons-material';
+import { ArrowUpward, Delete } from '@mui/icons-material';
 import { secureRandomString } from '../../utils';
 import { FieldTypeSelect } from './FieldTypeSelect';
 import { FormInputField } from '../form-inputs/FormInputField';
@@ -27,6 +27,10 @@ interface FormFieldProps {
   index: number;
   onRemove: () => void;
   context: string;
+  onMoveUp?: () => void;
+  onMoveDown?: () => void;
+  disableMoveUp?: boolean;
+  disableMoveDown?: boolean;
 }
 
 export const FormField = ({
@@ -34,6 +38,10 @@ export const FormField = ({
   sectionIndex,
   onRemove,
   context,
+  onMoveDown,
+  onMoveUp,
+  disableMoveUp,
+  disableMoveDown,
 }: FormFieldProps) => {
   const getFormName = (
     name: keyof FormFieldSchema,
@@ -156,6 +164,27 @@ export const FormField = ({
               </Button>
             )}
             {/* TODO implement form field duplication feature. */}
+            {onMoveUp && (
+              <IconButton
+                onClick={onMoveUp}
+                data-testid="move-up"
+                disabled={disableMoveUp}
+              >
+                <ArrowUpward />
+              </IconButton>
+            )}
+            {onMoveDown && (
+              <IconButton
+                onClick={onMoveDown}
+                data-testid="move-down"
+                disabled={disableMoveDown}
+              >
+                {/* Instead of importing another icon (more data to load), we just flip the same icon around lol
+                    GH copilot is crazy.
+                */}
+                <ArrowUpward sx={{ transform: 'rotate(180deg)' }} />
+              </IconButton>
+            )}
             {/* <IconButton aria-label="duplicate this question">
               <ContentCopy />
             </IconButton> */}
