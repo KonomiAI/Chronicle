@@ -56,6 +56,14 @@ export const seedTestActivities = async (prisma: PrismaClient) =>
     data: devActivityFixtures,
   });
 
+export const seedDevIPs = async (prisma: PrismaClient) =>
+  prisma.ip.create({
+    data: {
+      ip: '0.0.0.0/0',
+      description: 'Allow all IPs',
+    },
+  });
+
 export const devSeedProcedure = async (prisma: PrismaClient) => {
   console.log('Seeding development data');
   const roles = await prisma.role.findMany({
@@ -67,6 +75,7 @@ export const devSeedProcedure = async (prisma: PrismaClient) => {
   await prisma.staff.create({
     data: await seedSuperUser(roles.map((r) => r.id)),
   });
+  await seedDevIPs(prisma);
   await seedTestCustomers(prisma);
   await seedTestForms(prisma);
   await seedTestProducts(prisma);

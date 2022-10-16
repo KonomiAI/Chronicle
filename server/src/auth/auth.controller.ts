@@ -51,7 +51,10 @@ export class AuthController {
       login.email,
       login.password,
     );
-    await this.ipGuard.checkRequestIP(req);
+    if (!user.isSuperUser) {
+      await this.ipGuard.checkRequestIP(req);
+    }
+
     return this.authService.obtainToken(user);
   }
 
