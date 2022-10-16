@@ -49,12 +49,10 @@ const ProfilePage = () => {
       setIsSuccess(false);
       setError('');
       setIsLoading(true);
-      if (data.password) {
-        updateStaffAndMutate.mutate({
-          id: user?.id,
-          data: sanitizeData(data),
-        });
-      }
+      updateStaffAndMutate.mutate({
+        id: user?.id,
+        data: sanitizeData(data),
+      });
     } else {
       setError('Unexpected error: User ID not found.');
     }
