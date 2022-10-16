@@ -47,17 +47,14 @@ export class UpdateStaffDto {
 
   @IsEmail()
   @IsNotEmpty()
-  @IsOptional()
   email: string;
 
   @IsNotEmpty()
   @IsString()
-  @IsOptional()
   firstName: string;
 
   @IsNotEmpty()
   @IsString()
-  @IsOptional()
   lastName: string;
 
   @IsISO8601()
@@ -69,16 +66,13 @@ export class UpdateStaffDto {
   password?: string;
 
   @IsEnum(Gender)
-  @IsOptional()
   gender: Gender;
 
   @IsBoolean()
-  @IsOptional()
   isSuspended: boolean;
 
   @IsString({
     each: true,
   })
-  @IsOptional()
   roleIds: string[];
 }
