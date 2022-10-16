@@ -6,13 +6,13 @@ import {
   CardContent,
   Container,
   Grid,
-  TextField,
   Typography,
   Checkbox,
 } from '@mui/material';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Controller, useForm } from 'react-hook-form';
 import { useMutation, useQueryClient } from 'react-query';
+import { useSnackbar } from 'notistack';
 import {
   useRole,
   useFeaturesList,
@@ -24,10 +24,11 @@ import PageHeader from '../../components/page-header/PageHeader';
 import Spacer from '../../components/spacer/Spacer';
 import SaveBar from '../../components/save-bar/save-bar';
 import { Feature, Role, RoleData } from '../../types';
+import { FormInputField } from '../../components/form-inputs/FormInputField';
 
 const cleanRole = (role: Role) => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { id, ...clean } = role;
+  const { id, staffIds, ...clean } = role;
   return clean;
 };
 
@@ -68,7 +69,7 @@ export default function RoleDetails({ create, data, saveChanges }: RoleProps) {
   const [isSaveOpen, setIsSaveOpen] = useState(false);
   const navigate = useNavigate();
 
-  const { control, reset, handleSubmit, watch } = useForm<RoleData>({
+  const { control, reset, handleSubmit, watch, setValue } = useForm<RoleData>({
     defaultValues: rawRole,
   });
 
@@ -113,22 +114,7 @@ export default function RoleDetails({ create, data, saveChanges }: RoleProps) {
             </Typography>
             <Grid container spacing={2}>
               <Grid item xs={12}>
-                <Controller
-                  name="name"
-                  control={control}
-                  render={({ field: { onChange, value } }) => (
-                    <TextField
-                      fullWidth
-                      label="Name"
-                      variant="outlined"
-                      onChange={onChange}
-                      value={value}
-                    />
-                  )}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField fullWidth label="Description" variant="outlined" />
+                <FormInputField name="name" label="Name" control={control} />
               </Grid>
             </Grid>
           </CardContent>
@@ -160,7 +146,11 @@ export default function RoleDetails({ create, data, saveChanges }: RoleProps) {
                       name={`permissions.${s.name}.read`}
                       control={control}
                       render={({ field: { onChange, value } }) => (
-                        <Checkbox checked={value} onChange={onChange} />
+                        <Checkbox
+                          checked={value}
+                          onChange={onChange}
+                          disabled={watch(`permissions.${s.name}.write`)}
+                        />
                       )}
                     />
                   </Grid>
@@ -169,7 +159,16 @@ export default function RoleDetails({ create, data, saveChanges }: RoleProps) {
                       name={`permissions.${s.name}.write`}
                       control={control}
                       render={({ field: { onChange, value } }) => (
-                        <Checkbox checked={value} onChange={onChange} />
+                        <Checkbox
+                          checked={value}
+                          onChange={(e) => {
+                            setValue(
+                              `permissions.${s.name}.read`,
+                              e.target.checked,
+                            );
+                            onChange(e);
+                          }}
+                        />
                       )}
                     />
                   </Grid>
@@ -233,10 +232,12 @@ export function UpdateRoleForm() {
   }
   const { data } = useRole(id);
   const queryClient = useQueryClient();
+  const { enqueueSnackbar } = useSnackbar();
 
   const updateRoleAndMutate = useMutation(updateRole, {
-    onSuccess: () => {
-      queryClient.invalidateQueries(['role', id]);
+    onSuccess: async () => {
+      await queryClient.invalidateQueries(['role', id]);
+      enqueueSnackbar('Role updated successfully', { variant: 'success' });
     },
   });
 
