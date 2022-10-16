@@ -17,9 +17,10 @@ import { IPAllowlistGuard } from './ip.guard';
       defaultStrategy: 'jwt',
     }),
     JwtModule.register({
+      // We use a ephemeral secret here if a defined one is not provided
       secret: jwtConstants.secret,
       signOptions: {
-        expiresIn: process.env.CHRONICLE_JWT_DURATION ?? '7 hours',
+        expiresIn: jwtConstants.duration,
       },
     }),
     IPModule,

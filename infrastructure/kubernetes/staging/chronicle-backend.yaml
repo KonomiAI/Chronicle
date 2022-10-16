@@ -59,6 +59,11 @@ spec:
                 secretKeyRef:
                   name: chronicle-staging-access-token-expiry-key-secret
                   key: value
+            - name: CHRONICLE_JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: chronicle-staging-jwt-secret
+                  key: value
       affinity:
         # Since the cluster uses spot nodes that can be shut down at any time, having at least
         # 2 replicas with antiAffinity is recommended for application resilency when a node shuts down
