@@ -152,7 +152,10 @@ function LoginPage() {
                     control={control}
                     rules={{
                       required: true,
-                      pattern: EMAIL_REGEXP,
+                      pattern: {
+                        value: EMAIL_REGEXP,
+                        message: 'Please enter a valid email address',
+                      },
                     }}
                   />
                   <FormInputField

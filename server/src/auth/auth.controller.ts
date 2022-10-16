@@ -6,11 +6,16 @@ import {
   UseGuards,
   Request,
 } from '@nestjs/common';
+import { Prisma, Staff } from '@prisma/client';
+
 import { AuthService } from './auth.service';
-import { LoginDto } from './auth.dto';
+import { LoginDto, ResetPasswordDto } from './auth.dto';
 import { JwtAuthGuard } from './jwt-auth.guard';
 import { IPAllowlistGuard, SkipIPCheck } from './ip.guard';
 import { RequestWithUser } from 'src/types/request';
+import { GetUser } from './user.decorator';
+import { BcryptService } from './bcrypt.service';
+import { StaffService } from 'src/models/staff/staff.service';
 
 //TODO: return roles associated as well when that relation has been established
 const SELECT = {
@@ -34,7 +39,9 @@ const SELECT = {
 export class AuthController {
   constructor(
     private authService: AuthService,
+    private bcrypt: BcryptService,
     private ipGuard: IPAllowlistGuard,
+    private staffService: StaffService,
   ) {}
 
   @SkipIPCheck()
@@ -50,10 +57,27 @@ export class AuthController {
 
     return this.authService.obtainToken(user);
   }
+
   @UseGuards(JwtAuthGuard)
   @Get('details')
   async getDetails(@Request() req) {
     const user = await this.authService.getDetails({ id: req.user.id }, SELECT);
     return user;
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Post('reset-password')
+  async resetPassword(@Body() data: ResetPasswordDto, @GetUser() user: Staff) {
+    const { password } = data;
+    const updateData: Prisma.StaffUpdateInput = {};
+
+    updateData.authKey = await this.bcrypt.hash(password);
+
+    await this.staffService.update({
+      where: { id: user.id },
+      data: updateData,
+    });
+
+    return;
   }
 }

@@ -1,5 +1,5 @@
 import useAxios from './axios';
-import { AuthBody, User, UserNoAccessToken } from '../types';
+import { AuthBody, ResetPasswordBody, User, UserNoAccessToken } from '../types';
 import { ACCESS_TOKEN_EXPIRY_KEY, ACCESS_TOKEN_KEY } from '../vars';
 import { useLocalStorage } from '../utils';
 
@@ -7,10 +7,6 @@ const getExpiryOfJwt = (jwt: string) => {
   const payload = JSON.parse(atob(jwt.split('.')[1]));
   return payload.exp;
 };
-
-/**
- * THIS METHOD SHOULD BE EXPORTED
- */
 
 export const login = async (data: AuthBody): Promise<UserNoAccessToken> => {
   const axios = useAxios();
@@ -27,10 +23,13 @@ export const login = async (data: AuthBody): Promise<UserNoAccessToken> => {
   return user;
 };
 
-/**
- * THIS METHOD SHOULD BE EXPORTED
- */
 export const getUser = () => {
   const axios = useAxios();
   return axios.get<UserNoAccessToken>('/auth/details').then((res) => res.data);
+};
+
+export const resetPassword = (data: ResetPasswordBody) => {
+  const axios = useAxios();
+
+  return axios.post(`/auth/reset-password`, data).then((res) => res.data);
 };
