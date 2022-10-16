@@ -18,6 +18,14 @@ export interface AuthBody {
   password: string;
 }
 
+export interface ResetPasswordBody {
+  password: string;
+}
+
+export interface ResetPasswordData extends ResetPasswordBody {
+  confirmPassword: string;
+}
+
 export interface User {
   accessToken: string;
   id: string;
@@ -32,8 +40,6 @@ export interface User {
 
 export type UserNoAccessToken = Omit<User, 'accessToken'>;
 
-export type StaffUpdateData = Partial<
-  Omit<Staff, 'id' | 'isSuperUser' | 'roles'>
-> & {
+export type StaffUpdateData = Omit<Staff, 'id' | 'isSuperUser' | 'roles'> & {
   password?: string;
 };

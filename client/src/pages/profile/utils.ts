@@ -1,5 +1,7 @@
-import { StaffUpdateData } from '../../types';
+import { ResetPasswordBody, ResetPasswordData } from '../../types';
 
-export const sanitizeData = (data: StaffUpdateData) => ({
+export const buildResetPasswordBody = (
+  data: ResetPasswordData,
+): ResetPasswordBody => ({
   password: data.password,
 });

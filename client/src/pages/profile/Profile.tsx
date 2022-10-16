@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useMutation, useQueryClient } from 'react-query';
+import { useMutation } from 'react-query';
 
 import {
   Alert,
@@ -13,28 +13,26 @@ import {
 import { LoadingButton } from '@mui/lab';
 
 import { FormInputField } from '../../components/form-inputs/FormInputField';
-import { StaffUpdateData } from '../../types';
+import { ResetPasswordData } from '../../types';
 import Spacer from '../../components/spacer/Spacer';
-import { updateStaff } from '../../data';
 import { useStore } from '../../store';
-import { sanitizeData } from './utils';
+import { buildResetPasswordBody } from './utils';
+import { resetPassword } from '../../data/auth';
 
 const ProfilePage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [error, setError] = useState('');
-  const { control, handleSubmit, watch } = useForm({});
+  const { control, handleSubmit, watch } = useForm<ResetPasswordData>();
   const { user } = useStore();
   const password = useRef('');
-  const queryClient = useQueryClient();
 
   password.current = watch('password', '') || '';
 
-  const updateStaffAndMutate = useMutation(updateStaff, {
+  const resetPasswordAndMutate = useMutation(resetPassword, {
     onSuccess: () => {
       setIsSuccess(true);
       setIsLoading(false);
-      queryClient.invalidateQueries(['staff', user?.id]);
     },
     onError: () => {
       setIsLoading(false);
@@ -44,15 +42,12 @@ const ProfilePage = () => {
     },
   });
 
-  const tryUpdate = (data: StaffUpdateData) => {
+  const tryUpdate = (data: ResetPasswordData) => {
     if (user?.id) {
       setIsSuccess(false);
       setError('');
       setIsLoading(true);
-      updateStaffAndMutate.mutate({
-        id: user?.id,
-        data: sanitizeData(data),
-      });
+      resetPasswordAndMutate.mutate(buildResetPasswordBody(data));
     } else {
       setError('Unexpected error: User ID not found.');
     }
@@ -97,7 +92,7 @@ const ProfilePage = () => {
           <Spacer size="md" />
           <FormInputField
             type="password"
-            name="password_repeat"
+            name="confirmPassword"
             control={control}
             rules={{
               validate: (value) =>
