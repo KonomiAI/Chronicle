@@ -91,7 +91,7 @@ const FormBase: React.FC<FormBaseProps> = ({ onSave, formData }) => {
           </Grid>
         </CardContent>
       </Card>
-      <Spacer size="lg" />
+      <Spacer size="md" />
       <FormBuilder form={form} name="body" />
       <Spacer size="saveBar" />
       <SaveBar

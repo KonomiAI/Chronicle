@@ -29,6 +29,7 @@ export default function PageHeader({
         sx={{
           display: 'flex',
           alignItems: 'center',
+          marginRight: 1,
         }}
       >
         {backURL && (

@@ -6,6 +6,8 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { TransformInterceptor } from 'src/interceptors/transform.interceptor';
+import { Actions, Features } from 'src/auth/constants';
+import { Auth } from 'src/auth/role.decorator';
 import { PrismaService } from 'src/prisma.service';
 import { VALIDATION_PIPE_OPTION } from 'src/utils/consts';
 import { GetAnalyticsReportDto } from './analytics.dto';
@@ -28,6 +30,12 @@ const VIEWS = {
 export class AnalyticsController {
   constructor(private readonly prisma: PrismaService) {}
 
+  @Auth(Actions.READ, [
+    Features.Inventory,
+    Features.Security,
+    Features.Customer,
+    Features.Entry,
+  ])
   @Get()
   async getAnalyticsResult(
     @Query(new ValidationPipe(VALIDATION_PIPE_OPTION))
