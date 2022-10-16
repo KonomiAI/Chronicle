@@ -39,6 +39,7 @@ import PrivilegedRoute from './components/privileged-route';
 import { Features } from './types';
 import { ActivityEntryList } from './pages/activity-entry-list';
 import { ActivityEntryDetails } from './pages/activity-entry-details/ActivityEntryDetails';
+import ProfilePage from './pages/profile/Profile';
 
 const queryClient = new QueryClient();
 
@@ -49,6 +50,7 @@ const RouteMap = () => (
       <Route element={<ProtectedRoute />}>
         <Route path="/" element={<MainContainer />}>
           <Route index element={<LandingPage />} />
+          <Route path="profile" element={<ProfilePage />} />
           <Route element={<PrivilegedRoute feature={Features.SECURITY} />}>
             <Route path="staff" element={<StaffListPage />} />
             <Route path="staff/:id" element={<StaffDetailsPage />} />

@@ -32,6 +32,13 @@ export interface User {
 
 export type UserNoAccessToken = Omit<User, 'accessToken'>;
 
-export type StaffUpdateData = Omit<Staff, 'id' | 'isSuperUser' | 'roles'> & {
+export type StaffUpdateData = {
+  firstName?: string;
+  lastName?: string;
+  email?: string;
+  gender?: Gender;
+  dateOfBirth?: string;
+  isSuspended?: boolean;
+  roleIds?: string[];
   password?: string;
 };
