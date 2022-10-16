@@ -24,7 +24,7 @@ const ProfilePage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [error, setError] = useState('');
-  const { control, handleSubmit, watch } = useForm<ResetPasswordData>();
+  const { control, handleSubmit, watch, reset } = useForm<ResetPasswordData>();
   const { user } = useStore();
 
   const password = watch('password', '');
@@ -33,6 +33,10 @@ const ProfilePage = () => {
     onSuccess: () => {
       setIsSuccess(true);
       setIsLoading(false);
+      reset({
+        password: '',
+        confirmPassword: '',
+      });
     },
     onError: () => {
       setIsLoading(false);
@@ -73,39 +77,38 @@ const ProfilePage = () => {
             <Alert severity="success">Password successfully changed.</Alert>
           )}
           {(error || isSuccess) && <Spacer size="md" />}
-          <FormInputField
-            type="password"
-            name="password"
-            control={control}
-            rules={{
-              required: true,
-              minLength: {
-                value: 8,
-                message: 'Password must have at least 8 characters',
-              },
-            }}
-            label="New password"
-          />
-          <Spacer size="md" />
-          <FormInputField
-            type="password"
-            name="confirmPassword"
-            control={control}
-            rules={{
-              validate: (confirmPassword) =>
-                confirmPassword === password || 'The passwords do not match',
-            }}
-            label="Confirm password"
-          />
-          <Spacer size="md" />
-          <Box sx={{ display: 'flex', justifyContent: 'end' }}>
-            <LoadingButton
-              onClick={handleSubmit(tryUpdate)}
-              loading={isLoading}
-            >
-              Change
-            </LoadingButton>
-          </Box>
+          <form onSubmit={handleSubmit(tryUpdate)}>
+            <FormInputField
+              type="password"
+              name="password"
+              control={control}
+              rules={{
+                required: true,
+                minLength: {
+                  value: 8,
+                  message: 'Password must have at least 8 characters',
+                },
+              }}
+              label="New password"
+            />
+            <Spacer size="md" />
+            <FormInputField
+              type="password"
+              name="confirmPassword"
+              control={control}
+              rules={{
+                validate: (confirmPassword) =>
+                  confirmPassword === password || 'The passwords do not match',
+              }}
+              label="Confirm password"
+            />
+            <Spacer size="md" />
+            <Box sx={{ display: 'flex', justifyContent: 'end' }}>
+              <LoadingButton type="submit" loading={isLoading}>
+                Change
+              </LoadingButton>
+            </Box>
+          </form>
         </CardContent>
       </Card>
     </Container>
