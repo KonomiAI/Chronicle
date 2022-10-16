@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Prisma, Ip as IPModel } from '@prisma/client';
 import { PrismaService } from '../../prisma.service';
+import * as CIDRMatcher from 'cidr-matcher';
 
 @Injectable()
 export class IPService {
@@ -40,11 +41,9 @@ export class IPService {
   }
 
   async isIPInAllowList(ip: string) {
-    const res = await this.prisma.ip.findFirst({
-      where: {
-        ip,
-      },
-    });
-    return !!res;
+    const res = await this.prisma.ip.findMany();
+    const ips = res.map((ip) => ip.ip);
+    const matcher = new CIDRMatcher(ips);
+    return matcher.contains(ip);
   }
 }
