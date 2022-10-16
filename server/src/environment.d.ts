@@ -1,7 +1,6 @@
 declare global {
   namespace NodeJS {
     interface ProcessEnv {
-      CHRONICLE_SKIP_AUTH?: 'YES' | 'NO';
       CHRONICLE_ALLOWED_ORIGINS?: string;
       CHRONICLE_JWT_DURATION?: string;
       CHRONICLE_JWT_SECRET?: string;

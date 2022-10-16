@@ -2,6 +2,7 @@ import {
   BadRequestException,
   CanActivate,
   ExecutionContext,
+  Inject,
   Injectable,
   Logger,
   SetMetadata,
@@ -18,7 +19,7 @@ const IP_CHECK_KEY = 'shouldCheckIPAddress';
 export class IPAllowlistGuard implements CanActivate {
   private readonly logger = new Logger(IPAllowlistGuard.name);
   constructor(
-    private readonly ipService: IPService,
+    @Inject(IPService) private readonly ipService: IPService,
     private reflector: Reflector,
   ) {}
 

@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Global, Module } from '@nestjs/common';
 import { BcryptService } from './bcrypt.service';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
@@ -10,7 +10,9 @@ import { StaffService } from '../models/staff/staff.service';
 import { PrismaService } from '../prisma.service';
 import { IPModule } from '../models/ip/ip.module';
 import { IPAllowlistGuard } from './ip.guard';
+import { IPService } from 'src/models/ip/ip.service';
 
+@Global()
 @Module({
   imports: [
     PassportModule.register({
@@ -25,13 +27,14 @@ import { IPAllowlistGuard } from './ip.guard';
     }),
     IPModule,
   ],
-  exports: [BcryptService, IPModule],
+  exports: [BcryptService, IPService],
   providers: [
     BcryptService,
     JwtStrategy,
     AuthService,
     StaffService,
     PrismaService,
+    IPService,
     IPAllowlistGuard,
   ],
   controllers: [AuthController],
