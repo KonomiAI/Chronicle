@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Useful Links - Konomi Docs</title>
+        <title>Manage staff - Konomi Docs</title>
         <!-- Custom HTML head -->
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="Internal Documents">
@@ -75,7 +75,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../index.html">Intro</a></li><li class="chapter-item expanded affix "><li class="part-title">Design</li><li class="chapter-item expanded "><a href="../design/proposal.html">Project Proposal</a></li><li class="chapter-item expanded "><a href="../design/mvp_scope.html">MVP Scope</a></li><li class="chapter-item expanded "><a href="../design/tech_stack.html">Tech Stack</a></li><li class="chapter-item expanded "><a href="../design/database.html">Database Design</a></li><li class="chapter-item expanded "><a href="../design/user_stories.html">User Stories</a></li><li class="chapter-item expanded "><a href="../design/custom-form.html">Custom Form Design</a></li><li class="chapter-item expanded "><a href="../design/data_analytics.html">Data analytics system Design</a></li><li class="chapter-item expanded affix "><li class="part-title">User Manual</li><li class="chapter-item expanded "><a href="../user-manual/introduction.html">Introduction</a></li><li class="chapter-item expanded "><a href="../user-manual/custom-fields.html">Custom form</a></li><li class="chapter-item expanded "><a href="../user-manual/staff-management.html">Manage staff</a></li><li class="chapter-item expanded affix "><li class="part-title">Appendix</li><li class="chapter-item expanded "><a href="../design/glossary.html">Glossary</a></li><li class="chapter-item expanded "><a href="../misc/useful-links.html" class="active">Useful Links</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../index.html">Intro</a></li><li class="chapter-item expanded affix "><li class="part-title">Design</li><li class="chapter-item expanded "><a href="../design/proposal.html">Project Proposal</a></li><li class="chapter-item expanded "><a href="../design/mvp_scope.html">MVP Scope</a></li><li class="chapter-item expanded "><a href="../design/tech_stack.html">Tech Stack</a></li><li class="chapter-item expanded "><a href="../design/database.html">Database Design</a></li><li class="chapter-item expanded "><a href="../design/user_stories.html">User Stories</a></li><li class="chapter-item expanded "><a href="../design/custom-form.html">Custom Form Design</a></li><li class="chapter-item expanded "><a href="../design/data_analytics.html">Data analytics system Design</a></li><li class="chapter-item expanded affix "><li class="part-title">User Manual</li><li class="chapter-item expanded "><a href="../user-manual/introduction.html">Introduction</a></li><li class="chapter-item expanded "><a href="../user-manual/custom-fields.html">Custom form</a></li><li class="chapter-item expanded "><a href="../user-manual/staff-management.html" class="active">Manage staff</a></li><li class="chapter-item expanded affix "><li class="part-title">Appendix</li><li class="chapter-item expanded "><a href="../design/glossary.html">Glossary</a></li><li class="chapter-item expanded "><a href="../misc/useful-links.html">Useful Links</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -134,20 +134,79 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="useful-links"><a class="header" href="#useful-links">Useful links</a></h1>
-<p>Here are some useful links to navigate around the Chronicle project</p>
-<h3 id="figma"><a class="header" href="#figma">Figma</a></h3>
-<ul>
-<li><a href="https://www.figma.com/file/CSDPY2LRme3hymSE8tnsIq/Chronicle?node-id=0%3A1">Design Board</a></li>
-<li><a href="https://www.figma.com/proto/CSDPY2LRme3hymSE8tnsIq/Chronicle?node-id=24%3A81&amp;scaling=scale-down&amp;page-id=0%3A1&amp;starting-point-node-id=24%3A81&amp;show-proto-sidebar=1">Prototypes</a></li>
-</ul>
+                        <h1 id="staff--role-management"><a class="header" href="#staff--role-management">Staff &amp; role management</a></h1>
+<p>Chronicle features a robust staff management system that allows you to track staff information, grant access to specific parts of the system and gain performance insights.</p>
+<p><em>Before proceeding, make sure you are signed in as the super user or you are a user with write access to security feature. This feature is granted to all users with the built-in administrator role</em></p>
+<h2 id="role-management"><a class="header" href="#role-management">Role Management</a></h2>
+<p>You can view, create and update your roles in the system.</p>
+<h3 id="create-a-new-role"><a class="header" href="#create-a-new-role">Create a new role</a></h3>
+<p>Steps:</p>
+<ol>
+<li>Click on Security on the side menu to show all security menu options, click on <strong>Roles</strong>.</li>
+<li>Click <strong>Create new role</strong></li>
+<li>Provide a name and a description for the role.</li>
+<li>Select all accesses the role has in the system, note if a user has write permission in a role, they will automatically be granted read permission.</li>
+<li>Remember to click <strong>Save</strong> at the bottom of the page.</li>
+</ol>
+<h3 id="update-an-existing-role"><a class="header" href="#update-an-existing-role">Update an existing role</a></h3>
+<p>Steps:</p>
+<ol>
+<li>Click on security on the side menu to show all security menu options, click on <strong>Roles</strong></li>
+<li>Select the role you want to update</li>
+<li>Make the necessary changes in the form</li>
+<li>Click <strong>Save</strong> when you are done</li>
+</ol>
+<h3 id="deleting-a-role"><a class="header" href="#deleting-a-role">Deleting a role</a></h3>
+<p>Steps:</p>
+<ol>
+<li>Click on security on the side menu to show all security menu options, click on <strong>Roles</strong></li>
+<li>Select the role you want to delete</li>
+<li>Make the necessary changes in the form</li>
+<li>Click <strong>delete</strong> in the danger zone section of the page. You cannot delete a role if it is assigned to a staff, even if the staff is no longer active. Remove the role from the staff or delete the staff to delete the role.</li>
+</ol>
+<h2 id="staff-management"><a class="header" href="#staff-management">Staff management</a></h2>
+<p>You can currently create and manage staff information using the security feature of Chronicle. We are currently recording basic information about the staff, and are planning to allow custom forms be connected to staff records soon.</p>
+<h3 id="invite-a-new-staff"><a class="header" href="#invite-a-new-staff">Invite a new staff</a></h3>
+<p>Steps:</p>
+<ol>
+<li>Access the staff list by clicking on <strong>Staff</strong> on the side menu, if you don't see <strong>Staff</strong>, click on <strong>Security</strong> to see the option.</li>
+<li>Click <strong>Invite</strong></li>
+<li>Fill in the form that showed up in the dialog</li>
+<li>A temporary password will be created for the staff, take a note of the password as it is only shown once.</li>
+<li>Send the login credentials to your staff member, they will be able to sign in using the credentials provided.</li>
+</ol>
+<h3 id="reset-a-staff-members-password"><a class="header" href="#reset-a-staff-members-password">Reset a staff member's password</a></h3>
+<p>If your staff member forgot their login credentials, you can reset it using the staff details page.</p>
+<p>Steps:</p>
+<ol>
+<li>Access the staff list by clicking on <strong>Staff</strong> on the side menu, if you don't see <strong>Staff</strong>, click on <strong>Security</strong> to see the option.</li>
+<li>Click on the staff that requested assistance</li>
+<li>Click <strong>Reset password</strong>, then confirm the intent to reset the password.</li>
+<li>A temporary password will be created for the staff, take a note of the password as it is only shown once.</li>
+<li>Send the login credentials to your staff member, they will be able to sign in using the credentials provided.</li>
+</ol>
+<p>Notes:</p>
+<p><em>The staff will not be signed out of the app if you reset their password, we are working on a system to force sign out the user.</em></p>
+<h3 id="update-a-staff-members-profile"><a class="header" href="#update-a-staff-members-profile">Update a staff member's profile</a></h3>
+<p>The process is the same as resetting the password, just update the fields in the form and remember to press save.</p>
+<h3 id="deleting-a-staff-member"><a class="header" href="#deleting-a-staff-member">Deleting a staff member</a></h3>
+<p>When you delete a staff member, their record is not remove entirely. Instead we erase any personal information recorded about the staff member. This includes their email, name, gender, and any associated custom forms.</p>
+<p>Steps:</p>
+<ol>
+<li>Go to the staff member's details page.</li>
+<li>Suspend the staff first by clicking on <strong>Suspend</strong>, this will disable the user's access to the system immediately.</li>
+<li>You can delete suspended staff by clicking on the <strong>Delete</strong> button in the danger zone</li>
+</ol>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../design/glossary.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../user-manual/custom-fields.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next" href="../design/glossary.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
                             </a>
                         <div style="clear: both"></div>
                     </nav>
@@ -155,8 +214,11 @@
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../design/glossary.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../user-manual/custom-fields.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next" href="../design/glossary.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
                     </a>
             </nav>
 
