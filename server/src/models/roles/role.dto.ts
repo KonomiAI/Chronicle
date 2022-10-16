@@ -54,6 +54,7 @@ export class RoleDto {
 }
 
 export class UpdateRoleDto {
+  @IsString()
   name: string;
 
   @ValidateNested()

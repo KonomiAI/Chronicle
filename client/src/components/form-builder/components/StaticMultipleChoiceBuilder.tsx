@@ -47,7 +47,7 @@ export const StaticMultipleChoiceBuilder = ({
                 minLength: 1,
               }}
               render={({
-                field: { onChange, value },
+                field: { onChange, value, ref },
                 fieldState: { invalid },
               }) => (
                 <TextField
@@ -57,6 +57,21 @@ export const StaticMultipleChoiceBuilder = ({
                   onChange={onChange}
                   value={value}
                   error={invalid}
+                  inputRef={ref}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      e.preventDefault();
+                      append(
+                        {
+                          id: secureRandomString(12),
+                          label: '',
+                        },
+                        {
+                          shouldFocus: true,
+                        },
+                      );
+                    }
+                  }}
                 />
               )}
             />
