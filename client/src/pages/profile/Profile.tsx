@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useMutation } from 'react-query';
 
@@ -18,6 +18,7 @@ import Spacer from '../../components/spacer/Spacer';
 import { useStore } from '../../store';
 import { buildResetPasswordBody } from './utils';
 import { resetPassword } from '../../data/auth';
+import PageHeader from '../../components/page-header/PageHeader';
 
 const ProfilePage = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -25,9 +26,8 @@ const ProfilePage = () => {
   const [error, setError] = useState('');
   const { control, handleSubmit, watch } = useForm<ResetPasswordData>();
   const { user } = useStore();
-  const password = useRef('');
 
-  password.current = watch('password', '') || '';
+  const password = watch('password', '');
 
   const resetPasswordAndMutate = useMutation(resetPassword, {
     onSuccess: () => {
@@ -55,27 +55,24 @@ const ProfilePage = () => {
 
   return (
     <Container>
-      <Typography variant="h1">Profile</Typography>
-      <Typography variant="body2">
-        In this area you will be able to customize your personal settings.
-      </Typography>
-      <Card sx={{ my: 4 }}>
+      <PageHeader
+        pageTitle="Profile"
+        helpText="In this area you will be able to customize your personal settings."
+      />
+      <Spacer size="md" />
+      <Card>
         <CardContent>
-          <Typography variant="h4">Change password</Typography>
-          <Typography variant="body2" sx={{ mb: 2 }}>
+          <Typography variant="h5">Change password</Typography>
+          <Typography variant="caption">
             In this section you will be able to choose your personalized
-            password
+            password. Please note that the minimum length for a password is 8.
           </Typography>
-          {error && (
-            <Alert severity="error" sx={{ my: 2 }}>
-              {error}
-            </Alert>
-          )}
+          <Spacer size="md" />
+          {error && <Alert severity="error">{error}</Alert>}
           {isSuccess && (
-            <Alert severity="success" sx={{ my: 2 }}>
-              Password successfully changed.
-            </Alert>
+            <Alert severity="success">Password successfully changed.</Alert>
           )}
+          {(error || isSuccess) && <Spacer size="md" />}
           <FormInputField
             type="password"
             name="password"
@@ -95,8 +92,8 @@ const ProfilePage = () => {
             name="confirmPassword"
             control={control}
             rules={{
-              validate: (value) =>
-                value === password.current || 'The passwords do not match',
+              validate: (confirmPassword) =>
+                confirmPassword === password || 'The passwords do not match',
             }}
             label="Confirm password"
           />
