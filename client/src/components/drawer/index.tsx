@@ -7,7 +7,6 @@ import {
   List,
   Divider,
   IconButton,
-  ListItem,
   ListItemIcon,
   ListItemText,
   ListItemButton,
@@ -144,12 +143,16 @@ export default function ChronicleDrawer({
           </ListItemButton>
         )}
 
-        <ListItem button key="analytics">
+        <ListItemButton
+          component="a"
+          href="/analytics"
+          selected={pathname === '/analytics'}
+        >
           <ListItemIcon>
             <Insights />
           </ListItemIcon>
           <ListItemText primary="Analytics" />
-        </ListItem>
+        </ListItemButton>
         <Divider />
         <AdminList />
       </List>

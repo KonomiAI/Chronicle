@@ -39,6 +39,7 @@ import PrivilegedRoute from './components/privileged-route';
 import { Features } from './types';
 import { ActivityEntryList } from './pages/activity-entry-list';
 import { ActivityEntryDetails } from './pages/activity-entry-details/ActivityEntryDetails';
+import BasicAnalyticsPage from './pages/analytics/BasicAnalyticsPage';
 import ProfilePage from './pages/profile/Profile';
 
 const queryClient = new QueryClient();
@@ -94,6 +95,9 @@ const RouteMap = () => (
               path="activity-entries/:id"
               element={<ActivityEntryDetails />}
             />
+          </Route>
+          <Route element={<PrivilegedRoute feature={Features.ENTRY} />}>
+            <Route path="analytics" element={<BasicAnalyticsPage />} />
           </Route>
         </Route>
       </Route>
