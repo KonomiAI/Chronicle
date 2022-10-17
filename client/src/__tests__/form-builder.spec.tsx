@@ -44,7 +44,9 @@ describe('FormBuilder Component', () => {
     screen.getByTestId('btn-add-field').click();
     screen.getByTestId('btn-add-field').click();
     screen.getByTestId('btn-add-field').click();
-    screen.getAllByTestId('btn-delete-field')[0].click();
+    screen.getAllByTestId('form-field-options-menu-btn')[0].click();
+    screen.getByTestId('btn-delete-field').click();
+    screen.getAllByTestId('form-field-options-menu-btn')[0].click();
     screen.getAllByTestId('btn-delete-field')[0].click();
     expect(screen.getAllByTestId('form-field').length).toEqual(3);
   });

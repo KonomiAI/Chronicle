@@ -38,6 +38,7 @@ export const FormFieldOptionsMenu: React.FC<FormFieldOptionsMenuProps> = ({
   return (
     <>
       <IconButton
+        data-testid="form-field-options-menu-btn"
         aria-label="more actions"
         aria-controls={open ? 'long-menu' : undefined}
         aria-expanded={open ? 'true' : undefined}
@@ -93,6 +94,7 @@ export const FormFieldOptionsMenu: React.FC<FormFieldOptionsMenuProps> = ({
                 onRemove();
                 handleClose();
               }}
+              data-testid="btn-delete-field"
             >
               <ListItemIcon>
                 <Delete fontSize="small" />
