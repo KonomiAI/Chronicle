@@ -42,7 +42,11 @@ export class IPService {
 
   async isIPInAllowList(ip: string) {
     const res = await this.prisma.ip.findMany();
-    const ips = res.map((ip) => ip.ip);
+    // If the user provided an IP address without CIDR notation, we need to add it
+    // assuming that it is a single host network.
+    const ips = res
+      .map((ip) => ip.ip)
+      .map((ip) => (!ip.includes('/') ? ip + '/32' : ip));
     const matcher = new CIDRMatcher(ips);
     return matcher.contains(ip);
   }
