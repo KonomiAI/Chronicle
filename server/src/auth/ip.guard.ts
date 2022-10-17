@@ -2,12 +2,14 @@ import {
   BadRequestException,
   CanActivate,
   ExecutionContext,
+  Inject,
   Injectable,
   Logger,
   SetMetadata,
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import * as requestIp from '@supercharge/request-ip';
+
 import { RequestWithUser } from 'src/types/request';
 import { IPService } from '../models/ip/ip.service';
 
@@ -17,7 +19,7 @@ const IP_CHECK_KEY = 'shouldCheckIPAddress';
 export class IPAllowlistGuard implements CanActivate {
   private readonly logger = new Logger(IPAllowlistGuard.name);
   constructor(
-    private readonly ipService: IPService,
+    @Inject(IPService) private readonly ipService: IPService,
     private reflector: Reflector,
   ) {}
 

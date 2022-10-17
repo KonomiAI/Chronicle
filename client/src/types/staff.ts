@@ -18,6 +18,14 @@ export interface AuthBody {
   password: string;
 }
 
+export interface ResetPasswordBody {
+  password: string;
+}
+
+export interface ResetPasswordData extends ResetPasswordBody {
+  confirmPassword: string;
+}
+
 export interface User {
   accessToken: string;
   id: string;

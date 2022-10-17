@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Link } from 'react-router-dom';
 
 import {
   Box,
@@ -9,7 +10,7 @@ import {
   IconButton,
   Tooltip,
 } from '@mui/material';
-import { Logout } from '@mui/icons-material';
+import { AccountCircle, Logout } from '@mui/icons-material';
 
 import { useAuth } from '../../utils';
 import { useStore } from '../../store';
@@ -47,9 +48,11 @@ export default function AccountMenu() {
   const { user } = useStore();
 
   const open = Boolean(anchorEl);
+
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
+
   const handleClose = () => {
     setAnchorEl(null);
   };
@@ -86,6 +89,12 @@ export default function AccountMenu() {
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
+        <MenuItem component={Link} to="profile">
+          <ListItemIcon>
+            <AccountCircle fontSize="small" />
+          </ListItemIcon>
+          Profile
+        </MenuItem>
         <MenuItem onClick={handleLogout}>
           <ListItemIcon>
             <Logout fontSize="small" />
