@@ -25,7 +25,7 @@ export default function ActivityDataGrid({ start, end }: DataGridProps) {
     <>
       <Card>
         <CardContent>
-          <Typography variant="h3">Staff</Typography>
+          <Typography variant="h5">Staff</Typography>
           <Typography variant="caption">
             This is a list of all your staff in your system as well as the
             number of visits they handled, the revenue they brought in, and a

@@ -18,7 +18,7 @@ export default function ProductDataGrid({ start, end }: DataGridProps) {
     <>
       <Card>
         <CardContent>
-          <Typography variant="h3">Products</Typography>
+          <Typography variant="h5">Products</Typography>
           <Typography variant="caption">
             This is a list of all products in your system as well as the total
             times they were sold and the total revenue they incurred in the

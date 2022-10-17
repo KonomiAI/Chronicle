@@ -18,7 +18,7 @@ export default function CustomerDataGrid({ start, end }: DataGridProps) {
     <>
       <Card>
         <CardContent>
-          <Typography variant="h3">Customer</Typography>
+          <Typography variant="h5">Customer</Typography>
           <Typography variant="caption">
             This is a list of all the customer profiles in your system as well
             as the total times they visited your clinic and the total revenue

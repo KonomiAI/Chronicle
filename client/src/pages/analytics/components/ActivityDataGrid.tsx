@@ -18,7 +18,7 @@ export default function ActivityDataGrid({ start, end }: DataGridProps) {
     <>
       <Card>
         <CardContent>
-          <Typography variant="h3">Activities</Typography>
+          <Typography variant="h5">Activities</Typography>
           <Typography variant="caption">
             This is a list of all activities in your system as well as the total
             times they were performed and the total revenue they incurred in the

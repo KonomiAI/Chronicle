@@ -5,6 +5,7 @@ import Spacer from '../../components/spacer/Spacer';
 import DateRangePicker, { DateRange } from './components/DateRangePicker';
 import { useStore } from '../../store';
 import { Features } from '../../types';
+import LoadingCard from '../../components/loading-card';
 
 const ActivityDataGrid = React.lazy(
   () => import('./components/ActivityDataGrid'),
@@ -39,7 +40,7 @@ export default function BasicAnalyticsPage() {
           <Typography variant="caption">
             These filters will be used to aggregate data in the tables below,
             this is useful for calculating revenue and product sales in a period
-            of time{' '}
+            of time.
           </Typography>
           <Spacer size="md" />
           <DateRangePicker
@@ -49,7 +50,9 @@ export default function BasicAnalyticsPage() {
         </CardContent>
       </Card>
       <Spacer size="lg" />
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense
+        fallback={<LoadingCard title="Loading analytics dashboard..." />}
+      >
         {permissions[Features.INVENTORY]?.read && (
           <ActivityDataGrid start={startEndDate.start} end={startEndDate.end} />
         )}
