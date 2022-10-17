@@ -11,12 +11,12 @@ import {
 } from '@mui/material';
 import { Controller, useForm } from 'react-hook-form';
 import { useMutation, useQueryClient } from 'react-query';
+import { useSnackbar } from 'notistack';
 
 import Spacer from '../../components/spacer/Spacer';
 import { useAllowList, createAllowlistEntry } from '../../data';
 import { AllowlistData, Ip } from '../../types';
 import { getFormErrorMessage } from '../../utils';
-import { useSnackbar } from 'notistack';
 
 export interface AllowlistAddProps {
   handleClose: (created: boolean) => void;
