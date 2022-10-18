@@ -49,6 +49,14 @@ export const FormFieldOptionsMenu: React.FC<FormFieldOptionsMenuProps> = ({
       </IconButton>
       <Menu
         id="long-menu"
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'right',
+        }}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'right',
+        }}
         anchorEl={anchorEl}
         open={open}
         onClose={handleClose}
