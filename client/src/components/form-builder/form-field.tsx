@@ -5,7 +5,6 @@ import { FormFieldSchema, FormSupportedFieldTypes } from '@konomi.ai/c-form';
 import { Controller, useFormContext, useWatch } from 'react-hook-form';
 import {
   Box,
-  Button,
   Card,
   CardContent,
   Divider,
@@ -14,13 +13,14 @@ import {
   IconButton,
   Switch,
 } from '@mui/material';
-import { ArrowUpward, Delete } from '@mui/icons-material';
+import { ArrowUpward } from '@mui/icons-material';
 import { secureRandomString } from '../../utils';
 import { FieldTypeSelect } from './FieldTypeSelect';
 import { FormInputField } from '../form-inputs/FormInputField';
 import { SUPPORTED_OPTION_SOURCES } from './const';
 import { StaticMultipleChoiceBuilder } from './components/StaticMultipleChoiceBuilder';
 import { DynamicMultipleChoiceBuilder } from './components/DynamicMultipleChoiceBuilder';
+import { FormFieldOptionsMenu } from './components/FormFieldOptionsMenu';
 
 interface FormFieldProps {
   sectionIndex: number;
@@ -29,6 +29,7 @@ interface FormFieldProps {
   context: string;
   onMoveUp?: () => void;
   onMoveDown?: () => void;
+  onDuplicate?: () => void;
   disableMoveUp?: boolean;
   disableMoveDown?: boolean;
 }
@@ -42,13 +43,18 @@ export const FormField = ({
   onMoveUp,
   disableMoveUp,
   disableMoveDown,
+  onDuplicate,
 }: FormFieldProps) => {
   const getFormName = (
     name: keyof FormFieldSchema,
   ): `${string}sections.${number}.fields.${number}.${keyof FormFieldSchema}` =>
     `${context}sections.${sectionIndex}.fields.${index}.${name}`;
-  const { control, setValue, unregister, register } = useFormContext();
-  const [shouldShowDescription, setShouldShowDescription] = useState(false);
+  const { control, setValue, unregister, register, getValues } =
+    useFormContext();
+  const description = getValues(getFormName('description'));
+  const [shouldShowDescription, setShouldShowDescription] = useState(
+    !!description,
+  );
   const type = useWatch({
     control,
     name: getFormName('type'),
@@ -153,16 +159,6 @@ export const FormField = ({
             )}
           />
           <Box>
-            {!shouldShowDescription && (
-              <Button
-                color="inherit"
-                size="small"
-                onClick={() => setShouldShowDescription(true)}
-                data-testid="btn-add-field-description"
-              >
-                Add description
-              </Button>
-            )}
             {/* TODO implement form field duplication feature. */}
             {onMoveUp && (
               <IconButton
@@ -185,16 +181,11 @@ export const FormField = ({
                 <ArrowUpward sx={{ transform: 'rotate(180deg)' }} />
               </IconButton>
             )}
-            {/* <IconButton aria-label="duplicate this question">
-              <ContentCopy />
-            </IconButton> */}
-            <IconButton
-              aria-label="delete this question"
-              onClick={() => onRemove()}
-              data-testid="btn-delete-field"
-            >
-              <Delete />
-            </IconButton>
+            <FormFieldOptionsMenu
+              onRemove={onRemove}
+              onDuplicate={onDuplicate}
+              onAddDescription={() => setShouldShowDescription(true)}
+            />
           </Box>
         </Box>
       </CardContent>

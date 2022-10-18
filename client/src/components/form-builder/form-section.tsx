@@ -14,6 +14,8 @@ import { DEFAULT_FIELD_VAL } from './const';
 import { FormField } from './form-field';
 import Spacer from '../spacer/Spacer';
 import { FormInputField } from '../form-inputs/FormInputField';
+import { secureRandomString } from '../../utils';
+import { ßwillFixThisTypeLater } from '../../types';
 
 interface FormSectionProps {
   index: number;
@@ -29,7 +31,7 @@ export const FormSection = ({
   context,
 }: FormSectionProps) => {
   const { control } = useFormContext();
-  const { fields, append, remove, swap } = useFieldArray({
+  const { fields, append, remove, swap, insert } = useFieldArray({
     control,
     name: `${context}sections.${index}.fields`,
   });
@@ -107,7 +109,7 @@ export const FormSection = ({
       <Typography variant="h5" sx={{ mt: 3, mb: 2 }}>
         Questions
       </Typography>
-      {fields.map((f, i) => (
+      {fields.map((f: ßwillFixThisTypeLater, i) => (
         <FormField
           context={context}
           key={f.id}
@@ -116,6 +118,13 @@ export const FormSection = ({
           onRemove={() => remove(i)}
           onMoveUp={() => swap(i, i - 1)}
           onMoveDown={() => swap(i, i + 1)}
+          onDuplicate={() =>
+            insert(i + 1, {
+              ...f,
+              id: secureRandomString(16),
+              name: `${f.name} (copy)`,
+            })
+          }
           disableMoveDown={i === fields.length - 1}
           disableMoveUp={i === 0}
         />
