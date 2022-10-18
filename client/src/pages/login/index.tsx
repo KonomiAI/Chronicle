@@ -29,7 +29,7 @@ import {
   useAuth,
 } from '../../utils';
 import { AuthBody, UserNoAccessToken } from '../../types';
-import FallbackBackground from './assets/fallback_background.png';
+import LoginBackground from './assets/login_bg-min.jpeg';
 import { FormInputField } from '../../components/form-inputs/FormInputField';
 
 function LoginPage() {
@@ -108,7 +108,7 @@ function LoginPage() {
     <Grid
       container
       style={{
-        backgroundImage: `url(${FallbackBackground})`,
+        backgroundImage: `url(${LoginBackground})`,
         backgroundRepeat: 'no-repeat',
         backgroundSize: 'cover',
         height: '100vh',
@@ -180,7 +180,7 @@ function LoginPage() {
                         onChange={() => setRememberMe(!rememberMe)}
                       />
                     }
-                    label="Remember username"
+                    label="Remember me"
                   />
 
                   <Button
