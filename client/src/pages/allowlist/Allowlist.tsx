@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useMutation } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 
 import {
   Box,
@@ -16,6 +16,7 @@ import {
   AlertTitle,
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { useSnackbar } from 'notistack';
 
 import PageHeader from '../../components/page-header/PageHeader';
 import ConfirmDialog from '../../components/dialog/ConfirmDialog';
@@ -23,21 +24,27 @@ import Spacer from '../../components/spacer/Spacer';
 import LoadingCard from '../../components/loading-card';
 import AllowlistAdd from './AllowlistAdd';
 import { useAllowList, deleteAllowlistEntry } from '../../data';
+import { Ip } from '../../types';
 
 export default function AllowListPage() {
   const { data: allowListData, isLoading, isError } = useAllowList();
   const [addDialogOpen, setAddDialogOpen] = useState(false);
-  const [confirmDeleteDialogOpen, setConfirmDeleteDialogOpen] = useState(false);
+  const { enqueueSnackbar } = useSnackbar();
+  const queryClient = useQueryClient();
+  const [entryToDelete, setEntryToDelete] = useState<null | Ip>(null);
 
   const removeAllowlistEntryAndMutate = useMutation(deleteAllowlistEntry, {
-    onSuccess: () => {
-      window.location.reload();
+    onSuccess: async () => {
+      await queryClient.invalidateQueries('allowlist');
+      enqueueSnackbar('IP Allowlist entry removed', { variant: 'success' });
+    },
+    onSettled: () => {
+      setEntryToDelete(null);
     },
   });
 
   const removeAllowlistEntry = (allowlistEntryId: string) => {
     removeAllowlistEntryAndMutate.mutate(allowlistEntryId);
-    setConfirmDeleteDialogOpen(false);
   };
 
   const renderContent = () => {
@@ -61,39 +68,42 @@ export default function AllowListPage() {
     }
 
     return (
-      <List
-        component={Paper}
-        sx={{ width: '100%', bgcolor: 'background.paper' }}
-      >
-        {allowListData?.map((s, index) => (
-          <>
-            <ListItem
-              key={s.id}
-              secondaryAction={
-                <IconButton onClick={() => setConfirmDeleteDialogOpen(true)}>
-                  <DeleteIcon />
-                </IconButton>
-              }
-            >
-              <ConfirmDialog
-                dialogTitle="Are you sure you want to remove this IP Address?"
-                open={confirmDeleteDialogOpen}
-                cancelAction={() => {
-                  setConfirmDeleteDialogOpen(false);
-                }}
-                confirmAction={() => {
-                  removeAllowlistEntry(s.id);
-                }}
-              />
-              <Box>
-                <Typography variant="h2">{s.ip}</Typography>
-                <Typography variant="body2">{s.description}</Typography>
-              </Box>
-            </ListItem>
-            {index !== allowListData.length - 1 && <Divider />}
-          </>
-        ))}
-      </List>
+      <>
+        <ConfirmDialog
+          dialogTitle="Are you sure you want to remove this IP Address?"
+          open={!!entryToDelete}
+          cancelAction={() => setEntryToDelete(null)}
+          confirmAction={() => {
+            if (!entryToDelete) {
+              return;
+            }
+
+            removeAllowlistEntry(entryToDelete?.id);
+          }}
+        />
+        <List
+          component={Paper}
+          sx={{ width: '100%', bgcolor: 'background.paper' }}
+        >
+          {allowListData?.map((s, index) => (
+            <React.Fragment key={s.id}>
+              <ListItem
+                secondaryAction={
+                  <IconButton onClick={() => setEntryToDelete(s)}>
+                    <DeleteIcon />
+                  </IconButton>
+                }
+              >
+                <Box>
+                  <Typography variant="h2">{s.ip}</Typography>
+                  <Typography variant="body2">{s.description}</Typography>
+                </Box>
+              </ListItem>
+              {index !== allowListData.length - 1 && <Divider />}
+            </React.Fragment>
+          ))}
+        </List>
+      </>
     );
   };
 

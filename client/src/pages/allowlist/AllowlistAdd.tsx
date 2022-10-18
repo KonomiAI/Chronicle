@@ -10,7 +10,8 @@ import {
   Alert,
 } from '@mui/material';
 import { Controller, useForm } from 'react-hook-form';
-import { useMutation } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
+import { useSnackbar } from 'notistack';
 
 import Spacer from '../../components/spacer/Spacer';
 import { useAllowList, createAllowlistEntry } from '../../data';
@@ -27,9 +28,12 @@ export interface AllowlistAddResultProps extends AllowlistAddProps {
 
 const AllowlistAddForm = ({ handleClose }: AllowlistAddProps) => {
   const { data: allowlistData } = useAllowList();
+  const [isLoading, setIsLoading] = useState(false);
   const [duplicateIpAddressAlert, setDuplicateIpAddressAlert] = useState(false);
   const [ipAddressAlreadyExistsAlert, setIpAddressAlreadyExistsAlert] =
     useState(false);
+  const queryClient = useQueryClient();
+  const { enqueueSnackbar } = useSnackbar();
 
   const duplicateIpAddress = (
     allowlistEntries: Ip[] | undefined,
@@ -57,12 +61,17 @@ const AllowlistAddForm = ({ handleClose }: AllowlistAddProps) => {
   });
 
   const updateAllowlistEntryAndMutate = useMutation(createAllowlistEntry, {
-    onSuccess: () => {
-      window.location.reload();
+    onSuccess: async () => {
+      handleClose(true);
+      await queryClient.invalidateQueries('allowlist');
+      enqueueSnackbar('IP Allowlist entry added', { variant: 'success' });
     },
     onError: () => {
       setIpAddressAlreadyExistsAlert(true);
       setDuplicateIpAddressAlert(false);
+    },
+    onSettled: () => {
+      setIsLoading(false);
     },
   });
 
@@ -71,6 +80,7 @@ const AllowlistAddForm = ({ handleClose }: AllowlistAddProps) => {
       setIpAddressAlreadyExistsAlert(false);
       setDuplicateIpAddressAlert(true);
     } else {
+      setIsLoading(true);
       updateAllowlistEntryAndMutate.mutate(values);
     }
   };
@@ -155,7 +165,9 @@ const AllowlistAddForm = ({ handleClose }: AllowlistAddProps) => {
         <Button onClick={() => handleClose(false)} color="inherit">
           Cancel
         </Button>
-        <Button onClick={handleSubmit(onSubmit)}>Submit</Button>
+        <Button onClick={handleSubmit(onSubmit)} disabled={isLoading}>
+          Submit
+        </Button>
       </DialogActions>
     </>
   );
