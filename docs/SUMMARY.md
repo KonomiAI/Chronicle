@@ -15,6 +15,7 @@
 # User Manual
 
 - [Introduction](user-manual/introduction.md)
+- [Login](user-manual/login.md)
 - [Custom form](user-manual/custom-fields.md)
 - [Manage staff](user-manual/staff-management.md)
 

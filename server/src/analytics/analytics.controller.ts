@@ -1,4 +1,11 @@
-import { Controller, Get, Query, ValidationPipe } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Query,
+  UseInterceptors,
+  ValidationPipe,
+} from '@nestjs/common';
+import { TransformInterceptor } from 'src/interceptors/transform.interceptor';
 import { Actions, Features } from 'src/auth/constants';
 import { Auth } from 'src/auth/role.decorator';
 import { PrismaService } from 'src/prisma.service';
@@ -19,6 +26,7 @@ const VIEWS = {
 };
 
 @Controller('analytics')
+@UseInterceptors(TransformInterceptor)
 export class AnalyticsController {
   constructor(private readonly prisma: PrismaService) {}
 
