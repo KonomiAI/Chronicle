@@ -12,6 +12,7 @@ import { Activity as ActivityModel } from '@prisma/client';
 import { Actions, Features } from 'src/auth/constants';
 import { Auth } from 'src/auth/role.decorator';
 import { TransformInterceptor } from '../../interceptors/transform.interceptor';
+import { ActivityDto } from './activity.dto';
 
 import { ActivityService } from './activity.service';
 
@@ -34,15 +35,8 @@ export class ActivityController {
 
   @Auth(Actions.WRITE, [Features.Inventory])
   @Post()
-  async createActivity(
-    @Body() activityData: { name: string; price: string; isArchived?: boolean },
-  ): Promise<ActivityModel> {
-    const { name, price, isArchived } = activityData;
-    return this.activityService.createActivity({
-      name,
-      price: +price,
-      isArchived,
-    });
+  async createActivity(@Body() data: ActivityDto): Promise<ActivityModel> {
+    return this.activityService.createActivity(data);
   }
 
   @Auth(Actions.WRITE, [Features.Inventory])
@@ -50,16 +44,11 @@ export class ActivityController {
   async updateActivity(
     @Param('id') id: string,
     @Body()
-    activityData: {
-      name?: string;
-      price?: string;
-      isArchived?: boolean;
-    },
+    data: ActivityDto,
   ): Promise<ActivityModel> {
-    const { name, price, isArchived } = activityData;
     return this.activityService.updateActivity({
       where: { id },
-      data: { name, price: +price, isArchived },
+      data,
     });
   }
 

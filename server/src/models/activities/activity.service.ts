@@ -27,7 +27,8 @@ export class ActivityService {
       skip,
       take,
       cursor,
-      where,
+      // Do not show any archived data from the service level
+      where: { ...(where ?? {}), isArchived: false },
       orderBy,
     });
   }
@@ -40,13 +41,21 @@ export class ActivityService {
 
   async updateActivity(params: {
     where: Prisma.ActivityWhereUniqueInput;
-    data: Prisma.ActivityUpdateInput;
+    data: Prisma.ActivityCreateInput;
   }): Promise<Activity> {
     const { where, data } = params;
-    return this.prisma.activity.update({
-      data,
-      where,
-    });
+    const [newRecord] = await this.prisma.$transaction([
+      this.prisma.activity.create({
+        data,
+      }),
+      this.prisma.activity.update({
+        data: {
+          isArchived: true,
+        },
+        where,
+      }),
+    ]);
+    return newRecord;
   }
 
   async deleteActivity(

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { Card, CardContent, Grid, Typography } from '@mui/material';
@@ -8,11 +8,13 @@ import { Activity, PostActivityBody, PutActivityBody } from '../../types';
 import { SaveBar } from '../../components';
 import Spacer from '../../components/spacer/Spacer';
 import { FormInputField } from '../../components/form-inputs/FormInputField';
+import { fastUnsafeObjectCompare } from '../../utils/compare-object';
 
 interface ActivityBaseProps {
   activity?: Activity;
   onSave: (body: PostActivityBody | PutActivityBody) => void;
   isLoading?: boolean;
+  disabled?: boolean;
 }
 
 const defaultProps = {
@@ -24,13 +26,35 @@ const ActivityBase: React.FC<ActivityBaseProps> = ({
   activity,
   onSave,
   isLoading,
+  disabled,
 }) => {
-  const { control, handleSubmit, reset } = useForm<PostActivityBody>({});
+  const [isSavebarOpen, setIsSavebarOpen] = useState(false);
+  const initialValues = useRef({
+    name: activity?.name ?? '',
+    price: activity?.price ? penniesToFloat(activity.price) : undefined,
+  });
+
+  const { control, handleSubmit, reset, watch } = useForm<PostActivityBody>({
+    defaultValues: initialValues.current,
+  });
+
+  const currentValue = watch();
 
   useEffect(() => {
+    if (fastUnsafeObjectCompare(initialValues.current, currentValue)) {
+      setIsSavebarOpen(false);
+    } else {
+      setIsSavebarOpen(true);
+    }
+  }, [currentValue]);
+
+  useEffect(() => {
+    if (!activity) {
+      return;
+    }
     reset({
-      ...activity,
-      price: penniesToFloat(activity?.price || 0),
+      name: activity.name,
+      price: penniesToFloat(activity.price),
     });
   }, [activity]);
 
@@ -51,11 +75,12 @@ const ActivityBase: React.FC<ActivityBaseProps> = ({
                   minLength: 1,
                 }}
                 label="Name"
+                disabled={disabled}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
               <FormInputField
-                type-="number"
+                type="number"
                 name="price"
                 control={control}
                 rules={{
@@ -64,6 +89,7 @@ const ActivityBase: React.FC<ActivityBaseProps> = ({
                   pattern: priceCheck,
                 }}
                 label="Price"
+                disabled={disabled}
               />
             </Grid>
           </Grid>
@@ -72,7 +98,7 @@ const ActivityBase: React.FC<ActivityBaseProps> = ({
       <Spacer size="lg" />
       <SaveBar
         loading={isLoading}
-        open
+        open={!disabled && isSavebarOpen}
         onSave={handleSubmit((data) => {
           onSave({
             ...data,
