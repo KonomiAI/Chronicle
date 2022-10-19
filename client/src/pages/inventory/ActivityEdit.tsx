@@ -1,5 +1,5 @@
 import React from 'react';
-import { useMutation, useQueryClient } from 'react-query';
+import { useMutation } from 'react-query';
 import { createSearchParams, useNavigate, useParams } from 'react-router-dom';
 
 import {
