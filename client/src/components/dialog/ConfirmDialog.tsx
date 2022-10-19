@@ -33,12 +33,10 @@ export default function ConfirmDialog({
         </DialogContent>
       )}
       <DialogActions>
-        <Button color="inherit" variant="contained" onClick={cancelAction}>
+        <Button color="inherit" onClick={cancelAction}>
           Cancel
         </Button>
-        <Button variant="contained" onClick={confirmAction}>
-          Confirm
-        </Button>
+        <Button onClick={confirmAction}>Confirm</Button>
       </DialogActions>
     </Dialog>
   );

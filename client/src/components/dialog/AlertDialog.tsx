@@ -31,9 +31,7 @@ export default function AlertDialog({
         </DialogContent>
       )}
       <DialogActions>
-        <Button variant="contained" onClick={confirmAction}>
-          Close
-        </Button>
+        <Button onClick={confirmAction}>Close</Button>
       </DialogActions>
     </Dialog>
   );
