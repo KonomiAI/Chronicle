@@ -25,7 +25,7 @@ export const ActivityCard: React.FC<ActivityCardProps> = ({ activity }) => (
       >
         <Link to={`/inventory/activities/${activity.id}`}>
           <Typography variant="h6" sx={{ mr: 1 }}>
-            {activity.name}{' '}
+            {activity.name}
           </Typography>
         </Link>
         {activity.isArchived && (
