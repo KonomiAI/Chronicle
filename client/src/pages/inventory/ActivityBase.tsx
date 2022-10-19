@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { Card, CardContent, Grid, Typography } from '@mui/material';
@@ -28,20 +28,19 @@ const ActivityBase: React.FC<ActivityBaseProps> = ({
   isLoading,
   disabled,
 }) => {
-  const [isSavebarOpen, setIsSavebarOpen] = useState(false);
-  const initialValues = useRef({
+  const initialValues = {
     name: activity?.name ?? '',
     price: activity?.price ? penniesToFloat(activity.price) : undefined,
-  });
-
+  };
+  const [isSavebarOpen, setIsSavebarOpen] = useState(false);
   const { control, handleSubmit, reset, watch } = useForm<PostActivityBody>({
-    defaultValues: initialValues.current,
+    defaultValues: initialValues,
   });
 
   const currentValue = watch();
 
   useEffect(() => {
-    if (fastUnsafeObjectCompare(initialValues.current, currentValue)) {
+    if (fastUnsafeObjectCompare(initialValues, currentValue)) {
       setIsSavebarOpen(false);
     } else {
       setIsSavebarOpen(true);
