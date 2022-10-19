@@ -10,6 +10,7 @@ export interface FormInputProps<T extends FieldValues>
   variant?: 'filled' | 'standard' | 'outlined';
   type?: React.InputHTMLAttributes<unknown>['type'];
   multiline?: number;
+  disabled?: boolean;
 }
 
 export const FormInputField = <T extends FieldValues>({
@@ -21,32 +22,42 @@ export const FormInputField = <T extends FieldValues>({
   variant = 'outlined',
   multiline = 0,
   type = 'text',
-}: FormInputProps<T>) => (
-  <Controller
-    name={name}
-    control={control}
-    rules={rules}
-    render={({
-      field: { onChange, value, ref },
-      fieldState: { invalid, error },
-    }) => (
-      <StyledTextField
-        required={!!rules?.required ?? false}
-        inputRef={ref}
-        size="small"
-        fullWidth
-        label={label}
-        onChange={onChange}
-        value={value}
-        variant={variant}
-        error={invalid}
-        helperText={error?.message || getFormErrorMessage(error?.type)}
-        data-testid={testId}
-        multiline={!!multiline}
-        minRows={multiline ?? 0}
-        maxRows={10}
-        type={type}
-      />
-    )}
-  />
-);
+  disabled,
+}: FormInputProps<T>) => {
+  const handleOnChange = (value: string) => {
+    if (type === 'number') {
+      return parseFloat(value);
+    }
+    return value;
+  };
+  return (
+    <Controller
+      name={name}
+      control={control}
+      rules={rules}
+      render={({
+        field: { onChange, value, ref },
+        fieldState: { invalid, error },
+      }) => (
+        <StyledTextField
+          required={!!rules?.required ?? false}
+          inputRef={ref}
+          size="small"
+          fullWidth
+          label={label}
+          onChange={(e) => onChange(handleOnChange(e.target.value))}
+          value={value}
+          variant={variant}
+          error={invalid}
+          helperText={error?.message || getFormErrorMessage(error?.type)}
+          data-testid={testId}
+          multiline={!!multiline}
+          minRows={multiline ?? 0}
+          maxRows={10}
+          type={type}
+          disabled={disabled}
+        />
+      )}
+    />
+  );
+};

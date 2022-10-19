@@ -41,6 +41,7 @@ import { ActivityEntryList } from './pages/activity-entry-list';
 import { ActivityEntryDetails } from './pages/activity-entry-details/ActivityEntryDetails';
 import BasicAnalyticsPage from './pages/analytics/BasicAnalyticsPage';
 import ProfilePage from './pages/profile/Profile';
+import AlertProvider from './components/use-alert/UseAlertContext';
 
 const queryClient = new QueryClient();
 
@@ -112,8 +113,10 @@ ReactDOM.render(
       <ThemeProvider theme={theme}>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <SnackbarProvider>
-            <CssBaseline />
-            <RouteMap />
+            <AlertProvider>
+              <CssBaseline />
+              <RouteMap />
+            </AlertProvider>
           </SnackbarProvider>
         </LocalizationProvider>
       </ThemeProvider>

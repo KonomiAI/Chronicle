@@ -12,9 +12,10 @@ import {
   Typography,
 } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
+import { useSnackbar } from 'notistack';
 
 import { deleteActivity, updateActivity, useGetActivity } from '../../data';
-import { PutActivityBody } from '../../types';
+import { Activity, PutActivityBody } from '../../types';
 
 import PageHeader from '../../components/page-header/PageHeader';
 import Spacer from '../../components/spacer/Spacer';
@@ -24,6 +25,7 @@ import LoadingCard from '../../components/loading-card';
 const ActivityEdit = () => {
   const navigate = useNavigate();
   const { activityId } = useParams();
+  const { enqueueSnackbar } = useSnackbar();
 
   const id = activityId || '';
 
@@ -49,19 +51,14 @@ const ActivityEdit = () => {
     isError: hasUpdateActivityError,
     mutate: mutateUpdateActivity,
   } = useMutation(updateActivity, {
-    onSuccess: () => {
-      navigate({
-        pathname: '/inventory',
-        search: createSearchParams({
-          tab: 'ACTIVITIES',
-        }).toString(),
-      });
+    onSuccess: async (newActivity: Activity) => {
+      navigate(`/inventory/activities/${newActivity.id}`);
+      enqueueSnackbar('Activity updated successfully', { variant: 'success' });
     },
   });
 
-  const onSave = (body: PutActivityBody) => {
+  const onSave = (body: PutActivityBody) =>
     mutateUpdateActivity({ activityId: id, data: body });
-  };
 
   if (isLoading) {
     return <LoadingCard title="Fetching activity..." />;
@@ -81,7 +78,7 @@ const ActivityEdit = () => {
   return (
     <Container>
       <PageHeader
-        pageTitle="Update an activity"
+        pageTitle={`${activity?.name ?? 'Activity'}`}
         backURL="/inventory?tab=ACTIVITIES"
       />
       <Spacer size="lg" />
@@ -91,12 +88,25 @@ const ActivityEdit = () => {
             <AlertTitle>An unexpected error has occured</AlertTitle>
             Something went wrong while updating an activity
           </Alert>
-          <Spacer size="lg" />
+          <Spacer size="md" />
         </>
       )}
-      <Spacer size="lg" />
+      {activity?.isArchived && (
+        <>
+          <Alert severity="warning">
+            <AlertTitle>
+              This activity is no longer modifiable or bookable.
+            </AlertTitle>
+            This activity is archived and there is a new version available.
+            Archived activities can not be modified or deleted, it is also no
+            longer bookable in activity entries.
+          </Alert>
+          <Spacer size="md" />
+        </>
+      )}
       <ActivityBase
         activity={activity}
+        disabled={activity?.isArchived}
         onSave={onSave}
         isLoading={isUpdateActivityLoading}
       />
@@ -111,7 +121,17 @@ const ActivityEdit = () => {
                 <AlertTitle>An unexpected error has occured</AlertTitle>
                 Something went wrong while deleting an activity
               </Alert>
-              <Spacer size="lg" />
+              <Spacer size="md" />
+            </>
+          )}
+          {activity?.inUseByActivityEntry && (
+            <>
+              <Alert severity="warning">
+                <AlertTitle>This activity cannot be deleted</AlertTitle>
+                This activity is currently in use by activity entries and cannot
+                be deleted. Remove it from activity entries first.
+              </Alert>
+              <Spacer size="md" />
             </>
           )}
           <Grid container spacing={1}>
@@ -138,6 +158,9 @@ const ActivityEdit = () => {
                 onClick={() => {
                   mutateDeleteActivity(id);
                 }}
+                disabled={
+                  activity?.isArchived || activity?.inUseByActivityEntry
+                }
               >
                 Delete
               </LoadingButton>
