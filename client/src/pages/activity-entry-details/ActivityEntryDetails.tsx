@@ -24,11 +24,13 @@ import { ActivitySelectDialog } from '../../components/activity-select-dialog/Ac
 import { updateActivityEntry, useGetActivityEntry } from '../../data';
 import { ProductPickerDialog } from '../../components/procuct-picker-dialog/ProductPickerDialog';
 import { penniesToPrice } from '../../utils';
+import { useAlertDialog } from '../../components/use-alert';
 
 export function ActivityEntryDetails() {
   // get id from route params
   const { id } = useParams();
   const queryClient = useQueryClient();
+  const { confirm, alert } = useAlertDialog();
   const [openCustomerSelectDialog, setOpenCustomerSelectDialog] =
     useState(false);
   const [openActivitySelectDialog, setOpenActivitySelectDialog] =
@@ -154,7 +156,16 @@ export function ActivityEntryDetails() {
                       variant="text"
                       size="small"
                       sx={{ mr: '10px' }}
-                      onClick={() => setOpenActivitySelectDialog(true)}
+                      onClick={async () => {
+                        if (data.activity?.isArchived) {
+                          await alert({
+                            title: `Are you sure you want to change the activity?`,
+                            message:
+                              'This activity has a new version and the current version is no longer available to book, the update action is irreversible.',
+                          });
+                        }
+                        setOpenActivitySelectDialog(true);
+                      }}
                     >
                       Modify Activity
                     </Button>
@@ -162,7 +173,17 @@ export function ActivityEntryDetails() {
                       variant="text"
                       color="error"
                       size="small"
-                      onClick={() => {
+                      onClick={async () => {
+                        if (
+                          data.activity?.isArchived &&
+                          !(await confirm({
+                            title: `Are you sure you want to remove ${data.activity.name} from this entry?`,
+                            message:
+                              'This activity has a new version and the current version is no longer available to book, the removal action is irreversible.',
+                          }))
+                        ) {
+                          return;
+                        }
                         updateEntryAndMutate.mutate({
                           id,
                           activityEntry: {

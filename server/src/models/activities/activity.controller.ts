@@ -12,6 +12,7 @@ import { Activity as ActivityModel } from '@prisma/client';
 import { Actions, Features } from 'src/auth/constants';
 import { Auth } from 'src/auth/role.decorator';
 import { TransformInterceptor } from '../../interceptors/transform.interceptor';
+import { ActivityDto } from './activity.dto';
 
 import { ActivityService } from './activity.service';
 
@@ -28,21 +29,18 @@ export class ActivityController {
 
   @Auth(Actions.READ, [Features.Inventory])
   @Get(':id')
-  async getActivityById(@Param('id') id: string): Promise<ActivityModel> {
-    return this.activityService.activity({ id });
+  async getActivityById(
+    @Param('id') id: string,
+  ): Promise<ActivityModel & { inUseByActivityEntry: boolean }> {
+    const data = await this.activityService.activity({ id });
+    const { ActivityEntry, ...rest } = data;
+    return { ...rest, inUseByActivityEntry: ActivityEntry.length > 0 };
   }
 
   @Auth(Actions.WRITE, [Features.Inventory])
   @Post()
-  async createActivity(
-    @Body() activityData: { name: string; price: string; isArchived?: boolean },
-  ): Promise<ActivityModel> {
-    const { name, price, isArchived } = activityData;
-    return this.activityService.createActivity({
-      name,
-      price: +price,
-      isArchived,
-    });
+  async createActivity(@Body() data: ActivityDto): Promise<ActivityModel> {
+    return this.activityService.createActivity(data);
   }
 
   @Auth(Actions.WRITE, [Features.Inventory])
@@ -50,16 +48,11 @@ export class ActivityController {
   async updateActivity(
     @Param('id') id: string,
     @Body()
-    activityData: {
-      name?: string;
-      price?: string;
-      isArchived?: boolean;
-    },
+    data: ActivityDto,
   ): Promise<ActivityModel> {
-    const { name, price, isArchived } = activityData;
     return this.activityService.updateActivity({
       where: { id },
-      data: { name, price: +price, isArchived },
+      data,
     });
   }
 

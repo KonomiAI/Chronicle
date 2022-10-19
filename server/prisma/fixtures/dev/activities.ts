@@ -2,8 +2,24 @@ import { Prisma } from '@prisma/client';
 
 export const devActivityFixtures: Prisma.ActivityCreateInput[] = [
   {
-    name: 'Facial Exfoliation',
+    name: 'The original dramatic healing facial',
     price: 8800,
+  },
+  {
+    name: 'Celestial black diamond non surgical lift facial',
+    price: 9800,
+  },
+  {
+    name: 'Meso infusion hydration facial',
+    price: 9800,
+  },
+  {
+    name: 'Clarity anti-blemish facial',
+    price: 9800,
+  },
+  {
+    name: 'Rose quartz restorative facial',
+    price: 9800,
   },
   {
     name: 'Initial Consultation',
