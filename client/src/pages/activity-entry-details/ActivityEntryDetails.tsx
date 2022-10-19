@@ -32,7 +32,7 @@ export function ActivityEntryDetails() {
   // get id from route params
   const { id } = useParams();
   const queryClient = useQueryClient();
-  const { confirm, alert } = useAlertDialog();
+  const { confirm } = useAlertDialog();
   const [openCustomerSelectDialog, setOpenCustomerSelectDialog] =
     useState(false);
   const [openActivitySelectDialog, setOpenActivitySelectDialog] =
@@ -159,12 +159,15 @@ export function ActivityEntryDetails() {
                       size="small"
                       sx={{ mr: '10px' }}
                       onClick={async () => {
-                        if (data.activity?.isArchived) {
-                          await alert({
+                        if (
+                          data.activity?.isArchived &&
+                          !(await confirm({
                             title: `Change the activity?`,
                             message:
                               'This activity has a new version and the current version is no longer available to book, the update action is irreversible.',
-                          });
+                          }))
+                        ) {
+                          return;
                         }
                         setOpenActivitySelectDialog(true);
                       }}
