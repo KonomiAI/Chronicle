@@ -9,21 +9,19 @@ import {
   Typography,
 } from '@mui/material';
 
-export interface ConfirmDialogProps {
+export interface AlertDialogProps {
   dialogTitle: string;
   dialogMessage?: string;
   open: boolean;
-  cancelAction?: () => void;
   confirmAction?: () => void;
 }
 
-export default function ConfirmDialog({
+export default function AlertDialog({
   dialogTitle,
   dialogMessage,
   open,
-  cancelAction,
   confirmAction,
-}: ConfirmDialogProps) {
+}: AlertDialogProps) {
   return (
     <Dialog open={open} maxWidth="sm" fullWidth>
       <DialogTitle>{dialogTitle}</DialogTitle>
@@ -33,11 +31,8 @@ export default function ConfirmDialog({
         </DialogContent>
       )}
       <DialogActions>
-        <Button color="inherit" variant="contained" onClick={cancelAction}>
-          Cancel
-        </Button>
         <Button variant="contained" onClick={confirmAction}>
-          Confirm
+          Close
         </Button>
       </DialogActions>
     </Dialog>
