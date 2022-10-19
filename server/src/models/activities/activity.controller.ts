@@ -29,8 +29,12 @@ export class ActivityController {
 
   @Auth(Actions.READ, [Features.Inventory])
   @Get(':id')
-  async getActivityById(@Param('id') id: string): Promise<ActivityModel> {
-    return this.activityService.activity({ id });
+  async getActivityById(
+    @Param('id') id: string,
+  ): Promise<ActivityModel & { inUseByActivityEntry: boolean }> {
+    const data = await this.activityService.activity({ id });
+    const { ActivityEntry, ...rest } = data;
+    return { ...rest, inUseByActivityEntry: ActivityEntry.length > 0 };
   }
 
   @Auth(Actions.WRITE, [Features.Inventory])

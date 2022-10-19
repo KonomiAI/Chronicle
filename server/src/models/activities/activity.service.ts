@@ -7,10 +7,21 @@ import { PrismaService } from '../../prisma.service';
 export class ActivityService {
   constructor(private prisma: PrismaService) {}
 
-  async activity(
-    userWhereUniqueInput: Prisma.ActivityWhereUniqueInput,
-  ): Promise<Activity | null> {
+  async activity(userWhereUniqueInput: Prisma.ActivityWhereUniqueInput) {
     return this.prisma.activity.findUnique({
+      select: {
+        id: true,
+        name: true,
+        price: true,
+        createdAt: true,
+        updatedAt: true,
+        isArchived: true,
+        ActivityEntry: {
+          select: {
+            id: true,
+          },
+        },
+      },
       where: userWhereUniqueInput,
     });
   }

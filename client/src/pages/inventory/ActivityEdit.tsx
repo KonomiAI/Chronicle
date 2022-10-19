@@ -124,6 +124,16 @@ const ActivityEdit = () => {
               <Spacer size="md" />
             </>
           )}
+          {activity?.inUseByActivityEntry && (
+            <>
+              <Alert severity="warning">
+                <AlertTitle>This activity cannot be deleted</AlertTitle>
+                This activity is currently in use by activity entries and cannot
+                be deleted. Remove it from activity entries first.
+              </Alert>
+              <Spacer size="md" />
+            </>
+          )}
           <Grid container spacing={1}>
             <Grid item xs={10}>
               <Typography variant="h6">Delete this activity</Typography>
@@ -148,7 +158,9 @@ const ActivityEdit = () => {
                 onClick={() => {
                   mutateDeleteActivity(id);
                 }}
-                disabled={activity.isArchived}
+                disabled={
+                  activity?.isArchived || activity?.inUseByActivityEntry
+                }
               >
                 Delete
               </LoadingButton>
