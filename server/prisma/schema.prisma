@@ -73,6 +73,7 @@ model Variant {
   productId       String
   ActivityEntry   ActivityEntry[] @relation(fields: [activityEntryId], references: [id])
   activityEntryId String[]        @db.ObjectId
+  isArchived      Boolean         @default(false)
 }
 
 model Product {

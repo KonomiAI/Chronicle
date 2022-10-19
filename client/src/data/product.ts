@@ -49,10 +49,27 @@ interface CreateVariantVariables {
   data: PostVariantBody;
 }
 
+interface UpdateVariantVariables {
+  productId: string;
+  variantId: string;
+  data: PostVariantBody;
+}
+
 export const createVariant = ({ productId, data }: CreateVariantVariables) => {
   const axios = useAxios();
   return axios
     .post<Data<Variant>>(`/products/${productId}/variants`, data)
+    .then((res) => res.data.data);
+};
+
+export const updateVariant = ({
+  productId,
+  variantId,
+  data,
+}: UpdateVariantVariables) => {
+  const axios = useAxios();
+  return axios
+    .put<Data<Variant>>(`/products/${productId}/variants/${variantId}`, data)
     .then((res) => res.data.data);
 };
 

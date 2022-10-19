@@ -18,10 +18,10 @@ import PageHeader from '../../components/page-header/PageHeader';
 import Spacer from '../../components/spacer/Spacer';
 import ProductBase from './ProductBase';
 import {
-  createVariant,
   deleteProduct,
   deleteVariant,
   updateProduct,
+  updateVariant,
   useGetProduct,
 } from '../../data';
 import { PostVariantBody, PutProductBody, Variant } from '../../types';
@@ -66,11 +66,13 @@ const ProductEdit = () => {
   const {
     isLoading: isCreateVariantLoading,
     isError: hasCreateVariantError,
-    mutate: mutateCreateVariant,
-  } = useMutation(createVariant, {
-    onSuccess: (variant: Variant) => {
-      const newVariants = [...variants, variant];
-      setVariants(newVariants);
+    mutate: mutateUpdateVariant,
+  } = useMutation(updateVariant, {
+    onSuccess: async (v: Variant) => {
+      await queryClient.invalidateQueries(['getProduct', productId]);
+      enqueueSnackbar(`${v.description} updated successfully`, {
+        variant: 'success',
+      });
     },
   });
 
@@ -97,9 +99,13 @@ const ProductEdit = () => {
     });
   };
 
-  const handleAddVariant = (variant: PostVariantBody) => {
-    mutateCreateVariant({
+  const handleEditVariant = (variant: PostVariantBody, variantId?: string) => {
+    if (!variantId) {
+      return;
+    }
+    mutateUpdateVariant({
       productId: id,
+      variantId,
       data: variant,
     });
   };
@@ -146,7 +152,7 @@ const ProductEdit = () => {
         isLoading={isUpdateProductLoading}
         variants={variants}
         onSave={onSave}
-        onAddVariant={handleAddVariant}
+        onAddVariant={(data, vid) => handleEditVariant(data, vid)}
         isCreateVariantLoading={isCreateVariantLoading}
         hasCreateVariantError={hasCreateVariantError}
         onDeleteVariant={handleDeleteVariant}

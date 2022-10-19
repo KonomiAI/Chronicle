@@ -5,8 +5,10 @@ import {
   Button,
   Card,
   CardContent,
+  Chip,
   Container,
   LinearProgress,
+  Tooltip,
   Typography,
 } from '@mui/material';
 import { useParams } from 'react-router-dom';
@@ -159,7 +161,7 @@ export function ActivityEntryDetails() {
                       onClick={async () => {
                         if (data.activity?.isArchived) {
                           await alert({
-                            title: `Are you sure you want to change the activity?`,
+                            title: `Change the activity?`,
                             message:
                               'This activity has a new version and the current version is no longer available to book, the update action is irreversible.',
                           });
@@ -177,7 +179,7 @@ export function ActivityEntryDetails() {
                         if (
                           data.activity?.isArchived &&
                           !(await confirm({
-                            title: `Are you sure you want to remove ${data.activity.name} from this entry?`,
+                            title: `Remove ${data.activity.name} from this entry?`,
                             message:
                               'This activity has a new version and the current version is no longer available to book, the removal action is irreversible.',
                           }))
@@ -221,7 +223,24 @@ export function ActivityEntryDetails() {
                     >
                       <Box>
                         <Box>
-                          <Typography variant="h6">{p.product.name}</Typography>
+                          <Typography variant="h6">
+                            {p.product.name}
+                            {p.isArchived && (
+                              <Tooltip
+                                sx={{ ml: 1 }}
+                                title="This product variant has a newer version, if you remove the product you will not be able to bring it back."
+                                arrow
+                              >
+                                <Chip
+                                  variant="outlined"
+                                  color="warning"
+                                  size="small"
+                                  label="Legacy record"
+                                  clickable
+                                />
+                              </Tooltip>
+                            )}
+                          </Typography>
                           <Typography>{penniesToPrice(p.price)}</Typography>
                           <Typography variant="caption">
                             Variant: {p.description}
@@ -231,7 +250,17 @@ export function ActivityEntryDetails() {
                       <Button
                         variant="text"
                         size="small"
-                        onClick={() => {
+                        onClick={async () => {
+                          if (
+                            p.isArchived &&
+                            !(await confirm({
+                              title: `Remove ${p.product.name} (${p.description}) from this entry?`,
+                              message:
+                                'This product variant has a new version and the current version is no longer available to book, the removal action is irreversible.',
+                            }))
+                          ) {
+                            return;
+                          }
                           updateEntryAndMutate.mutate({
                             id,
                             activityEntry: {

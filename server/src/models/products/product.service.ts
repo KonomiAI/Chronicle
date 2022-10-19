@@ -13,7 +13,11 @@ export class ProductService {
     return this.prisma.product.findUnique({
       where: productWhereUniqueInput,
       include: {
-        variants: true,
+        variants: {
+          where: {
+            isArchived: false,
+          },
+        },
       },
     });
   }
@@ -41,6 +45,9 @@ export class ProductService {
             isAvailable: true,
             description: true,
             product: true,
+          },
+          where: {
+            isArchived: false,
           },
         },
       },

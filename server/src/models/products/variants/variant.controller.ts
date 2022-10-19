@@ -62,12 +62,23 @@ export class VariantController {
   @Put(':variantId')
   async updateVariant(
     @Param('variantId') variantId: string,
+    @Param('productId') productId: string,
     @Body() { ...data }: UpdateVariantDto,
   ): Promise<VariantModel> {
     const { description, price, barcode, isAvailable } = data;
     return this.variantService.updateVariant({
       where: { id: variantId },
-      data: { description, price, barcode, isAvailable },
+      data: {
+        description,
+        price,
+        barcode,
+        isAvailable,
+        product: {
+          connect: {
+            id: productId,
+          },
+        },
+      },
     });
   }
 

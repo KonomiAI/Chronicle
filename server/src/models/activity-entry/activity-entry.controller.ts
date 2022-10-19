@@ -29,6 +29,7 @@ const DEFAULT_ENTRY_SELECT: Prisma.ActivityEntrySelect = {
       barcode: true,
       createdAt: true,
       updatedAt: true,
+      isArchived: true,
       product: {
         select: {
           id: true,

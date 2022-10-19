@@ -9,6 +9,7 @@ export interface Variant {
   productId?: string;
   // eslint-disable-next-line no-use-before-define
   product: ProductWithoutVariant;
+  isArchived: boolean;
 }
 
 export interface Product {
