@@ -7,7 +7,6 @@ import { StyledInputLabel, StyledSelect, StyledMenuItem } from './styled';
 export interface FormSelectBaseProps<T extends FieldValues>
   extends UseControllerProps<T> {
   label: string;
-  required?: boolean;
 }
 
 interface withOptions<T extends FieldValues> extends FormSelectBaseProps<T> {
@@ -28,14 +27,14 @@ export const FormSelect = <T extends FieldValues>({
   control,
   name,
   label,
-  required = false,
+  rules,
   options = [],
   children,
 }: FormSelectProps<T>) => (
   <Controller
     name={name}
     control={control}
-    rules={{ required }}
+    rules={rules}
     render={({ field: { onChange, value }, fieldState: { invalid } }) => (
       <FormControl fullWidth>
         <StyledInputLabel id={name}>{label}</StyledInputLabel>

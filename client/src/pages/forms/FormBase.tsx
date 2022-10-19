@@ -75,7 +75,7 @@ const FormBase: React.FC<FormBaseProps> = ({ onSave, formData }) => {
                 control={form.control}
                 name="purpose"
                 label="Form purpose"
-                required
+                rules={{ required: true }}
               >
                 <MenuItem value={FormPurpose.NO_PURPOSE}>
                   No specific purpose
