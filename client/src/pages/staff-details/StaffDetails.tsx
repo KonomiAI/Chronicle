@@ -4,15 +4,15 @@ import {
   Card,
   CardContent,
   Container,
-  FormControl,
   Grid,
-  InputLabel,
   MenuItem,
-  Select,
   Typography,
   Alert,
   LinearProgress,
   Dialog,
+  FormControl,
+  InputLabel,
+  Select,
 } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import { useMutation, useQueryClient } from 'react-query';
@@ -27,6 +27,7 @@ import { EMAIL_REGEXP } from '../../utils';
 import { FormInputField } from '../../components/form-inputs/FormInputField';
 import ResetStaffPasswordDialog from './ResetStaffPasswordDialog';
 import { cleanStaffForUpdate } from './utils';
+import { GenderSelect } from '../../components';
 
 export default function StaffDetailsPage() {
   const { id } = useParams();
@@ -139,32 +140,10 @@ export default function StaffDetailsPage() {
                     </Button>
                   </Grid>
                   <Grid item xs={12}>
-                    <Controller
-                      name="gender"
+                    <GenderSelect
                       control={control}
+                      name="gender"
                       rules={{ required: true }}
-                      render={({
-                        field: { onChange, value },
-                        fieldState: { invalid },
-                      }) => (
-                        <FormControl fullWidth>
-                          <InputLabel id="genderLabel">Gender</InputLabel>
-                          <Select
-                            labelId="genderLabel"
-                            value={value}
-                            onChange={onChange}
-                            label="Gender"
-                            error={invalid}
-                          >
-                            <MenuItem value="MALE">Male</MenuItem>
-                            <MenuItem value="FEMALE">Female</MenuItem>
-                            <MenuItem value="OTHER">Other</MenuItem>
-                            <MenuItem value="NOT_SPECIFIED">
-                              Prefer not to disclose
-                            </MenuItem>
-                          </Select>
-                        </FormControl>
-                      )}
                     />
                   </Grid>
                 </Grid>

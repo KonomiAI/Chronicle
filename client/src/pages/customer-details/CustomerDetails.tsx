@@ -12,7 +12,13 @@ import { useParams } from 'react-router-dom';
 import { useMutation, useQueryClient } from 'react-query';
 import { useSnackbar } from 'notistack';
 
-import { SaveBar, TextInput, DateInput, If } from '../../components';
+import {
+  SaveBar,
+  TextInput,
+  DateInput,
+  If,
+  GenderSelect,
+} from '../../components';
 import PageHeader from '../../components/page-header/PageHeader';
 import Spacer from '../../components/spacer/Spacer';
 import {
@@ -138,6 +144,9 @@ const CustomerDetailsPage: React.FC<CustomerDetailsPageProps> = ({
                 label="Date of birth"
                 rules={{ required: true, pattern: DATE_REGEXP }}
               />
+            </Grid>
+            <Grid item xs={12}>
+              <GenderSelect control={control} name="gender" />
             </Grid>
           </Grid>
         </CardContent>

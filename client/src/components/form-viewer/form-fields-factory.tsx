@@ -90,7 +90,7 @@ export const MultipleChoiceFactory: FieldFactoryFunction = (
     <FormSelect
       name={id}
       control={control}
-      required={!optional}
+      rules={{ required: !optional }}
       label={name}
       options={options}
     />
