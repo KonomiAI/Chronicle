@@ -15,15 +15,15 @@ import { LoadingButton } from '@mui/lab';
 
 import { FormInputField } from '../../components/form-inputs/FormInputField';
 import Spacer from '../../components/spacer/Spacer';
-import { PostVariantBody, ßwillFixThisTypeLater, Variant } from '../../types';
+import { VariantBodyDto, Variant } from '../../types';
 import { floatToPennies, penniesToFloat, priceCheck } from '../../utils';
 
 interface VariantCreateDialogProps {
   isOpen: boolean;
   handleClose: () => void;
-  handleCreate: (variant: PostVariantBody, variantId?: string) => void;
+  handleSave: (variant: VariantBodyDto, variantId?: string) => void;
   handleDelete: (variantId: string) => void;
-  variant?: Variant | PostVariantBody;
+  variant?: Variant | VariantBodyDto;
   isCreateVariantLoading?: boolean;
   hasCreateVariantError?: boolean;
   isDeleteVariantLoading?: boolean;
@@ -38,10 +38,10 @@ const defaultProps = {
   hasDeleteVariantError: false,
 };
 
-const VariantCreateDialog: React.FC<VariantCreateDialogProps> = ({
+const VariantManageDialog: React.FC<VariantCreateDialogProps> = ({
   handleClose,
   isOpen,
-  handleCreate,
+  handleSave,
   handleDelete,
   variant,
   isCreateVariantLoading,
@@ -49,7 +49,7 @@ const VariantCreateDialog: React.FC<VariantCreateDialogProps> = ({
   isDeleteVariantLoading,
   hasDeleteVariantError,
 }) => {
-  const { control, handleSubmit, reset } = useForm<PostVariantBody>();
+  const { control, handleSubmit, reset } = useForm<VariantBodyDto>();
 
   useEffect(() => {
     reset({
@@ -140,12 +140,12 @@ const VariantCreateDialog: React.FC<VariantCreateDialogProps> = ({
         <LoadingButton
           loading={isCreateVariantLoading}
           onClick={handleSubmit((data) => {
-            handleCreate(
+            handleSave(
               {
                 ...data,
                 price: floatToPennies(data.price),
               },
-              (variant as ßwillFixThisTypeLater)?.id ?? undefined,
+              variant?.id,
             );
             closeActions();
           })}
@@ -157,6 +157,6 @@ const VariantCreateDialog: React.FC<VariantCreateDialogProps> = ({
   );
 };
 
-VariantCreateDialog.defaultProps = defaultProps;
+VariantManageDialog.defaultProps = defaultProps;
 
-export default VariantCreateDialog;
+export default VariantManageDialog;

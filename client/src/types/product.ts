@@ -25,7 +25,8 @@ export interface Product {
 
 export type ProductWithoutVariant = Omit<Product, 'variants'>;
 
-export interface PostVariantBody {
+export interface VariantBodyDto {
+  id?: string;
   description: string;
   price: number;
   barcode: string;
@@ -35,7 +36,7 @@ export interface PostProductBody {
   name: string;
   brand: string;
   imageUrl?: string[];
-  variants: PostVariantBody[];
+  variants: VariantBodyDto[];
 }
 
 export interface PutProductBody {
