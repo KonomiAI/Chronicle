@@ -16,11 +16,10 @@ import { GetUser } from 'src/auth/user.decorator';
 import { TransformInterceptor } from 'src/interceptors/transform.interceptor';
 import { PrismaService } from 'src/prisma.service';
 import { LedgerService } from '../ledger/ledger.service';
-import { ActivityEntry } from './activity-entry-select';
 import { ActivityEntryChargeDto, ActivityEntryDto } from './activity-entry.dto';
 import { ActivityEntryService } from './activity-entry.service';
 
-const DEFAULT_ENTRY_SELECT: Prisma.ActivityEntrySelect = {
+const DEFAULT_ENTRY_SELECT = {
   id: true,
   customer: true,
   activity: true,
@@ -175,7 +174,7 @@ export class ActivityEntryController {
     if (await this.ledger.getChargeByEntryId(id)) {
       throw new BadRequestException('Entry already charged');
     }
-    const entry: ActivityEntry = (await this.getActivityEntryById(id)) as any;
+    const entry = await this.getActivityEntryById(id);
     const amount =
       (entry.activity?.price ?? 0) +
       (entry.products?.reduce((acc, p) => acc + p.price, 0) ?? 0) +
