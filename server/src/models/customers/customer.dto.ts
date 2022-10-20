@@ -3,6 +3,7 @@ import {
   IsArray,
   IsEmail,
   IsEnum,
+  IsInt,
   IsISO8601,
   IsNotEmpty,
   IsOptional,
@@ -36,4 +37,14 @@ export class CustomerDto {
   @IsOptional()
   @IsArray()
   responseIds: string[];
+}
+
+export class CustomerChargeDto {
+  @IsString()
+  @IsNotEmpty()
+  description: string;
+
+  @IsInt()
+  @IsNotEmpty()
+  amount: number;
 }

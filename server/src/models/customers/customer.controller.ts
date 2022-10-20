@@ -9,17 +9,24 @@ import {
   Put,
   UseInterceptors,
 } from '@nestjs/common';
-import { Prisma } from '@prisma/client';
+import { Prisma, Staff } from '@prisma/client';
 import { Actions, Features } from 'src/auth/constants';
 import { Auth } from 'src/auth/role.decorator';
+import { GetUser } from 'src/auth/user.decorator';
 import { TransformInterceptor } from 'src/interceptors/transform.interceptor';
-import { CustomerDto } from './customer.dto';
+import { PrismaService } from 'src/prisma.service';
+import { LedgerService } from '../ledger/ledger.service';
+import { CustomerChargeDto, CustomerDto } from './customer.dto';
 import { CustomerService } from './customer.service';
 
 @Controller('customers')
 @UseInterceptors(TransformInterceptor)
 export class CustomerController {
-  constructor(private customerService: CustomerService) {}
+  constructor(
+    private customerService: CustomerService,
+    private readonly ledger: LedgerService,
+    private prisma: PrismaService,
+  ) {}
 
   @Auth(Actions.READ, [Features.Customer])
   @Get()
@@ -115,5 +122,57 @@ export class CustomerController {
   async deleteCustomerPersonalInfo(@Param('id') id: string) {
     await this.customerService.deleteCustomer({ id });
     return { id };
+  }
+
+  @Auth(Actions.WRITE, [Features.Customer])
+  @Get(':id/balance')
+  async getCustomerBalance(@Param('id') id: string) {
+    const charges = await this.prisma.ledger.findMany({
+      where: {
+        customerId: id,
+      },
+      select: {
+        amount: true,
+        id: true,
+        description: true,
+        createdDt: true,
+        createdBy: {
+          select: {
+            id: true,
+            firstName: true,
+            lastName: true,
+          },
+        },
+        activityEntry: {
+          select: {
+            id: true,
+          },
+        },
+      },
+    });
+    const balance = charges.reduce((acc, charge) => acc + charge.amount, 0);
+    return { balance, charges };
+  }
+
+  @Auth(Actions.WRITE, [Features.Customer])
+  @Post(':id/charge')
+  async chargeCustomer(
+    @Param('id') id: string,
+    @Body() data: CustomerChargeDto,
+    @GetUser() user: Staff,
+  ) {
+    return this.ledger.createCharge({
+      ...data,
+      createdBy: {
+        connect: {
+          id: user.id,
+        },
+      },
+      customer: {
+        connect: {
+          id,
+        },
+      },
+    });
   }
 }

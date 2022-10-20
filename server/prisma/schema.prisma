@@ -59,6 +59,7 @@ model Staff {
   roleIds         String[]          @db.ObjectId
   responses       ResponseVersion[]
   activityEntries ActivityEntry[]
+  Ledger          Ledger[]
 }
 
 model Variant {
@@ -165,6 +166,7 @@ model Customer {
   createdAt       DateTime        @default(now())
   updatedAt       DateTime        @updatedAt
   activityEntries ActivityEntry[]
+  Ledger          Ledger[]
 }
 
 model ActivityEntry {
@@ -180,4 +182,21 @@ model ActivityEntry {
   author     Staff      @relation(fields: [staffId], references: [id])
   staffId    String     @db.ObjectId
   responses  Response[]
+  tipCharged Int        @default(0)
+  // The reason why the charge is 1 to many because we can't have more than one charge that is
+  // not linked to an activity entry (have activityEntryId as null).
+  charge     Ledger[]
+}
+
+model Ledger {
+  id              String         @id @default(auto()) @map("_id") @db.ObjectId
+  amount          Int
+  description     String?
+  customer        Customer       @relation(fields: [customerId], references: [id])
+  activityEntry   ActivityEntry? @relation(fields: [activityEntryId], references: [id])
+  createdBy       Staff          @relation(fields: [staffId], references: [id])
+  createdDt       DateTime       @default(now())
+  customerId      String         @db.ObjectId
+  staffId         String         @db.ObjectId
+  activityEntryId String?        @db.ObjectId
 }

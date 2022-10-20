@@ -9,11 +9,15 @@ import {
   Request,
   UseInterceptors,
 } from '@nestjs/common';
-import { Prisma } from '@prisma/client';
+import { Prisma, Staff } from '@prisma/client';
 import { Actions, Features } from 'src/auth/constants';
 import { Auth } from 'src/auth/role.decorator';
+import { GetUser } from 'src/auth/user.decorator';
 import { TransformInterceptor } from 'src/interceptors/transform.interceptor';
-import { ActivityEntryDto } from './activity-entry.dto';
+import { PrismaService } from 'src/prisma.service';
+import { LedgerService } from '../ledger/ledger.service';
+import { ActivityEntry } from './activity-entry-select';
+import { ActivityEntryChargeDto, ActivityEntryDto } from './activity-entry.dto';
 import { ActivityEntryService } from './activity-entry.service';
 
 const DEFAULT_ENTRY_SELECT: Prisma.ActivityEntrySelect = {
@@ -78,7 +82,11 @@ const DEFAULT_ENTRY_SELECT: Prisma.ActivityEntrySelect = {
 @Controller('activity-entry')
 @UseInterceptors(TransformInterceptor)
 export class ActivityEntryController {
-  constructor(private service: ActivityEntryService) {}
+  constructor(
+    private service: ActivityEntryService,
+    private readonly ledger: LedgerService,
+    private readonly prisma: PrismaService,
+  ) {}
   @Auth(Actions.READ, [Features.Entry])
   @Get()
   getActivityEntries() {
@@ -155,5 +163,49 @@ export class ActivityEntryController {
       };
     }
     return this.service.updateActivityEntry(id, updateData);
+  }
+
+  @Auth(Actions.WRITE, [Features.Entry])
+  @Post(':id/charge')
+  async chargeActivityEntry(
+    @Param('id') id: string,
+    @Body() { description, tipAmount }: ActivityEntryChargeDto,
+    @GetUser() user: Staff,
+  ) {
+    if (await this.ledger.getChargeByEntryId(id)) {
+      throw new BadRequestException('Entry already charged');
+    }
+    const entry: ActivityEntry = (await this.getActivityEntryById(id)) as any;
+    const amount =
+      (entry.activity?.price ?? 0) +
+      (entry.products?.reduce((acc, p) => acc + p.price, 0) ?? 0) +
+      (tipAmount ?? 0);
+
+    this.prisma.$transaction([
+      this.prisma.ledger.create({
+        data: {
+          customer: {
+            connect: {
+              id: entry.customer.id,
+            },
+          },
+          amount,
+          createdBy: {
+            connect: {
+              id: user.id,
+            },
+          },
+          description,
+          activityEntry: {
+            connect: {
+              id,
+            },
+          },
+        },
+      }),
+      this.service.updateActivityEntry(id, {
+        tipCharged: tipAmount ?? 0,
+      }),
+    ]);
   }
 }
