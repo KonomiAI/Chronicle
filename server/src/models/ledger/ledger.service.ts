@@ -31,4 +31,32 @@ export class LedgerService {
   }) {
     return this.prisma.ledger.findMany(args);
   }
+
+  async getCustomerBalance(customerId: string) {
+    const charges = await this.prisma.ledger.findMany({
+      where: {
+        customerId,
+      },
+      select: {
+        amount: true,
+        id: true,
+        description: true,
+        createdDt: true,
+        createdBy: {
+          select: {
+            id: true,
+            firstName: true,
+            lastName: true,
+          },
+        },
+        activityEntry: {
+          select: {
+            id: true,
+          },
+        },
+      },
+    });
+    const balance = charges.reduce((acc, charge) => acc + charge.amount, 0);
+    return { balance, charges };
+  }
 }

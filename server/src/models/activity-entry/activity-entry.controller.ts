@@ -76,6 +76,15 @@ const DEFAULT_ENTRY_SELECT = {
       lastName: true,
     },
   },
+  charge: {
+    select: {
+      amount: true,
+      id: true,
+      description: true,
+      createdDt: true,
+    },
+  },
+  tipCharged: true,
 };
 
 @Controller('activity-entry')
@@ -165,6 +174,28 @@ export class ActivityEntryController {
   }
 
   @Auth(Actions.WRITE, [Features.Entry])
+  @Get(':id/charge')
+  async getChargeDetailsOfActivityEntry(@Param('id') id: string) {
+    if (await this.ledger.getChargeByEntryId(id)) {
+      throw new BadRequestException('Entry already charged');
+    }
+    const entry = await this.getActivityEntryById(id);
+    const customerBalance = await this.ledger.getCustomerBalance(
+      entry.customer.id,
+    );
+    const amount =
+      (entry.activity?.price ?? 0) +
+      (entry.products?.reduce((acc, p) => acc + p.price, 0) ?? 0);
+    return {
+      balance: customerBalance.balance,
+      amount,
+      // Positive amount means customer has to pay
+      // Negative amount means customer has to be refunded (or has on account)
+      remaining: customerBalance.balance + amount,
+    };
+  }
+
+  @Auth(Actions.WRITE, [Features.Entry])
   @Post(':id/charge')
   async chargeActivityEntry(
     @Param('id') id: string,
@@ -180,7 +211,7 @@ export class ActivityEntryController {
       (entry.products?.reduce((acc, p) => acc + p.price, 0) ?? 0) +
       (tipAmount ?? 0);
 
-    this.prisma.$transaction([
+    const [charge] = await this.prisma.$transaction([
       this.prisma.ledger.create({
         data: {
           customer: {
@@ -206,5 +237,6 @@ export class ActivityEntryController {
         tipCharged: tipAmount ?? 0,
       }),
     ]);
+    return charge;
   }
 }

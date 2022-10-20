@@ -14,7 +14,6 @@ import { Actions, Features } from 'src/auth/constants';
 import { Auth } from 'src/auth/role.decorator';
 import { GetUser } from 'src/auth/user.decorator';
 import { TransformInterceptor } from 'src/interceptors/transform.interceptor';
-import { PrismaService } from 'src/prisma.service';
 import { LedgerService } from '../ledger/ledger.service';
 import { CustomerChargeDto, CustomerDto } from './customer.dto';
 import { CustomerService } from './customer.service';
@@ -25,7 +24,6 @@ export class CustomerController {
   constructor(
     private customerService: CustomerService,
     private readonly ledger: LedgerService,
-    private prisma: PrismaService,
   ) {}
 
   @Auth(Actions.READ, [Features.Customer])
@@ -124,34 +122,10 @@ export class CustomerController {
     return { id };
   }
 
-  @Auth(Actions.WRITE, [Features.Customer])
+  @Auth(Actions.READ, [Features.Customer])
   @Get(':id/balance')
   async getCustomerBalance(@Param('id') id: string) {
-    const charges = await this.prisma.ledger.findMany({
-      where: {
-        customerId: id,
-      },
-      select: {
-        amount: true,
-        id: true,
-        description: true,
-        createdDt: true,
-        createdBy: {
-          select: {
-            id: true,
-            firstName: true,
-            lastName: true,
-          },
-        },
-        activityEntry: {
-          select: {
-            id: true,
-          },
-        },
-      },
-    });
-    const balance = charges.reduce((acc, charge) => acc + charge.amount, 0);
-    return { balance, charges };
+    return this.ledger.getCustomerBalance(id);
   }
 
   @Auth(Actions.WRITE, [Features.Customer])
