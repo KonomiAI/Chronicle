@@ -29,6 +29,13 @@ interface Customer {
   updatedAt: string;
 }
 
+interface Charge {
+  id: string;
+  description: string;
+  amount: number;
+  createdDt: string;
+}
+
 export interface ActivityEntry {
   id: string;
   customer: Customer;
@@ -38,6 +45,9 @@ export interface ActivityEntry {
   createdAt: string;
   updatedAt: string;
   author: Author;
+  // There should always only be 1 item per charge
+  charge: Charge[];
+  tipCharged: number;
 }
 
 export interface ActivityEntryDto {
@@ -45,4 +55,15 @@ export interface ActivityEntryDto {
   activityId?: string | null;
   variantId?: string[] | null;
   responseIds?: string[] | null;
+}
+
+export interface ActivityEntryChargeSummary {
+  balance: number;
+  amount: number;
+  remaining: number;
+}
+
+export interface ChargeCreateDto {
+  description: string;
+  tipAmount: number;
 }

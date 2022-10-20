@@ -5,12 +5,13 @@ import { StyledTextField } from './styled';
 
 export interface FormInputProps<T extends FieldValues>
   extends UseControllerProps<T> {
-  label: string;
+  label?: string;
   testId?: string;
   variant?: 'filled' | 'standard' | 'outlined';
   type?: React.InputHTMLAttributes<unknown>['type'];
   multiline?: number;
   disabled?: boolean;
+  hiddenLabel?: boolean;
 }
 
 export const FormInputField = <T extends FieldValues>({
@@ -23,6 +24,7 @@ export const FormInputField = <T extends FieldValues>({
   multiline = 0,
   type = 'text',
   disabled,
+  hiddenLabel,
 }: FormInputProps<T>) => {
   const handleOnChange = (value: string) => {
     if (type === 'number') {
@@ -56,6 +58,7 @@ export const FormInputField = <T extends FieldValues>({
           maxRows={10}
           type={type}
           disabled={disabled}
+          hiddenLabel={hiddenLabel}
         />
       )}
     />

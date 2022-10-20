@@ -3,6 +3,7 @@ import {
   Body,
   Controller,
   Get,
+  NotFoundException,
   Param,
   Post,
   Put,
@@ -176,10 +177,13 @@ export class ActivityEntryController {
   @Auth(Actions.WRITE, [Features.Entry])
   @Get(':id/charge')
   async getChargeDetailsOfActivityEntry(@Param('id') id: string) {
+    const entry = await this.getActivityEntryById(id);
+    if (!entry) {
+      throw new NotFoundException('Entry request is not found');
+    }
     if (await this.ledger.getChargeByEntryId(id)) {
       throw new BadRequestException('Entry already charged');
     }
-    const entry = await this.getActivityEntryById(id);
     const customerBalance = await this.ledger.getCustomerBalance(
       entry.customer.id,
     );
