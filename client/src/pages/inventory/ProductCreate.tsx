@@ -8,10 +8,10 @@ import PageHeader from '../../components/page-header/PageHeader';
 import Spacer from '../../components/spacer/Spacer';
 import ProductBase from './ProductBase';
 import { createProduct } from '../../data';
-import { PostProductBody, PostVariantBody } from '../../types';
+import { PostProductBody, VariantBodyDto } from '../../types';
 
 const ProductCreate = () => {
-  const [variants, setVariants] = useState<PostVariantBody[]>([]);
+  const [variants, setVariants] = useState<VariantBodyDto[]>([]);
   const navigate = useNavigate();
 
   const { isLoading, isError, mutate } = useMutation(createProduct, {
@@ -27,7 +27,7 @@ const ProductCreate = () => {
     });
   };
 
-  const handleAddVariant = (variant: PostVariantBody) => {
+  const handleAddVariant = (variant: VariantBodyDto) => {
     const newVariants = [...variants, variant];
     setVariants(newVariants);
   };
@@ -55,7 +55,7 @@ const ProductCreate = () => {
       <ProductBase
         variants={variants}
         onSave={onSave}
-        onAddVariant={handleAddVariant}
+        onSaveVariant={handleAddVariant}
         onDeleteVariant={handleDeleteVariant}
         isLoading={isLoading}
       />

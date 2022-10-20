@@ -2,7 +2,7 @@ import { useQuery } from 'react-query';
 
 import {
   PostProductBody,
-  PostVariantBody,
+  VariantBodyDto,
   Product,
   PutProductBody,
   Variant,
@@ -46,13 +46,13 @@ export const createProduct = (data: PostProductBody) => {
 
 interface CreateVariantVariables {
   productId: string;
-  data: PostVariantBody;
+  data: VariantBodyDto;
 }
 
 interface UpdateVariantVariables {
   productId: string;
   variantId: string;
-  data: PostVariantBody;
+  data: VariantBodyDto;
 }
 
 export const createVariant = ({ productId, data }: CreateVariantVariables) => {

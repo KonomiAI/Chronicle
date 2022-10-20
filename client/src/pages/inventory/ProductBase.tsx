@@ -19,24 +19,19 @@ import {
   AlertTitle,
 } from '@mui/material';
 
-import {
-  PostProductBody,
-  PostVariantBody,
-  Product,
-  Variant,
-} from '../../types';
+import { PostProductBody, VariantBodyDto, Product, Variant } from '../../types';
 import { penniesToPrice } from '../../utils';
 import Spacer from '../../components/spacer/Spacer';
-import VariantCreateDialog from './VariantCreate';
+import VariantManageDialog from './VariantCreate';
 import { SaveBar } from '../../components';
 import { FormInputField } from '../../components/form-inputs/FormInputField';
 import { fastUnsafeObjectCompare } from '../../utils/compare-object';
 
 interface ProductBaseProps {
   product?: Product;
-  variants: Variant[] | PostVariantBody[];
+  variants: Variant[] | VariantBodyDto[];
   onSave: (body: PostProductBody) => void;
-  onAddVariant: (variant: PostVariantBody, variantId?: string) => void;
+  onSaveVariant: (variant: VariantBodyDto, variantId?: string) => void;
   isCreateVariantLoading?: boolean;
   hasCreateVariantError?: boolean;
   onDeleteVariant: (id: string) => void;
@@ -57,7 +52,7 @@ const defaultProps = {
 const ProductBase: React.FC<ProductBaseProps> = ({
   variants,
   onSave,
-  onAddVariant,
+  onSaveVariant,
   onDeleteVariant,
   isLoading,
   product,
@@ -69,7 +64,7 @@ const ProductBase: React.FC<ProductBaseProps> = ({
   const [isVariantDialogOpen, setIsVariantDialogOpen] = useState(false);
   const [isSaveBarOpen, setIsSaveBarOpen] = useState(false);
   const [variantToEdit, setVariantToEdit] = useState<
-    PostVariantBody | Variant | undefined
+    VariantBodyDto | Variant | undefined
   >();
 
   const initialValue = {
@@ -161,12 +156,12 @@ const ProductBase: React.FC<ProductBaseProps> = ({
           Variants
         </Typography>
         <Box>
-          <VariantCreateDialog
+          <VariantManageDialog
             isOpen={isVariantDialogOpen}
             handleClose={() => setIsVariantDialogOpen(false)}
-            handleCreate={(variant: PostVariantBody, vid?: string) => {
-              onAddVariant(variant, vid);
-            }}
+            handleSave={(variant: VariantBodyDto, vid?: string) =>
+              onSaveVariant(variant, vid)
+            }
             handleDelete={onDeleteVariant}
             variant={variantToEdit}
             isCreateVariantLoading={isCreateVariantLoading}

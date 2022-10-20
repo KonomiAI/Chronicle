@@ -24,7 +24,7 @@ import {
   updateVariant,
   useGetProduct,
 } from '../../data';
-import { PostVariantBody, PutProductBody, Variant } from '../../types';
+import { VariantBodyDto, PutProductBody, Variant } from '../../types';
 import LoadingCard from '../../components/loading-card';
 
 const ProductEdit = () => {
@@ -99,7 +99,7 @@ const ProductEdit = () => {
     });
   };
 
-  const handleEditVariant = (variant: PostVariantBody, variantId?: string) => {
+  const handleEditVariant = (variant: VariantBodyDto, variantId?: string) => {
     if (!variantId) {
       return;
     }
@@ -152,7 +152,7 @@ const ProductEdit = () => {
         isLoading={isUpdateProductLoading}
         variants={variants}
         onSave={onSave}
-        onAddVariant={(data, vid) => handleEditVariant(data, vid)}
+        onSaveVariant={(data, vid) => handleEditVariant(data, vid)}
         isCreateVariantLoading={isCreateVariantLoading}
         hasCreateVariantError={hasCreateVariantError}
         onDeleteVariant={handleDeleteVariant}
