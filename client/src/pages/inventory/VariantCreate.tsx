@@ -15,13 +15,13 @@ import { LoadingButton } from '@mui/lab';
 
 import { FormInputField } from '../../components/form-inputs/FormInputField';
 import Spacer from '../../components/spacer/Spacer';
-import { PostVariantBody, Variant } from '../../types';
+import { PostVariantBody, ßwillFixThisTypeLater, Variant } from '../../types';
 import { floatToPennies, penniesToFloat, priceCheck } from '../../utils';
 
 interface VariantCreateDialogProps {
   isOpen: boolean;
   handleClose: () => void;
-  handleCreate: (variant: PostVariantBody) => void;
+  handleCreate: (variant: PostVariantBody, variantId?: string) => void;
   handleDelete: (variantId: string) => void;
   variant?: Variant | PostVariantBody;
   isCreateVariantLoading?: boolean;
@@ -140,10 +140,13 @@ const VariantCreateDialog: React.FC<VariantCreateDialogProps> = ({
         <LoadingButton
           loading={isCreateVariantLoading}
           onClick={handleSubmit((data) => {
-            handleCreate({
-              ...data,
-              price: floatToPennies(data.price),
-            });
+            handleCreate(
+              {
+                ...data,
+                price: floatToPennies(data.price),
+              },
+              (variant as ßwillFixThisTypeLater)?.id ?? undefined,
+            );
             closeActions();
           })}
         >
