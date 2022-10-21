@@ -31,7 +31,7 @@ export default function CustomerGiftCardDialog({
     },
   });
   return (
-    <Dialog open={open} onBackdropClick={onClose} fullWidth>
+    <Dialog open={open} onClose={onClose} fullWidth>
       <DialogTitle>Deposit a gift card</DialogTitle>
       <DialogContent>
         <Spacer size="sm" />

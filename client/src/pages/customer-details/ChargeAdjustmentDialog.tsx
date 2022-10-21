@@ -35,7 +35,7 @@ export default function ChargeAdjustmentDialog({
     },
   });
   return (
-    <Dialog open={open} onBackdropClick={onClose} fullWidth>
+    <Dialog open={open} onClose={onClose} fullWidth>
       <DialogTitle>Create an adjustment</DialogTitle>
       <DialogContent>
         <Spacer size="sm" />
