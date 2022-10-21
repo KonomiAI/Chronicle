@@ -22,3 +22,32 @@ export type CustomerCreateDto = Omit<
   Customer,
   'id' | 'createdAt' | 'updatedAt' | 'isDeleted'
 > & { responseIds?: string[] };
+
+interface ActivityEntry {
+  id: string;
+}
+
+interface CreatedBy {
+  id: string;
+  firstName: string;
+  lastName: string;
+}
+
+interface Charge {
+  amount: number;
+  id: string;
+  description: string;
+  createdDt: string;
+  createdBy: CreatedBy;
+  activityEntry?: ActivityEntry;
+}
+
+export interface CustomerBalance {
+  balance: number;
+  charges: Charge[];
+}
+
+export interface CustomerChargePostDto {
+  amount: number;
+  description?: string;
+}

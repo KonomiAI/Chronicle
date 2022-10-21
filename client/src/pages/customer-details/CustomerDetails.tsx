@@ -36,6 +36,7 @@ import {
 } from '../../components/simple-pages/SimplePages';
 import { DATE_REGEXP, EMAIL_REGEXP } from '../../utils';
 import { FormIntegration } from '../../components/form-integration/form-integration';
+import CustomerBalance from './CustomerBalance';
 
 export interface CustomerDetailsPageProps {
   isCreate?: boolean;
@@ -253,11 +254,18 @@ export function ManageCustomerForm() {
   return isLoading || !currentData || isSavingChanges ? (
     <LoadingPage />
   ) : (
-    <CustomerDetailsPage
-      defaultValues={currentData}
-      saveChanges={doSave}
-      responses={currentData.responses}
-      errorMessage={errorMessage}
-    />
+    <>
+      <CustomerDetailsPage
+        defaultValues={currentData}
+        saveChanges={doSave}
+        responses={currentData.responses}
+        errorMessage={errorMessage}
+      />
+      <Container>
+        <Spacer size="md" />
+        <CustomerBalance id={id} />
+      </Container>
+      <Spacer size="saveBar" />
+    </>
   );
 }

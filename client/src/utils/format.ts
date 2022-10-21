@@ -3,6 +3,7 @@ import { format, parseJSON } from 'date-fns';
 const i18nMoneyFormatter = new Intl.NumberFormat('en-US', {
   style: 'currency',
   currency: 'CAD',
+  currencyDisplay: 'narrowSymbol',
 });
 
 export const floatToPennies = (value: number): number =>
