@@ -121,13 +121,13 @@ export default function CustomerBalance({ id }: CustomerBalanceProps) {
                       <ListItemIcon>
                         <Redeem />
                       </ListItemIcon>
-                      <ListItemText primary="Gift card deposit" />
+                      <ListItemText primary="Top up account" />
                     </ListItemButton>
                     <ListItemButton onClick={() => setOpenChargeDialog(true)}>
                       <ListItemIcon>
                         <PriceChange />
                       </ListItemIcon>
-                      <ListItemText primary="Balance adjustment" />
+                      <ListItemText primary="Adjust balance" />
                     </ListItemButton>
                   </List>
                 </Card>
