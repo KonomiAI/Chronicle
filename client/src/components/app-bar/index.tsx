@@ -60,7 +60,7 @@ export default function ChronicleAppBar({
             </IconButton>
           )}
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Pemberley Springs
+            {import.meta.env.VITE_SITE_TITLE}
           </Typography>
           <AccountMenu />
         </Toolbar>
