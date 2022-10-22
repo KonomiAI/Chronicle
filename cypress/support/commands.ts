@@ -27,3 +27,11 @@
 Cypress.Commands.add('testId', (value: string) => {
   return cy.get(`[data-testid="${value}"]`);
 });
+
+Cypress.Commands.add('login', () => {
+  cy.visit('/login');
+  cy.testId('input-username').find('input').clear().type('test@konomi.ai');
+  cy.testId('input-password').find('input').clear().type('test');
+  cy.testId('btn-login').click();
+  cy.contains('Here is your daily briefing').should('be.visible');
+});

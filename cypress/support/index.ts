@@ -25,6 +25,7 @@ declare global {
        * @example cy.dataCy('greeting')
        */
       testId(value: string): Cypress.Chainable<JQuery<HTMLElement>>;
+      login(): void;
     }
   }
 }

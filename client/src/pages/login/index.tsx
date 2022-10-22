@@ -150,6 +150,7 @@ function LoginPage() {
                     label="Email"
                     type="email"
                     control={control}
+                    testId="input-username"
                     rules={{
                       required: true,
                       pattern: {
@@ -163,6 +164,7 @@ function LoginPage() {
                     name="password"
                     label="Password"
                     type="password"
+                    testId="input-password"
                     data-testId="input-password"
                     rules={{
                       required: true,
