@@ -27,10 +27,14 @@ jobs:
           yarn
           yarn build
         working-directory: ./packages/c-form
-      - name: Install, build, lint and test
-        run: |
-          yarn
-          yarn build
-          yarn test
-          yarn lint
+      - name: Install client dependencies
+        run: yarn
+      - name: Run tests with coverage report
+        run: yarn coverage
+        working-directory: ./client
+      - name: Build client
+        run: yarn build
+        working-directory: ./client
+      - name: Lint client
+        run: yarn lint
         working-directory: ./client
