@@ -7,10 +7,21 @@ import { PrismaService } from '../../prisma.service';
 export class ActivityService {
   constructor(private prisma: PrismaService) {}
 
-  async activity(
-    userWhereUniqueInput: Prisma.ActivityWhereUniqueInput,
-  ): Promise<Activity | null> {
+  async activity(userWhereUniqueInput: Prisma.ActivityWhereUniqueInput) {
     return this.prisma.activity.findUnique({
+      select: {
+        id: true,
+        name: true,
+        price: true,
+        createdAt: true,
+        updatedAt: true,
+        isArchived: true,
+        ActivityEntry: {
+          select: {
+            id: true,
+          },
+        },
+      },
       where: userWhereUniqueInput,
     });
   }
@@ -27,7 +38,8 @@ export class ActivityService {
       skip,
       take,
       cursor,
-      where,
+      // Do not show any archived data from the service level
+      where: { ...(where ?? {}), isArchived: false },
       orderBy,
     });
   }
@@ -40,13 +52,21 @@ export class ActivityService {
 
   async updateActivity(params: {
     where: Prisma.ActivityWhereUniqueInput;
-    data: Prisma.ActivityUpdateInput;
+    data: Prisma.ActivityCreateInput;
   }): Promise<Activity> {
     const { where, data } = params;
-    return this.prisma.activity.update({
-      data,
-      where,
-    });
+    const [newRecord] = await this.prisma.$transaction([
+      this.prisma.activity.create({
+        data,
+      }),
+      this.prisma.activity.update({
+        data: {
+          isArchived: true,
+        },
+        where,
+      }),
+    ]);
+    return newRecord;
   }
 
   async deleteActivity(

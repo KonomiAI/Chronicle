@@ -3,20 +3,24 @@ import {
   Body,
   Controller,
   Get,
+  NotFoundException,
   Param,
   Post,
   Put,
   Request,
   UseInterceptors,
 } from '@nestjs/common';
-import { Prisma } from '@prisma/client';
+import { Prisma, Staff } from '@prisma/client';
 import { Actions, Features } from 'src/auth/constants';
 import { Auth } from 'src/auth/role.decorator';
+import { GetUser } from 'src/auth/user.decorator';
 import { TransformInterceptor } from 'src/interceptors/transform.interceptor';
-import { ActivityEntryDto } from './activity-entry.dto';
+import { PrismaService } from 'src/prisma.service';
+import { LedgerService } from '../ledger/ledger.service';
+import { ActivityEntryChargeDto, ActivityEntryDto } from './activity-entry.dto';
 import { ActivityEntryService } from './activity-entry.service';
 
-const DEFAULT_ENTRY_SELECT: Prisma.ActivityEntrySelect = {
+const DEFAULT_ENTRY_SELECT = {
   id: true,
   customer: true,
   activity: true,
@@ -29,6 +33,7 @@ const DEFAULT_ENTRY_SELECT: Prisma.ActivityEntrySelect = {
       barcode: true,
       createdAt: true,
       updatedAt: true,
+      isArchived: true,
       product: {
         select: {
           id: true,
@@ -72,12 +77,25 @@ const DEFAULT_ENTRY_SELECT: Prisma.ActivityEntrySelect = {
       lastName: true,
     },
   },
+  charge: {
+    select: {
+      amount: true,
+      id: true,
+      description: true,
+      createdDt: true,
+    },
+  },
+  tipCharged: true,
 };
 
 @Controller('activity-entry')
 @UseInterceptors(TransformInterceptor)
 export class ActivityEntryController {
-  constructor(private service: ActivityEntryService) {}
+  constructor(
+    private service: ActivityEntryService,
+    private readonly ledger: LedgerService,
+    private readonly prisma: PrismaService,
+  ) {}
   @Auth(Actions.READ, [Features.Entry])
   @Get()
   getActivityEntries() {
@@ -154,5 +172,75 @@ export class ActivityEntryController {
       };
     }
     return this.service.updateActivityEntry(id, updateData);
+  }
+
+  @Auth(Actions.WRITE, [Features.Entry])
+  @Get(':id/charge')
+  async getChargeDetailsOfActivityEntry(@Param('id') id: string) {
+    const entry = await this.getActivityEntryById(id);
+    if (!entry) {
+      throw new NotFoundException('Entry request is not found');
+    }
+    if (await this.ledger.getChargeByEntryId(id)) {
+      throw new BadRequestException('Entry already charged');
+    }
+    const customerBalance = await this.ledger.getCustomerBalance(
+      entry.customer.id,
+    );
+    const amount =
+      (entry.activity?.price ?? 0) +
+      (entry.products?.reduce((acc, p) => acc + p.price, 0) ?? 0);
+    return {
+      balance: customerBalance.balance,
+      amount,
+      // Positive amount means customer has to pay
+      // Negative amount means customer has to be refunded (or has on account)
+      remaining: customerBalance.balance + amount,
+    };
+  }
+
+  @Auth(Actions.WRITE, [Features.Entry])
+  @Post(':id/charge')
+  async chargeActivityEntry(
+    @Param('id') id: string,
+    @Body() { description, tipAmount }: ActivityEntryChargeDto,
+    @GetUser() user: Staff,
+  ) {
+    if (await this.ledger.getChargeByEntryId(id)) {
+      throw new BadRequestException('Entry already charged');
+    }
+    const entry = await this.getActivityEntryById(id);
+    const amount =
+      (entry.activity?.price ?? 0) +
+      (entry.products?.reduce((acc, p) => acc + p.price, 0) ?? 0) +
+      (tipAmount ?? 0);
+
+    const [charge] = await this.prisma.$transaction([
+      this.prisma.ledger.create({
+        data: {
+          customer: {
+            connect: {
+              id: entry.customer.id,
+            },
+          },
+          amount,
+          createdBy: {
+            connect: {
+              id: user.id,
+            },
+          },
+          description,
+          activityEntry: {
+            connect: {
+              id,
+            },
+          },
+        },
+      }),
+      this.service.updateActivityEntry(id, {
+        tipCharged: tipAmount ?? 0,
+      }),
+    ]);
+    return charge;
   }
 }

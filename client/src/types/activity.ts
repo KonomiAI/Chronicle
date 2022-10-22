@@ -5,6 +5,7 @@ export interface Activity {
   isArchived: boolean;
   createdAt: string;
   updatedAt: string;
+  inUseByActivityEntry?: boolean;
 }
 
 export interface PostActivityBody {

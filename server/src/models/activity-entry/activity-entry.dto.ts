@@ -1,4 +1,10 @@
-import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import {
+  IsInt,
+  IsNotEmpty,
+  IsOptional,
+  IsPositive,
+  IsString,
+} from 'class-validator';
 
 export class ActivityEntryDto {
   @IsString()
@@ -20,4 +26,15 @@ export class ActivityEntryDto {
     each: true,
   })
   responseIds?: string[];
+}
+
+export class ActivityEntryChargeDto {
+  @IsInt()
+  @IsPositive()
+  @IsOptional()
+  tipAmount?: number;
+
+  @IsString()
+  @IsOptional()
+  description?: string;
 }

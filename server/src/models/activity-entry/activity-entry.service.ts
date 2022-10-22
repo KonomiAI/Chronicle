@@ -17,7 +17,10 @@ export class ActivityEntryService {
     return this.prisma.activityEntry.findMany(args);
   }
 
-  getActivityEntryById(id: string, select?: Prisma.ActivityEntrySelect) {
+  getActivityEntryById<T extends Prisma.ActivityEntrySelect>(
+    id: string,
+    select?: T,
+  ) {
     return this.prisma.activityEntry.findFirst({
       where: {
         id,

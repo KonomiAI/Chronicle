@@ -2,7 +2,7 @@ import { useQuery } from 'react-query';
 
 import {
   PostProductBody,
-  PostVariantBody,
+  VariantBodyDto,
   Product,
   PutProductBody,
   Variant,
@@ -46,13 +46,30 @@ export const createProduct = (data: PostProductBody) => {
 
 interface CreateVariantVariables {
   productId: string;
-  data: PostVariantBody;
+  data: VariantBodyDto;
+}
+
+interface UpdateVariantVariables {
+  productId: string;
+  variantId: string;
+  data: VariantBodyDto;
 }
 
 export const createVariant = ({ productId, data }: CreateVariantVariables) => {
   const axios = useAxios();
   return axios
     .post<Data<Variant>>(`/products/${productId}/variants`, data)
+    .then((res) => res.data.data);
+};
+
+export const updateVariant = ({
+  productId,
+  variantId,
+  data,
+}: UpdateVariantVariables) => {
+  const axios = useAxios();
+  return axios
+    .put<Data<Variant>>(`/products/${productId}/variants/${variantId}`, data)
     .then((res) => res.data.data);
 };
 

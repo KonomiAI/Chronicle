@@ -5,45 +5,79 @@ import {
   Button,
   Card,
   CardContent,
+  Chip,
   Container,
   LinearProgress,
+  Tooltip,
   Typography,
 } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import { format, parseJSON } from 'date-fns';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useMutation, useQueryClient } from 'react-query';
+import { useSnackbar } from 'notistack';
+
 import PageHeader from '../../components/page-header/PageHeader';
 import Spacer from '../../components/spacer/Spacer';
 import { ActivityCard, CustomerCard, If } from '../../components';
 import { FormIntegration } from '../../components/form-integration/form-integration';
 import { FormPurpose } from '../../types';
 import { CustomerSelectDialog } from '../../components/customer-select-dialog/CustomerSelectDialog';
-import { ActivityEntryDto } from '../../types/activity-entry';
+import { ActivityEntryDto, ChargeCreateDto } from '../../types/activity-entry';
 import { ActivitySelectDialog } from '../../components/activity-select-dialog/ActivitySelectDialog';
-import { updateActivityEntry, useGetActivityEntry } from '../../data';
+import {
+  createActivityEntryCharge,
+  updateActivityEntry,
+  useGetActivityEntry,
+} from '../../data';
 import { ProductPickerDialog } from '../../components/procuct-picker-dialog/ProductPickerDialog';
 import { penniesToPrice } from '../../utils';
+import { useAlertDialog } from '../../components/use-alert';
+import ActivityEntryChargeDialog from './ActivityEntryChargeDialog';
 
 export function ActivityEntryDetails() {
   // get id from route params
   const { id } = useParams();
   const queryClient = useQueryClient();
+  const { enqueueSnackbar } = useSnackbar();
+  const { confirm } = useAlertDialog();
   const [openCustomerSelectDialog, setOpenCustomerSelectDialog] =
     useState(false);
   const [openActivitySelectDialog, setOpenActivitySelectDialog] =
     useState(false);
   const [openProductSelectDialog, setOpenProductSelectDialog] = useState(false);
+  const [openChargeDialog, setOpenChargeDialog] = useState(false);
   if (!id) {
     return <div>TODO page failed to load</div>;
   }
 
   const updateEntryAndMutate = useMutation(updateActivityEntry, {
-    onSuccess: () => {
-      queryClient.invalidateQueries(['activity-entry', id]);
+    onSuccess: async () => {
+      await queryClient.invalidateQueries(['activity-entry', id]);
+      await queryClient.invalidateQueries(['chargeInfo', id]);
+      enqueueSnackbar('Activity entry updated!', {
+        variant: 'success',
+      });
     },
     onError: () => {
-      // TODO
+      enqueueSnackbar('Failed to update activity entry', {
+        variant: 'error',
+      });
+    },
+  });
+
+  const createChargeAndMutate = useMutation(createActivityEntryCharge, {
+    onSuccess: async () => {
+      await queryClient.invalidateQueries(['activity-entry', id]);
+      setOpenChargeDialog(false);
+      enqueueSnackbar('Charge created! Customer balance has been updated', {
+        variant: 'success',
+      });
+    },
+    onError: () => {
+      enqueueSnackbar('Failed to create charge, try again later.', {
+        variant: 'error',
+      });
     },
   });
 
@@ -55,6 +89,23 @@ export function ActivityEntryDetails() {
     variantId: data?.products?.map((p) => p.id),
     responseIds: data?.responses?.map((r) => r.id),
   };
+
+  const hasChargableItems = data?.products?.length || data?.activity;
+
+  const placeCharge = async (chargeData: ChargeCreateDto) =>
+    data &&
+    (await confirm({
+      title: `Confirm charge for ${data.customer.firstName}?`,
+      message: 'This action is irreversible.',
+    })) &&
+    createChargeAndMutate.mutate({
+      chargeData: {
+        ...chargeData,
+        tipAmount: Math.round(chargeData.tipAmount),
+      },
+      id: data.id,
+    });
+
   return (
     <Container>
       <CustomerSelectDialog
@@ -81,6 +132,14 @@ export function ActivityEntryDetails() {
           }
         }}
       />
+      {data && (
+        <ActivityEntryChargeDialog
+          open={openChargeDialog}
+          onClose={() => setOpenChargeDialog(false)}
+          onConfirm={placeCharge}
+          entry={data}
+        />
+      )}
       <ProductPickerDialog
         open={openProductSelectDialog}
         handleClose={(products) => {
@@ -110,6 +169,16 @@ export function ActivityEntryDetails() {
             helpText={`Last edited by ${data.author.firstName} ${data.author.lastName}`}
           />
           <Spacer size="lg" />
+          {!!data.charge.length && (
+            <>
+              <Alert severity="info">
+                This activity entry has been charged. The customer, activity,
+                and product info may no longer be updated. You may still change
+                the custom forms.
+              </Alert>
+              <Spacer size="md" />
+            </>
+          )}
           <Card>
             <CardContent>
               <Typography variant="h5">Customer</Typography>
@@ -121,6 +190,7 @@ export function ActivityEntryDetails() {
                 size="small"
                 sx={{ mr: '10px' }}
                 onClick={() => setOpenCustomerSelectDialog(true)}
+                disabled={!!data.charge.length}
               >
                 Change Customer
               </Button>
@@ -142,6 +212,7 @@ export function ActivityEntryDetails() {
                   variant="text"
                   size="small"
                   onClick={() => setOpenActivitySelectDialog(true)}
+                  disabled={!!data.charge.length}
                 >
                   Add Activity
                 </Button>
@@ -154,7 +225,20 @@ export function ActivityEntryDetails() {
                       variant="text"
                       size="small"
                       sx={{ mr: '10px' }}
-                      onClick={() => setOpenActivitySelectDialog(true)}
+                      disabled={!!data.charge.length}
+                      onClick={async () => {
+                        if (
+                          data.activity?.isArchived &&
+                          !(await confirm({
+                            title: `Change the activity?`,
+                            message:
+                              'This activity has a new version and the current version is no longer available to book, the update action is irreversible.',
+                          }))
+                        ) {
+                          return;
+                        }
+                        setOpenActivitySelectDialog(true);
+                      }}
                     >
                       Modify Activity
                     </Button>
@@ -162,7 +246,18 @@ export function ActivityEntryDetails() {
                       variant="text"
                       color="error"
                       size="small"
-                      onClick={() => {
+                      disabled={!!data.charge.length}
+                      onClick={async () => {
+                        if (
+                          data.activity?.isArchived &&
+                          !(await confirm({
+                            title: `Remove ${data.activity.name} from this entry?`,
+                            message:
+                              'This activity has a new version and the current version is no longer available to book, the removal action is irreversible.',
+                          }))
+                        ) {
+                          return;
+                        }
                         updateEntryAndMutate.mutate({
                           id,
                           activityEntry: {
@@ -200,7 +295,24 @@ export function ActivityEntryDetails() {
                     >
                       <Box>
                         <Box>
-                          <Typography variant="h6">{p.product.name}</Typography>
+                          <Typography variant="h6">
+                            {p.product.name}
+                            {p.isArchived && (
+                              <Tooltip
+                                sx={{ ml: 1 }}
+                                title="This product variant has a newer version, if you remove the product you will not be able to bring it back."
+                                arrow
+                              >
+                                <Chip
+                                  variant="outlined"
+                                  color="warning"
+                                  size="small"
+                                  label="Legacy record"
+                                  clickable
+                                />
+                              </Tooltip>
+                            )}
+                          </Typography>
                           <Typography>{penniesToPrice(p.price)}</Typography>
                           <Typography variant="caption">
                             Variant: {p.description}
@@ -210,7 +322,18 @@ export function ActivityEntryDetails() {
                       <Button
                         variant="text"
                         size="small"
-                        onClick={() => {
+                        disabled={!!data.charge.length}
+                        onClick={async () => {
+                          if (
+                            p.isArchived &&
+                            !(await confirm({
+                              title: `Remove ${p.product.name} (${p.description}) from this entry?`,
+                              message:
+                                'This product variant has a new version and the current version is no longer available to book, the removal action is irreversible.',
+                            }))
+                          ) {
+                            return;
+                          }
                           updateEntryAndMutate.mutate({
                             id,
                             activityEntry: {
@@ -233,10 +356,46 @@ export function ActivityEntryDetails() {
                 variant="text"
                 size="small"
                 sx={{ mr: '10px' }}
+                disabled={!!data.charge.length}
                 onClick={() => setOpenProductSelectDialog(true)}
               >
                 Add Product
               </Button>
+            </CardContent>
+          </Card>
+          <Spacer size="md" />
+          <Card>
+            <CardContent>
+              <Typography variant="h5">Charge entry</Typography>
+              <Typography variant="caption">
+                Lock in the activity entry and charge the visit on the
+                customer&apos;s balance. You will be able to add a tip and
+                review the details before confirming the charge.
+              </Typography>
+              <Spacer size="sm" />
+              {!hasChargableItems && (
+                <Alert severity="info">
+                  This entry cannot be charged because it is does not have a
+                  service booked or products added.
+                </Alert>
+              )}
+              {!!data.charge.length && (
+                <Alert severity="info">
+                  This entry has already been charged{' '}
+                  {penniesToPrice(data.charge[0].amount)}. This includes a{' '}
+                  {penniesToPrice(data.tipCharged)} tip.
+                </Alert>
+              )}
+              {hasChargableItems && !data.charge.length && (
+                <Button
+                  color="primary"
+                  size="small"
+                  disabled={!hasChargableItems}
+                  onClick={() => setOpenChargeDialog(true)}
+                >
+                  Charge customer
+                </Button>
+              )}
             </CardContent>
           </Card>
           <Spacer size="md" />

@@ -48,13 +48,19 @@ export class VariantService {
 
   async updateVariant(params: {
     where: Prisma.VariantWhereUniqueInput;
-    data: Prisma.VariantUpdateInput;
+    data: Prisma.VariantCreateInput;
   }): Promise<Variant> {
     const { where, data } = params;
-    return this.prisma.variant.update({
-      data,
-      where,
-    });
+    const [newVariant] = await this.prisma.$transaction([
+      this.prisma.variant.create({
+        data,
+      }),
+      this.prisma.variant.update({
+        data: { isArchived: true },
+        where,
+      }),
+    ]);
+    return newVariant;
   }
 
   async deleteVariant(where: Prisma.VariantWhereUniqueInput): Promise<Variant> {
