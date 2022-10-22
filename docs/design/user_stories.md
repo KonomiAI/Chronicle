@@ -1,6 +1,6 @@
 # User Stories
 
-User stories that are implemented are checked, user stories with automated testing implemented, will have the
+User stories that are fully implemented are checked, user stories with automated testing implemented, will have the
 testing method labeled.
 
 ## Identity and login
