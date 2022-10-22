@@ -29,6 +29,7 @@ jobs:
         working-directory: ./packages/c-form
       - name: Install client dependencies
         run: yarn
+        working-directory: ./client
       - name: Run tests with coverage report
         run: yarn coverage
         working-directory: ./client
