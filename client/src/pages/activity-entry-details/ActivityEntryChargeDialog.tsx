@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   Button,
   ButtonGroup,
@@ -9,7 +10,6 @@ import {
   Grid,
   Typography,
 } from '@mui/material';
-import React from 'react';
 import { useForm } from 'react-hook-form';
 import { FormInputField } from '../../components/form-inputs/FormInputField';
 import LoadingCard from '../../components/loading-card';
@@ -53,6 +53,7 @@ export default function ActivityEntryChargeDialog({
                   type="number"
                   control={control}
                   label="Tip"
+                  fieldStartAdornment="money"
                   name="tipAmount"
                   rules={{
                     min: 0,

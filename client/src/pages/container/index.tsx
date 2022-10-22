@@ -5,9 +5,10 @@ import { Outlet } from 'react-router-dom';
 import ChronicleAppBar from '../../components/app-bar';
 import ChronicleDrawer from '../../components/drawer';
 import { DRAWER_WIDTH } from '../../vars';
+import Spacer from '../../components/spacer/Spacer';
 
 function MainContainer() {
-  const [isDrawerOpen, setIsDrawerOpen] = useState(true);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const theme = useTheme();
   return (
     <Box
@@ -41,6 +42,7 @@ function MainContainer() {
         component="main"
       >
         <Outlet />
+        <Spacer size="lg" />
       </Box>
     </Box>
   );

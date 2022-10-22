@@ -80,7 +80,7 @@ export default function CustomerBalance({ id }: CustomerBalanceProps) {
         onConfirm={async (d, a) =>
           (await confirm({
             title: `Confirm ${a} balance adjustment of ${penniesToPrice(
-              d.amount * 100,
+              Math.abs(d.amount * 100),
             )}?`,
           })) &&
           createChargeAndMutate.mutate({
