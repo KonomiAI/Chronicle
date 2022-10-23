@@ -4,6 +4,7 @@ import { styled } from '@mui/material/styles';
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
 import { DRAWER_WIDTH } from '../../vars';
 import { useStore } from '../../store';
+import { usePermission } from '../use-permission/UsePermissionContext';
 
 interface AppBarProps extends MuiAppBarProps {
   open: boolean;
@@ -13,6 +14,7 @@ export interface SaveBarProps {
   loading?: boolean;
   disabled?: boolean;
   onSave: () => void;
+  disablePermissionCheck?: boolean;
 }
 
 const AppBar = styled(MuiAppBar, {
@@ -38,11 +40,15 @@ export default function SaveBar({
   open,
   loading,
   disabled,
+  disablePermissionCheck,
 }: SaveBarProps) {
+  const { canWrite } = usePermission();
   const [isOpen, setIsOpen] = useState(open);
   const [isLoading] = useState(!!loading);
   const minState = useStore.getState().sidebarOpen;
   const [sidebarOpen, setSideBar] = useState(minState);
+
+  const shouldHide = !disablePermissionCheck && !canWrite;
 
   useEffect(() => {
     setIsOpen(open);
@@ -56,7 +62,7 @@ export default function SaveBar({
       position="fixed"
       color="inherit"
       sx={{ top: 'auto', bottom: 0, display: isOpen ? 'block' : 'none' }}
-      open={sidebarOpen}
+      open={sidebarOpen && !shouldHide}
     >
       <Toolbar>
         <Container>

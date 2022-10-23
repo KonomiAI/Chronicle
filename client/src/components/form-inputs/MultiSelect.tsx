@@ -17,6 +17,7 @@ import {
 } from 'react-hook-form';
 import { isStringArray } from '../../helpers';
 import { StyledInputLabel, StyledSelect, StyledMenuItem } from './styled';
+import { usePermission } from '../use-permission/UsePermissionContext';
 
 interface MultiSelectBaseProps {
   control: Control;
@@ -24,6 +25,8 @@ interface MultiSelectBaseProps {
   name: string;
   label: string;
   required?: boolean;
+  disabled?: boolean;
+  disablePermissionCheck?: boolean;
 }
 
 interface withOptions extends MultiSelectBaseProps {
@@ -46,7 +49,12 @@ export const MultiSelect: React.FC<MultiSelectProps> = ({
   required = false,
   options = [],
   children,
+  disablePermissionCheck,
+  disabled,
 }) => {
+  const { canWrite } = usePermission();
+  const shouldDisabled = disabled || (!disablePermissionCheck && !canWrite);
+
   const handleDeleteOnChip = (
     e: React.MouseEvent,
     value: string,
@@ -74,6 +82,7 @@ export const MultiSelect: React.FC<MultiSelectProps> = ({
             value={value}
             error={invalid}
             onChange={onChange}
+            disabled={shouldDisabled}
             renderValue={(selected) => {
               if (!isStringArray(selected)) return undefined;
               return (

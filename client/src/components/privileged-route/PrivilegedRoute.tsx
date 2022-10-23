@@ -4,10 +4,12 @@ import { Outlet } from 'react-router-dom';
 import NotAuthorizedPage from '../../pages/not-authorized/NotAuthorized';
 
 import { useStore } from '../../store';
+import { Features } from '../../types';
+import PermissionProvider from '../use-permission/UsePermissionContext';
 
 interface PrivelegedRouteProps {
   children?: React.ReactElement;
-  feature: string;
+  feature: Features;
 }
 
 const defaultProps = {
@@ -24,7 +26,11 @@ const PrivelegedRoute: React.FC<PrivelegedRouteProps> = ({
     return <NotAuthorizedPage />;
   }
 
-  return children || <Outlet />;
+  return (
+    <PermissionProvider feature={feature}>
+      {children || <Outlet />}
+    </PermissionProvider>
+  );
 };
 
 PrivelegedRoute.defaultProps = defaultProps;

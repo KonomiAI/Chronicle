@@ -10,6 +10,7 @@ import {
 import { TextField } from '@mui/material';
 
 import { getFormErrorMessage } from '../../utils';
+import { usePermission } from '../use-permission/UsePermissionContext';
 
 export interface DatePickerProps<T extends FieldValues>
   extends UseControllerProps<T> {
@@ -18,6 +19,8 @@ export interface DatePickerProps<T extends FieldValues>
     RegisterOptions,
     'valueAsNumber' | 'valueAsDate' | 'setValueAs' | 'disabled'
   >;
+  disabled?: boolean;
+  disablePermissionCheck?: boolean;
 }
 
 export function DateInput<T extends FieldValues>({
@@ -25,7 +28,11 @@ export function DateInput<T extends FieldValues>({
   name,
   label,
   rules,
+  disabled,
+  disablePermissionCheck,
 }: DatePickerProps<T>) {
+  const { canWrite } = usePermission();
+  const shouldDisabled = disabled || (!disablePermissionCheck && !canWrite);
   return (
     <Controller
       name={name}
@@ -41,6 +48,7 @@ export function DateInput<T extends FieldValues>({
           value={value}
           onChange={(e) => onChange(e?.format('YYYY-MM-DD'))}
           mask="____-__-__"
+          disabled={shouldDisabled}
           renderInput={(params) => {
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
             const { error, ...rest } = params;
