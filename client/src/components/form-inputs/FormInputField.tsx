@@ -1,7 +1,10 @@
+import { InputAdornment } from '@mui/material';
 import React from 'react';
 import { Controller, FieldValues, UseControllerProps } from 'react-hook-form';
 import { getFormErrorMessage } from '../../utils';
 import { StyledTextField } from './styled';
+
+export type SupportedAdornment = 'money' | string;
 
 export interface FormInputProps<T extends FieldValues>
   extends UseControllerProps<T> {
@@ -12,7 +15,21 @@ export interface FormInputProps<T extends FieldValues>
   multiline?: number;
   disabled?: boolean;
   hiddenLabel?: boolean;
+  fieldStartAdornment?: SupportedAdornment;
+  fieldEndAdornment?: SupportedAdornment;
+  autoFocus?: boolean;
 }
+
+const getAdornment = (position: 'start' | 'end', option?: 'money' | string) => {
+  if (option === 'money') {
+    // when we support currencies we can change this dynamically
+    return <InputAdornment position={position}>$</InputAdornment>;
+  }
+  if (typeof option === 'string') {
+    return <InputAdornment position={position}>{option}</InputAdornment>;
+  }
+  return undefined;
+};
 
 export const FormInputField = <T extends FieldValues>({
   control,
@@ -25,6 +42,9 @@ export const FormInputField = <T extends FieldValues>({
   type = 'text',
   disabled,
   hiddenLabel,
+  fieldStartAdornment,
+  fieldEndAdornment,
+  autoFocus,
 }: FormInputProps<T>) => {
   const handleOnChange = (value: string) => {
     if (type === 'number') {
@@ -32,6 +52,10 @@ export const FormInputField = <T extends FieldValues>({
     }
     return value;
   };
+
+  const startAdornment = getAdornment('start', fieldStartAdornment);
+  const endAdornment = getAdornment('end', fieldEndAdornment);
+
   return (
     <Controller
       name={name}
@@ -42,6 +66,7 @@ export const FormInputField = <T extends FieldValues>({
         fieldState: { invalid, error },
       }) => (
         <StyledTextField
+          autoFocus={autoFocus}
           required={!!rules?.required ?? false}
           inputRef={ref}
           size="small"
@@ -59,6 +84,10 @@ export const FormInputField = <T extends FieldValues>({
           type={type}
           disabled={disabled}
           hiddenLabel={hiddenLabel}
+          InputProps={{
+            startAdornment,
+            endAdornment,
+          }}
         />
       )}
     />

@@ -23,7 +23,7 @@ export default function AlertDialog({
   confirmAction,
 }: AlertDialogProps) {
   return (
-    <Dialog open={open} maxWidth="sm" fullWidth>
+    <Dialog open={open} maxWidth="sm" fullWidth onClose={confirmAction}>
       <DialogTitle>{dialogTitle}</DialogTitle>
       {dialogMessage && (
         <DialogContent>

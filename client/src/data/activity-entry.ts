@@ -1,5 +1,5 @@
 import { useQuery } from 'react-query';
-import { Data } from '../types';
+import { ChargeCreateResult, Data } from '../types';
 import {
   ActivityEntry,
   ActivityEntryChargeSummary,
@@ -8,7 +8,6 @@ import {
 } from '../types/activity-entry';
 
 import useAxios from './axios';
-import { ChargeCreateResult } from './charge';
 
 const listActivityEntries = (showAll: boolean) => {
   const axios = useAxios();

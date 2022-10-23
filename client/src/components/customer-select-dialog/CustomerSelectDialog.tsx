@@ -39,7 +39,7 @@ export function CustomerSelectDialog({
     }));
   }
   return (
-    <Dialog open={open}>
+    <Dialog open={open} onClose={() => handleClose(null)}>
       <DialogTitle>Select Customer</DialogTitle>
       <DialogContent>
         <DialogContentText>
