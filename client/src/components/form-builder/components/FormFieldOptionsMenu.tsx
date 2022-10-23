@@ -94,22 +94,20 @@ export const FormFieldOptionsMenu: React.FC<FormFieldOptionsMenuProps> = ({
             <ListItemText>Duplicate</ListItemText>
           </MenuItem>
         )}
+        <Divider />
         {onRemove && (
-          <>
-            <Divider />
-            <MenuItem
-              onClick={() => {
-                onRemove();
-                handleClose();
-              }}
-              data-testid="btn-delete-field"
-            >
-              <ListItemIcon>
-                <Delete fontSize="small" />
-              </ListItemIcon>
-              <ListItemText>Delete</ListItemText>
-            </MenuItem>
-          </>
+          <MenuItem
+            onClick={() => {
+              onRemove();
+              handleClose();
+            }}
+            data-testid="btn-delete-field"
+          >
+            <ListItemIcon>
+              <Delete fontSize="small" />
+            </ListItemIcon>
+            <ListItemText>Delete</ListItemText>
+          </MenuItem>
         )}
       </Menu>
     </>

@@ -61,7 +61,11 @@ export default function SaveBar({
     <AppBar
       position="fixed"
       color="inherit"
-      sx={{ top: 'auto', bottom: 0, display: isOpen ? 'block' : 'none' }}
+      sx={{
+        top: 'auto',
+        bottom: 0,
+        display: isOpen && !shouldHide ? 'block' : 'none',
+      }}
       open={sidebarOpen && !shouldHide}
     >
       <Toolbar>
