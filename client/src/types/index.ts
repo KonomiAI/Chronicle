@@ -12,3 +12,4 @@ export * from './activity';
 export * from './inventory-tabs';
 export * from './form';
 export * from './response';
+export * from './charge';

@@ -41,7 +41,7 @@ export class CustomerDto {
 
 export class CustomerChargeDto {
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
   description: string;
 
   @IsInt()

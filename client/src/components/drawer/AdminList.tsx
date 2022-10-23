@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 import {
   Collapse,
@@ -31,8 +31,8 @@ export default function AdminList() {
     <List>
       {permissions[Features.FORM]?.read && (
         <ListItem
-          component="a"
-          href="/forms"
+          component={Link}
+          to="/forms"
           selected={pathname === '/forms'}
           key="forms"
           sx={{ color: 'inherit' }}
@@ -60,8 +60,8 @@ export default function AdminList() {
           <Collapse in={isSecurityOpen} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
               <ListItemButton
-                component="a"
-                href="/staff"
+                component={Link}
+                to="/staff"
                 selected={pathname === '/staff'}
               >
                 <ListItemIcon>
@@ -70,8 +70,8 @@ export default function AdminList() {
                 <ListItemText primary="Staff" />
               </ListItemButton>
               <ListItemButton
-                component="a"
-                href="/roles"
+                component={Link}
+                to="/roles"
                 selected={pathname === '/roles'}
               >
                 <ListItemIcon>
@@ -80,8 +80,8 @@ export default function AdminList() {
                 <ListItemText primary="Roles" />
               </ListItemButton>
               <ListItemButton
-                component="a"
-                href="/allowlist"
+                component={Link}
+                to="/allowlist"
                 selected={pathname === '/allowlist'}
               >
                 <ListItemIcon>

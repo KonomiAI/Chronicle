@@ -65,7 +65,7 @@ export function ProductPickerDialog({
     setSelectedProduct(null);
   };
   return (
-    <Dialog open={open}>
+    <Dialog open={open} onClose={() => handleClose(null)}>
       <DialogTitle>Select product variants</DialogTitle>
       <DialogContent>
         <DialogContentText>

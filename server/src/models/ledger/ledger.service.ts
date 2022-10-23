@@ -55,6 +55,9 @@ export class LedgerService {
           },
         },
       },
+      orderBy: {
+        createdDt: 'desc',
+      },
     });
     const balance = charges.reduce((acc, charge) => acc + charge.amount, 0);
     return { balance, charges };

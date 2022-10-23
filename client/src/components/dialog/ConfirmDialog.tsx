@@ -25,7 +25,7 @@ export default function ConfirmDialog({
   confirmAction,
 }: ConfirmDialogProps) {
   return (
-    <Dialog open={open} maxWidth="sm" fullWidth>
+    <Dialog open={open} maxWidth="sm" fullWidth onClose={cancelAction}>
       <DialogTitle>{dialogTitle}</DialogTitle>
       {dialogMessage && (
         <DialogContent>
