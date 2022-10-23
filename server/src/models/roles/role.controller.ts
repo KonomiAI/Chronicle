@@ -13,7 +13,7 @@ import { RoleService } from './role.service';
 import { RoleDto, UpdateRoleDto } from './role.dto';
 import { Actions, Features } from 'src/auth/constants';
 import { Auth } from 'src/auth/role.decorator';
-import { Auditable } from 'src/audit/audit.decorator';
+import { Auditable } from 'src/auth/audit.decorator';
 
 @Controller('roles')
 export class RoleController {

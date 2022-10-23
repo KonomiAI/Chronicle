@@ -19,7 +19,7 @@ import {
 import { VariantService } from './variants/variant.service';
 import { Actions, Features } from 'src/auth/constants';
 import { Auth } from 'src/auth/role.decorator';
-import { Auditable } from 'src/audit/audit.decorator';
+import { Auditable } from 'src/auth/audit.decorator';
 
 @Controller('products')
 @UseInterceptors(TransformInterceptor)

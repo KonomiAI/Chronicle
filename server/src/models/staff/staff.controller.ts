@@ -17,7 +17,7 @@ import { CreateStaffDto, UpdateStaffDto } from './staff.dto';
 import { StaffService } from './staff.service';
 import { Actions, Features } from 'src/auth/constants';
 import { Auth } from 'src/auth/role.decorator';
-import { Auditable } from 'src/audit/audit.decorator';
+import { Auditable } from 'src/auth/audit.decorator';
 
 const DEFAULT_SELECT = {
   id: true,

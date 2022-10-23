@@ -18,7 +18,7 @@ import { Auth } from 'src/auth/role.decorator';
 import { TransformInterceptor } from '../../interceptors/transform.interceptor';
 import { CreateFormDto, UpdateFormDto } from './form.dto';
 import { FormService } from './form.service';
-import { Auditable } from 'src/audit/audit.decorator';
+import { Auditable } from 'src/auth/audit.decorator';
 
 const DEFAULT_FORM_SELECT = {
   id: true,

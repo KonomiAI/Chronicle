@@ -14,7 +14,7 @@ import { IPDto } from './ip.dto';
 import { TransformInterceptor } from '../../interceptors/transform.interceptor';
 import { Actions, Features } from 'src/auth/constants';
 import { Auth } from 'src/auth/role.decorator';
-import { Auditable } from 'src/audit/audit.decorator';
+import { Auditable } from 'src/auth/audit.decorator';
 
 @Controller('ip')
 @UseInterceptors(TransformInterceptor)

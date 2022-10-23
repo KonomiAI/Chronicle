@@ -1,7 +1,9 @@
 import {
   CanActivate,
   ExecutionContext,
+  Inject,
   Injectable,
+  Logger,
   UnauthorizedException,
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
@@ -10,9 +12,10 @@ import { AUDITABLE_KEY } from './audit.decorator';
 
 @Injectable()
 export class AuditGuard implements CanActivate {
+  private readonly logger = new Logger(AuditGuard.name);
   constructor(
+    @Inject(AuditService) private readonly auditService: AuditService,
     private reflector: Reflector,
-    private auditService: AuditService,
   ) {}
 
   canActivate(context: ExecutionContext): boolean {
@@ -30,17 +33,29 @@ export class AuditGuard implements CanActivate {
         );
       }
 
-      this.auditService.createAudit({
-        endpointMethod: context.getHandler().name,
-        payload: JSON.stringify(body),
-        query: JSON.stringify(query),
-        params: JSON.stringify(params),
-        createdBy: {
-          connect: {
-            id: user.id,
+      try {
+        this.auditService.createAudit({
+          endpointMethod: context.getHandler().name,
+          payload: JSON.stringify(body),
+          query: JSON.stringify(query),
+          params: JSON.stringify(params),
+          createdBy: {
+            connect: {
+              id: user.id,
+            },
           },
-        },
-      });
+        });
+      } catch (e) {
+        this.logger.warn(
+          `Failure to write into Audit table. UserID:${
+            user.id
+          } attempted to access ${
+            context.getHandler().name
+          } with query: ${JSON.stringify(query)}, params: ${JSON.stringify(
+            params,
+          )}, body: ${JSON.stringify(body)}.`,
+        );
+      }
     }
 
     return true;
