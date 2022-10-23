@@ -60,6 +60,7 @@ model Staff {
   responses       ResponseVersion[]
   activityEntries ActivityEntry[]
   Ledger          Ledger[]
+  Audit           Audit[]
 }
 
 model Variant {
@@ -199,4 +200,14 @@ model Ledger {
   customerId      String         @db.ObjectId
   staffId         String         @db.ObjectId
   activityEntryId String?        @db.ObjectId
+}
+
+model Audit {
+  id             String   @id @default(auto()) @map("_id") @db.ObjectId
+  staffId        String   @db.ObjectId
+  endpointMethod String
+  params         String?
+  payload        String?
+  createdBy      Staff    @relation(fields: [staffId], references: [id])
+  createdAt      DateTime @default(now())
 }

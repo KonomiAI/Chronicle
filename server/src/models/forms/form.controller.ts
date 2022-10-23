@@ -10,13 +10,15 @@ import {
   Query,
   UseInterceptors,
 } from '@nestjs/common';
+import { FormPurpose, Prisma } from '@prisma/client';
+import { validateWithLatest } from '@konomi.ai/c-form';
+
 import { Actions, Features } from 'src/auth/constants';
 import { Auth } from 'src/auth/role.decorator';
 import { TransformInterceptor } from '../../interceptors/transform.interceptor';
 import { CreateFormDto, UpdateFormDto } from './form.dto';
 import { FormService } from './form.service';
-import { FormPurpose, Prisma } from '@prisma/client';
-import { validateWithLatest } from '@konomi.ai/c-form';
+import { Auditable } from 'src/audit/audit.decorator';
 
 const DEFAULT_FORM_SELECT = {
   id: true,
@@ -94,6 +96,7 @@ export class FormController {
 
   @Auth(Actions.WRITE, [Features.Form])
   @Post()
+  @Auditable()
   async createForm(@Body() { body, ...data }: CreateFormDto) {
     if (!validateWithLatest(body)) {
       throw new HttpException(
@@ -111,6 +114,7 @@ export class FormController {
 
   @Auth(Actions.WRITE, [Features.Form])
   @Put(':id')
+  @Auditable()
   async updateForm(
     @Param('id') id: string,
     @Body() { body, ...data }: UpdateFormDto,

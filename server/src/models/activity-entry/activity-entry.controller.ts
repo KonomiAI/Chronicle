@@ -11,6 +11,8 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { Prisma, Staff } from '@prisma/client';
+
+import { Auditable } from 'src/audit/audit.decorator';
 import { Actions, Features } from 'src/auth/constants';
 import { Auth } from 'src/auth/role.decorator';
 import { GetUser } from 'src/auth/user.decorator';
@@ -128,6 +130,7 @@ export class ActivityEntryController {
 
   @Auth(Actions.WRITE, [Features.Entry])
   @Post()
+  @Auditable()
   createActivityEntry(@Body() body: ActivityEntryDto, @Request() { user }) {
     return this.service.createActivityEntry({
       author: {
@@ -159,6 +162,7 @@ export class ActivityEntryController {
 
   @Auth(Actions.WRITE, [Features.Entry])
   @Put(':id')
+  @Auditable()
   updateActivityEntry(
     @Param('id') id: string,
     @Body() { responseIds, ...body }: ActivityEntryDto,
@@ -201,6 +205,7 @@ export class ActivityEntryController {
 
   @Auth(Actions.WRITE, [Features.Entry])
   @Post(':id/charge')
+  @Auditable()
   async chargeActivityEntry(
     @Param('id') id: string,
     @Body() { description, tipAmount }: ActivityEntryChargeDto,

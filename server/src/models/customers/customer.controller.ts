@@ -10,6 +10,7 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { Prisma, Staff } from '@prisma/client';
+import { Auditable } from 'src/audit/audit.decorator';
 import { Actions, Features } from 'src/auth/constants';
 import { Auth } from 'src/auth/role.decorator';
 import { GetUser } from 'src/auth/user.decorator';
@@ -91,6 +92,7 @@ export class CustomerController {
 
   @Auth(Actions.WRITE, [Features.Customer])
   @Post()
+  @Auditable()
   createCustomer(@Body() data: CustomerDto) {
     return this.customerService.createCustomer({
       data,
@@ -99,6 +101,7 @@ export class CustomerController {
 
   @Auth(Actions.WRITE, [Features.Customer])
   @Put(':id')
+  @Auditable()
   async updateCustomer(
     @Body() { responseIds, ...data }: CustomerDto,
     @Param('id') id: string,
@@ -117,6 +120,7 @@ export class CustomerController {
 
   @Auth(Actions.WRITE, [Features.Customer])
   @Delete(':id')
+  @Auditable()
   async deleteCustomerPersonalInfo(@Param('id') id: string) {
     await this.customerService.deleteCustomer({ id });
     return { id };
@@ -130,6 +134,7 @@ export class CustomerController {
 
   @Auth(Actions.WRITE, [Features.Customer])
   @Post(':id/charge')
+  @Auditable()
   async chargeCustomer(
     @Param('id') id: string,
     @Body() data: CustomerChargeDto,
