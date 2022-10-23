@@ -62,30 +62,30 @@ export default function CustomerBalance({ id }: CustomerBalanceProps) {
       <CustomerGiftCardDialog
         open={openGiftCardDialog}
         onClose={() => setOpenGiftCardDialog(false)}
-        onConfirm={async (d) =>
+        onConfirm={async (data) =>
           (await confirm({
             title: `Confirm gift card reload of ${penniesToPrice(
-              d.amount * 100,
+              data.amount * 100,
             )}?`,
           })) &&
           createChargeAndMutate.mutate({
             id,
-            body: { ...d, amount: -d.amount * 100 },
+            body: { ...data, amount: -data.amount * 100 },
           })
         }
       />
       <ChargeAdjustmentDialog
         open={openChargeDialog}
         onClose={() => setOpenChargeDialog(false)}
-        onConfirm={async (d, a) =>
+        onConfirm={async (data, adjustmentType) =>
           (await confirm({
-            title: `Confirm ${a} balance adjustment of ${penniesToPrice(
-              Math.abs(d.amount * 100),
+            title: `Confirm ${adjustmentType} balance adjustment of ${penniesToPrice(
+              Math.abs(data.amount * 100),
             )}?`,
           })) &&
           createChargeAndMutate.mutate({
             id,
-            body: { ...d, amount: d.amount * 100 },
+            body: { ...data, amount: data.amount * 100 },
           })
         }
       />
