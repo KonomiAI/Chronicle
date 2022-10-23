@@ -11,6 +11,7 @@
 - [User Stories](design/user_stories.md)
 - [Custom Form Design](design/custom-form.md)
 - [Data analytics system Design](design/data_analytics.md)
+- [Immutable inventory & customer balance system](design/immutable_inventory_customer_balance.md)
 
 # User Manual
 
