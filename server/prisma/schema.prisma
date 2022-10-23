@@ -207,6 +207,7 @@ model Audit {
   staffId        String   @db.ObjectId
   endpointMethod String
   params         String?
+  query          String?
   payload        String?
   createdBy      Staff    @relation(fields: [staffId], references: [id])
   createdAt      DateTime @default(now())

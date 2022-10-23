@@ -22,7 +22,7 @@ export class AuditGuard implements CanActivate {
     );
 
     if (isAuditable) {
-      const { user, body, query } = context.switchToHttp().getRequest();
+      const { user, body, query, params } = context.switchToHttp().getRequest();
 
       if (!user) {
         throw new UnauthorizedException(
@@ -33,7 +33,8 @@ export class AuditGuard implements CanActivate {
       this.auditService.createAudit({
         endpointMethod: context.getHandler().name,
         payload: JSON.stringify(body),
-        params: JSON.stringify(query),
+        query: JSON.stringify(query),
+        params: JSON.stringify(params),
         createdBy: {
           connect: {
             id: user.id,
