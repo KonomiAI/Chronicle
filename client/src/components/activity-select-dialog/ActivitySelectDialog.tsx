@@ -39,7 +39,7 @@ export function ActivitySelectDialog({
     }));
   }
   return (
-    <Dialog open={open}>
+    <Dialog open={open} onClose={() => handleClose(null)} fullWidth>
       <DialogTitle>Select Customer</DialogTitle>
       <DialogContent>
         <DialogContentText>

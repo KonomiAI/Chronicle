@@ -1,5 +1,5 @@
 import React from 'react';
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 import { styled, Theme, CSSObject } from '@mui/material/styles';
 import MuiDrawer from '@mui/material/Drawer';
@@ -92,8 +92,8 @@ export default function ChronicleDrawer({
       <List>
         <ListItemButton
           key="home"
-          component="a"
-          href="/"
+          component={Link}
+          to="/"
           selected={pathname === '/'}
         >
           <ListItemIcon>
@@ -104,8 +104,8 @@ export default function ChronicleDrawer({
 
         {permissions[Features.CUSTOMER]?.read && (
           <ListItemButton
-            component="a"
-            href="/customers"
+            component={Link}
+            to="/customers"
             selected={pathname === '/customers'}
             key="customers"
           >
@@ -119,8 +119,8 @@ export default function ChronicleDrawer({
         {permissions[Features.ENTRY]?.read && (
           <ListItemButton
             key="entries"
-            component="a"
-            href="/activity-entries"
+            component={Link}
+            to="/activity-entries"
             selected={pathname === '/activity-entries'}
           >
             <ListItemIcon>
@@ -132,8 +132,8 @@ export default function ChronicleDrawer({
 
         {permissions[Features.INVENTORY]?.read && (
           <ListItemButton
-            component="a"
-            href="/inventory"
+            component={Link}
+            to="/inventory"
             selected={pathname === '/inventory'}
           >
             <ListItemIcon>
@@ -144,8 +144,8 @@ export default function ChronicleDrawer({
         )}
 
         <ListItemButton
-          component="a"
-          href="/analytics"
+          component={Link}
+          to="/analytics"
           selected={pathname === '/analytics'}
         >
           <ListItemIcon>

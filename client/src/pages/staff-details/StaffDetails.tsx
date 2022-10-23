@@ -81,7 +81,10 @@ export default function StaffDetailsPage() {
     <>
       <Container>
         {data && (
-          <Dialog open={data && isResetDialogOpen}>
+          <Dialog
+            open={data && isResetDialogOpen}
+            onClose={() => setIsResetDialogOpen(false)}
+          >
             <ResetStaffPasswordDialog
               staff={data}
               handleClose={() => setIsResetDialogOpen(false)}
