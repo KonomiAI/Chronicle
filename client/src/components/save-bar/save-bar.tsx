@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Container, Grid, Toolbar, Typography } from '@mui/material';
+import { Container, Grid, Toolbar, Typography } from '@mui/material';
+import { LoadingButton } from '@mui/lab';
 import { styled } from '@mui/material/styles';
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
+
 import { DRAWER_WIDTH } from '../../vars';
 import { useStore } from '../../store';
 import { usePermission } from '../use-permission/UsePermissionContext';
@@ -76,13 +78,14 @@ export default function SaveBar({
             </Grid>
             <Grid item xs={7} />
             <Grid item xs={1}>
-              <Button
+              <LoadingButton
                 variant="text"
                 onClick={onSave}
                 disabled={isLoading || disabled}
+                loading={isLoading}
               >
                 Save
-              </Button>
+              </LoadingButton>
             </Grid>
           </Grid>
         </Container>
