@@ -1,20 +1,22 @@
-import { Alert } from '@mui/material';
 import React, { createContext, useContext, useMemo } from 'react';
 import { useStore } from '../../store';
 import { Features, PermissionDetail } from '../../types';
-import Spacer from '../spacer/Spacer';
 
 interface PermissionContextProps {
   permissions?: Record<string, PermissionDetail>;
-  canWrite?: boolean;
+  canWrite: boolean;
   feature?: Features;
+  outOfContext: boolean;
 }
 
 interface PermissionProviderProps {
   feature: Features;
 }
 
-const PermissionContext = createContext<PermissionContextProps>({});
+const PermissionContext = createContext<PermissionContextProps>({
+  canWrite: true,
+  outOfContext: true,
+});
 
 export const usePermission = () => useContext(PermissionContext);
 
@@ -23,24 +25,17 @@ const PermissionProvider: React.FC<PermissionProviderProps> = ({
   feature,
 }) => {
   const { permissions } = useStore();
-
   const contextValue: PermissionContextProps = useMemo(
-    () => ({ permissions, canWrite: !!permissions[feature]?.write, feature }),
-    [permissions],
+    () => ({
+      permissions,
+      canWrite: !feature || !!permissions[feature]?.write,
+      feature,
+      outOfContext: false,
+    }),
+    [permissions, feature],
   );
   return (
     <PermissionContext.Provider value={contextValue}>
-      {!permissions[feature]?.read && (
-        <>
-          <Alert
-            severity="error"
-            title={`Sorry, you do not have access to ${feature}.`}
-          >
-            If you believe this is an error, please contact your administrator.
-          </Alert>
-          <Spacer size="lg" />
-        </>
-      )}
       {children}
     </PermissionContext.Provider>
   );
