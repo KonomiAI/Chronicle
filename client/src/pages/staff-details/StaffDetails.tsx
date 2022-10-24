@@ -27,10 +27,11 @@ import { EMAIL_REGEXP } from '../../utils';
 import { FormInputField } from '../../components/form-inputs/FormInputField';
 import ResetStaffPasswordDialog from './ResetStaffPasswordDialog';
 import { cleanStaffForUpdate } from './utils';
-import { GenderSelect } from '../../components';
+import { GenderSelect, usePermission } from '../../components';
 
 export default function StaffDetailsPage() {
   const { id } = useParams();
+  const { canWrite } = usePermission();
   if (!id) {
     return (
       <Container>
@@ -138,6 +139,7 @@ export default function StaffDetailsPage() {
                       fullWidth
                       variant="outlined"
                       onClick={() => setIsResetDialogOpen(true)}
+                      disabled={!canWrite}
                     >
                       Reset Password
                     </Button>
@@ -174,6 +176,7 @@ export default function StaffDetailsPage() {
                         onChange={onChange}
                         label="Roles"
                         error={invalid}
+                        disabled={!canWrite}
                         multiple
                       >
                         {roleListData &&
@@ -219,7 +222,7 @@ export default function StaffDetailsPage() {
                         justifyContent: 'center',
                       }}
                     >
-                      <Button variant="text" color="error">
+                      <Button variant="text" color="error" disabled={!canWrite}>
                         Suspend
                       </Button>
                     </Grid>
@@ -242,7 +245,7 @@ export default function StaffDetailsPage() {
                       <Button
                         variant="text"
                         color="error"
-                        disabled={!data.isSuspended}
+                        disabled={!data.isSuspended || !canWrite}
                       >
                         Delete
                       </Button>
