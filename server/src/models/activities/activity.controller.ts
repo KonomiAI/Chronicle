@@ -9,11 +9,12 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { Activity as ActivityModel } from '@prisma/client';
+import { Auditable } from 'src/auth/audit.decorator';
+
 import { Actions, Features } from 'src/auth/constants';
 import { Auth } from 'src/auth/role.decorator';
 import { TransformInterceptor } from '../../interceptors/transform.interceptor';
 import { ActivityDto } from './activity.dto';
-
 import { ActivityService } from './activity.service';
 
 @Controller('activities')
@@ -39,12 +40,14 @@ export class ActivityController {
 
   @Auth(Actions.WRITE, [Features.Inventory])
   @Post()
+  @Auditable()
   async createActivity(@Body() data: ActivityDto): Promise<ActivityModel> {
     return this.activityService.createActivity(data);
   }
 
   @Auth(Actions.WRITE, [Features.Inventory])
   @Put(':id')
+  @Auditable()
   async updateActivity(
     @Param('id') id: string,
     @Body()
@@ -58,6 +61,7 @@ export class ActivityController {
 
   @Auth(Actions.WRITE, [Features.Inventory])
   @Delete(':id')
+  @Auditable()
   async deleteActivity(@Param('id') id: string): Promise<ActivityModel> {
     return this.activityService.deleteActivity({ id });
   }

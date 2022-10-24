@@ -12,13 +12,7 @@ import { useParams } from 'react-router-dom';
 import { useMutation, useQueryClient } from 'react-query';
 import { useSnackbar } from 'notistack';
 
-import {
-  SaveBar,
-  TextInput,
-  DateInput,
-  If,
-  GenderSelect,
-} from '../../components';
+import { SaveBar, DateInput, If, GenderSelect } from '../../components';
 import PageHeader from '../../components/page-header/PageHeader';
 import Spacer from '../../components/spacer/Spacer';
 import {
@@ -37,6 +31,7 @@ import {
 import { DATE_REGEXP, EMAIL_REGEXP } from '../../utils';
 import { FormIntegration } from '../../components/form-integration/form-integration';
 import CustomerBalance from './CustomerBalance';
+import { FormInputField } from '../../components/form-inputs/FormInputField';
 
 export interface CustomerDetailsPageProps {
   isCreate?: boolean;
@@ -108,7 +103,7 @@ const CustomerDetailsPage: React.FC<CustomerDetailsPageProps> = ({
         <CardContent>
           <Grid container spacing={2}>
             <Grid item xs={6}>
-              <TextInput
+              <FormInputField
                 control={control}
                 name="firstName"
                 label="First Name"
@@ -116,7 +111,7 @@ const CustomerDetailsPage: React.FC<CustomerDetailsPageProps> = ({
               />
             </Grid>
             <Grid item xs={6}>
-              <TextInput
+              <FormInputField
                 control={control}
                 name="lastName"
                 label="Last Name"
@@ -124,7 +119,7 @@ const CustomerDetailsPage: React.FC<CustomerDetailsPageProps> = ({
               />
             </Grid>
             <Grid item xs={12}>
-              <TextInput
+              <FormInputField
                 control={control}
                 name="email"
                 label="Customer Email"
@@ -132,7 +127,7 @@ const CustomerDetailsPage: React.FC<CustomerDetailsPageProps> = ({
               />
             </Grid>
             <Grid item xs={12}>
-              <TextInput
+              <FormInputField
                 control={control}
                 name="phone"
                 label="Customer Phone"

@@ -19,6 +19,7 @@ import {
 import { VariantService } from './variants/variant.service';
 import { Actions, Features } from 'src/auth/constants';
 import { Auth } from 'src/auth/role.decorator';
+import { Auditable } from 'src/auth/audit.decorator';
 
 @Controller('products')
 @UseInterceptors(TransformInterceptor)
@@ -48,6 +49,7 @@ export class ProductController {
 
   @Auth(Actions.WRITE, [Features.Inventory])
   @Post()
+  @Auditable()
   async createProduct(
     @Body() { ...data }: CreateProductDto,
   ): Promise<Response<Product>> {
@@ -74,6 +76,7 @@ export class ProductController {
 
   @Auth(Actions.WRITE, [Features.Inventory])
   @Put(':id')
+  @Auditable()
   async updateProduct(
     @Param('id') id: string,
     @Body() { ...data }: UpdateProductDto,
@@ -90,6 +93,7 @@ export class ProductController {
 
   @Auth(Actions.WRITE, [Features.Inventory])
   @Delete(':id')
+  @Auditable()
   async deleteProduct(@Param('id') id: string): Promise<Response<Product>> {
     const product = await this.productService.deleteProduct({ id });
     return {

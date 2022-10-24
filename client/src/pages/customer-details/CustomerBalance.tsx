@@ -27,6 +27,7 @@ import { createChargeForCustomer, useCustomerBalance } from '../../data';
 import CustomerGiftCardDialog from './CustomerGiftCardDialog';
 import { useAlertDialog } from '../../components/use-alert';
 import ChargeAdjustmentDialog from './ChargeAdjustmentDialog';
+import { usePermission } from '../../components/use-permission/UsePermissionContext';
 
 export interface CustomerBalanceProps {
   id: string;
@@ -38,6 +39,7 @@ export default function CustomerBalance({ id }: CustomerBalanceProps) {
   const { confirm } = useAlertDialog();
   const queryClient = useQueryClient();
   const { enqueueSnackbar } = useSnackbar();
+  const { canWrite } = usePermission();
 
   const { data: balanceData, isLoading: isBalanceLoading } =
     useCustomerBalance(id);
@@ -117,13 +119,19 @@ export default function CustomerBalance({ id }: CustomerBalanceProps) {
                     <Typography variant="h6">Actions</Typography>
                   </CardContent>
                   <List>
-                    <ListItemButton onClick={() => setOpenGiftCardDialog(true)}>
+                    <ListItemButton
+                      disabled={!canWrite}
+                      onClick={() => setOpenGiftCardDialog(true)}
+                    >
                       <ListItemIcon>
                         <Redeem />
                       </ListItemIcon>
                       <ListItemText primary="Top up account" />
                     </ListItemButton>
-                    <ListItemButton onClick={() => setOpenChargeDialog(true)}>
+                    <ListItemButton
+                      disabled={!canWrite}
+                      onClick={() => setOpenChargeDialog(true)}
+                    >
                       <ListItemIcon>
                         <PriceChange />
                       </ListItemIcon>
