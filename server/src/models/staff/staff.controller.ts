@@ -9,13 +9,15 @@ import {
   Put,
   UseInterceptors,
 } from '@nestjs/common';
+import { Prisma } from '@prisma/client';
+
 import { TransformInterceptor } from '../../interceptors/transform.interceptor';
 import { BcryptService } from '../../auth/bcrypt.service';
 import { CreateStaffDto, UpdateStaffDto } from './staff.dto';
 import { StaffService } from './staff.service';
 import { Actions, Features } from 'src/auth/constants';
 import { Auth } from 'src/auth/role.decorator';
-import { Prisma } from '@prisma/client';
+import { Auditable } from 'src/auth/audit.decorator';
 
 const DEFAULT_SELECT = {
   id: true,
@@ -61,6 +63,7 @@ export class StaffController {
 
   @Auth(Actions.WRITE, [Features.Security])
   @Post()
+  @Auditable()
   async createNewStaff(@Body() { password, ...data }: CreateStaffDto) {
     const body = {
       ...data,
@@ -71,6 +74,7 @@ export class StaffController {
 
   @Auth(Actions.WRITE, [Features.Security])
   @Put(':id')
+  @Auditable()
   async updateStaffDetails(
     @Param('id') id: string,
     @Body() data: UpdateStaffDto,
@@ -89,6 +93,7 @@ export class StaffController {
 
   @Auth(Actions.WRITE, [Features.Security])
   @Delete(':id')
+  @Auditable()
   async deleteStaff(@Param('id') id: string) {
     const data = await this.service.findOne(
       { id },
