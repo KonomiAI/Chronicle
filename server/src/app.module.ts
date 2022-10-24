@@ -15,22 +15,24 @@ import { CustomerModule } from './models/customers/customer.module';
 import { HealthModule } from './health/health.module';
 import { ActivityEntryModule } from './models/activity-entry/activity-entry.module';
 import { AnalyticsModule } from './analytics/analytics.module';
+import { AuditModule } from './models/audit/audit.module';
 
 @Module({
   imports: [
     ActivityModule,
     ActivityEntryModule,
-    StaffModule,
-    FeatureModule,
-    RoleModule,
-    AuthModule,
-    ProductModule,
-    IPModule,
-    FormModule,
-    ResponseModule,
-    CustomerModule,
-    HealthModule,
     AnalyticsModule,
+    AuditModule,
+    AuthModule,
+    CustomerModule,
+    FeatureModule,
+    FormModule,
+    HealthModule,
+    IPModule,
+    ProductModule,
+    ResponseModule,
+    RoleModule,
+    StaffModule,
   ],
   controllers: [AppController],
   providers: [AppService],

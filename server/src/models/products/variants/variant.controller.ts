@@ -15,6 +15,7 @@ import { CreateVariantDto, UpdateVariantDto } from './variant.dto';
 import { TransformInterceptor } from '../../../interceptors/transform.interceptor';
 import { Actions, Features } from 'src/auth/constants';
 import { Auth } from 'src/auth/role.decorator';
+import { Auditable } from 'src/auth/audit.decorator';
 
 @Controller('products/:productId/variants')
 @UseInterceptors(TransformInterceptor)
@@ -41,6 +42,7 @@ export class VariantController {
 
   @Auth(Actions.WRITE, [Features.Inventory])
   @Post()
+  @Auditable()
   async createVariant(
     @Param('productId') productId: string,
     @Body() { ...data }: CreateVariantDto,
@@ -60,6 +62,7 @@ export class VariantController {
 
   @Auth(Actions.WRITE, [Features.Inventory])
   @Put(':variantId')
+  @Auditable()
   async updateVariant(
     @Param('variantId') variantId: string,
     @Param('productId') productId: string,
@@ -84,6 +87,7 @@ export class VariantController {
 
   @Auth(Actions.WRITE, [Features.Inventory])
   @Delete(':variantId')
+  @Auditable()
   async deleteVariant(
     @Param('variantId') variantId: string,
   ): Promise<VariantModel> {
