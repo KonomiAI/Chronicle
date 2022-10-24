@@ -13,6 +13,7 @@ import { ExpandMore } from '@mui/icons-material';
 import { FormBrowser, FormBrowserProps } from '../form-browser/form-browser';
 import { Form, FormResponse, SimpleResponse } from '../../types';
 import { FormViewer } from '../form-viewer/form-viewer';
+import { usePermission } from '../use-permission/UsePermissionContext';
 
 type FormPages = 'responses' | 'newForm';
 
@@ -28,6 +29,7 @@ export function FormIntegration({
 }: FormIntegrationProps) {
   const [pageValue, setPageValue] = useState<FormPages>('responses');
   const [editingForm, setEditingForm] = useState<Form | null>(null);
+  const { canWrite } = usePermission();
 
   const handleResponseCreated = (response: SimpleResponse) => {
     onResponseSaved(response);
@@ -43,7 +45,7 @@ export function FormIntegration({
             aria-label="Select an option"
           >
             <Tab label="Responses" value="responses" />
-            <Tab label="New Form" value="newForm" />
+            <Tab label="New Form" value="newForm" disabled={!canWrite} />
           </TabList>
         </Box>
         <TabPanel value="responses" sx={{ padding: '24px 0' }}>

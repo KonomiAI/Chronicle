@@ -2,6 +2,7 @@ import { InputAdornment } from '@mui/material';
 import React from 'react';
 import { Controller, FieldValues, UseControllerProps } from 'react-hook-form';
 import { getFormErrorMessage } from '../../utils';
+import { usePermission } from '../use-permission/UsePermissionContext';
 import { StyledTextField } from './styled';
 
 export type SupportedAdornment = 'money' | string;
@@ -18,6 +19,7 @@ export interface FormInputProps<T extends FieldValues>
   fieldStartAdornment?: SupportedAdornment;
   fieldEndAdornment?: SupportedAdornment;
   autoFocus?: boolean;
+  disablePermissionCheck?: boolean;
 }
 
 const getAdornment = (position: 'start' | 'end', option?: 'money' | string) => {
@@ -45,7 +47,9 @@ export const FormInputField = <T extends FieldValues>({
   fieldStartAdornment,
   fieldEndAdornment,
   autoFocus,
+  disablePermissionCheck,
 }: FormInputProps<T>) => {
+  const { canWrite } = usePermission();
   const handleOnChange = (value: string) => {
     if (type === 'number') {
       return parseFloat(value);
@@ -55,6 +59,8 @@ export const FormInputField = <T extends FieldValues>({
 
   const startAdornment = getAdornment('start', fieldStartAdornment);
   const endAdornment = getAdornment('end', fieldEndAdornment);
+
+  const shouldDisabled = disabled || (!disablePermissionCheck && !canWrite);
 
   return (
     <Controller
@@ -82,7 +88,7 @@ export const FormInputField = <T extends FieldValues>({
           minRows={multiline ?? 0}
           maxRows={10}
           type={type}
-          disabled={disabled}
+          disabled={shouldDisabled}
           hiddenLabel={hiddenLabel}
           InputProps={{
             startAdornment,

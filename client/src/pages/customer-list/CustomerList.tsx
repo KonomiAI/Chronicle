@@ -15,6 +15,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import PageHeader from '../../components/page-header/PageHeader';
 import Spacer from '../../components/spacer/Spacer';
+import { usePermission } from '../../components/use-permission/UsePermissionContext';
 import { useCustomerList } from '../../data';
 import { Customer } from '../../types';
 import { dateHelper } from '../../utils';
@@ -38,6 +39,7 @@ const CustomerRow: React.FC<{ customer: Customer }> = ({ customer: c }) => {
 
 export function CustomerListPage() {
   const { data, isLoading } = useCustomerList();
+  const { canWrite } = usePermission();
   const navigate = useNavigate();
   return (
     <Container>
@@ -48,6 +50,7 @@ export function CustomerListPage() {
             pageTitle="Customers"
             action={
               <Button
+                disabled={!canWrite}
                 variant="contained"
                 data-testid="btn-create-customer"
                 onClick={() => navigate('new')}
