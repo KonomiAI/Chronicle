@@ -15,6 +15,7 @@ import {
 import { CustomerSelectDialog } from '../../components/customer-select-dialog/CustomerSelectDialog';
 import { ActivityEntryTable } from './components/ActivityEntryTable';
 import LoadingCard from '../../components/loading-card';
+import { usePermission } from '../../components';
 
 const MyActivityEntriesPanel = () => {
   const { data, isLoading } = useListMyActivityEntries();
@@ -41,6 +42,7 @@ export function ActivityEntryList() {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
+  const { canWrite } = usePermission();
 
   const handleChange = (_: SyntheticEvent, newValue: string) => {
     setValue(newValue);
@@ -76,7 +78,7 @@ export function ActivityEntryList() {
             variant="contained"
             data-testid="btn-create-entry"
             onClick={() => setOpen(true)}
-            disabled={isMutationLoading}
+            disabled={isMutationLoading || !canWrite}
           >
             New Entry
           </Button>
