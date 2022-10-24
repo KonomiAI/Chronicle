@@ -18,9 +18,11 @@ import PageHeader from '../../components/page-header/PageHeader';
 import Spacer from '../../components/spacer/Spacer';
 import LoadingCard from '../../components/loading-card';
 import { useRoleList } from '../../data';
+import { usePermission } from '../../components';
 
 export default function RolesListPage() {
   const navigate = useNavigate();
+  const { canWrite } = usePermission();
   const { data: roleListData, isLoading, isError } = useRoleList();
 
   const renderContent = () => {
@@ -74,7 +76,11 @@ export default function RolesListPage() {
       <PageHeader
         pageTitle="Roles"
         action={
-          <Button variant="contained" onClick={() => navigate('new')}>
+          <Button
+            variant="contained"
+            onClick={() => navigate('new')}
+            disabled={!canWrite}
+          >
             Create new role
           </Button>
         }
