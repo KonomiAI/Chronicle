@@ -3,10 +3,13 @@ import { FormOptionValue } from '@konomi.ai/c-form';
 import { FormControl } from '@mui/material';
 import { Controller, FieldValues, UseControllerProps } from 'react-hook-form';
 import { StyledInputLabel, StyledSelect, StyledMenuItem } from './styled';
+import { usePermission } from '../use-permission/UsePermissionContext';
 
 export interface FormSelectBaseProps<T extends FieldValues>
   extends UseControllerProps<T> {
   label: string;
+  disabled?: boolean;
+  disablePermissionCheck?: boolean;
 }
 
 interface withOptions<T extends FieldValues> extends FormSelectBaseProps<T> {
@@ -30,31 +33,38 @@ export const FormSelect = <T extends FieldValues>({
   rules,
   options = [],
   children,
-}: FormSelectProps<T>) => (
-  <Controller
-    name={name}
-    control={control}
-    rules={rules}
-    render={({ field: { onChange, value }, fieldState: { invalid } }) => (
-      <FormControl fullWidth>
-        <StyledInputLabel id={name}>{label}</StyledInputLabel>
-        <StyledSelect
-          size="small"
-          label={label}
-          labelId={name}
-          value={value ?? ''}
-          error={invalid}
-          onChange={onChange}
-          defaultValue=""
-        >
-          {children ||
-            options.map((o, i) => (
-              <StyledMenuItem key={o.id} tabIndex={i} value={o.label}>
-                {o.label}
-              </StyledMenuItem>
-            ))}
-        </StyledSelect>
-      </FormControl>
-    )}
-  />
-);
+  disablePermissionCheck,
+  disabled,
+}: FormSelectProps<T>) => {
+  const { canWrite } = usePermission();
+  const shouldDisabled = disabled || (!disablePermissionCheck && !canWrite);
+  return (
+    <Controller
+      name={name}
+      control={control}
+      rules={rules}
+      render={({ field: { onChange, value }, fieldState: { invalid } }) => (
+        <FormControl fullWidth>
+          <StyledInputLabel id={name}>{label}</StyledInputLabel>
+          <StyledSelect
+            size="small"
+            label={label}
+            labelId={name}
+            value={value ?? ''}
+            error={invalid}
+            onChange={onChange}
+            defaultValue=""
+            disabled={shouldDisabled}
+          >
+            {children ||
+              options.map((o, i) => (
+                <StyledMenuItem key={o.id} tabIndex={i} value={o.label}>
+                  {o.label}
+                </StyledMenuItem>
+              ))}
+          </StyledSelect>
+        </FormControl>
+      )}
+    />
+  );
+};

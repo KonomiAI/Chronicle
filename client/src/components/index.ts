@@ -3,7 +3,6 @@ import GenderSelect from './gender-select/GenderSelect';
 
 export * from './save-bar/save-bar';
 export * from './form-builder/form-builder';
-export * from './text-field/TextField';
 export * from './date-picker/DatePicker';
 export * from './utils/util-components';
 export * from './activity-card/activity-card';
