@@ -26,6 +26,7 @@ import VariantManageDialog from './VariantCreate';
 import { SaveBar } from '../../components';
 import { FormInputField } from '../../components/form-inputs/FormInputField';
 import { fastUnsafeObjectCompare } from '../../utils/compare-object';
+import { usePermission } from '../../components/use-permission/UsePermissionContext';
 
 interface ProductBaseProps {
   product?: Product;
@@ -61,6 +62,7 @@ const ProductBase: React.FC<ProductBaseProps> = ({
   isDeleteVariantLoading,
   hasDeleteVariantError,
 }) => {
+  const { canWrite } = usePermission();
   const [isVariantDialogOpen, setIsVariantDialogOpen] = useState(false);
   const [isSaveBarOpen, setIsSaveBarOpen] = useState(false);
   const [variantToEdit, setVariantToEdit] = useState<
@@ -99,6 +101,9 @@ const ProductBase: React.FC<ProductBaseProps> = ({
           hover
           sx={{ cursor: 'pointer' }}
           onClick={() => {
+            if (!canWrite) {
+              return;
+            }
             setVariantToEdit(variant);
             setIsVariantDialogOpen(true);
           }}
@@ -175,6 +180,7 @@ const ProductBase: React.FC<ProductBaseProps> = ({
               setVariantToEdit(undefined);
               setIsVariantDialogOpen(true);
             }}
+            disabled={!canWrite}
           >
             Add New Variant
           </Button>

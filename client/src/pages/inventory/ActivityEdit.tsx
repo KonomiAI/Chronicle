@@ -21,11 +21,13 @@ import PageHeader from '../../components/page-header/PageHeader';
 import Spacer from '../../components/spacer/Spacer';
 import ActivityBase from './ActivityBase';
 import LoadingCard from '../../components/loading-card';
+import { usePermission } from '../../components/use-permission/UsePermissionContext';
 
 const ActivityEdit = () => {
   const navigate = useNavigate();
   const { activityId } = useParams();
   const { enqueueSnackbar } = useSnackbar();
+  const { canWrite } = usePermission();
 
   const id = activityId || '';
 
@@ -159,7 +161,9 @@ const ActivityEdit = () => {
                   mutateDeleteActivity(id);
                 }}
                 disabled={
-                  activity?.isArchived || activity?.inUseByActivityEntry
+                  activity?.isArchived ||
+                  activity?.inUseByActivityEntry ||
+                  !canWrite
                 }
               >
                 Delete
