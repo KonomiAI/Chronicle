@@ -1,8 +1,9 @@
 import React from 'react';
 import { useMutation } from 'react-query';
-import { createSearchParams, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { Alert, AlertTitle, Container } from '@mui/material';
+import { useSnackbar } from 'notistack';
 
 import { createActivity } from '../../data';
 import { PostActivityBody } from '../../types';
@@ -13,15 +14,12 @@ import ActivityBase from './ActivityBase';
 
 const ActivityCreate = () => {
   const navigate = useNavigate();
+  const { enqueueSnackbar } = useSnackbar();
 
   const { isLoading, isError, mutate } = useMutation(createActivity, {
-    onSuccess: () => {
-      navigate({
-        pathname: '/inventory',
-        search: createSearchParams({
-          tab: 'ACTIVITIES',
-        }).toString(),
-      });
+    onSuccess: (created) => {
+      navigate(`/inventory/activities/${created.id}`);
+      enqueueSnackbar('Activity created successfully', { variant: 'success' });
     },
   });
 
@@ -39,7 +37,7 @@ const ActivityCreate = () => {
       {isError && (
         <>
           <Alert severity="error">
-            <AlertTitle>An unexpected error has occured</AlertTitle>
+            <AlertTitle>An unexpected error has occurred</AlertTitle>
             Something went wrong while creating an activity
           </Alert>
           <Spacer size="lg" />

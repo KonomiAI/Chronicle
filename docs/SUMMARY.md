@@ -19,6 +19,9 @@
 - [Login](user-manual/login.md)
 - [Custom form](user-manual/custom-fields.md)
 - [Manage staff](user-manual/staff-management.md)
+- [Manage IP allowlist](user-manual/ip-allowlist.md)
+- [Manage customer profiles](user-manual/customer-profile.md)
+- [Manage product & service inventory](user-manual/inventory.md)
 
 # Appendix
 
