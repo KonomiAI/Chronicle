@@ -19,7 +19,12 @@ import { useSnackbar } from 'notistack';
 
 import PageHeader from '../../components/page-header/PageHeader';
 import Spacer from '../../components/spacer/Spacer';
-import { ActivityCard, CustomerCard, If } from '../../components';
+import {
+  ActivityCard,
+  CustomerCard,
+  If,
+  usePermission,
+} from '../../components';
 import { FormIntegration } from '../../components/form-integration/form-integration';
 import { FormPurpose } from '../../types';
 import { CustomerSelectDialog } from '../../components/customer-select-dialog/CustomerSelectDialog';
@@ -47,6 +52,7 @@ export function ActivityEntryDetails() {
     useState(false);
   const [openProductSelectDialog, setOpenProductSelectDialog] = useState(false);
   const [openChargeDialog, setOpenChargeDialog] = useState(false);
+  const { canWrite } = usePermission();
   if (!id) {
     return <div>TODO page failed to load</div>;
   }
@@ -91,6 +97,7 @@ export function ActivityEntryDetails() {
   };
 
   const hasChargableItems = data?.products?.length || data?.activity;
+  const shouldDisableEdit = !canWrite || !!data?.charge?.length;
 
   const placeCharge = async (chargeData: ChargeCreateDto) =>
     data &&
@@ -190,7 +197,7 @@ export function ActivityEntryDetails() {
                 size="small"
                 sx={{ mr: '10px' }}
                 onClick={() => setOpenCustomerSelectDialog(true)}
-                disabled={!!data.charge.length}
+                disabled={shouldDisableEdit}
               >
                 Change Customer
               </Button>
@@ -212,7 +219,7 @@ export function ActivityEntryDetails() {
                   variant="text"
                   size="small"
                   onClick={() => setOpenActivitySelectDialog(true)}
-                  disabled={!!data.charge.length}
+                  disabled={shouldDisableEdit}
                 >
                   Add Activity
                 </Button>
@@ -225,7 +232,7 @@ export function ActivityEntryDetails() {
                       variant="text"
                       size="small"
                       sx={{ mr: '10px' }}
-                      disabled={!!data.charge.length}
+                      disabled={shouldDisableEdit}
                       onClick={async () => {
                         if (
                           data.activity?.isArchived &&
@@ -246,7 +253,7 @@ export function ActivityEntryDetails() {
                       variant="text"
                       color="error"
                       size="small"
-                      disabled={!!data.charge.length}
+                      disabled={shouldDisableEdit}
                       onClick={async () => {
                         if (
                           data.activity?.isArchived &&
