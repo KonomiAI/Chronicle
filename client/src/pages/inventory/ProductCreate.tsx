@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useMutation } from 'react-query';
 
 import { Alert, AlertTitle, Container } from '@mui/material';
+import { useSnackbar } from 'notistack';
 
 import PageHeader from '../../components/page-header/PageHeader';
 import Spacer from '../../components/spacer/Spacer';
@@ -13,10 +14,12 @@ import { PostProductBody, VariantBodyDto } from '../../types';
 const ProductCreate = () => {
   const [variants, setVariants] = useState<VariantBodyDto[]>([]);
   const navigate = useNavigate();
+  const { enqueueSnackbar } = useSnackbar();
 
   const { isLoading, isError, mutate } = useMutation(createProduct, {
-    onSuccess: () => {
-      navigate('/inventory');
+    onSuccess: (created) => {
+      navigate(`/inventory/products/${created.id}`);
+      enqueueSnackbar('Product created successfully', { variant: 'success' });
     },
   });
 
