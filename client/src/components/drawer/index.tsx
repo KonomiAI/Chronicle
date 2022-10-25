@@ -1,16 +1,8 @@
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
 
 import { styled, Theme, CSSObject } from '@mui/material/styles';
 import MuiDrawer from '@mui/material/Drawer';
-import {
-  List,
-  Divider,
-  IconButton,
-  ListItemIcon,
-  ListItemText,
-  ListItemButton,
-} from '@mui/material';
+import { List, Divider, IconButton } from '@mui/material';
 import {
   Article,
   Face,
@@ -21,9 +13,9 @@ import {
 } from '@mui/icons-material';
 
 import { DRAWER_WIDTH } from '../../vars';
-import { useStore } from '../../store';
 import AdminList from './AdminList';
 import { Features } from '../../types';
+import { DrawerEntry } from './DrawerEntry';
 
 const openedMixin = (theme: Theme): CSSObject => ({
   width: DRAWER_WIDTH,
@@ -78,9 +70,6 @@ export default function ChronicleDrawer({
   open,
   handleDrawerClose,
 }: DrawerProps) {
-  const { pathname } = useLocation();
-  const { permissions } = useStore();
-
   return (
     <Drawer variant="permanent" open={open}>
       <DrawerHeader>
@@ -90,69 +79,26 @@ export default function ChronicleDrawer({
       </DrawerHeader>
       <Divider />
       <List>
-        <ListItemButton
-          key="home"
-          component={Link}
-          to="/"
-          selected={pathname === '/'}
-        >
-          <ListItemIcon>
-            <Home />
-          </ListItemIcon>
-          <ListItemText primary="Home" />
-        </ListItemButton>
-
-        {permissions[Features.CUSTOMER]?.read && (
-          <ListItemButton
-            component={Link}
-            to="/customers"
-            selected={pathname === '/customers'}
-            key="customers"
-          >
-            <ListItemIcon>
-              <Face />
-            </ListItemIcon>
-            <ListItemText primary="Customer Profiles" />
-          </ListItemButton>
-        )}
-
-        {permissions[Features.ENTRY]?.read && (
-          <ListItemButton
-            key="entries"
-            component={Link}
-            to="/activity-entries"
-            selected={pathname === '/activity-entries'}
-          >
-            <ListItemIcon>
-              <Article />
-            </ListItemIcon>
-            <ListItemText primary="Activity Entries" />
-          </ListItemButton>
-        )}
-
-        {permissions[Features.INVENTORY]?.read && (
-          <ListItemButton
-            component={Link}
-            to="/inventory"
-            selected={pathname === '/inventory'}
-          >
-            <ListItemIcon>
-              <Inventory />
-            </ListItemIcon>
-            <ListItemText primary="Inventory" />
-          </ListItemButton>
-        )}
-
-        <ListItemButton
-          component={Link}
-          to="/analytics"
-          selected={pathname === '/analytics'}
-        >
-          <ListItemIcon>
-            <Insights />
-          </ListItemIcon>
-          <ListItemText primary="Analytics" />
-        </ListItemButton>
+        <DrawerEntry title="Home" to="/" icon={<Home />} />
+        <DrawerEntry
+          title="Customer profiles"
+          to="/customers"
+          icon={<Face />}
+          feature={Features.CUSTOMER}
+        />
+        <DrawerEntry
+          title="Activity entries"
+          to="/activity-entries"
+          icon={<Article />}
+          feature={Features.ENTRY}
+        />
+        <DrawerEntry
+          title="Inventory"
+          to="/inventory"
+          icon={<Inventory />}
+          feature={Features.INVENTORY}
+        />
+        <DrawerEntry title="Analytics" to="/analytics" icon={<Insights />} />
         <Divider />
         <AdminList />
       </List>

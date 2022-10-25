@@ -8,7 +8,7 @@ import {
   Typography,
 } from '@mui/material';
 import { useForm } from 'react-hook-form';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useMutation, useQueryClient } from 'react-query';
 import { useSnackbar } from 'notistack';
 
@@ -182,11 +182,11 @@ const CustomerDetailsPage: React.FC<CustomerDetailsPageProps> = ({
 
 export function CreateCustomerForm() {
   const { enqueueSnackbar } = useSnackbar();
-  const queryClient = useQueryClient();
+  const navigate = useNavigate();
   const createCustomerAndMutate = useMutation(createCustomer, {
     onSuccess: async ({ data }) => {
-      await queryClient.invalidateQueries(['customer', data.id]);
-      enqueueSnackbar('Customer profile updated successfully', {
+      navigate(`/customers/${data.id}`);
+      enqueueSnackbar('Customer profile created successfully', {
         variant: 'success',
       });
     },
