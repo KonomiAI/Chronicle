@@ -105,6 +105,7 @@ const VariantManageDialog: React.FC<VariantCreateDialogProps> = ({
             <FormInputField
               type="number"
               name="price"
+              fieldStartAdornment="money"
               control={control}
               rules={{
                 required: true,

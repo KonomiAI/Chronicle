@@ -16,7 +16,7 @@ import LoadingCard from '../../components/loading-card';
 import Spacer from '../../components/spacer/Spacer';
 import { useChargeSummary } from '../../data';
 import { ActivityEntry, ChargeCreateDto } from '../../types/activity-entry';
-import { penniesToPrice, priceCheck } from '../../utils';
+import { penniesToPrice, priceCheck, PRICE_REGEXP } from '../../utils';
 import { TipButton } from './components/TipButton';
 
 export interface ActivityEntryChargeDialogProps {
@@ -57,7 +57,7 @@ export default function ActivityEntryChargeDialog({
                   name="tipAmount"
                   rules={{
                     min: 0,
-                    pattern: priceCheck,
+                    pattern: PRICE_REGEXP,
                   }}
                 />
                 <Spacer size="sm" />
