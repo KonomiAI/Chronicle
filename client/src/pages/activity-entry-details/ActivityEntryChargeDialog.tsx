@@ -16,7 +16,7 @@ import LoadingCard from '../../components/loading-card';
 import Spacer from '../../components/spacer/Spacer';
 import { useChargeSummary } from '../../data';
 import { ActivityEntry, ChargeCreateDto } from '../../types/activity-entry';
-import { penniesToPrice, priceCheck, PRICE_REGEXP } from '../../utils';
+import { penniesToPrice, PRICE_REGEXP } from '../../utils';
 import { TipButton } from './components/TipButton';
 
 export interface ActivityEntryChargeDialogProps {
