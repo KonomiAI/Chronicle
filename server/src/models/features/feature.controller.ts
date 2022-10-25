@@ -11,7 +11,7 @@ import { FeatureService } from './feature.service';
 export class FeatureController {
   constructor(private readonly featureService: FeatureService) {}
 
-  @Auth(Actions.WRITE, [Features.Security])
+  @Auth(Actions.READ, [Features.Security])
   @Get()
   async getFeatures(): Promise<FeatureModel[]> {
     return this.featureService.features({});

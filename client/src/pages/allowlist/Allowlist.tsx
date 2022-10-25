@@ -25,6 +25,7 @@ import LoadingCard from '../../components/loading-card';
 import AllowlistAdd from './AllowlistAdd';
 import { useAllowList, deleteAllowlistEntry } from '../../data';
 import { Ip } from '../../types';
+import { usePermission } from '../../components';
 
 export default function AllowListPage() {
   const { data: allowListData, isLoading, isError } = useAllowList();
@@ -32,6 +33,7 @@ export default function AllowListPage() {
   const { enqueueSnackbar } = useSnackbar();
   const queryClient = useQueryClient();
   const [entryToDelete, setEntryToDelete] = useState<null | Ip>(null);
+  const { canWrite } = usePermission();
 
   const removeAllowlistEntryAndMutate = useMutation(deleteAllowlistEntry, {
     onSuccess: async () => {
@@ -89,7 +91,10 @@ export default function AllowListPage() {
             <React.Fragment key={s.id}>
               <ListItem
                 secondaryAction={
-                  <IconButton onClick={() => setEntryToDelete(s)}>
+                  <IconButton
+                    onClick={() => setEntryToDelete(s)}
+                    disabled={!canWrite}
+                  >
                     <DeleteIcon />
                   </IconButton>
                 }
@@ -121,7 +126,11 @@ export default function AllowListPage() {
         helpText="Add IP address to the allowlist to ensure your staff member can only access
         the application from certain locations"
         action={
-          <Button variant="contained" onClick={() => setAddDialogOpen(true)}>
+          <Button
+            variant="contained"
+            onClick={() => setAddDialogOpen(true)}
+            disabled={!canWrite}
+          >
             Add New
           </Button>
         }

@@ -25,6 +25,7 @@ import Spacer from '../../components/spacer/Spacer';
 import SaveBar from '../../components/save-bar/save-bar';
 import { Feature, Role, RoleData } from '../../types';
 import { FormInputField } from '../../components/form-inputs/FormInputField';
+import { usePermission } from '../../components';
 
 const cleanRole = (role: Role) => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -68,6 +69,7 @@ export default function RoleDetails({ create, data, saveChanges }: RoleProps) {
   const { data: featureList } = useFeaturesList();
   const [isSaveOpen, setIsSaveOpen] = useState(false);
   const navigate = useNavigate();
+  const { canWrite } = usePermission();
 
   const { control, reset, handleSubmit, watch, setValue } = useForm<RoleData>({
     defaultValues: rawRole,
@@ -149,7 +151,9 @@ export default function RoleDetails({ create, data, saveChanges }: RoleProps) {
                         <Checkbox
                           checked={value}
                           onChange={onChange}
-                          disabled={watch(`permissions.${s.name}.write`)}
+                          disabled={
+                            watch(`permissions.${s.name}.write`) || !canWrite
+                          }
                         />
                       )}
                     />
@@ -161,6 +165,7 @@ export default function RoleDetails({ create, data, saveChanges }: RoleProps) {
                       render={({ field: { onChange, value } }) => (
                         <Checkbox
                           checked={value}
+                          disabled={!canWrite}
                           onChange={(e) => {
                             setValue(
                               `permissions.${s.name}.read`,
@@ -204,6 +209,7 @@ export default function RoleDetails({ create, data, saveChanges }: RoleProps) {
                     variant="text"
                     color="error"
                     onClick={() => removeRole()}
+                    disabled={!canWrite}
                   >
                     Delete
                   </Button>

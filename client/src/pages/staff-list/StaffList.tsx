@@ -22,9 +22,11 @@ import Spacer from '../../components/spacer/Spacer';
 import LoadingCard from '../../components/loading-card';
 import StaffInviteDialog from './StaffInvite';
 import { useStaffList } from '../../data';
+import { usePermission } from '../../components/use-permission/UsePermissionContext';
 
 export default function StaffListPage() {
   const navigate = useNavigate();
+  const { canWrite } = usePermission();
   const { data, isLoading, isError } = useStaffList();
   const [inviteDialogOpen, setInviteDialogOpen] = useState(false);
 
@@ -107,6 +109,7 @@ export default function StaffListPage() {
             variant="contained"
             data-testid="btn-staff-invite-dialog"
             onClick={() => setInviteDialogOpen(true)}
+            disabled={!canWrite}
           >
             Invite
           </Button>
