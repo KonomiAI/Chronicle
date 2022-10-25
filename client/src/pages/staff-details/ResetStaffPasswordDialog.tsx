@@ -127,7 +127,11 @@ const PasswordResetResult = ({
         </Card>
       </DialogContent>
       <DialogActions>
-        <Button onClick={() => handleClose(true)} color="inherit">
+        <Button
+          onClick={() => handleClose(true)}
+          color="inherit"
+          data-testid="btn-done-password-reset"
+        >
           Done
         </Button>
       </DialogActions>

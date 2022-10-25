@@ -43,3 +43,8 @@ export const getFormErrorMessage = (type?: string) => {
   }
   return ERROR_TYPE_MAP[type] ?? type;
 };
+
+export const PRICE_REGEXP = {
+  value: /^\d*(\.\d{0,2})?$/,
+  message: 'Please enter a valid price (eg: 1.00)',
+};

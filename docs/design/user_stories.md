@@ -1,16 +1,34 @@
 # User Stories
 
-## Identity Access Control
+This document includes a list of user stories we
 
-- [ ] As an Owner, I want to be able to update the IP Whitelist, so I can prevent offsite activities.
-- [ ] As an Owner, I want to ensure my staff cannot access the data from an unknown IP address. So I can protect the privacy of my customers
-- [ ] As a staff member, I want to be able to add staff to the system, so other staff could access the system as well.
-- [ ] As a staff, I want to be able to reset another staff's account password, so they can regain access if they forgot their password
-- [ ] As a staff member, I want to be able to view the email and role details of another staff
-- [ ] As a staff member, I want to be able to view the roles created for my company, so I can create missing roles and update existing ones
-- [ ] As a staff member, I want to be able to suspend other staff accounts so I can prevent them from accessing the system.
-- [ ] As a staff member, I want to be able to delete a staff account, so I can remove their personal information from the system.
-- [ ] As an owner, I want to be able to view the IP addresses I allow- [ ] listed, so I can add new ones and remove old ones.
+User stories that are fully implemented are checked, user stories with automated testing implemented, will have the testing method labeled.
+
+## Identity and login
+
+- [x] As a user, I can sign in and sign out of the application using correct credentials `(e2e)`
+- [x] As a user, I can update their password and sign in with updated password `(e2e)`
+- [x] As a user, when I try to login from a disallowed IP source, an error message should be displayed to the user `(jest)`
+
+## Identity and access control
+
+### IP Allowlist
+
+- [x] As an Owner, I want to be able to update the IP Whitelist, so I can prevent offsite activities. (e2e)
+- [x] As an Owner, I want to ensure my staff cannot access the data from an unknown IP address. So I can protect the privacy of my customers
+- [x] As a staff member, I want to be able to add staff to the system, so other staff could access the system as well. (e2e)
+
+### Staff management
+
+- [x] As a staff, I want to be able to reset another staff's account password, so they can regain access if they forgot their password
+- [x] As a staff member, I want to be able to view the email and role details of another staff (e2e)
+- [x] As a staff member, I want to be able to suspend other staff accounts so I can prevent them from accessing the system. (e2e)
+- [] As a staff member, I want to be able to delete a staff account, so I can remove their personal information from the system.
+
+### Role Management
+
+- [x] As a staff member, I want to be able to view the roles created for my company, so I can create missing roles and update existing ones.
+- [x] As an owner, I want to be able to view the IP addresses I allowlisted and add new ones and remove old ones, so I can adapt to company network changes.
 - [ ] As a staff member, I want to be able to create roles, so that nothing more than the required permissions are given.
 - [ ] As a staff member, I want to be able to update staff roles, so other staff can get access to what they need.
 - [ ] As a staff member, I want to be able to update other staff account's details, so that their information can be up to date.
@@ -19,22 +37,26 @@
 
 ## Inventory
 
-- [ ] As a staff member, I should be able to create treatment or physical goods
-- [ ] As a staff member, I should be able to track the price of physical goods
-- [ ] As a staff member, I should be able to support internal client's own id in the form of an SKU
+- [x] As a staff member, I should be able to create treatment or physical goods
+- [x] As a staff member, I should be able to update the price of physical goods
+- [x] As a staff member, I should be able to support internal client's own id in the form of an SKU
 - [ ] As a staff member, I should be able to support universal barcode scanning for physical goods
-- [ ] As a staff member, I should be able to update all attributes of a product
-- [ ] As a staff member, I should be able to delete inventory items
+- [x] As a staff member, I should be able to update all attributes of a product
+- [x] As a staff member, I should be able to delete inventory items that are not used in an activity entry
 - [ ] As a staff member, I should be able to find inventory items by names
 - [ ] As a staff member, I should be able to find inventory items by SKU
 - [ ] As a staff member, I should be able to find physical goods by barcode
-- [ ] As a staff member, I should be able to manage variants and automatically generate a table of variants based on options
-- [ ] As a staff member, I should be able to manage variants and change price/SKU/barcode for each item
-- [ ] As a staff member, I should be able to manage variants and customize product options (option name, list of options)
+- [x] As a staff member, I should be able to manage variants and automatically generate a table of variants based on options
+- [x] As a staff member, I should be able to manage variants and change price/SKU/barcode for each item
+- [x] As a staff member, I should be able to manage variants and customize product options (option name, list of options)
 - [ ] As a staff member, I should be able to mark a product/service as unavailable
 - [ ] As a staff member, I should be able to manage variants and change price/SKU/barcode for any number of variants selected (stretch goal)
 
 ## Data Reporting
+
+- [x] As a BA staff, I want to see the total spending per customer in a set period of time
+- [x] As a manager, I want to see the revenue generated by each practitioner in a set period of time
+- [x] As a procurement staff, I want to see the total sales of each product in a set period of time
 
 - [ ] As an owner, I want standard reports sent to me on a periodic basis (EOD/EOW)
 - [ ] As an owner, I want to be able to specify what information is in a report
@@ -44,27 +66,28 @@
 
 ## Forms
 
-- [ ] The system shall record when a staff member edits a form response
-- [ ] As a staff member, I want to be able to make edits to a form response
-- [ ] As a staff member, I want to be able to create a form
-- [ ] The system shall have preset forms with the following fields  
-       - customer info: first name, last name, DoB, sex, gender, email, phone number  
+- [x] The system shall record when a staff member edits a form response
+- [x] As a staff member, I want to be able to make edits to a form response
+- [x] As a staff member, I want to be able to create a form
+- [x] The system shall have preset forms with the following fields  
+       - customer info: first name, last name, DoB, sex, email, phone number  
        - medical record: height, weight, allergies, conditions, additional notes  
        - membership purchase/renewal (out of mvp scope): email, phone number (tied to customer info) level, date  
        - Activity Entry: treatment, price, date/time, general notes, critical notes, and photos  
        - Purchase/Transaction entry: product name, size, barcode, price
 
-- [ ] The system should validate data before writing to the database to ensure consistency.
-- [ ] As a staff member, I want to be able to create new fields on an existing form
-- [ ] As a staff member, I want to be able to delete fields on a existing form
-- [ ] As a staff member, I want to be able to view form responses
-- [ ] As a staff member, I want to be able to view forms
-- [ ] The system shall have a unique ID for each customer
-- [ ] The system shall validate fields of a form before saving to the database.
-- [ ] The system shall associate form responses with the respective customer and provider
+- [x] The system should validate data before writing to the database to ensure consistency.
+- [x] As a staff member, I want to be able to create new fields on an existing form
+- [x] As a staff member, I want to be able to delete fields on a existing form
+- [x] As a staff member, I want to be able to view form responses
+- [x] As a staff member, I want to be able to view forms
+- [x] The system shall have a unique ID for each customer
+- [x] The system shall validate fields of a form before saving to the database.
+- [x] The system shall associate form responses with the respective customer and provider
 - [ ] As a staff member, I want to be able to delete a form
-- [ ] As a staff member, I want to be able to fill out a form response
-- [ ] As a staff member, I want to be able to add sections to a form
-- [ ] As a staff member, I want to be able to delete sections on a form
+- [x] As a staff member, I want to be able to fill out a form response
+- [x] As a staff member, I want to be able to add sections to a form
+- [x] As a staff member, I want to be able to delete sections on a form
+- [ ] As a staff member, I want to be able to update the order of the fields, so I can save time if I make a mistake making the form.
 - [ ] As a provider, I should be able to search for specific entries involved with specific customers.
 - [ ] As a provider, I should be able to view all a customer’s entries under their profile
