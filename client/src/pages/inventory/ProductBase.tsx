@@ -98,7 +98,7 @@ const ProductBase: React.FC<ProductBaseProps> = ({
       return (
         <TableRow
           key={barcode}
-          hover
+          hover={canWrite}
           sx={{ cursor: 'pointer' }}
           onClick={() => {
             if (!canWrite) {
