@@ -23,6 +23,7 @@ import ActivitiesTable from '../../components/activities-table/ActivitiesTable';
 import { useGetActivities, useGetProducts } from '../../data';
 import { formatDate, getPenniesPriceRange, penniesToPrice } from '../../utils';
 import { InventoryTabs } from '../../types';
+import { usePermission } from '../../components/use-permission/UsePermissionContext';
 
 const ProductsTableContainer = () => {
   const { data: products, isLoading, isError } = useGetProducts();
@@ -134,6 +135,7 @@ const TabSection = (label: string, index: number) => (
 export default function InventoryPage() {
   const [tabValue, setTabValue] = useState(InventoryTabs.PRODUCTS);
   const [searchParams] = useSearchParams();
+  const { canWrite } = usePermission();
 
   useEffect(() => {
     const currentTab = searchParams.get('tab');
@@ -166,7 +168,12 @@ export default function InventoryPage() {
       <PageHeader
         pageTitle="Inventory"
         action={
-          <Button component={Link} to={handleCreateLink()} variant="contained">
+          <Button
+            component={Link}
+            to={handleCreateLink()}
+            variant="contained"
+            disabled={!canWrite}
+          >
             Create
           </Button>
         }
