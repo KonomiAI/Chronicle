@@ -306,26 +306,43 @@
     Form ||--o{ Response: has
 </pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="user-stories"><a class="header" href="#user-stories">User Stories</a></h1>
-<h2 id="identity-access-control"><a class="header" href="#identity-access-control">Identity Access Control</a></h2>
+<p>This document includes a list of user stories we</p>
+<p>User stories that are fully implemented are checked, user stories with automated testing implemented, will have the testing method labeled.</p>
+<h2 id="identity-and-login"><a class="header" href="#identity-and-login">Identity and login</a></h2>
 <ul>
-<li><input disabled="" type="checkbox"/>
-As an Owner, I want to be able to update the IP Whitelist, so I can prevent offsite activities.</li>
-<li><input disabled="" type="checkbox"/>
+<li><input disabled="" type="checkbox" checked=""/>
+As a user, I can sign in and sign out of the application using correct credentials <code>(e2e)</code></li>
+<li><input disabled="" type="checkbox" checked=""/>
+As a user, I can update their password and sign in with updated password <code>(e2e)</code></li>
+<li><input disabled="" type="checkbox" checked=""/>
+As a user, when I try to login from a disallowed IP source, an error message should be displayed to the user <code>(jest)</code></li>
+</ul>
+<h2 id="identity-and-access-control"><a class="header" href="#identity-and-access-control">Identity and access control</a></h2>
+<h3 id="ip-allowlist"><a class="header" href="#ip-allowlist">IP Allowlist</a></h3>
+<ul>
+<li><input disabled="" type="checkbox" checked=""/>
+As an Owner, I want to be able to update the IP Whitelist, so I can prevent offsite activities. (e2e)</li>
+<li><input disabled="" type="checkbox" checked=""/>
 As an Owner, I want to ensure my staff cannot access the data from an unknown IP address. So I can protect the privacy of my customers</li>
-<li><input disabled="" type="checkbox"/>
-As a staff member, I want to be able to add staff to the system, so other staff could access the system as well.</li>
-<li><input disabled="" type="checkbox"/>
+<li><input disabled="" type="checkbox" checked=""/>
+As a staff member, I want to be able to add staff to the system, so other staff could access the system as well. (e2e)</li>
+</ul>
+<h3 id="staff-management"><a class="header" href="#staff-management">Staff management</a></h3>
+<ul>
+<li><input disabled="" type="checkbox" checked=""/>
 As a staff, I want to be able to reset another staff's account password, so they can regain access if they forgot their password</li>
-<li><input disabled="" type="checkbox"/>
-As a staff member, I want to be able to view the email and role details of another staff</li>
-<li><input disabled="" type="checkbox"/>
-As a staff member, I want to be able to view the roles created for my company, so I can create missing roles and update existing ones</li>
-<li><input disabled="" type="checkbox"/>
-As a staff member, I want to be able to suspend other staff accounts so I can prevent them from accessing the system.</li>
-<li><input disabled="" type="checkbox"/>
-As a staff member, I want to be able to delete a staff account, so I can remove their personal information from the system.</li>
-<li><input disabled="" type="checkbox"/>
-As an owner, I want to be able to view the IP addresses I allow- [ ] listed, so I can add new ones and remove old ones.</li>
+<li><input disabled="" type="checkbox" checked=""/>
+As a staff member, I want to be able to view the email and role details of another staff (e2e)</li>
+<li><input disabled="" type="checkbox" checked=""/>
+As a staff member, I want to be able to suspend other staff accounts so I can prevent them from accessing the system. (e2e)</li>
+<li>[] As a staff member, I want to be able to delete a staff account, so I can remove their personal information from the system.</li>
+</ul>
+<h3 id="role-management"><a class="header" href="#role-management">Role Management</a></h3>
+<ul>
+<li><input disabled="" type="checkbox" checked=""/>
+As a staff member, I want to be able to view the roles created for my company, so I can create missing roles and update existing ones.</li>
+<li><input disabled="" type="checkbox" checked=""/>
+As an owner, I want to be able to view the IP addresses I allowlisted and add new ones and remove old ones, so I can adapt to company network changes.</li>
 <li><input disabled="" type="checkbox"/>
 As a staff member, I want to be able to create roles, so that nothing more than the required permissions are given.</li>
 <li><input disabled="" type="checkbox"/>
@@ -339,29 +356,29 @@ As a staff member, I want to be able to sign into the dashboard using my usernam
 </ul>
 <h2 id="inventory"><a class="header" href="#inventory">Inventory</a></h2>
 <ul>
-<li><input disabled="" type="checkbox"/>
+<li><input disabled="" type="checkbox" checked=""/>
 As a staff member, I should be able to create treatment or physical goods</li>
-<li><input disabled="" type="checkbox"/>
-As a staff member, I should be able to track the price of physical goods</li>
-<li><input disabled="" type="checkbox"/>
+<li><input disabled="" type="checkbox" checked=""/>
+As a staff member, I should be able to update the price of physical goods</li>
+<li><input disabled="" type="checkbox" checked=""/>
 As a staff member, I should be able to support internal client's own id in the form of an SKU</li>
 <li><input disabled="" type="checkbox"/>
 As a staff member, I should be able to support universal barcode scanning for physical goods</li>
-<li><input disabled="" type="checkbox"/>
+<li><input disabled="" type="checkbox" checked=""/>
 As a staff member, I should be able to update all attributes of a product</li>
-<li><input disabled="" type="checkbox"/>
-As a staff member, I should be able to delete inventory items</li>
+<li><input disabled="" type="checkbox" checked=""/>
+As a staff member, I should be able to delete inventory items that are not used in an activity entry</li>
 <li><input disabled="" type="checkbox"/>
 As a staff member, I should be able to find inventory items by names</li>
 <li><input disabled="" type="checkbox"/>
 As a staff member, I should be able to find inventory items by SKU</li>
 <li><input disabled="" type="checkbox"/>
 As a staff member, I should be able to find physical goods by barcode</li>
-<li><input disabled="" type="checkbox"/>
+<li><input disabled="" type="checkbox" checked=""/>
 As a staff member, I should be able to manage variants and automatically generate a table of variants based on options</li>
-<li><input disabled="" type="checkbox"/>
+<li><input disabled="" type="checkbox" checked=""/>
 As a staff member, I should be able to manage variants and change price/SKU/barcode for each item</li>
-<li><input disabled="" type="checkbox"/>
+<li><input disabled="" type="checkbox" checked=""/>
 As a staff member, I should be able to manage variants and customize product options (option name, list of options)</li>
 <li><input disabled="" type="checkbox"/>
 As a staff member, I should be able to mark a product/service as unavailable</li>
@@ -370,71 +387,88 @@ As a staff member, I should be able to manage variants and change price/SKU/barc
 </ul>
 <h2 id="data-reporting"><a class="header" href="#data-reporting">Data Reporting</a></h2>
 <ul>
+<li><input disabled="" type="checkbox" checked=""/>
+<p>As a BA staff, I want to see the total spending per customer in a set period of time</p>
+</li>
+<li><input disabled="" type="checkbox" checked=""/>
+<p>As a manager, I want to see the revenue generated by each practitioner in a set period of time</p>
+</li>
+<li><input disabled="" type="checkbox" checked=""/>
+<p>As a procurement staff, I want to see the total sales of each product in a set period of time</p>
+</li>
 <li><input disabled="" type="checkbox"/>
-As an owner, I want standard reports sent to me on a periodic basis (EOD/EOW)</li>
+<p>As an owner, I want standard reports sent to me on a periodic basis (EOD/EOW)</p>
+</li>
 <li><input disabled="" type="checkbox"/>
-As an owner, I want to be able to specify what information is in a report</li>
+<p>As an owner, I want to be able to specify what information is in a report</p>
+</li>
 <li><input disabled="" type="checkbox"/>
-As an owner, I want to be able to see the list of activities that were performed at a specified period of time</li>
+<p>As an owner, I want to be able to see the list of activities that were performed at a specified period of time</p>
+</li>
 <li><input disabled="" type="checkbox"/>
-As an owner, I want to be able to see the items and variations bought by customers during a specified period of time</li>
+<p>As an owner, I want to be able to see the items and variations bought by customers during a specified period of time</p>
+</li>
 <li><input disabled="" type="checkbox"/>
-As an owner, I want to be able to view membership attendance and new members onboarded</li>
+<p>As an owner, I want to be able to view membership attendance and new members onboarded</p>
+</li>
 </ul>
 <h2 id="forms"><a class="header" href="#forms">Forms</a></h2>
 <ul>
-<li><input disabled="" type="checkbox"/>
+<li><input disabled="" type="checkbox" checked=""/>
 <p>The system shall record when a staff member edits a form response</p>
 </li>
-<li><input disabled="" type="checkbox"/>
+<li><input disabled="" type="checkbox" checked=""/>
 <p>As a staff member, I want to be able to make edits to a form response</p>
 </li>
-<li><input disabled="" type="checkbox"/>
+<li><input disabled="" type="checkbox" checked=""/>
 <p>As a staff member, I want to be able to create a form</p>
 </li>
-<li><input disabled="" type="checkbox"/>
+<li><input disabled="" type="checkbox" checked=""/>
 <p>The system shall have preset forms with the following fields<br />
-- customer info: first name, last name, DoB, sex, gender, email, phone number<br />
+- customer info: first name, last name, DoB, sex, email, phone number<br />
 - medical record: height, weight, allergies, conditions, additional notes<br />
 - membership purchase/renewal (out of mvp scope): email, phone number (tied to customer info) level, date<br />
 - Activity Entry: treatment, price, date/time, general notes, critical notes, and photos<br />
 - Purchase/Transaction entry: product name, size, barcode, price</p>
 </li>
-<li><input disabled="" type="checkbox"/>
+<li><input disabled="" type="checkbox" checked=""/>
 <p>The system should validate data before writing to the database to ensure consistency.</p>
 </li>
-<li><input disabled="" type="checkbox"/>
+<li><input disabled="" type="checkbox" checked=""/>
 <p>As a staff member, I want to be able to create new fields on an existing form</p>
 </li>
-<li><input disabled="" type="checkbox"/>
+<li><input disabled="" type="checkbox" checked=""/>
 <p>As a staff member, I want to be able to delete fields on a existing form</p>
 </li>
-<li><input disabled="" type="checkbox"/>
+<li><input disabled="" type="checkbox" checked=""/>
 <p>As a staff member, I want to be able to view form responses</p>
 </li>
-<li><input disabled="" type="checkbox"/>
+<li><input disabled="" type="checkbox" checked=""/>
 <p>As a staff member, I want to be able to view forms</p>
 </li>
-<li><input disabled="" type="checkbox"/>
+<li><input disabled="" type="checkbox" checked=""/>
 <p>The system shall have a unique ID for each customer</p>
 </li>
-<li><input disabled="" type="checkbox"/>
+<li><input disabled="" type="checkbox" checked=""/>
 <p>The system shall validate fields of a form before saving to the database.</p>
 </li>
-<li><input disabled="" type="checkbox"/>
+<li><input disabled="" type="checkbox" checked=""/>
 <p>The system shall associate form responses with the respective customer and provider</p>
 </li>
 <li><input disabled="" type="checkbox"/>
 <p>As a staff member, I want to be able to delete a form</p>
 </li>
-<li><input disabled="" type="checkbox"/>
+<li><input disabled="" type="checkbox" checked=""/>
 <p>As a staff member, I want to be able to fill out a form response</p>
 </li>
-<li><input disabled="" type="checkbox"/>
+<li><input disabled="" type="checkbox" checked=""/>
 <p>As a staff member, I want to be able to add sections to a form</p>
 </li>
-<li><input disabled="" type="checkbox"/>
+<li><input disabled="" type="checkbox" checked=""/>
 <p>As a staff member, I want to be able to delete sections on a form</p>
+</li>
+<li><input disabled="" type="checkbox"/>
+<p>As a staff member, I want to be able to update the order of the fields, so I can save time if I make a mistake making the form.</p>
 </li>
 <li><input disabled="" type="checkbox"/>
 <p>As a provider, I should be able to search for specific entries involved with specific customers.</p>
@@ -740,7 +774,7 @@ As an owner, I want to be able to view membership attendance and new members onb
 <div style="break-before: page; page-break-before: always;"></div><h1 id="staff--role-management"><a class="header" href="#staff--role-management">Staff &amp; role management</a></h1>
 <p>Chronicle features a robust staff management system that allows you to track staff information, grant access to specific parts of the system and gain performance insights.</p>
 <p><em>Before proceeding, make sure you are signed in as the super user or you are a user with write access to security feature. This feature is granted to all users with the built-in administrator role</em></p>
-<h2 id="role-management"><a class="header" href="#role-management">Role Management</a></h2>
+<h2 id="role-management-1"><a class="header" href="#role-management-1">Role Management</a></h2>
 <p>You can view, create and update your roles in the system.</p>
 <h3 id="create-a-new-role"><a class="header" href="#create-a-new-role">Create a new role</a></h3>
 <p>Steps:</p>
@@ -767,7 +801,7 @@ As an owner, I want to be able to view membership attendance and new members onb
 <li>Make the necessary changes in the form</li>
 <li>Click <strong>delete</strong> in the danger zone section of the page. You cannot delete a role if it is assigned to a staff, even if the staff is no longer active. Remove the role from the staff or delete the staff to delete the role.</li>
 </ol>
-<h2 id="staff-management"><a class="header" href="#staff-management">Staff management</a></h2>
+<h2 id="staff-management-1"><a class="header" href="#staff-management-1">Staff management</a></h2>
 <p>You can currently create and manage staff information using the security feature of Chronicle. We are currently recording basic information about the staff, and are planning to allow custom forms be connected to staff records soon.</p>
 <h3 id="invite-a-new-staff"><a class="header" href="#invite-a-new-staff">Invite a new staff</a></h3>
 <p>Steps:</p>
@@ -802,7 +836,7 @@ As an owner, I want to be able to view membership attendance and new members onb
 </ol>
 <h2 id="super-user--additional-security"><a class="header" href="#super-user--additional-security">Super user &amp; additional security</a></h2>
 <p>You will receive a <em>super user</em> account when your account is first activated, the super user bypasses all firewall restrictions and has full access to the entire application. It is designed to allow the administrators of your establishment to configure the access control correctly before onboarding the remaining staff. We recommend that you suspend access to the account as soon as proper users have been configured.</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="ip-allowlist"><a class="header" href="#ip-allowlist">IP Allowlist</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="ip-allowlist-1"><a class="header" href="#ip-allowlist-1">IP Allowlist</a></h1>
 <p>IP allowlist is a powerful application level firewall feature that Chronicle supports to help protect you and your clients' personal data. The IP allowlist enables you to set a fixed list of IP addresses that can access the application to ensure imposters outside your network have no access to your data. To configure the IP allowlist, follow this guide.</p>
 <h2 id="create-new-allowlist-entries"><a class="header" href="#create-new-allowlist-entries">Create new allowlist entries</a></h2>
 <p>By default, we have <code>0.0.0.0/0</code> setup for you, this address allows access from all possible IP addresses and is not safe, we recommend you update the allowlist as soon as possible to reflect the network of your establishment.</p>
