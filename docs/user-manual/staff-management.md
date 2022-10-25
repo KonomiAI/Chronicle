@@ -79,3 +79,7 @@ Steps:
 1. Go to the staff member's details page.
 2. Suspend the staff first by clicking on **Suspend**, this will disable the user's access to the system immediately.
 3. You can delete suspended staff by clicking on the **Delete** button in the danger zone
+
+## Super user & additional security
+
+You will receive a _super user_ account when your account is first activated, the super user bypasses all firewall restrictions and has full access to the entire application. It is designed to allow the administrators of your establishment to configure the access control correctly before onboarding the remaining staff. We recommend that you suspend access to the account as soon as proper users have been configured.
