@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Useful Links - Konomi Docs</title>
+        <title>Manage customer profiles - Konomi Docs</title>
         <!-- Custom HTML head -->
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="Internal Documents">
@@ -75,7 +75,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../index.html">Intro</a></li><li class="chapter-item expanded affix "><li class="part-title">Design</li><li class="chapter-item expanded "><a href="../design/proposal.html">Project Proposal</a></li><li class="chapter-item expanded "><a href="../design/mvp_scope.html">MVP Scope</a></li><li class="chapter-item expanded "><a href="../design/tech_stack.html">Tech Stack</a></li><li class="chapter-item expanded "><a href="../design/database.html">Database Design</a></li><li class="chapter-item expanded "><a href="../design/user_stories.html">User Stories</a></li><li class="chapter-item expanded "><a href="../design/custom-form.html">Custom Form Design</a></li><li class="chapter-item expanded "><a href="../design/data_analytics.html">Data analytics system Design</a></li><li class="chapter-item expanded "><a href="../design/immutable_inventory_customer_balance.html">Immutable inventory & customer balance system</a></li><li class="chapter-item expanded affix "><li class="part-title">User Manual</li><li class="chapter-item expanded "><a href="../user-manual/introduction.html">Introduction</a></li><li class="chapter-item expanded "><a href="../user-manual/login.html">Login</a></li><li class="chapter-item expanded "><a href="../user-manual/custom-fields.html">Custom form</a></li><li class="chapter-item expanded "><a href="../user-manual/staff-management.html">Manage staff</a></li><li class="chapter-item expanded "><a href="../user-manual/ip-allowlist.html">Manage IP allowlist</a></li><li class="chapter-item expanded "><a href="../user-manual/customer-profile.html">Manage customer profiles</a></li><li class="chapter-item expanded "><a href="../user-manual/inventory.html">Manage product & service inventory</a></li><li class="chapter-item expanded affix "><li class="part-title">Appendix</li><li class="chapter-item expanded "><a href="../design/glossary.html">Glossary</a></li><li class="chapter-item expanded "><a href="../misc/useful-links.html" class="active">Useful Links</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../index.html">Intro</a></li><li class="chapter-item expanded affix "><li class="part-title">Design</li><li class="chapter-item expanded "><a href="../design/proposal.html">Project Proposal</a></li><li class="chapter-item expanded "><a href="../design/mvp_scope.html">MVP Scope</a></li><li class="chapter-item expanded "><a href="../design/tech_stack.html">Tech Stack</a></li><li class="chapter-item expanded "><a href="../design/database.html">Database Design</a></li><li class="chapter-item expanded "><a href="../design/user_stories.html">User Stories</a></li><li class="chapter-item expanded "><a href="../design/custom-form.html">Custom Form Design</a></li><li class="chapter-item expanded "><a href="../design/data_analytics.html">Data analytics system Design</a></li><li class="chapter-item expanded "><a href="../design/immutable_inventory_customer_balance.html">Immutable inventory & customer balance system</a></li><li class="chapter-item expanded affix "><li class="part-title">User Manual</li><li class="chapter-item expanded "><a href="../user-manual/introduction.html">Introduction</a></li><li class="chapter-item expanded "><a href="../user-manual/login.html">Login</a></li><li class="chapter-item expanded "><a href="../user-manual/custom-fields.html">Custom form</a></li><li class="chapter-item expanded "><a href="../user-manual/staff-management.html">Manage staff</a></li><li class="chapter-item expanded "><a href="../user-manual/ip-allowlist.html">Manage IP allowlist</a></li><li class="chapter-item expanded "><a href="../user-manual/customer-profile.html" class="active">Manage customer profiles</a></li><li class="chapter-item expanded "><a href="../user-manual/inventory.html">Manage product & service inventory</a></li><li class="chapter-item expanded affix "><li class="part-title">Appendix</li><li class="chapter-item expanded "><a href="../design/glossary.html">Glossary</a></li><li class="chapter-item expanded "><a href="../misc/useful-links.html">Useful Links</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -134,20 +134,66 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="useful-links"><a class="header" href="#useful-links">Useful links</a></h1>
-<p>Here are some useful links to navigate around the Chronicle project</p>
-<h3 id="figma"><a class="header" href="#figma">Figma</a></h3>
-<ul>
-<li><a href="https://www.figma.com/file/CSDPY2LRme3hymSE8tnsIq/Chronicle?node-id=0%3A1">Design Board</a></li>
-<li><a href="https://www.figma.com/proto/CSDPY2LRme3hymSE8tnsIq/Chronicle?node-id=24%3A81&amp;scaling=scale-down&amp;page-id=0%3A1&amp;starting-point-node-id=24%3A81&amp;show-proto-sidebar=1">Prototypes</a></li>
-</ul>
+                        <h1 id="customer-profile"><a class="header" href="#customer-profile">Customer profile</a></h1>
+<p>Chronicle allows you to keep track of customer information and balance within the application. By default, Chronicle requires the name and email of the customer and allows you to also collect the phone number, date of birth and gender of the customer. You can use custom forms to collect more information that is not already collected by the application</p>
+<h2 id="create-a-new-customer"><a class="header" href="#create-a-new-customer">Create a new customer</a></h2>
+<p>Steps:</p>
+<ol>
+<li>Select <em>customer profiles</em> on the side drawer.</li>
+<li>Click <strong>New customer</strong> at the top of the page.</li>
+<li>Fill in the form and press save</li>
+<li>You can add custom forms to the customer using the custom forms card.
+<ol>
+<li>Click on <strong>New form</strong></li>
+<li>Select the form you want to add</li>
+<li>Fill in the form</li>
+<li>Click <strong>Save <Some form name> changes</strong></li>
+</ol>
+</li>
+</ol>
+<h2 id="update-a-customer-profile"><a class="header" href="#update-a-customer-profile">Update a customer profile</a></h2>
+<p>Steps:</p>
+<ol>
+<li>Select <em>customer profiles</em> on the side drawer.</li>
+<li>Select the customer you want to update</li>
+<li>Update the data in the form and press save</li>
+</ol>
+<p>To update the customer's custom form, use the <strong>Custom forms</strong> module.</p>
+<h2 id="top-up-customer-account"><a class="header" href="#top-up-customer-account">Top-up customer account</a></h2>
+<p>Steps:</p>
+<ol>
+<li>Select <em>customer profiles</em> on the side drawer.</li>
+<li>Select the customer you want to top-up</li>
+<li>Click <strong>Top up account</strong> in the <em>balance and transactions</em> card</li>
+<li>Enter the top up amount and add an optional description to the transaction</li>
+<li>Press <strong>proceed</strong>, then press <strong>confirm</strong> in the confirmation dialog</li>
+</ol>
+<h2 id="adjust-customer-balance"><a class="header" href="#adjust-customer-balance">Adjust customer balance</a></h2>
+<p>If you notice an error with the customer's balance you can make an adjustment to the balance on the customer's details page.</p>
+<p>Steps:</p>
+<ol>
+<li>Select <em>customer profiles</em> on the side drawer.</li>
+<li>Select the customer you want to perform balance adjustment on</li>
+<li>Click <strong>Adjust balance</strong> in the <em>balance and transactions</em> card</li>
+<li>Select the adjustment type
+<ol>
+<li>Positive adjustment adds to the customer's balance</li>
+<li>Negative adjustment subtracts from the customer's balance</li>
+</ol>
+</li>
+<li>Enter the adjustment amount and add an optional description to the transaction</li>
+<li>Press <strong>proceed</strong>, then press <strong>confirm</strong> in the confirmation dialog</li>
+</ol>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../design/glossary.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../user-manual/ip-allowlist.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next" href="../user-manual/inventory.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
                             </a>
                         <div style="clear: both"></div>
                     </nav>
@@ -155,8 +201,11 @@
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../design/glossary.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../user-manual/ip-allowlist.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next" href="../user-manual/inventory.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
                     </a>
             </nav>
 

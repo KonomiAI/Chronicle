@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Useful Links - Konomi Docs</title>
+        <title>Manage IP allowlist - Konomi Docs</title>
         <!-- Custom HTML head -->
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="Internal Documents">
@@ -75,7 +75,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../index.html">Intro</a></li><li class="chapter-item expanded affix "><li class="part-title">Design</li><li class="chapter-item expanded "><a href="../design/proposal.html">Project Proposal</a></li><li class="chapter-item expanded "><a href="../design/mvp_scope.html">MVP Scope</a></li><li class="chapter-item expanded "><a href="../design/tech_stack.html">Tech Stack</a></li><li class="chapter-item expanded "><a href="../design/database.html">Database Design</a></li><li class="chapter-item expanded "><a href="../design/user_stories.html">User Stories</a></li><li class="chapter-item expanded "><a href="../design/custom-form.html">Custom Form Design</a></li><li class="chapter-item expanded "><a href="../design/data_analytics.html">Data analytics system Design</a></li><li class="chapter-item expanded "><a href="../design/immutable_inventory_customer_balance.html">Immutable inventory & customer balance system</a></li><li class="chapter-item expanded affix "><li class="part-title">User Manual</li><li class="chapter-item expanded "><a href="../user-manual/introduction.html">Introduction</a></li><li class="chapter-item expanded "><a href="../user-manual/login.html">Login</a></li><li class="chapter-item expanded "><a href="../user-manual/custom-fields.html">Custom form</a></li><li class="chapter-item expanded "><a href="../user-manual/staff-management.html">Manage staff</a></li><li class="chapter-item expanded "><a href="../user-manual/ip-allowlist.html">Manage IP allowlist</a></li><li class="chapter-item expanded "><a href="../user-manual/customer-profile.html">Manage customer profiles</a></li><li class="chapter-item expanded "><a href="../user-manual/inventory.html">Manage product & service inventory</a></li><li class="chapter-item expanded affix "><li class="part-title">Appendix</li><li class="chapter-item expanded "><a href="../design/glossary.html">Glossary</a></li><li class="chapter-item expanded "><a href="../misc/useful-links.html" class="active">Useful Links</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../index.html">Intro</a></li><li class="chapter-item expanded affix "><li class="part-title">Design</li><li class="chapter-item expanded "><a href="../design/proposal.html">Project Proposal</a></li><li class="chapter-item expanded "><a href="../design/mvp_scope.html">MVP Scope</a></li><li class="chapter-item expanded "><a href="../design/tech_stack.html">Tech Stack</a></li><li class="chapter-item expanded "><a href="../design/database.html">Database Design</a></li><li class="chapter-item expanded "><a href="../design/user_stories.html">User Stories</a></li><li class="chapter-item expanded "><a href="../design/custom-form.html">Custom Form Design</a></li><li class="chapter-item expanded "><a href="../design/data_analytics.html">Data analytics system Design</a></li><li class="chapter-item expanded "><a href="../design/immutable_inventory_customer_balance.html">Immutable inventory & customer balance system</a></li><li class="chapter-item expanded affix "><li class="part-title">User Manual</li><li class="chapter-item expanded "><a href="../user-manual/introduction.html">Introduction</a></li><li class="chapter-item expanded "><a href="../user-manual/login.html">Login</a></li><li class="chapter-item expanded "><a href="../user-manual/custom-fields.html">Custom form</a></li><li class="chapter-item expanded "><a href="../user-manual/staff-management.html">Manage staff</a></li><li class="chapter-item expanded "><a href="../user-manual/ip-allowlist.html" class="active">Manage IP allowlist</a></li><li class="chapter-item expanded "><a href="../user-manual/customer-profile.html">Manage customer profiles</a></li><li class="chapter-item expanded "><a href="../user-manual/inventory.html">Manage product & service inventory</a></li><li class="chapter-item expanded affix "><li class="part-title">Appendix</li><li class="chapter-item expanded "><a href="../design/glossary.html">Glossary</a></li><li class="chapter-item expanded "><a href="../misc/useful-links.html">Useful Links</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -134,20 +134,35 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="useful-links"><a class="header" href="#useful-links">Useful links</a></h1>
-<p>Here are some useful links to navigate around the Chronicle project</p>
-<h3 id="figma"><a class="header" href="#figma">Figma</a></h3>
-<ul>
-<li><a href="https://www.figma.com/file/CSDPY2LRme3hymSE8tnsIq/Chronicle?node-id=0%3A1">Design Board</a></li>
-<li><a href="https://www.figma.com/proto/CSDPY2LRme3hymSE8tnsIq/Chronicle?node-id=24%3A81&amp;scaling=scale-down&amp;page-id=0%3A1&amp;starting-point-node-id=24%3A81&amp;show-proto-sidebar=1">Prototypes</a></li>
-</ul>
+                        <h1 id="ip-allowlist"><a class="header" href="#ip-allowlist">IP Allowlist</a></h1>
+<p>IP allowlist is a powerful application level firewall feature that Chronicle supports to help protect you and your clients' personal data. The IP allowlist enables you to set a fixed list of IP addresses that can access the application to ensure imposters outside your network have no access to your data. To configure the IP allowlist, follow this guide.</p>
+<h2 id="create-new-allowlist-entries"><a class="header" href="#create-new-allowlist-entries">Create new allowlist entries</a></h2>
+<p>By default, we have <code>0.0.0.0/0</code> setup for you, this address allows access from all possible IP addresses and is not safe, we recommend you update the allowlist as soon as possible to reflect the network of your establishment.</p>
+<p>Steps:</p>
+<ol>
+<li>Select <strong>IP allowlist</strong> on the side drawer.</li>
+<li>Click <strong>Add new</strong></li>
+<li>Add an IP address and provide a description for additional context</li>
+</ol>
+<h3 id="how-ip-verification-works-on-chronicle"><a class="header" href="#how-ip-verification-works-on-chronicle">How IP verification works on Chronicle</a></h3>
+<p>Chronicle uses Classless Inter-Domain Routing (CIDR) method to verify your IP address, this means you can allow several IP addresses by providing a subnet IP instead of just an IP address. If you are unsure how this works, we recommend that you simply use a single IP address. Chronicle supports both IPv4 and IPv6 addresses.</p>
+<h2 id="delete-an-existing-entry"><a class="header" href="#delete-an-existing-entry">Delete an existing entry</a></h2>
+<p>Be careful, if you delete the entry you are actively using, you risk loosing access to the application immediately.</p>
+<p>Steps:</p>
+<ol>
+<li>Select <strong>IP allowlist</strong> on the side drawer.</li>
+<li>Click the garbage can icon next to the entry you want to delete.</li>
+</ol>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../design/glossary.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../user-manual/staff-management.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next" href="../user-manual/customer-profile.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
                             </a>
                         <div style="clear: both"></div>
                     </nav>
@@ -155,8 +170,11 @@
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../design/glossary.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../user-manual/staff-management.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next" href="../user-manual/customer-profile.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
                     </a>
             </nav>
 

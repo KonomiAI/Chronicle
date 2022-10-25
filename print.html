@@ -76,7 +76,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="index.html">Intro</a></li><li class="chapter-item expanded affix "><li class="part-title">Design</li><li class="chapter-item expanded "><a href="design/proposal.html">Project Proposal</a></li><li class="chapter-item expanded "><a href="design/mvp_scope.html">MVP Scope</a></li><li class="chapter-item expanded "><a href="design/tech_stack.html">Tech Stack</a></li><li class="chapter-item expanded "><a href="design/database.html">Database Design</a></li><li class="chapter-item expanded "><a href="design/user_stories.html">User Stories</a></li><li class="chapter-item expanded "><a href="design/custom-form.html">Custom Form Design</a></li><li class="chapter-item expanded "><a href="design/data_analytics.html">Data analytics system Design</a></li><li class="chapter-item expanded "><a href="design/immutable_inventory_customer_balance.html">Immutable inventory & customer balance system</a></li><li class="chapter-item expanded affix "><li class="part-title">User Manual</li><li class="chapter-item expanded "><a href="user-manual/introduction.html">Introduction</a></li><li class="chapter-item expanded "><a href="user-manual/login.html">Login</a></li><li class="chapter-item expanded "><a href="user-manual/custom-fields.html">Custom form</a></li><li class="chapter-item expanded "><a href="user-manual/staff-management.html">Manage staff</a></li><li class="chapter-item expanded affix "><li class="part-title">Appendix</li><li class="chapter-item expanded "><a href="design/glossary.html">Glossary</a></li><li class="chapter-item expanded "><a href="misc/useful-links.html">Useful Links</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="index.html">Intro</a></li><li class="chapter-item expanded affix "><li class="part-title">Design</li><li class="chapter-item expanded "><a href="design/proposal.html">Project Proposal</a></li><li class="chapter-item expanded "><a href="design/mvp_scope.html">MVP Scope</a></li><li class="chapter-item expanded "><a href="design/tech_stack.html">Tech Stack</a></li><li class="chapter-item expanded "><a href="design/database.html">Database Design</a></li><li class="chapter-item expanded "><a href="design/user_stories.html">User Stories</a></li><li class="chapter-item expanded "><a href="design/custom-form.html">Custom Form Design</a></li><li class="chapter-item expanded "><a href="design/data_analytics.html">Data analytics system Design</a></li><li class="chapter-item expanded "><a href="design/immutable_inventory_customer_balance.html">Immutable inventory & customer balance system</a></li><li class="chapter-item expanded affix "><li class="part-title">User Manual</li><li class="chapter-item expanded "><a href="user-manual/introduction.html">Introduction</a></li><li class="chapter-item expanded "><a href="user-manual/login.html">Login</a></li><li class="chapter-item expanded "><a href="user-manual/custom-fields.html">Custom form</a></li><li class="chapter-item expanded "><a href="user-manual/staff-management.html">Manage staff</a></li><li class="chapter-item expanded "><a href="user-manual/ip-allowlist.html">Manage IP allowlist</a></li><li class="chapter-item expanded "><a href="user-manual/customer-profile.html">Manage customer profiles</a></li><li class="chapter-item expanded "><a href="user-manual/inventory.html">Manage product & service inventory</a></li><li class="chapter-item expanded affix "><li class="part-title">Appendix</li><li class="chapter-item expanded "><a href="design/glossary.html">Glossary</a></li><li class="chapter-item expanded "><a href="misc/useful-links.html">Useful Links</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -684,8 +684,6 @@ As an owner, I want to be able to view membership attendance and new members onb
 <li>Click the profile icon on the top right of the page.</li>
 <li>Click <strong>Logout</strong></li>
 </ol>
-<h2 id="i-can-login-to-the-app-but-no-data-is-loading-and-there-is-an-error-message-saying-i-have-no-access"><a class="header" href="#i-can-login-to-the-app-but-no-data-is-loading-and-there-is-an-error-message-saying-i-have-no-access">I can login to the app but no data is loading and there is an error message saying I have no access</a></h2>
-<p>This means you are accessing the application from an IP address that is not permitted to do so. Contact your administrator to update the IP allowlist or change to a network/location where the access is permitted.</p>
 <h2 id="how-long-do-i-stay-signed-in-for"><a class="header" href="#how-long-do-i-stay-signed-in-for">How long do I stay signed in for?</a></h2>
 <p>Each sign in session lasts 7 hours, that means you must sign in every 7 hours when using the application. We are working on allowing you to maintain your authorized session with automatically renewed sessions.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="customizable-forms"><a class="header" href="#customizable-forms">Customizable forms</a></h1>
@@ -801,6 +799,137 @@ As an owner, I want to be able to view membership attendance and new members onb
 <li>Go to the staff member's details page.</li>
 <li>Suspend the staff first by clicking on <strong>Suspend</strong>, this will disable the user's access to the system immediately.</li>
 <li>You can delete suspended staff by clicking on the <strong>Delete</strong> button in the danger zone</li>
+</ol>
+<h2 id="super-user--additional-security"><a class="header" href="#super-user--additional-security">Super user &amp; additional security</a></h2>
+<p>You will receive a <em>super user</em> account when your account is first activated, the super user bypasses all firewall restrictions and has full access to the entire application. It is designed to allow the administrators of your establishment to configure the access control correctly before onboarding the remaining staff. We recommend that you suspend access to the account as soon as proper users have been configured.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="ip-allowlist"><a class="header" href="#ip-allowlist">IP Allowlist</a></h1>
+<p>IP allowlist is a powerful application level firewall feature that Chronicle supports to help protect you and your clients' personal data. The IP allowlist enables you to set a fixed list of IP addresses that can access the application to ensure imposters outside your network have no access to your data. To configure the IP allowlist, follow this guide.</p>
+<h2 id="create-new-allowlist-entries"><a class="header" href="#create-new-allowlist-entries">Create new allowlist entries</a></h2>
+<p>By default, we have <code>0.0.0.0/0</code> setup for you, this address allows access from all possible IP addresses and is not safe, we recommend you update the allowlist as soon as possible to reflect the network of your establishment.</p>
+<p>Steps:</p>
+<ol>
+<li>Select <strong>IP allowlist</strong> on the side drawer.</li>
+<li>Click <strong>Add new</strong></li>
+<li>Add an IP address and provide a description for additional context</li>
+</ol>
+<h3 id="how-ip-verification-works-on-chronicle"><a class="header" href="#how-ip-verification-works-on-chronicle">How IP verification works on Chronicle</a></h3>
+<p>Chronicle uses Classless Inter-Domain Routing (CIDR) method to verify your IP address, this means you can allow several IP addresses by providing a subnet IP instead of just an IP address. If you are unsure how this works, we recommend that you simply use a single IP address. Chronicle supports both IPv4 and IPv6 addresses.</p>
+<h2 id="delete-an-existing-entry"><a class="header" href="#delete-an-existing-entry">Delete an existing entry</a></h2>
+<p>Be careful, if you delete the entry you are actively using, you risk loosing access to the application immediately.</p>
+<p>Steps:</p>
+<ol>
+<li>Select <strong>IP allowlist</strong> on the side drawer.</li>
+<li>Click the garbage can icon next to the entry you want to delete.</li>
+</ol>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="customer-profile"><a class="header" href="#customer-profile">Customer profile</a></h1>
+<p>Chronicle allows you to keep track of customer information and balance within the application. By default, Chronicle requires the name and email of the customer and allows you to also collect the phone number, date of birth and gender of the customer. You can use custom forms to collect more information that is not already collected by the application</p>
+<h2 id="create-a-new-customer"><a class="header" href="#create-a-new-customer">Create a new customer</a></h2>
+<p>Steps:</p>
+<ol>
+<li>Select <em>customer profiles</em> on the side drawer.</li>
+<li>Click <strong>New customer</strong> at the top of the page.</li>
+<li>Fill in the form and press save</li>
+<li>You can add custom forms to the customer using the custom forms card.
+<ol>
+<li>Click on <strong>New form</strong></li>
+<li>Select the form you want to add</li>
+<li>Fill in the form</li>
+<li>Click <strong>Save <Some form name> changes</strong></li>
+</ol>
+</li>
+</ol>
+<h2 id="update-a-customer-profile"><a class="header" href="#update-a-customer-profile">Update a customer profile</a></h2>
+<p>Steps:</p>
+<ol>
+<li>Select <em>customer profiles</em> on the side drawer.</li>
+<li>Select the customer you want to update</li>
+<li>Update the data in the form and press save</li>
+</ol>
+<p>To update the customer's custom form, use the <strong>Custom forms</strong> module.</p>
+<h2 id="top-up-customer-account"><a class="header" href="#top-up-customer-account">Top-up customer account</a></h2>
+<p>Steps:</p>
+<ol>
+<li>Select <em>customer profiles</em> on the side drawer.</li>
+<li>Select the customer you want to top-up</li>
+<li>Click <strong>Top up account</strong> in the <em>balance and transactions</em> card</li>
+<li>Enter the top up amount and add an optional description to the transaction</li>
+<li>Press <strong>proceed</strong>, then press <strong>confirm</strong> in the confirmation dialog</li>
+</ol>
+<h2 id="adjust-customer-balance"><a class="header" href="#adjust-customer-balance">Adjust customer balance</a></h2>
+<p>If you notice an error with the customer's balance you can make an adjustment to the balance on the customer's details page.</p>
+<p>Steps:</p>
+<ol>
+<li>Select <em>customer profiles</em> on the side drawer.</li>
+<li>Select the customer you want to perform balance adjustment on</li>
+<li>Click <strong>Adjust balance</strong> in the <em>balance and transactions</em> card</li>
+<li>Select the adjustment type
+<ol>
+<li>Positive adjustment adds to the customer's balance</li>
+<li>Negative adjustment subtracts from the customer's balance</li>
+</ol>
+</li>
+<li>Enter the adjustment amount and add an optional description to the transaction</li>
+<li>Press <strong>proceed</strong>, then press <strong>confirm</strong> in the confirmation dialog</li>
+</ol>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="inventory-1"><a class="header" href="#inventory-1">Inventory</a></h1>
+<p>Chronicle allows you to manage your product and service inventory inside the app. The inventory can then be applied to activity entries and charged to the customers.</p>
+<h2 id="inventory-concepts"><a class="header" href="#inventory-concepts">Inventory concepts</a></h2>
+<h3 id="activity"><a class="header" href="#activity">Activity</a></h3>
+<p>An activity is a service performed to a customer, each activity entry can only have a single service. If a customer receives multiple services, multiple activity entries must be created.</p>
+<h3 id="product"><a class="header" href="#product">Product</a></h3>
+<p>A product is a physical item sold to the customer, an activity entry can have any number of products sold.</p>
+<h2 id="create-a-new-inventory-item"><a class="header" href="#create-a-new-inventory-item">Create a new inventory item</a></h2>
+<h3 id="activity-service"><a class="header" href="#activity-service">Activity (service)</a></h3>
+<p>Steps:</p>
+<ol>
+<li>Access <strong>Inventory</strong> using the side drawer</li>
+<li>Make sure the <strong>Activities</strong> tap is highlighted on the page, if not click <strong>Activities</strong></li>
+<li>Click <strong>Create</strong></li>
+<li>Provide the name and price information for the service</li>
+<li>Press save at the bottom of the page</li>
+</ol>
+<h3 id="product-1"><a class="header" href="#product-1">Product</a></h3>
+<p>Steps:</p>
+<ol>
+<li>Access <strong>Inventory</strong> using the side drawer</li>
+<li>Make sure the <strong>Product</strong> tap is highlighted on the page</li>
+<li>Click <strong>Create</strong></li>
+<li>Provide the name and brand information for the product</li>
+<li>Click <strong>Add new variant</strong> to add a variant to the product, then complete the fields of the dialog. (every product must have at least one variant)
+<ol>
+<li>The variant descriptor can be used to describe the specific variant, for example size, capacity, color, etc.</li>
+<li>The price of the variant.</li>
+<li>A unique barcode for identifying the product</li>
+</ol>
+</li>
+<li>Press save at the bottom of the page</li>
+</ol>
+<h2 id="update-an-existing-inventory-item"><a class="header" href="#update-an-existing-inventory-item">Update an existing inventory item</a></h2>
+<h3 id="activity-1"><a class="header" href="#activity-1">Activity</a></h3>
+<p>Steps:</p>
+<ol>
+<li>Access <strong>Inventory</strong> using the side drawer</li>
+<li>Make sure the <strong>Activity</strong> tap is highlighted on the page</li>
+<li>Click the activity entry you want to update</li>
+<li>You can update the activity name and price</li>
+<li>Press save at the bottom of the page</li>
+</ol>
+<h3 id="product-2"><a class="header" href="#product-2">Product</a></h3>
+<p>Steps:</p>
+<ol>
+<li>Access <strong>Inventory</strong> using the side drawer</li>
+<li>Make sure the <strong>Product</strong> tap is highlighted on the page</li>
+<li>Click the product entry you want to update</li>
+<li>You can update the product name and brand</li>
+<li>Press save at the bottom of the page</li>
+</ol>
+<p>You can also update a product's variant information.</p>
+<p>Steps:</p>
+<ol>
+<li>Go the the product details page you want to update.</li>
+<li>Click on the variant you want to update.</li>
+<li>Update the values in the form.</li>
+<li>Press save</li>
 </ol>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="chronicle-glossary"><a class="header" href="#chronicle-glossary">Chronicle Glossary</a></h1>
 <p>The following are terms used in Chronicle and what they mean</p>
