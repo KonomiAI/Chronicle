@@ -26,8 +26,10 @@ import {
 } from '../../data';
 import { VariantBodyDto, PutProductBody, Variant } from '../../types';
 import LoadingCard from '../../components/loading-card';
+import { usePermission } from '../../components/use-permission/UsePermissionContext';
 
 const ProductEdit = () => {
+  const { canWrite } = usePermission();
   const [variants, setVariants] = useState<Variant[]>([]);
   const navigate = useNavigate();
   const { productId } = useParams();
@@ -198,6 +200,7 @@ const ProductEdit = () => {
                 onClick={() => {
                   mutateDeleteProduct(id);
                 }}
+                disabled={!canWrite}
               >
                 Delete
               </LoadingButton>
