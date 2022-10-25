@@ -173,7 +173,17 @@ const ProductEdit = () => {
                 <AlertTitle>An unexpected error has occured</AlertTitle>
                 Something went wrong while deleting a product
               </Alert>
-              <Spacer size="lg" />
+              <Spacer size="md" />
+            </>
+          )}
+          {product.productInUse && (
+            <>
+              <Alert severity="warning">
+                <AlertTitle>Product is in use</AlertTitle>
+                This product is currently in use in one or more activity entries
+                and cannot be deleted.
+              </Alert>
+              <Spacer size="md" />
             </>
           )}
           <Grid container spacing={1}>
@@ -200,7 +210,7 @@ const ProductEdit = () => {
                 onClick={() => {
                   mutateDeleteProduct(id);
                 }}
-                disabled={!canWrite}
+                disabled={!canWrite || product.productInUse}
               >
                 Delete
               </LoadingButton>

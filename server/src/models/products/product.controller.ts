@@ -40,11 +40,12 @@ export class ProductController {
 
   @Auth(Actions.READ, [Features.Inventory])
   @Get(':id')
-  async getProductById(@Param('id') id: string): Promise<Response<Product>> {
+  async getProductById(@Param('id') id: string) {
     const product = await this.productService.product({ id });
-    return {
-      data: product,
-    };
+    const productInUse = product.variants.some(
+      (v) => v.ActivityEntry.length > 0,
+    );
+    return { ...product, productInUse };
   }
 
   @Auth(Actions.WRITE, [Features.Inventory])
