@@ -1,20 +1,26 @@
 import { format, parseJSON } from 'date-fns';
 
-const i18nMoneyFormatter = new Intl.NumberFormat('en-US', {
-  style: 'currency',
-  currency: 'CAD',
-  currencyDisplay: 'narrowSymbol',
-});
-
 export const floatToPennies = (value: number): number =>
-  Math.floor(value * 100);
+  Math.round(value * 100);
 
-export const penniesToPrice = (value: number): string =>
-  `${i18nMoneyFormatter.format(value / 100)}`;
+export const penniesToPrice = (
+  value: number,
+  locale = 'en-US',
+  currency = 'CAD',
+): string =>
+  `${Intl.NumberFormat(locale, {
+    style: 'currency',
+    currency,
+    currencyDisplay: 'narrowSymbol',
+  }).format(value / 100)}`;
 
 export const penniesToFloat = (value: number): number => value / 100;
 
 export const getPenniesPriceRange = (values: number[]): string => {
+  if (values.length === 0) {
+    return '-';
+  }
+
   if (values.length === 1) {
     return penniesToPrice(values[0]);
   }

@@ -100,6 +100,15 @@ export default function StaffDetailsPage() {
               backURL="/staff"
             />
             <Spacer size="lg" />
+            {data.isSuspended && (
+              <>
+                <Alert severity="warning">
+                  This staff is suspended and no longer has access to the
+                  system, unsuspend the staff to grant access again.
+                </Alert>
+                <Spacer size="md" />
+              </>
+            )}
             <Card sx={{ mb: 4 }}>
               <CardContent>
                 <Typography variant="h5" sx={{ mb: 2 }}>
@@ -138,6 +147,7 @@ export default function StaffDetailsPage() {
                     <Button
                       fullWidth
                       variant="outlined"
+                      data-testid="btn-reset-password"
                       onClick={() => setIsResetDialogOpen(true)}
                       disabled={!canWrite}
                     >
@@ -222,8 +232,19 @@ export default function StaffDetailsPage() {
                         justifyContent: 'center',
                       }}
                     >
-                      <Button variant="text" color="error" disabled={!canWrite}>
-                        Suspend
+                      <Button
+                        variant="text"
+                        color="error"
+                        data-testid="btn-toggle-staff-suspension"
+                        disabled={!canWrite}
+                        onClick={() =>
+                          saveChanges({
+                            ...cleanStaffForUpdate(data),
+                            isSuspended: !data.isSuspended,
+                          })
+                        }
+                      >
+                        {data.isSuspended ? 'Unsuspend' : 'Suspend'}
                       </Button>
                     </Grid>
                     <Grid item xs={10}>

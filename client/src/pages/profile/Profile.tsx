@@ -89,6 +89,7 @@ const ProfilePage = () => {
                   message: 'Password must have at least 8 characters',
                 },
               }}
+              testId="input-new-password"
               label="New password"
             />
             <Spacer size="md" />
@@ -97,14 +98,20 @@ const ProfilePage = () => {
               name="confirmPassword"
               control={control}
               rules={{
-                validate: (confirmPassword) =>
+                required: true,
+                validate: (confirmPassword: string) =>
                   confirmPassword === password || 'The passwords do not match',
               }}
               label="Confirm password"
+              testId="input-confirm-password"
             />
             <Spacer size="md" />
             <Box sx={{ display: 'flex', justifyContent: 'end' }}>
-              <LoadingButton type="submit" loading={isLoading}>
+              <LoadingButton
+                type="submit"
+                loading={isLoading}
+                data-testid="btn-change-password"
+              >
                 Change
               </LoadingButton>
             </Box>
