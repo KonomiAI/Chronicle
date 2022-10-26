@@ -332,7 +332,7 @@ export function ActivityEntryDetails() {
                         disabled={!!data.charge.length}
                         onClick={async () => {
                           if (
-                            p.isArchived &&
+                            !p.isArchived &&
                             !(await confirm({
                               title: `Remove ${p.product.name} (${p.description}) from this entry?`,
                               message:

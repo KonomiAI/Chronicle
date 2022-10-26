@@ -36,7 +36,7 @@ export class VariantController {
 
   @Auth(Actions.READ, [Features.Inventory])
   @Get(':variantId')
-  async getVariantById(@Param('variantId') id: string): Promise<VariantModel> {
+  async getVariantById(@Param('variantId') id: string) {
     return this.variantService.variant({ id });
   }
 
@@ -91,6 +91,10 @@ export class VariantController {
   async deleteVariant(
     @Param('variantId') variantId: string,
   ): Promise<VariantModel> {
+    const variant = await this.getVariantById(variantId);
+    if (variant.ActivityEntry.length > 0) {
+      throw new Error('Cannot delete a variant that is in use');
+    }
     return this.variantService.deleteVariant({ id: variantId });
   }
 }

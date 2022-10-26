@@ -165,11 +165,16 @@ export class ActivityEntryController {
   @Auditable()
   updateActivityEntry(
     @Param('id') id: string,
-    @Body() { responseIds, ...body }: ActivityEntryDto,
+    @Body() { responseIds, variantId, ...body }: ActivityEntryDto,
   ) {
     const updateData: Prisma.ActivityEntryUncheckedUpdateInput = {
       ...body,
     };
+    if (variantId) {
+      updateData.products = {
+        set: variantId.map((id) => ({ id })),
+      };
+    }
     if (responseIds) {
       updateData.responses = {
         connect: responseIds.map((id) => ({ id })),

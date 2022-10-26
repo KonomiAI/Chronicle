@@ -1,3 +1,5 @@
+import { ActivityEntry } from './activity-entry';
+
 export interface Variant {
   id: string;
   description: string;
@@ -10,6 +12,7 @@ export interface Variant {
   // eslint-disable-next-line no-use-before-define
   product: ProductWithoutVariant;
   isArchived: boolean;
+  ActivityEntry?: ActivityEntry[];
 }
 
 export interface Product {
@@ -21,6 +24,7 @@ export interface Product {
   createdAt: string;
   updatedAt: string;
   variants: Variant[];
+  productInUse: boolean;
 }
 
 export type ProductWithoutVariant = Omit<Product, 'variants'>;

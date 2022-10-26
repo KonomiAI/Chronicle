@@ -7,10 +7,11 @@ import { PrismaService } from '../../../prisma.service';
 export class VariantService {
   constructor(private prisma: PrismaService) {}
 
-  async variant(
-    variantWhereUniqueInput: Prisma.VariantWhereUniqueInput,
-  ): Promise<Variant | null> {
+  async variant(variantWhereUniqueInput: Prisma.VariantWhereUniqueInput) {
     return this.prisma.variant.findUnique({
+      include: {
+        ActivityEntry: true,
+      },
       where: variantWhereUniqueInput,
     });
   }

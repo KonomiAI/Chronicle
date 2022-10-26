@@ -16,7 +16,13 @@ import { LoadingButton } from '@mui/lab';
 import { FormInputField } from '../../components/form-inputs/FormInputField';
 import Spacer from '../../components/spacer/Spacer';
 import { VariantBodyDto, Variant } from '../../types';
-import { floatToPennies, penniesToFloat, priceCheck } from '../../utils';
+import { floatToPennies, penniesToFloat, PRICE_REGEXP } from '../../utils';
+
+const isExistingVariant = (data: unknown): data is Variant =>
+  typeof data === 'object' &&
+  data !== null &&
+  'id' in data &&
+  'ActivityEntry' in data;
 
 interface VariantCreateDialogProps {
   isOpen: boolean;
@@ -99,11 +105,12 @@ const VariantManageDialog: React.FC<VariantCreateDialogProps> = ({
             <FormInputField
               type="number"
               name="price"
+              fieldStartAdornment="money"
               control={control}
               rules={{
                 required: true,
                 minLength: 1,
-                pattern: priceCheck,
+                pattern: PRICE_REGEXP,
               }}
               label="Price"
             />
@@ -125,9 +132,10 @@ const VariantManageDialog: React.FC<VariantCreateDialogProps> = ({
         <Button color="inherit" onClick={closeActions}>
           Cancel
         </Button>
-        {variant && (
+        {isExistingVariant(variant) && (
           <LoadingButton
             loading={isDeleteVariantLoading}
+            disabled={!!variant.ActivityEntry?.length}
             onClick={() => {
               handleDelete(variant.barcode);
               closeActions();

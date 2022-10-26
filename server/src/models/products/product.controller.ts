@@ -7,6 +7,7 @@ import {
   Put,
   Post,
   UseInterceptors,
+  BadRequestException,
 } from '@nestjs/common';
 import { Product } from '@prisma/client';
 
@@ -40,11 +41,12 @@ export class ProductController {
 
   @Auth(Actions.READ, [Features.Inventory])
   @Get(':id')
-  async getProductById(@Param('id') id: string): Promise<Response<Product>> {
+  async getProductById(@Param('id') id: string) {
     const product = await this.productService.product({ id });
-    return {
-      data: product,
-    };
+    const productInUse = product.variants.some(
+      (v) => v.ActivityEntry.length > 0,
+    );
+    return { ...product, productInUse };
   }
 
   @Auth(Actions.WRITE, [Features.Inventory])
@@ -95,9 +97,15 @@ export class ProductController {
   @Delete(':id')
   @Auditable()
   async deleteProduct(@Param('id') id: string): Promise<Response<Product>> {
-    const product = await this.productService.deleteProduct({ id });
+    const product = await this.getProductById(id);
+
+    if (product.productInUse) {
+      throw new BadRequestException('Cannot delete product that is in use');
+    }
+
+    const deleted = await this.productService.deleteProduct({ id });
     return {
-      data: product,
+      data: deleted,
     };
   }
 }

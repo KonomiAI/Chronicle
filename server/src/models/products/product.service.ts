@@ -7,13 +7,14 @@ import { PrismaService } from '../../prisma.service';
 export class ProductService {
   constructor(private prisma: PrismaService) {}
 
-  async product(
-    productWhereUniqueInput: Prisma.ProductWhereUniqueInput,
-  ): Promise<Product | null> {
+  async product(productWhereUniqueInput: Prisma.ProductWhereUniqueInput) {
     return this.prisma.product.findUnique({
       where: productWhereUniqueInput,
       include: {
         variants: {
+          include: {
+            ActivityEntry: true,
+          },
           where: {
             isArchived: false,
           },
