@@ -9,8 +9,9 @@ import {
   ListItemIcon,
   IconButton,
   Tooltip,
+  Divider,
 } from '@mui/material';
-import { AccountCircle, Logout } from '@mui/icons-material';
+import { AccountCircle, Help, Logout } from '@mui/icons-material';
 
 import { useAuth } from '../../utils';
 import { useStore } from '../../store';
@@ -95,6 +96,18 @@ export default function AccountMenu() {
           </ListItemIcon>
           Profile
         </MenuItem>
+        <MenuItem
+          component="a"
+          href="https://docs.konomi.ai/user-manual/introduction.html"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <ListItemIcon>
+            <Help fontSize="small" />
+          </ListItemIcon>
+          Help &amp; Support
+        </MenuItem>
+        <Divider />
         <MenuItem onClick={handleLogout}>
           <ListItemIcon>
             <Logout fontSize="small" />
