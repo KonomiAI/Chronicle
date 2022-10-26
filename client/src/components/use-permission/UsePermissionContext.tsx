@@ -25,6 +25,7 @@ const PermissionProvider: React.FC<PermissionProviderProps> = ({
   feature,
 }) => {
   const { permissions } = useStore();
+
   const contextValue: PermissionContextProps = useMemo(
     () => ({
       permissions,

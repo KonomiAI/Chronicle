@@ -4,6 +4,7 @@ import { FormProvider, useFieldArray } from 'react-hook-form';
 import { DEFAULT_SECTION_VAL } from './const';
 import { FormSection } from './form-section';
 import { ßwillFixThisTypeLater } from '../../types';
+import { usePermission } from '../use-permission/UsePermissionContext';
 
 export interface FormBuilderProps {
   form: ßwillFixThisTypeLater;
@@ -12,6 +13,8 @@ export interface FormBuilderProps {
 
 export const FormBuilder: React.FC<FormBuilderProps> = ({ form, name }) => {
   const parsedName = name ? `${name}.` : name;
+
+  const { canWrite } = usePermission();
 
   const {
     fields: sections,
@@ -42,6 +45,7 @@ export const FormBuilder: React.FC<FormBuilderProps> = ({ form, name }) => {
             fullWidth
             onClick={() => append(DEFAULT_SECTION_VAL())}
             data-testid="btn-add-section"
+            disabled={!canWrite}
           >
             Add new section
           </Button>

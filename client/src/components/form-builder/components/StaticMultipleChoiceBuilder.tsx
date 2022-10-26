@@ -4,6 +4,7 @@ import { Control, Controller, useFieldArray, useWatch } from 'react-hook-form';
 import { Clear, RadioButtonUnchecked } from '@mui/icons-material';
 import { ßwillFixThisTypeLater } from '../../../types';
 import { secureRandomString } from '../../../utils';
+import { usePermission } from '../../use-permission/UsePermissionContext';
 
 export interface StaticBuilderProps {
   sectionIndex: number;
@@ -26,6 +27,8 @@ export const StaticMultipleChoiceBuilder = ({
   if (!Array.isArray(optionData)) {
     return <div>Changing field...</div>;
   }
+
+  const { canWrite } = usePermission();
 
   const { append, remove, fields } = useFieldArray({
     control,
@@ -51,6 +54,7 @@ export const StaticMultipleChoiceBuilder = ({
                 fieldState: { invalid },
               }) => (
                 <TextField
+                  disabled={!canWrite}
                   fullWidth
                   label="Option title"
                   variant="standard"
@@ -79,6 +83,7 @@ export const StaticMultipleChoiceBuilder = ({
               aria-label="delete multiple select option"
               onClick={() => remove(i)}
               data-testid="btn-delete-option"
+              disabled={!canWrite}
             >
               <Clear />
             </IconButton>
@@ -89,6 +94,7 @@ export const StaticMultipleChoiceBuilder = ({
         <Button
           variant="text"
           color="inherit"
+          disabled={!canWrite}
           onClick={() =>
             append({
               id: secureRandomString(12),
