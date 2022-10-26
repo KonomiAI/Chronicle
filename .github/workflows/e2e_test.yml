@@ -35,9 +35,9 @@ jobs:
           docker ps
           docker logs mongodb
       - if: always()
-        name: Log replica logs
+        name: Log API logs
         run: |
-          docker logs chronicle_mongo_replica_1
+          docker logs chronicle-api
       - uses: actions/upload-artifact@v3
         if: always()
         with:
