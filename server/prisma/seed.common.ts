@@ -1,6 +1,20 @@
 import { PrismaClient } from '@prisma/client';
+import { COMMON_ROLE_FIXTURES } from './fixtures/common/roles';
 
-export const commonSeedProcedure = async (prisma: PrismaClient) => {
+const seedCommonRoles = async (prisma: PrismaClient) => {
+  const fixtures = COMMON_ROLE_FIXTURES;
+  for (const fixture of fixtures) {
+    await prisma.role.upsert({
+      where: {
+        name: fixture.name,
+      },
+      create: fixture,
+      update: {},
+    });
+  }
+};
+
+const seedCommonPermissions = async (prisma: PrismaClient) => {
   const permissions = ['Inventory', 'Security', 'Customer', 'Entry', 'Form'];
   for (const permission of permissions) {
     await prisma.feature.upsert({
@@ -11,59 +25,9 @@ export const commonSeedProcedure = async (prisma: PrismaClient) => {
       },
     });
   }
+};
 
-  await prisma.role.createMany({
-    data: [
-      {
-        name: 'Admin',
-        permissions: {
-          Inventory: {
-            read: true,
-            write: true,
-          },
-          Security: {
-            read: true,
-            write: true,
-          },
-          Customer: {
-            read: true,
-            write: true,
-          },
-          Entry: {
-            read: true,
-            write: true,
-          },
-          Form: {
-            read: true,
-            write: true,
-          },
-        },
-      },
-      {
-        name: 'Receptionist',
-        permissions: {
-          Inventory: {
-            read: true,
-            write: false,
-          },
-          Security: {
-            read: false,
-            write: false,
-          },
-          Customer: {
-            read: true,
-            write: true,
-          },
-          Entry: {
-            read: true,
-            write: false,
-          },
-          Form: {
-            read: true,
-            write: false,
-          },
-        },
-      },
-    ],
-  });
+export const commonSeedProcedure = async (prisma: PrismaClient) => {
+  await seedCommonPermissions(prisma);
+  await seedCommonRoles(prisma);
 };
