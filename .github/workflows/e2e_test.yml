@@ -20,6 +20,8 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: 14
+      - name: Reclaim root directory
+        run: sudo chown -R 1001:121 /root/.npm
       - name: Start back-end and mongo services
         run: |
           docker-compose up -d
