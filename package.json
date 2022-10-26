@@ -12,7 +12,7 @@
     "prepare": "husky install",
     "cypress": "cypress run",
     "cypress:open": "cypress open",
-    "start:client": "cd client && yarn && yarn dev"
+    "start:client": "yarn dev"
   },
   "repository": {
     "type": "git",

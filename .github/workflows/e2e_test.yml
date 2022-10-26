@@ -25,6 +25,9 @@ jobs:
       - name: Start back-end and mongo services
         run: |
           docker-compose up -d
+      - name: Install client dependencies
+        run: yarn
+        working-directory: ./client
       - name: Cypress run tests
         uses: cypress-io/github-action@v2
         with:
@@ -39,7 +42,7 @@ jobs:
       - if: always()
         name: Log mongo replica logs
         run: |
-          docker logs chronicle-mongo_replica-1
+          docker logs chronicle-mongo_replica_1
       - if: always()
         name: Log API logs
         run: |
