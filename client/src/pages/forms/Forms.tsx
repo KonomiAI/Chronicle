@@ -20,10 +20,11 @@ import PageHeader from '../../components/page-header/PageHeader';
 import Spacer from '../../components/spacer/Spacer';
 import { useGetForms } from '../../data/form';
 import { Form } from '../../types/form';
-import { If } from '../../components';
+import { If, usePermission } from '../../components';
 
 const Forms = () => {
   const navigate = useNavigate();
+  const { canWrite } = usePermission();
   const { data: forms, isLoading } = useGetForms();
 
   if (isLoading) {
@@ -65,7 +66,12 @@ const Forms = () => {
         pageTitle="Forms"
         helpText="Chronicle custom forms allow you and your organization to collect information in the way you want. You can attach forms to customers, activity entries, inventory items, and staff."
         action={
-          <Button component={Link} to="/forms/create" variant="contained">
+          <Button
+            component={Link}
+            to="/forms/create"
+            variant="contained"
+            disabled={!canWrite}
+          >
             Create
           </Button>
         }

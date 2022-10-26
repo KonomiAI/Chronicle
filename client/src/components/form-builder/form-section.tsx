@@ -16,6 +16,7 @@ import Spacer from '../spacer/Spacer';
 import { FormInputField } from '../form-inputs/FormInputField';
 import { secureRandomString } from '../../utils';
 import { ßwillFixThisTypeLater } from '../../types';
+import { usePermission } from '../use-permission/UsePermissionContext';
 
 interface FormSectionProps {
   index: number;
@@ -31,6 +32,7 @@ export const FormSection = ({
   context,
 }: FormSectionProps) => {
   const { control } = useFormContext();
+  const { canWrite } = usePermission();
   const { fields, append, remove, swap, insert } = useFieldArray({
     control,
     name: `${context}sections.${index}.fields`,
@@ -79,6 +81,7 @@ export const FormSection = ({
                 sx={{ ml: 1 }}
                 onClick={() => onRemove()}
                 data-testid="btn-delete-section"
+                disabled={!canWrite}
               >
                 <Delete />
               </IconButton>
@@ -98,6 +101,7 @@ export const FormSection = ({
                   size="small"
                   data-testid="btn-add-section-description"
                   onClick={() => setShouldShowDescription(true)}
+                  disabled={!canWrite}
                 >
                   Add description
                 </Button>
@@ -125,14 +129,15 @@ export const FormSection = ({
               name: `${f.name} (copy)`,
             })
           }
-          disableMoveDown={i === fields.length - 1}
-          disableMoveUp={i === 0}
+          disableMoveDown={i === fields.length - 1 || !canWrite}
+          disableMoveUp={i === 0 || !canWrite}
         />
       ))}
       <Box sx={{ mt: 2 }}>
         <Button
           onClick={() => append(DEFAULT_FIELD_VAL())}
           data-testid="btn-add-field"
+          disabled={!canWrite}
         >
           Add question to section
         </Button>

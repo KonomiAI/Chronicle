@@ -21,6 +21,7 @@ import { SUPPORTED_OPTION_SOURCES } from './const';
 import { StaticMultipleChoiceBuilder } from './components/StaticMultipleChoiceBuilder';
 import { DynamicMultipleChoiceBuilder } from './components/DynamicMultipleChoiceBuilder';
 import { FormFieldOptionsMenu } from './components/FormFieldOptionsMenu';
+import { usePermission } from '../use-permission/UsePermissionContext';
 
 interface FormFieldProps {
   sectionIndex: number;
@@ -55,6 +56,7 @@ export const FormField = ({
   const [shouldShowDescription, setShouldShowDescription] = useState(
     !!description,
   );
+  const { canWrite } = usePermission();
   const type = useWatch({
     control,
     name: getFormName('type'),
@@ -150,6 +152,7 @@ export const FormField = ({
               <FormControlLabel
                 control={
                   <Switch
+                    disabled={!canWrite}
                     onChange={(_, checked) => onChange(!checked)}
                     checked={!value}
                   />
