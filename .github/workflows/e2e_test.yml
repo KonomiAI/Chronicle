@@ -35,7 +35,7 @@ jobs:
       - if: always()
         name: Log mongo logs
         run: |
-          docker ps
+          docker ps -a
           docker logs mongodb
       - if: always()
         name: Log mongo replica logs
