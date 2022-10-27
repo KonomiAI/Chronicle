@@ -2,6 +2,9 @@ name: End-to-end integration tests
 
 # Controls when the action will run.
 on:
+  # Run the test suite nightly at 05:00 UTC
+  schedule:
+    - cron: '0 5 * * *' # run at 5 AM UTC
   # Triggers the workflow on push or pull request events but only for the main branch
   pull_request:
     branches: [main]
@@ -22,7 +25,7 @@ jobs:
           node-version: 14
       - name: Start back-end and mongo services
         run: |
-          docker-compose -f docker-compose-integration.yml up -d
+          docker-compose up -d
       - name: Install client dependencies
         run: yarn
         working-directory: ./client
@@ -32,15 +35,6 @@ jobs:
           start: yarn start:client
           wait-on: 'http://localhost:3000'
           browser: chrome
-      - if: always()
-        name: Log mongo logs
-        run: |
-          docker ps -a
-          docker logs mongodb
-      - if: always()
-        name: Log mongo replica logs
-        run: |
-          docker logs chronicle_mongo_replica_1
       - if: always()
         name: Log API logs
         run: |

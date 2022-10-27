@@ -8,5 +8,6 @@
   "fixturesFolder": "cypress/fixtures",
   "testFiles": "**/*.spec.ts",
   "defaultCommandTimeout": 13000,
-  "videoUploadOnPasses": false
+  "videoUploadOnPasses": false,
+  "serverUrl": "http://localhost:3001"
 }
