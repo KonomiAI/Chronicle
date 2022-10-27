@@ -5,10 +5,7 @@ describe('Identity and login', () => {
     cy.visit('/login');
   });
   it('As a user, I can sign in and sign out of the application using correct credentials', () => {
-    cy.testId('input-username').find('input').clear().type('test@konomi.ai');
-    cy.testId('input-password').find('input').clear().type('test');
-    cy.testId('btn-login').click();
-    cy.contains('Here is your daily briefing').should('be.visible');
+    cy.login();
   });
 
   it('As a user, I can update their password and sign in with updated password', () => {
