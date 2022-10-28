@@ -48,6 +48,7 @@ export default function RolesListPage() {
     return (
       <List
         component={Paper}
+        data-testid="roles-list"
         sx={{ width: '100%', bgcolor: 'background.paper' }}
         subheader={<ListSubheader component="div">Role Name</ListSubheader>}
       >
@@ -56,9 +57,9 @@ export default function RolesListPage() {
             disablePadding
             key={s.id}
             sx={{ cursor: 'pointer' }}
-            onClick={() => navigate(s.id)}
+            data-testid={`role-list-item-${s.id}`}
           >
-            <ListItemButton>
+            <ListItemButton onClick={() => navigate(s.id)}>
               <ListItemText primary={s.name} />
             </ListItemButton>
           </ListItem>

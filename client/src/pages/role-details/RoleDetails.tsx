@@ -29,7 +29,7 @@ import { usePermission } from '../../components';
 
 const cleanRole = (role: Role) => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { id, staffIds, ...clean } = role;
+  const { id, staff, ...clean } = role;
   return clean;
 };
 
@@ -116,7 +116,12 @@ export default function RoleDetails({ create, data, saveChanges }: RoleProps) {
             </Typography>
             <Grid container spacing={2}>
               <Grid item xs={12}>
-                <FormInputField name="name" label="Name" control={control} />
+                <FormInputField
+                  name="name"
+                  label="Name"
+                  control={control}
+                  testId="input-role-name"
+                />
               </Grid>
             </Grid>
           </CardContent>
@@ -151,7 +156,9 @@ export default function RoleDetails({ create, data, saveChanges }: RoleProps) {
                         <Checkbox
                           checked={value}
                           onChange={onChange}
+                          data-testid={`checkbox-${s.name}-read`}
                           disabled={
+                            // Should be disabled if write is selected, or user can't write
                             watch(`permissions.${s.name}.write`) || !canWrite
                           }
                         />
@@ -166,6 +173,7 @@ export default function RoleDetails({ create, data, saveChanges }: RoleProps) {
                         <Checkbox
                           checked={value}
                           disabled={!canWrite}
+                          data-testid={`checkbox-${s.name}-write`}
                           onChange={(e) => {
                             setValue(
                               `permissions.${s.name}.read`,
@@ -258,8 +266,10 @@ export function UpdateRoleForm() {
 
 export function CreateRoleForm() {
   const navigate = useNavigate();
+  const { enqueueSnackbar } = useSnackbar();
   const createRoleAndMutate = useMutation(createRole, {
     onSuccess: (created) => {
+      enqueueSnackbar('Role created successfully', { variant: 'success' });
       navigate(`/roles/${created.id}`, { replace: true });
     },
   });
