@@ -1,8 +1,8 @@
 # User Stories
 
-This document includes a list of user stories we
+This document includes a list of user stories we target in Chronicle.
 
-User stories that are fully implemented are checked, user stories with automated testing implemented, will have the testing method labeled.
+User stories that are fully implemented and verified are checked, user stories with automated testing implemented, will have the testing method labeled.
 
 ## Identity and login
 
