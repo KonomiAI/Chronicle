@@ -7,5 +7,7 @@
   "pluginsFile": "cypress/plugins/index.js",
   "fixturesFolder": "cypress/fixtures",
   "testFiles": "**/*.spec.ts",
-  "defaultCommandTimeout": 13000
+  "defaultCommandTimeout": 13000,
+  "videoUploadOnPasses": false,
+  "serverUrl": "http://localhost:3001"
 }
