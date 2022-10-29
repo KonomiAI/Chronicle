@@ -7,6 +7,7 @@ describe('generatePermissionMap', () => {
       {
         id: '123',
         name: 'test',
+        staff: [],
         permissions: {
           Inventory: {
             read: true,
@@ -60,6 +61,7 @@ describe('generatePermissionMap', () => {
       {
         id: '123',
         name: 'test',
+        staff: [],
         permissions: {
           Inventory: {
             read: true,
@@ -86,6 +88,7 @@ describe('generatePermissionMap', () => {
       {
         id: '1234',
         name: 'test2',
+        staff: [],
         permissions: {
           Inventory: {
             read: true,
