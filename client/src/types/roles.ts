@@ -19,7 +19,7 @@ export interface Role {
   id: string;
   name: string;
   permissions: Record<string, PermissionDetail>;
-  staffIds: string[];
+  staff: { id: string }[];
 }
 
 export type StaffIdLessRole = Omit<Role, 'staffIds'>;

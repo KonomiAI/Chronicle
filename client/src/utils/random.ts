@@ -18,8 +18,11 @@ function generateStringNotSecure(length: number) {
  * @param length the length of the string
  * @returns a secure random string of x length
  */
-export function secureRandomString(length: number) {
+export function secureRandomString(length: number, noFallBack = false) {
   if (!window?.crypto) {
+    if (noFallBack) {
+      throw new Error('No crypto module available');
+    }
     return generateStringNotSecure(length);
   }
   const charset =

@@ -1,4 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { Role, Prisma } from '@prisma/client';
 
 import { PrismaService } from '../../prisma.service';
@@ -33,7 +37,7 @@ export class RoleService {
   async findOne(
     userWhereUniqueInput: Prisma.RoleWhereUniqueInput,
     select?: Prisma.RoleSelect,
-  ): Promise<Partial<Role> | null> {
+  ) {
     return this.prisma.role.findUnique({
       where: userWhereUniqueInput,
       select,
@@ -52,6 +56,20 @@ export class RoleService {
   }
 
   async deleteRole(where: Prisma.RoleWhereUniqueInput): Promise<Role> {
+    const roleStaffInfo = await this.prisma.role.findFirst({
+      where,
+      select: {
+        staff: true,
+      },
+    });
+    if (!roleStaffInfo) {
+      throw new NotFoundException('Role not found');
+    }
+    if (roleStaffInfo?.staff.length) {
+      throw new BadRequestException(
+        'Cannot delete role that is currently assigned to staff',
+      );
+    }
     return this.prisma.role.delete({
       where,
     });

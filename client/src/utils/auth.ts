@@ -12,7 +12,11 @@ import {
   getAccessToken,
   getAccessTokenExpiry,
 } from './storage-helpers';
-import { collectPermissions } from './permission';
+import { generatePermissionMap } from './permission';
+
+// I noticed that this hook is flawed.
+// The login status does not update when a login query is performed.
+// TODO fix this
 
 export const useAuth = () => {
   const navigate = useNavigate();
@@ -28,7 +32,7 @@ export const useAuth = () => {
       onSuccess: (data: UserNoAccessToken) => {
         queryClient.invalidateQueries('currentUser');
 
-        const permissions = collectPermissions(data.roles);
+        const permissions = generatePermissionMap(data.roles);
         useStore.setState({
           user: data,
           permissions,
@@ -64,7 +68,7 @@ export const useAuth = () => {
     login: authQuery,
     logout,
     getUser: getUserQuery,
-    isLoggedIn,
+    isLoggedIn: checkIsLoggedIn(),
     accessToken,
     accessTokenExpiry,
   };
