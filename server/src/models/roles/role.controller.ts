@@ -28,7 +28,19 @@ export class RoleController {
   @Auth(Actions.READ, [Features.Security])
   @Get(':id')
   getRole(@Param('id') id: string) {
-    return this.roleService.findOne({ id });
+    return this.roleService.findOne(
+      { id },
+      {
+        id: true,
+        name: true,
+        permissions: true,
+        staff: {
+          select: {
+            id: true,
+          },
+        },
+      },
+    );
   }
 
   @Auth(Actions.WRITE, [Features.Security])
@@ -48,8 +60,9 @@ export class RoleController {
   @Auth(Actions.WRITE, [Features.Security])
   @Delete(':id')
   @Auditable()
-  async deleteStaff(@Param('id') id: string) {
+  async deleteRole(@Param('id') id: string) {
     // TODO: logic for checking if role is currently active on any staff (delayed until the relation with staff is created)
+
     return this.roleService.deleteRole({ id });
   }
 }

@@ -1,8 +1,8 @@
 # User Stories
 
-This document includes a list of user stories we
+This document includes a list of user stories we target in Chronicle.
 
-User stories that are fully implemented are checked, user stories with automated testing implemented, will have the testing method labeled.
+User stories that are fully implemented and verified are checked, user stories with automated testing implemented, will have the testing method labeled.
 
 ## Identity and login
 
@@ -27,12 +27,13 @@ User stories that are fully implemented are checked, user stories with automated
 
 ### Role Management
 
-- [x] As a staff member, I want to be able to view the roles created for my company, so I can create missing roles and update existing ones.
+- [x] As a staff member, I want to be able to view the roles created for my company, so I can create missing roles and update existing ones. (e2e)
 - [x] As an owner, I want to be able to view the IP addresses I allowlisted and add new ones and remove old ones, so I can adapt to company network changes.
-- [ ] As a staff member, I want to be able to create roles, so that nothing more than the required permissions are given.
-- [ ] As a staff member, I want to be able to update staff roles, so other staff can get access to what they need.
-- [ ] As a staff member, I want to be able to update other staff account's details, so that their information can be up to date.
-- [ ] As a staff member, I want to be able to update existing roles, so that only the correct permissions are given to other staff.
+- [x] As a staff member, I want to be able to create roles, so that nothing more than the required permissions are given. (e2e)
+- [x] As a staff member, I want to be able to update staff roles, so other staff can get access to what they need. (e2e)
+- [x] As a staff member, I want to be able to update other staff account's details, so that their information can be up to date.
+- [ ] As a staff member, I want to be able to delete an unused role so other staff doesn't become confused and accidentally use the role
+- [x] As a staff member, I want to be able to update existing roles, so that only the correct permissions are given to other staff.
 - [ ] As a staff member, I want to be able to sign into the dashboard using my username and password
 
 ## Inventory
