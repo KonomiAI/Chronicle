@@ -13,6 +13,7 @@ import {
   MenuItem,
 } from '@mui/material';
 import React from 'react';
+import { usePermission } from '../../use-permission/UsePermissionContext';
 
 export interface FormFieldOptionsMenuProps {
   onRemove?: () => void;
@@ -29,6 +30,7 @@ export const FormFieldOptionsMenu: React.FC<FormFieldOptionsMenuProps> = ({
 }) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
+  const { canWrite } = usePermission();
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -44,6 +46,7 @@ export const FormFieldOptionsMenu: React.FC<FormFieldOptionsMenuProps> = ({
         aria-expanded={open ? 'true' : undefined}
         aria-haspopup="true"
         onClick={handleClick}
+        disabled={!canWrite}
       >
         <MoreVert />
       </IconButton>

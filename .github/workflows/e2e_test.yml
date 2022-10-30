@@ -1,0 +1,48 @@
+name: End-to-end integration tests
+
+# Controls when the action will run.
+on:
+  # Run the test suite nightly at 05:00 UTC
+  schedule:
+    - cron: '0 5 * * *' # run at 5 AM UTC
+  # Triggers the workflow on push or pull request events but only for the main branch
+  pull_request:
+    branches: [main]
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  build_test:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+      - name: Use Node.js 14
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14
+      - name: Start back-end and mongo services
+        run: |
+          docker-compose up -d
+      - name: Install client dependencies
+        run: yarn
+        working-directory: ./client
+      - name: Cypress run tests
+        uses: cypress-io/github-action@v2
+        with:
+          start: yarn start:client
+          wait-on: 'http://localhost:3000'
+          browser: chrome
+      - if: always()
+        name: Log API logs
+        run: |
+          docker logs chronicle-api
+      - uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: screenshots-videos
+          path: |
+            cypress/videos/**/*.mp4
+            cypress/screenshots/**/*.png

@@ -1,11 +1,17 @@
 import { useEffect, useState } from 'react';
-import { DeepPartial, UnpackNestedValue, UseFormReturn } from 'react-hook-form';
+import {
+  DeepPartial,
+  FieldValues,
+  UnpackNestedValue,
+  UseFormReturn,
+} from 'react-hook-form';
+import { fastUnsafeObjectCompare } from '../../utils/compare-object';
 
 export interface UseSaveBarConfig {
   default?: boolean;
 }
 
-export function useSaveBar<T>(
+export function useSaveBar<T extends FieldValues>(
   form: UseFormReturn<T>,
 ): [
   boolean,
@@ -23,7 +29,9 @@ export function useSaveBar<T>(
     if (data) {
       form.reset(data);
     }
-    const subscription = form.watch(() => setShouldShowSave(true));
+    const subscription = form.watch((res) => {
+      setShouldShowSave(!fastUnsafeObjectCompare(data, res));
+    });
     return () => subscription.unsubscribe();
   }, [data]);
 

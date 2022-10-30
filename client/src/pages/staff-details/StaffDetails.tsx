@@ -209,70 +209,72 @@ export default function StaffDetailsPage() {
                 {data.isSuperUser && (
                   <>
                     <Alert severity="warning">
-                      You cannot delete or suspend a super user
+                      You cannot delete the super user.
                     </Alert>
                     <Spacer />
                   </>
                 )}
-                {!data.isSuperUser && (
-                  <Grid container spacing={2}>
-                    <Grid item xs={10}>
-                      <Typography variant="h6">Suspend staff</Typography>
-                      <Typography variant="body2">
-                        Suspending a staff will suspend the user&apos;s ability
-                        to access the app.
-                      </Typography>
-                    </Grid>
-                    <Grid
-                      item
-                      xs={2}
-                      sx={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                      }}
-                    >
-                      <Button
-                        variant="text"
-                        color="error"
-                        data-testid="btn-toggle-staff-suspension"
-                        disabled={!canWrite}
-                        onClick={() =>
-                          saveChanges({
-                            ...cleanStaffForUpdate(data),
-                            isSuspended: !data.isSuspended,
-                          })
-                        }
-                      >
-                        {data.isSuspended ? 'Unsuspend' : 'Suspend'}
-                      </Button>
-                    </Grid>
-                    <Grid item xs={10}>
-                      <Typography variant="h6">Delete staff</Typography>
-                      <Typography variant="body2">
-                        Delete this staff from your team. You must suspend the
-                        staff first.
-                      </Typography>
-                    </Grid>
-                    <Grid
-                      item
-                      xs={2}
-                      sx={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                      }}
-                    >
-                      <Button
-                        variant="text"
-                        color="error"
-                        disabled={!data.isSuspended || !canWrite}
-                      >
-                        Delete
-                      </Button>
-                    </Grid>
+                <Grid container spacing={2}>
+                  <Grid item xs={10}>
+                    <Typography variant="h6">Suspend staff</Typography>
+                    <Typography variant="body2">
+                      Suspending a staff will suspend the user&apos;s ability to
+                      access the app.
+                    </Typography>
                   </Grid>
-                )}
+                  <Grid
+                    item
+                    xs={2}
+                    sx={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}
+                  >
+                    <Button
+                      variant="text"
+                      color="error"
+                      data-testid="btn-toggle-staff-suspension"
+                      disabled={!canWrite}
+                      onClick={() =>
+                        saveChanges({
+                          ...cleanStaffForUpdate(data),
+                          isSuspended: !data.isSuspended,
+                        })
+                      }
+                    >
+                      {data.isSuspended ? 'Unsuspend' : 'Suspend'}
+                    </Button>
+                  </Grid>
+                  {!data.isSuperUser && (
+                    <>
+                      <Grid item xs={10}>
+                        <Typography variant="h6">Delete staff</Typography>
+                        <Typography variant="body2">
+                          Delete this staff from your team. You must suspend the
+                          staff first.
+                        </Typography>
+                      </Grid>
+                      <Grid
+                        item
+                        xs={2}
+                        sx={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                        }}
+                      >
+                        <Button
+                          variant="text"
+                          color="error"
+                          disabled={!data.isSuspended || !canWrite}
+                        >
+                          Delete
+                        </Button>
+                      </Grid>
+                    </>
+                  )}
+                </Grid>
               </CardContent>
             </Card>
           </>

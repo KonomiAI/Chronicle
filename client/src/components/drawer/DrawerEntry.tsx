@@ -18,9 +18,9 @@ interface DrawerEntryProps {
 
 export const DrawerEntry = ({ title, to, icon, feature }: DrawerEntryProps) => {
   const { pathname } = useLocation();
-  const { permissions } = useStore();
+  const { permissions, user } = useStore();
 
-  if (feature && !permissions[feature]?.read) {
+  if (feature && !user?.isSuperUser && !permissions[feature]?.read) {
     return null;
   }
 
