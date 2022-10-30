@@ -15,7 +15,7 @@ import {
   NetworkCheck,
   Policy,
   Security,
-  LibraryBooks,
+  RecentActors,
 } from '@mui/icons-material';
 
 import { Features } from '../../types';
@@ -66,7 +66,7 @@ export default function AdminList() {
           <DrawerEntry
             title="Audit Log"
             to="/audit"
-            icon={<LibraryBooks />}
+            icon={<RecentActors />}
             feature={Features.FORM}
           />
         </List>

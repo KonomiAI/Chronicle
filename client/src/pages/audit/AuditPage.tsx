@@ -62,6 +62,11 @@ const AuditPage = () => (
       helpText="View details on staff access points"
     />
     <Spacer size="md" />
+    <Alert severity="info">
+      Only the last 100 audit log entries are displayed. To view more details
+      please contact support.
+    </Alert>
+    <Spacer size="md" />
     <AuditTable />
   </Container>
 );
