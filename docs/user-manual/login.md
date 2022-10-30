@@ -19,3 +19,15 @@ Steps:
 ## How long do I stay signed in for?
 
 Each sign in session lasts 7 hours, that means you must sign in every 7 hours when using the application. We are working on allowing you to maintain your authorized session with automatically renewed sessions.
+
+## How can I reset my password?
+
+Steps:
+
+1. Ensure you are currently logged in
+2. On the top right, click on your Profile to release a dropdown.
+3. On the dropdown, click on Profile
+4. Enter your new password. (Note: the minimum length for a password is 8)
+5. Enter the same password again in the confirm password field
+6. Click on change
+7. You will currently still be logged in, however on your next log in attempt, your new password will apply
