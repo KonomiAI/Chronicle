@@ -74,6 +74,11 @@ function LoginPage() {
     if (err) {
       setLoading(false);
 
+      if (err.response?.status === 429) {
+        setError('Too many login attempts. Please try again after 5 minutes.');
+        return;
+      }
+
       setError(
         err.response?.data?.message ??
           'Login failed. Double check you email and password combination',

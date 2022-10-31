@@ -16,6 +16,7 @@ import { RequestWithUser } from 'src/types/request';
 import { GetUser } from './user.decorator';
 import { BcryptService } from './bcrypt.service';
 import { StaffService } from 'src/models/staff/staff.service';
+import { Throttle } from '@nestjs/throttler';
 
 //TODO: return roles associated as well when that relation has been established
 const SELECT = {
@@ -45,6 +46,8 @@ export class AuthController {
   ) {}
 
   @SkipIPCheck()
+  // Only allow 5 login attempts every 5 minutes
+  @Throttle(5, 300)
   @Post('login')
   async getFeatures(@Body() login: LoginDto, @Request() req: RequestWithUser) {
     const user = await this.authService.validateUser(

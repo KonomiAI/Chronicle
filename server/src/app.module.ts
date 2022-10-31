@@ -16,6 +16,9 @@ import { HealthModule } from './health/health.module';
 import { ActivityEntryModule } from './models/activity-entry/activity-entry.module';
 import { AnalyticsModule } from './analytics/analytics.module';
 import { AuditModule } from './models/audit/audit.module';
+import { ThrottlerModule } from '@nestjs/throttler';
+import { APP_GUARD } from '@nestjs/core';
+import { ThrottlerBehindProxyGuard } from './auth/throttle.guard';
 
 @Module({
   imports: [
@@ -33,8 +36,16 @@ import { AuditModule } from './models/audit/audit.module';
     ResponseModule,
     RoleModule,
     StaffModule,
+    // Default 50 requests per minute
+    ThrottlerModule.forRoot({
+      ttl: 60,
+      limit: 50,
+    }),
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    { provide: APP_GUARD, useClass: ThrottlerBehindProxyGuard },
+  ],
 })
 export class AppModule {}
