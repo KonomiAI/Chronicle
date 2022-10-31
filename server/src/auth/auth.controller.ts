@@ -46,8 +46,8 @@ export class AuthController {
   ) {}
 
   @SkipIPCheck()
-  // Only allow 3 login attempts every 5 minutes
-  @Throttle(3, 300)
+  // Only allow 5 login attempts every 5 minutes
+  @Throttle(5, 300)
   @Post('login')
   async getFeatures(@Body() login: LoginDto, @Request() req: RequestWithUser) {
     const user = await this.authService.validateUser(
