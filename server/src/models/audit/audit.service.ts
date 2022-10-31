@@ -13,7 +13,16 @@ export class AuditService {
     where?: Prisma.ActivityWhereInput;
     orderBy?: Prisma.ActivityOrderByWithRelationInput;
   }): Promise<Audit[]> {
-    return this.prisma.audit.findMany(params);
+    return this.prisma.audit.findMany({
+      ...params,
+      include: {
+        createdBy: {
+          select: {
+            email: true,
+          },
+        },
+      },
+    });
   }
 
   async createAudit(data: Prisma.AuditCreateInput) {

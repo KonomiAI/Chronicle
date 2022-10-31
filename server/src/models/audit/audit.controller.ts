@@ -13,6 +13,11 @@ export class AuditController {
   @Auth(Actions.READ, [Features.Security])
   @Get()
   getAudit(): Promise<Audit[]> {
-    return this.service.getAudits({});
+    return this.service.getAudits({
+      orderBy: {
+        createdAt: 'desc',
+      },
+      take: 100,
+    });
   }
 }
