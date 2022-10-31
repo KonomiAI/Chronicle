@@ -15,6 +15,7 @@ import {
   NetworkCheck,
   Policy,
   Security,
+  RecentActors,
 } from '@mui/icons-material';
 
 import { Features } from '../../types';
@@ -31,7 +32,6 @@ export default function AdminList() {
         icon={<DynamicForm />}
         feature={Features.FORM}
       />
-
       <ListItem
         button
         key="security"
@@ -61,6 +61,12 @@ export default function AdminList() {
             title="IP allowlist"
             to="/allowlist"
             icon={<NetworkCheck />}
+            feature={Features.FORM}
+          />
+          <DrawerEntry
+            title="Audit Log"
+            to="/audit"
+            icon={<RecentActors />}
             feature={Features.FORM}
           />
         </List>

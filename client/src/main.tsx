@@ -42,6 +42,7 @@ import { ActivityEntryDetails } from './pages/activity-entry-details/ActivityEnt
 import BasicAnalyticsPage from './pages/analytics/BasicAnalyticsPage';
 import ProfilePage from './pages/profile/Profile';
 import AlertProvider from './components/use-alert/UseAlertContext';
+import AuditPage from './pages/audit/AuditPage';
 
 const queryClient = new QueryClient();
 
@@ -60,6 +61,7 @@ const RouteMap = () => (
             <Route path="roles/new" element={<CreateRoleForm />} />
             <Route path="roles/:id" element={<UpdateRoleForm />} />
             <Route path="allowlist" element={<AllowList />} />
+            <Route path="audit" element={<AuditPage />} />
           </Route>
           <Route element={<PrivilegedRoute feature={Features.INVENTORY} />}>
             <Route path="inventory" element={<InventoryListPage />} />
