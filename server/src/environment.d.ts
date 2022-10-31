@@ -5,6 +5,9 @@ declare global {
       CHRONICLE_JWT_DURATION?: string;
       CHRONICLE_JWT_SECRET?: string;
       CHRONICLE_IGNORE_FORWARD_HEADERS?: 'YES' | 'NO';
+      CHRONICLE_THROTTLE_DURATION?: string;
+      CHRONICLE_THROTTLE_MAX_REQUESTS?: string;
+      CHRONICLE_DISABLED_THROTTLE?: 'YES' | 'NO';
     }
   }
 }
