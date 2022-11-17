@@ -74,7 +74,19 @@ const CustomerDetailsPage: React.FC<CustomerDetailsPageProps> = ({
   const [isSaveOpen, setIsSaveOpen] = useState(false);
 
   const handleCustomFieldUpdate = (res: SimpleResponse) => {
-    saveChanges({ ...stripAndCleanData(defaultValues), responseIds: [res.id] });
+    saveChanges({
+      ...stripAndCleanData(defaultValues),
+      responseIds: [...(responses?.map((r) => r.id) ?? []), res.id],
+    });
+  };
+
+  const handleCustomFieldRemove = (responseId: string) => {
+    saveChanges({
+      ...stripAndCleanData(defaultValues),
+      responseIds: (responses?.map((r) => r.id) ?? []).filter(
+        (id) => id !== responseId,
+      ),
+    });
   };
 
   useEffect(() => {
@@ -159,6 +171,7 @@ const CustomerDetailsPage: React.FC<CustomerDetailsPageProps> = ({
                 responses={responses ?? []}
                 purpose={FormPurpose.CUSTOMER}
                 onResponseSaved={handleCustomFieldUpdate}
+                onResponseDeleted={handleCustomFieldRemove}
               />
             }
           >
@@ -224,7 +237,7 @@ export function ManageCustomerForm() {
   const updateCustomerAndMutate = useMutation(updateCustomer, {
     onSuccess: async () => {
       await client.invalidateQueries(['customer', id]);
-      enqueueSnackbar('Customer profile created successfully', {
+      enqueueSnackbar('Customer profile updated successfully', {
         variant: 'success',
       });
       setIsSavingChanges(false);
