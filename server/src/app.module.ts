@@ -17,8 +17,9 @@ import { ActivityEntryModule } from './models/activity-entry/activity-entry.modu
 import { AnalyticsModule } from './analytics/analytics.module';
 import { AuditModule } from './models/audit/audit.module';
 import { ThrottlerModule } from '@nestjs/throttler';
-import { APP_GUARD } from '@nestjs/core';
+import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { ThrottlerBehindProxyGuard } from './auth/throttle.guard';
+import { AuditInterceptor } from './interceptors/audit.interceptor';
 
 @Module({
   imports: [
@@ -46,6 +47,7 @@ import { ThrottlerBehindProxyGuard } from './auth/throttle.guard';
   providers: [
     AppService,
     { provide: APP_GUARD, useClass: ThrottlerBehindProxyGuard },
+    { provide: APP_INTERCEPTOR, useClass: AuditInterceptor },
   ],
 })
 export class AppModule {}
