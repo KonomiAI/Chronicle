@@ -212,6 +212,15 @@ export default function StaffDetailsPage() {
                       You cannot delete the super user.
                     </Alert>
                     <Spacer />
+                    <Alert severity="info">
+                      To improve your application security, we recommend that
+                      you suspend the super user. The super user can bypass all
+                      permission checks (including IP check) and access all
+                      parts of the application. Before you suspend this account
+                      make sure your other accounts have adequate security
+                      permissions set up.
+                    </Alert>
+                    <Spacer />
                   </>
                 )}
                 <Grid container spacing={2}>
