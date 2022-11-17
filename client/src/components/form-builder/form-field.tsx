@@ -162,7 +162,6 @@ export const FormField = ({
             )}
           />
           <Box>
-            {/* TODO implement form field duplication feature. */}
             {onMoveUp && (
               <IconButton
                 onClick={onMoveUp}

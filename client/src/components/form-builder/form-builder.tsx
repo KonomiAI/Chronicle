@@ -20,6 +20,7 @@ export const FormBuilder: React.FC<FormBuilderProps> = ({ form, name }) => {
     fields: sections,
     append,
     remove,
+    move,
   } = useFieldArray({
     control: form.control,
     name: `${parsedName}sections`,
@@ -36,6 +37,10 @@ export const FormBuilder: React.FC<FormBuilderProps> = ({ form, name }) => {
             index={i}
             onRemove={() => remove(i)}
             sectionCount={sections.length}
+            onMoveDown={() => move(i, i + 1)}
+            onMoveUp={() => move(i, i - 1)}
+            disableMoveUp={i === 0}
+            disableMoveDown={i === sections.length - 1}
           />
         </Box>
       ))}
