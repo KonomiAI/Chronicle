@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './index.scss';
@@ -43,13 +43,13 @@ import BasicAnalyticsPage from './pages/analytics/BasicAnalyticsPage';
 import ProfilePage from './pages/profile/Profile';
 import AlertProvider from './components/use-alert/UseAlertContext';
 import AuditPage from './pages/audit/AuditPage';
-
-const queryClient = new QueryClient();
+import Logout from './pages/logout/Logout';
 
 const RouteMap = () => (
   <BrowserRouter>
     <Routes>
       <Route path="/login" element={<LoginPage />} />
+      <Route path="/logout" element={<Logout />} />
       <Route element={<ProtectedRoute />}>
         <Route path="/" element={<MainContainer />}>
           <Route index element={<LandingPage />} />
@@ -109,8 +109,31 @@ const RouteMap = () => (
   </BrowserRouter>
 );
 
-ReactDOM.render(
-  <React.StrictMode>
+const ApplicationWrapper = () => {
+  const queryClient = useMemo(
+    () =>
+      new QueryClient({
+        defaultOptions: {
+          queries: {
+            retry: (failureCount, error) => {
+              try {
+                const errorData = JSON.parse(JSON.stringify(error));
+                // If error is 401 there is no point in retrying, just log out
+                if (errorData?.status === 401) {
+                  window.location.assign('/logout');
+                  return false;
+                }
+                return failureCount < 3;
+              } catch (e) {
+                return failureCount < 3;
+              }
+            },
+          },
+        },
+      }),
+    [],
+  );
+  return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider theme={theme}>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -123,6 +146,12 @@ ReactDOM.render(
         </LocalizationProvider>
       </ThemeProvider>
     </QueryClientProvider>
+  );
+};
+
+ReactDOM.render(
+  <React.StrictMode>
+    <ApplicationWrapper />
   </React.StrictMode>,
   document.getElementById('root'),
 );

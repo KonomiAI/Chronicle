@@ -44,4 +44,4 @@ export const useGetForm = (formId: string) =>
   useQuery(['forms', formId], () => getForm(formId));
 
 export const useGetForms = (params?: GetFormsQueryParams) =>
-  useQuery('forms', () => getForms(params));
+  useQuery(['forms', params], () => getForms(params));
