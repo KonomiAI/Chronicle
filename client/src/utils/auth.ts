@@ -14,6 +14,10 @@ import {
 } from './storage-helpers';
 import { generatePermissionMap } from './permission';
 
+export interface LogoutConfig {
+  message?: string;
+}
+
 // I noticed that this hook is flawed.
 // The login status does not update when a login query is performed.
 // TODO fix this
@@ -56,12 +60,15 @@ export const useAuth = () => {
     accessTokenExpiry = new Date(+getAccessTokenExpiry());
   }
 
-  const logout = () => {
+  const logout = (config?: LogoutConfig) => {
     clearSession();
     useStore.persist.clearStorage();
     accessToken = null;
     accessTokenExpiry = null;
-    navigate('/login');
+    navigate({
+      pathname: '/login',
+      search: config?.message ? `?message=${config.message}` : '',
+    });
   };
 
   return {
