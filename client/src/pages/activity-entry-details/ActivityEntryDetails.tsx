@@ -428,6 +428,17 @@ export function ActivityEntryDetails() {
                         },
                       });
                     }}
+                    onResponseDeleted={(idToRemove) => {
+                      updateEntryAndMutate.mutate({
+                        id,
+                        activityEntry: {
+                          ...baseUpdateBody,
+                          responseIds: baseUpdateBody.responseIds?.filter(
+                            (r) => r !== idToRemove,
+                          ),
+                        },
+                      });
+                    }}
                   />
                 }
               >

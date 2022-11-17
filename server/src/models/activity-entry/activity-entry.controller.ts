@@ -177,7 +177,7 @@ export class ActivityEntryController {
     }
     if (responseIds) {
       updateData.responses = {
-        connect: responseIds.map((id) => ({ id })),
+        set: responseIds.map((id) => ({ id })),
       };
     }
     return this.service.updateActivityEntry(id, updateData);
