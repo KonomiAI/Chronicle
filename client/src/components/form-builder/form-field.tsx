@@ -50,7 +50,7 @@ export const FormField = ({
     name: keyof FormFieldSchema,
   ): `${string}sections.${number}.fields.${number}.${keyof FormFieldSchema}` =>
     `${context}sections.${sectionIndex}.fields.${index}.${name}`;
-  const { control, setValue, unregister, register, getValues } =
+  const { control, setValue, unregister, register, getValues, watch } =
     useFormContext();
   const description = getValues(getFormName('description'));
   const [shouldShowDescription, setShouldShowDescription] = useState(
@@ -101,7 +101,8 @@ export const FormField = ({
                 ) {
                   // Change from multiple choice to a different type
                   setValue(getFormName('options'), []);
-                } else {
+                } else if (watch(getFormName('options'))?.length === 0) {
+                  // Change from a different type to multiple choice and options is empty
                   setValue(getFormName('options'), [
                     {
                       id: secureRandomString(12),
