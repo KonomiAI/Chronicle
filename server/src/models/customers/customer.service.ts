@@ -42,7 +42,7 @@ export class CustomerService {
     data,
     id,
   }: {
-    data: Prisma.CustomerCreateInput;
+    data: Prisma.CustomerUpdateInput;
     id: string;
   }) {
     return this.prisma.customer.update({ data, where: { id } });
