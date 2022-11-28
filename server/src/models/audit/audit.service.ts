@@ -19,6 +19,8 @@ export class AuditService {
         createdBy: {
           select: {
             email: true,
+            firstName: true,
+            lastName: true,
           },
         },
       },
