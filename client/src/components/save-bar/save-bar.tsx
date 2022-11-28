@@ -4,7 +4,7 @@ import { LoadingButton } from '@mui/lab';
 import { styled } from '@mui/material/styles';
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
 
-import { DRAWER_WIDTH } from '../../vars';
+import { DRAWER_CLOSED_WIDTH, DRAWER_WIDTH } from '../../vars';
 import { useStore } from '../../store';
 import { usePermission } from '../use-permission/UsePermissionContext';
 
@@ -26,7 +26,8 @@ const AppBar = styled(MuiAppBar, {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,
   }),
-  left: 57,
+  left: DRAWER_CLOSED_WIDTH,
+  width: `calc(100% - ${DRAWER_CLOSED_WIDTH}px)`,
   ...(open && {
     left: DRAWER_WIDTH,
     width: `calc(100% - ${DRAWER_WIDTH}px)`,

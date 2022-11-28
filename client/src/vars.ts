@@ -1,4 +1,5 @@
 export const DRAWER_WIDTH = 240;
+export const DRAWER_CLOSED_WIDTH = 57;
 export const SPACER_OPTIONS = {
   sm: 0.5,
   md: 1,
