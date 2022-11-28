@@ -20,12 +20,14 @@ type FormPages = 'responses' | 'newForm';
 export interface FormIntegrationProps extends FormBrowserProps {
   responses: FormResponse[];
   onResponseSaved: (res: SimpleResponse) => void;
+  onResponseDeleted?: (responseId: string) => void;
 }
 
 export function FormIntegration({
   purpose,
   responses,
   onResponseSaved,
+  onResponseDeleted,
 }: FormIntegrationProps) {
   const [pageValue, setPageValue] = useState<FormPages>('responses');
   const [editingForm, setEditingForm] = useState<Form | null>(null);
@@ -33,6 +35,12 @@ export function FormIntegration({
 
   const handleResponseCreated = (response: SimpleResponse) => {
     onResponseSaved(response);
+    setEditingForm(null);
+    setPageValue('responses');
+  };
+
+  const handleResponseDeleted = (responseId: string) => {
+    onResponseDeleted?.(responseId);
     setEditingForm(null);
     setPageValue('responses');
   };
@@ -70,6 +78,7 @@ export function FormIntegration({
                   form={r.latestResponseVersion?.formVersion}
                   response={r}
                   onResponseSaved={handleResponseCreated}
+                  onResponseDelete={handleResponseDeleted}
                 />
               </AccordionDetails>
             </Accordion>

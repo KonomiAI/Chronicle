@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Delete } from '@mui/icons-material';
+import { ArrowUpward, Delete } from '@mui/icons-material';
 import {
   Box,
   Button,
@@ -23,6 +23,10 @@ interface FormSectionProps {
   sectionCount: number;
   context: string;
   onRemove: () => void;
+  disableMoveUp?: boolean;
+  disableMoveDown?: boolean;
+  onMoveUp?: () => void;
+  onMoveDown?: () => void;
 }
 
 export const FormSection = ({
@@ -30,6 +34,10 @@ export const FormSection = ({
   onRemove,
   sectionCount,
   context,
+  disableMoveDown,
+  disableMoveUp,
+  onMoveDown,
+  onMoveUp,
 }: FormSectionProps) => {
   const { control } = useFormContext();
   const { canWrite } = usePermission();
@@ -85,6 +93,27 @@ export const FormSection = ({
               >
                 <Delete />
               </IconButton>
+              {onMoveUp && (
+                <IconButton
+                  onClick={onMoveUp}
+                  data-testid="move-up"
+                  disabled={disableMoveUp}
+                >
+                  <ArrowUpward />
+                </IconButton>
+              )}
+              {onMoveDown && (
+                <IconButton
+                  onClick={onMoveDown}
+                  data-testid="move-down"
+                  disabled={disableMoveDown}
+                >
+                  {/* Instead of importing another icon (more data to load), we just flip the same icon around lol
+                    GH copilot is crazy.
+                */}
+                  <ArrowUpward sx={{ transform: 'rotate(180deg)' }} />
+                </IconButton>
+              )}
             </Grid>
             <Grid item xs={12}>
               {shouldShowDescription ? (

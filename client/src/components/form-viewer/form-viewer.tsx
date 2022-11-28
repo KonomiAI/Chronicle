@@ -19,6 +19,7 @@ interface FormViewerProps {
   form: FormVersionWithForm;
   onGoBack?: () => void;
   onResponseSaved: (body: SimpleResponse) => void;
+  onResponseDelete?: (responseId: string) => void;
   response?: FormResponse | null;
 }
 
@@ -26,6 +27,7 @@ export const FormViewer = ({
   form,
   onGoBack,
   onResponseSaved,
+  onResponseDelete,
   response,
 }: FormViewerProps): JSX.Element => {
   const [isFormLoading, setIsFormLoading] = useState(false);
@@ -132,6 +134,17 @@ export const FormViewer = ({
       >
         Save {form.form.title} changes
       </LoadingButton>
+      <Spacer size="sm" />
+      {response && (
+        <LoadingButton
+          color="error"
+          fullWidth
+          onClick={() => onResponseDelete?.(response.id)}
+          loading={isFormLoading}
+        >
+          Delete entry
+        </LoadingButton>
+      )}
     </>
   );
 };

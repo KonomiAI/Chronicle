@@ -108,9 +108,9 @@ export class CustomerController {
   ) {
     // Check if customer exists, if not a 404 is automatically thrown
     await this.getCustomer(id);
-    const updateData: Prisma.CustomerCreateInput = { ...data };
+    const updateData: Prisma.CustomerUpdateInput = { ...data };
     if (responseIds?.length) {
-      updateData.responses = { connect: responseIds.map((id) => ({ id })) };
+      updateData.responses = { set: responseIds.map((id) => ({ id })) };
     }
     return this.customerService.updateCustomer({
       data: updateData,
