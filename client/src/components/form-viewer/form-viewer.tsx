@@ -1,10 +1,20 @@
 import React, { useState } from 'react';
-import { Box, Card, CardContent, IconButton, Typography } from '@mui/material';
+import {
+  Box,
+  Card,
+  CardContent,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  IconButton,
+  Typography,
+} from '@mui/material';
 
-import { FormProvider, useForm } from 'react-hook-form';
-import { ArrowBack } from '@mui/icons-material';
+import { FormProvider, useForm, UseFormReturn } from 'react-hook-form';
+import { ArrowBack, Person } from '@mui/icons-material';
 import { useMutation } from 'react-query';
 import { LoadingButton } from '@mui/lab';
+import { FormSectionSchema } from '@konomi.ai/c-form';
 import {
   FormResponse,
   FormVersionWithForm,
@@ -23,6 +33,71 @@ interface FormViewerProps {
   response?: FormResponse | null;
 }
 
+interface FormInnerProps {
+  sections: FormSectionSchema[];
+  methods: UseFormReturn;
+}
+
+interface FormDialogProps extends FormInnerProps {
+  open: boolean;
+  onClose: () => void;
+}
+
+export const FormInner = ({ sections, methods }: FormInnerProps) => (
+  // eslint-disable-next-line react/jsx-props-no-spreading
+  <FormProvider {...methods}>
+    {sections.map((section, i) => (
+      <Box key={section.id}>
+        <Card variant="outlined">
+          <CardContent>
+            <Typography variant="h5" sx={{ mb: 2 }}>
+              Section #{i + 1} - {section.name}
+            </Typography>
+
+            {section.description ? (
+              <Typography variant="body2" sx={{ mb: 2 }}>
+                {section.description}
+              </Typography>
+            ) : null}
+
+            {section.fields.map((field) => (
+              <Box key={field.id} sx={{ mb: 2 }}>
+                <ViewFormField
+                  id={field.id}
+                  name={field.name}
+                  type={field.type}
+                  optional={field.optional}
+                  options={field.options}
+                  description={field.description}
+                />
+              </Box>
+            ))}
+          </CardContent>
+        </Card>
+        <Spacer size="md" />
+      </Box>
+    ))}
+  </FormProvider>
+);
+
+export const FormDialog = ({
+  methods,
+  onClose,
+  open,
+  sections,
+}: FormDialogProps) => (
+  <Dialog open={open} onClose={onClose} fullScreen>
+    <DialogContent>
+      <FormInner methods={methods} sections={sections} />
+    </DialogContent>
+    <DialogActions>
+      <IconButton onClick={onClose}>
+        <ArrowBack />
+      </IconButton>
+    </DialogActions>
+  </Dialog>
+);
+
 export const FormViewer = ({
   form,
   onGoBack,
@@ -31,6 +106,7 @@ export const FormViewer = ({
   response,
 }: FormViewerProps): JSX.Element => {
   const [isFormLoading, setIsFormLoading] = useState(false);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
   const methods = useForm({
     defaultValues: response?.latestResponseVersion?.body ?? {},
   });
@@ -82,50 +158,40 @@ export const FormViewer = ({
             <ArrowBack />
           </IconButton>
         )}
-        <Box>
-          {form.form.description && (
-            <Box>
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            width: '100%',
+          }}
+        >
+          <Box>
+            {form.form.description && (
               <Typography variant="caption">{form.form.description}</Typography>
-            </Box>
-          )}
+            )}
+          </Box>
+          <Box>
+            <IconButton
+              aria-label="go back to form browser"
+              sx={{ mr: 1 }}
+              size="small"
+              color="inherit"
+              onClick={() => setIsDialogOpen(true)}
+            >
+              <Person />
+            </IconButton>
+          </Box>
         </Box>
       </Box>
-
+      <FormDialog
+        open={isDialogOpen}
+        onClose={() => setIsDialogOpen(false)}
+        methods={methods}
+        sections={sections}
+      />
       <Spacer size="md" />
-      {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-      <FormProvider {...methods}>
-        {sections.map((section, i) => (
-          <Box key={section.id}>
-            <Card variant="outlined">
-              <CardContent>
-                <Typography variant="h5" sx={{ mb: 2 }}>
-                  Section #{i + 1} - {section.name}
-                </Typography>
-
-                {section.description ? (
-                  <Typography variant="body2" sx={{ mb: 2 }}>
-                    {section.description}
-                  </Typography>
-                ) : null}
-
-                {section.fields.map((field) => (
-                  <Box key={field.id} sx={{ mb: 2 }}>
-                    <ViewFormField
-                      id={field.id}
-                      name={field.name}
-                      type={field.type}
-                      optional={field.optional}
-                      options={field.options}
-                      description={field.description}
-                    />
-                  </Box>
-                ))}
-              </CardContent>
-            </Card>
-            <Spacer size="md" />
-          </Box>
-        ))}
-      </FormProvider>
+      <FormInner sections={sections} methods={methods} />
       <LoadingButton
         variant="contained"
         fullWidth
