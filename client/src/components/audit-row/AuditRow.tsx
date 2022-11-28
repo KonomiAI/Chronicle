@@ -19,7 +19,10 @@ const AuditRow: React.FC<AuditRowProps> = ({ audit }) => {
         <Typography variant="caption">{dateTime}</Typography>
       </TableCell>
       <TableCell>
-        <Link to={`/staff/${audit.staffId}`}>{audit.createdBy.email}</Link>
+        <Link to={`/staff/${audit.staffId}`}>
+          {audit.createdBy.firstName} {audit.createdBy.lastName} (
+          {audit.createdBy.email})
+        </Link>
       </TableCell>
       <TableCell>{resolveAuditMessage(audit)}</TableCell>
     </TableRow>

@@ -1,30 +1,25 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import { Audit, ßwillFixThisTypeLater } from '../../types';
+import { Audit } from '../../types';
+import { resolveAddIPToAllowList } from './resolvers/resolveAddIPToAllowList';
+import { resolveCreateForm } from './resolvers/resolveCreateForm';
+import { resolveCreateRole } from './resolvers/resolveCreateRole';
+import { resolveUpdateForm } from './resolvers/resolveUpdateForm';
+import { AuditData, IResolver } from './type';
 
-type Data = { [key: string]: ßwillFixThisTypeLater };
-
-interface IResolver {
-  (params: Data, query: Data, payload: Data): React.ReactNode;
-}
-
-const resolveAddIPToAllowList: IResolver = (
-  _params: Data,
-  _query: Data,
-  payload: Data,
-) => `Added IP ${payload.ip} to the AllowList`;
+// TODO: migrate all audit resolvers to their own file
 
 const resolveDeleteIPfromAllowList: IResolver = () =>
   `Deleted IP from the AllowList.`;
 
 const resolveCreateNewStaff: IResolver = (
-  _params: Data,
-  _query: Data,
-  payload: Data,
+  _params: AuditData,
+  _query: AuditData,
+  payload: AuditData,
 ) => `Added new staff with email: ${payload.email}.`;
 
-const resolveUpdateVariant: IResolver = (params: Data) => (
+const resolveUpdateVariant: IResolver = (params: AuditData) => (
   <>
     Updated a variant on the following{' '}
     <Link to={`/inventory/products/${params.productId}`}>product</Link>
@@ -33,7 +28,7 @@ const resolveUpdateVariant: IResolver = (params: Data) => (
 
 const resolveDeleteProduct: IResolver = () => `Deleted a product`;
 
-const resolveUpdateActivity: IResolver = (params: Data) => (
+const resolveUpdateActivity: IResolver = (params: AuditData) => (
   <>
     Updated the following{' '}
     <Link to={`/inventory/activities/${params.id}`}>activity</Link>
@@ -41,30 +36,30 @@ const resolveUpdateActivity: IResolver = (params: Data) => (
 );
 
 const resolveCreateActivity: IResolver = (
-  _params: Data,
-  _query: Data,
-  payload: Data,
+  _params: AuditData,
+  _query: AuditData,
+  payload: AuditData,
 ) => `Created a new activity: "${payload.name}"`;
 
 const resolveCreateActivityEntry: IResolver = (
-  _params: Data,
-  _query: Data,
-  payload: Data,
+  _params: AuditData,
+  _query: AuditData,
+  payload: AuditData,
 ) => (
   <>
-    Created a new activity entry for the following{' '}
+    Created a new activity entry for this{' '}
     <Link to={`/customers/${payload.customerId}`}>customer</Link>
   </>
 );
 
-const resolveUpdateActivityEntry: IResolver = (params: Data) => (
+const resolveUpdateActivityEntry: IResolver = (params: AuditData) => (
   <>
     Updated the following{' '}
     <Link to={`/activity-entries/${params.id}`}>activity entry</Link>
   </>
 );
 
-const resolveChargeActivityEntry: IResolver = (params: Data) => (
+const resolveChargeActivityEntry: IResolver = (params: AuditData) => (
   <>
     Charged the following{' '}
     <Link to={`/activity-entries/${params.id}`}>activity entry</Link>
@@ -72,12 +67,12 @@ const resolveChargeActivityEntry: IResolver = (params: Data) => (
 );
 
 const resolveCreateCustomer: IResolver = (
-  _params: Data,
-  _query: Data,
-  payload: Data,
+  _params: AuditData,
+  _query: AuditData,
+  payload: AuditData,
 ) => `Created a new customer with email: ${payload.email}`;
 
-const resolveUpdateCustomer: IResolver = (params: Data) => (
+const resolveUpdateCustomer: IResolver = (params: AuditData) => (
   <>
     Updated the following <Link to={`/customer/${params.id}`}>customer</Link>
   </>
@@ -96,6 +91,9 @@ const resolveAuditMessage: Record<string, IResolver> = {
   chargeActivityEntry: resolveChargeActivityEntry,
   createCustomer: resolveCreateCustomer,
   updateCustomer: resolveUpdateCustomer,
+  createForm: resolveCreateForm,
+  updateForm: resolveUpdateForm,
+  createRole: resolveCreateRole,
 };
 
 const generateMessage = (audit: Audit): React.ReactNode => {
