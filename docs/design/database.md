@@ -2,55 +2,152 @@
 
 ```mermaid
 erDiagram
-
-    Log_Trail {
-        datetime timestamp
-        string action
-    }
-    Permission {
-        string feature
-        string operation
+    Activity {
+        string id
+        string name
+        int price
+        boolean isArchived
+        createdAt DateTime
+        updatedAt DateTime
     }
     Role {
+        string id
         string name
-        list permissions
+        json permissions
+        list staffIds
     }
     Staff {
-        string name
+        string id
+        string firstName
+        string lastName
+        string email
+        string dateOfBirth
+        string authKey
+        gender Gender
+        boolean isSuperUser
+        boolean isSuspended
+        timestamp createdAt
+        timestamp updatedAt
+        boolean deletedAt
     }
-    Entry {}
-    Customer {
-        string name
+    Variant {
+        string id
+        string description
+        int price
+        string barcode
+        boolean isAvailable
+        timestamp createdAt
+        timestamp updatedAt
+        string productId
+        string activityEntryId
+        boolean isArchived
     }
-    Form_Type{
+    Product {
+        string id
         string name
+        string brand
+        list imageUrl
+        boolean isArchived
+        timestamp createdAt
+        timestamp updatedAt
+    }
+    Ip {
+        string id
+        string ip
+        string description
+        timestamp createdAt
+        timestamp updatedAt
     }
     Form {
-        string name
-        datetime version
-        object sections
+        string id
+        string title
+        string description
+        FormPurpose purpose
+        timestamp createdAt
+        timestamp updatedAt
+        string latestFormId
+    }
+    FormVersion {
+        string id
+        string body
+        timestamp version
+        string latestFormId
+        string formId
     }
     Response {
-        datetime form_version
-        object response
+        string id
+        timestamp createdAt
+        timestamp updatedAt
+        string latestResponseVersionId
+        string customerId
+        string activityEntryId
     }
-    Form_Components {}
-    Inventory {
-        string name
-        list variants
-        float price
+    ResponseVersion {
+        string id
+        string body
+        timestamp version
+        string staffId
+        string responseId
+        string formVersionId
     }
-    Activity {
-        string name
-        float price
+    Customer {
+        string id
+        string firstName
+        string lastName
+        Gender gender
+        string dateOfBirth
+        string email
+        string phone
+        boolean isDeleted
+        timestamp createdAt
+        timestamp updatedAt
+    }
+    ActivityEntry {
+        string id
+        list variantIds
+        string customerId
+        timestamp createdAt
+        timestamp updatedAt
+        string activityId
+        string staffId
+        int tipCharged
+    }
+    Ledger {
+        string id
+        int amount
+        string description
+        timestamp createdAt
+        string customerId
+        string staffId
+        string activityEntryId
+    }
+    Audit {
+        string id
+        string staffId
+        string endpointMethod
+        string params
+        string query
+        string payload
+        timestamp createdAt
+        timestamp updatedAt
     }
 
-    Permission }|--|{ Role: in
-    Role }o--o{ Staff: in
-    Staff }o--|{ Entry: associated
-    Entry }o--|| Customer: associated
-    Entry }|--o{ Form_Type: has
-    Form_Type }|--|| Form: has
-    Form }|--o{ Form_Components: has
+    Role ||--|{ Staff: in
+    Staff |o--|{ ActivityEntry: associated
+    ActivityEntry }o--|| Customer: associated
     Form ||--o{ Response: has
+    Activity ||--o{ ActivityEntry: has
+    Staff ||--o{ ActivityEntry: creates
+    Staff ||--o{ Audit: produces
+    Staff ||--o{ Ledger: creates
+    Staff }|--|{ ResponseVersion: creates
+    Product ||--|{ Variant: has
+    Form ||--|{ FormVersion: has
+    Response ||--|{ ResponseVersion: has
+    Customer ||--o{ Response: has
+    ResponseVersion }|--|o FormVersion: has
+    ResponseVersion ||--|{ Response: has
+    Ledger }o--|| Customer: has
+    ActivityEntry ||--o{ Response: associated
+    ActivityEntry ||--|{ Variant: has
 ```
