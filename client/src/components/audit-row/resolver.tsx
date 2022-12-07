@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 
 import { Audit } from '../../types';
 import { resolveAddIPToAllowList } from './resolvers/resolveAddIPToAllowList';
+import { resolveChargeCustomer } from './resolvers/resolveChargeCustomer';
 import { resolveCreateForm } from './resolvers/resolveCreateForm';
 import { resolveCreateRole } from './resolvers/resolveCreateRole';
 import { resolveUpdateForm } from './resolvers/resolveUpdateForm';
@@ -74,7 +75,7 @@ const resolveCreateCustomer: IResolver = (
 
 const resolveUpdateCustomer: IResolver = (params: AuditData) => (
   <>
-    Updated the following <Link to={`/customer/${params.id}`}>customer</Link>
+    Updated the following <Link to={`/customers/${params.id}`}>customer</Link>
   </>
 );
 
@@ -94,6 +95,7 @@ const resolveAuditMessage: Record<string, IResolver> = {
   createForm: resolveCreateForm,
   updateForm: resolveUpdateForm,
   createRole: resolveCreateRole,
+  chargeCustomer: resolveChargeCustomer,
 };
 
 const generateMessage = (audit: Audit): React.ReactNode => {
