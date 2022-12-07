@@ -103,6 +103,9 @@ export class ActivityEntryController {
   getActivityEntries() {
     return this.service.getActivityEntries({
       select: DEFAULT_ENTRY_SELECT,
+      orderBy: {
+        createdAt: 'desc',
+      },
     });
   }
 
@@ -118,6 +121,9 @@ export class ActivityEntryController {
       select: DEFAULT_ENTRY_SELECT,
       where: {
         staffId: user.id,
+      },
+      orderBy: {
+        createdAt: 'desc',
       },
     });
   }
