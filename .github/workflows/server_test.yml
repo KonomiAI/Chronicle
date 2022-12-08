@@ -25,6 +25,7 @@ jobs:
       - name: Install, build, and lint
         run: |
           yarn
+          yarn prisma:generate
           yarn build
           yarn lint
         working-directory: ./server
