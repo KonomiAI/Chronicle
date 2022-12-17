@@ -1,12 +1,20 @@
+import { defineConfig } from 'vite';
 import { VitePWA } from 'vite-plugin-pwa';
 
 // https://vitejs.dev/config/
 /** @type {import('vite').UserConfig} */
-export default {
-  test: {
-    globals: true,
-    environment: 'jsdom',
+export default defineConfig({
+  server: {
+    port: 3000,
+    proxy: {
+      '/api': {
+        target: 'http://localhost:3001',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, ''),
+      },
+    },
   },
+
   plugins: [
     VitePWA({
       injectRegister: 'auto',
@@ -63,7 +71,4 @@ export default {
       },
     }),
   ],
-  server: {
-    port: 3000,
-  },
-};
+});
