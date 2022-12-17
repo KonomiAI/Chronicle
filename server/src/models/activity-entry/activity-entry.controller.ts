@@ -137,11 +137,42 @@ export class ActivityEntryController {
   @Auth(Actions.WRITE, [Features.Entry])
   @Post()
   @Auditable()
-  createActivityEntry(@Body() body: ActivityEntryDto, @Request() { user }) {
+  async createActivityEntry(
+    @Body() body: ActivityEntryDto,
+    @Request() { user },
+  ) {
+    const visitFromToday = await this.prisma.visit.findFirst({
+      where: {
+        visitDate: {
+          equals: new Date(new Date().toDateString()),
+        },
+        customer: {
+          id: body.customerId,
+        },
+      },
+    });
     return this.service.createActivityEntry({
       author: {
         connect: {
           id: user.id,
+        },
+      },
+      Visit: {
+        connectOrCreate: {
+          where: {
+            id: visitFromToday.id,
+          },
+          create: {
+            customer: {
+              connect: {
+                id: body.customerId,
+              },
+            },
+            visitDate: new Date(new Date().toDateString()),
+            createdBy: {
+              connect: user.id,
+            },
+          },
         },
       },
       customer: {
