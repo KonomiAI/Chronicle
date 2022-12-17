@@ -52,6 +52,7 @@
   },
   "devDependencies": {
     "@nestjs/cli": "^8.0.0",
+    "@nestjs/mapped-types": "^1.2.0",
     "@nestjs/schematics": "^8.0.0",
     "@nestjs/testing": "^8.4.4",
     "@types/bcrypt": "^5.0.0",
