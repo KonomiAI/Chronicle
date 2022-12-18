@@ -1,10 +1,11 @@
 name: Build Backend
+
 on:
   push:
     branches:
-      - main
-    paths:
-      - 'server/**'
+      - gke-auth
+    # paths:
+    #   - 'server/**'
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -18,49 +19,86 @@ jobs:
           project_id: konomi-ai
           image_name: chronicle-api
           context: server
-  deploy-staging:
-    needs:
-      - build
+      - uses: google-github-actions/setup-gcloud@v0.6.0
+        with:
+          service_account_key: ${{ secrets.GKE_SA_KEY }}
+          project_id: ${{ secrets.GKE_PROJECT }}
+          export_default_credentials: true
+
+  deploy:
     runs-on: ubuntu-latest
+    environment: staging
+    needs: build
+
     steps:
-      - uses: actions/checkout@v2
-      - name: Apply Ingress
-        uses: ameydev/gke-kubectl-action@v1.02
-        env:
-          PROJECT_ID: konomi-ai
-          APPLICATION_CREDENTIALS: ${{ secrets.GCP_K8S_SA }}
-          CLUSTER_NAME: chronicle-staging
-          ZONE_NAME: us-east1
-          ACTIONS_ALLOW_UNSECURE_COMMANDS: 'true'
-        with:
-          args: apply -f infrastructure/kubernetes/staging/ingress.yaml -n staging
-      - name: Apply Backend Manifest
-        uses: ameydev/gke-kubectl-action@v1.02
-        env:
-          PROJECT_ID: konomi-ai
-          APPLICATION_CREDENTIALS: ${{ secrets.GCP_K8S_SA }}
-          CLUSTER_NAME: chronicle-staging
-          ZONE_NAME: us-east1
-          ACTIONS_ALLOW_UNSECURE_COMMANDS: 'true'
-        with:
-          args: apply -f infrastructure/kubernetes/staging/chronicle-backend.yaml -n staging
-      - name: Force Backend Update
-        uses: ameydev/gke-kubectl-action@v1.02
-        env:
-          PROJECT_ID: konomi-ai
-          APPLICATION_CREDENTIALS: ${{ secrets.GCP_K8S_SA }}
-          CLUSTER_NAME: chronicle-staging
-          ZONE_NAME: us-east1
-          ACTIONS_ALLOW_UNSECURE_COMMANDS: 'true'
-        with:
-          args: rollout restart deployment/chronicle-api -n staging
-      - name: Check Rollout Status
-        uses: ameydev/gke-kubectl-action@v1.02
-        env:
-          PROJECT_ID: konomi-ai
-          APPLICATION_CREDENTIALS: ${{ secrets.GCP_K8S_SA }}
-          CLUSTER_NAME: chronicle-staging
-          ZONE_NAME: us-east1
-          ACTIONS_ALLOW_UNSECURE_COMMANDS: 'true'
-        with:
-          args: rollout status deployment/chronicle-api -n staging
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    # Setup gcloud CLI
+    - uses: google-github-actions/setup-gcloud@v0.6.0
+      with:
+        service_account_key: ${{ secrets.GCP_K8S_SA }}
+        project_id: konomi-ai
+        export_default_credentials: true
+
+    # Get the GKE credentials so we can deploy to the cluster
+    - uses: google-github-actions/get-gke-credentials@v0.5.0
+      with:
+        cluster_name: chronicle-staging
+        location: us-east-1
+        credentials: ${{ secrets.GCP_K8S_SA }}
+
+    # Deploy the new Docker image to the GKE cluster
+    - name: Deploy
+      working-directory: ch9_release/src/Tailwind.Traders.Web
+      run: |-
+        kubectl get pods --all-namespaces -
+        envsubst < Service.yml | kubectl --dry-run apply -f -
+
+
+  # deploy-staging:
+  #   needs:
+  #     - build
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - name: Apply Ingress
+  #       uses: ameydev/gke-kubectl-action@v1.02
+  #       env:
+  #         PROJECT_ID: konomi-ai
+  #         APPLICATION_CREDENTIALS: ${{ secrets.GCP_K8S_SA }}
+  #         CLUSTER_NAME: chronicle-staging
+  #         ZONE_NAME: us-east1
+  #         ACTIONS_ALLOW_UNSECURE_COMMANDS: 'true'
+  #       with:
+  #         args: apply -f infrastructure/kubernetes/staging/ingress.yaml -n staging
+  #     - name: Apply Backend Manifest
+  #       uses: ameydev/gke-kubectl-action@v1.02
+  #       env:
+  #         PROJECT_ID: konomi-ai
+  #         APPLICATION_CREDENTIALS: ${{ secrets.GCP_K8S_SA }}
+  #         CLUSTER_NAME: chronicle-staging
+  #         ZONE_NAME: us-east1
+  #         ACTIONS_ALLOW_UNSECURE_COMMANDS: 'true'
+  #       with:
+  #         args: apply -f infrastructure/kubernetes/staging/chronicle-backend.yaml -n staging
+  #     - name: Force Backend Update
+  #       uses: ameydev/gke-kubectl-action@v1.02
+  #       env:
+  #         PROJECT_ID: konomi-ai
+  #         APPLICATION_CREDENTIALS: ${{ secrets.GCP_K8S_SA }}
+  #         CLUSTER_NAME: chronicle-staging
+  #         ZONE_NAME: us-east1
+  #         ACTIONS_ALLOW_UNSECURE_COMMANDS: 'true'
+  #       with:
+  #         args: rollout restart deployment/chronicle-api -n staging
+  #     - name: Check Rollout Status
+  #       uses: ameydev/gke-kubectl-action@v1.02
+  #       env:
+  #         PROJECT_ID: konomi-ai
+  #         APPLICATION_CREDENTIALS: ${{ secrets.GCP_K8S_SA }}
+  #         CLUSTER_NAME: chronicle-staging
+  #         ZONE_NAME: us-east1
+  #         ACTIONS_ALLOW_UNSECURE_COMMANDS: 'true'
+  #       with:
+  #         args: rollout status deployment/chronicle-api -n staging
