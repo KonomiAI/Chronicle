@@ -135,8 +135,8 @@ export class ActivityEntryController {
   }
 
   @Auth(Actions.WRITE, [Features.Entry])
-  @Post()
   @Auditable()
+  @Post()
   async createActivityEntry(
     @Body() body: ActivityEntryDto,
     @Request() { user },

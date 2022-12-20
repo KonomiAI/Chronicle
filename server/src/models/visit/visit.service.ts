@@ -79,6 +79,23 @@ export class VisitService {
             email: true,
           },
         },
+        activityEntries: {
+          select: {
+            author: {
+              select: {
+                firstName: true,
+                lastName: true,
+                id: true,
+                email: true,
+              },
+            },
+            activity: {
+              select: {
+                name: true,
+              },
+            },
+          },
+        },
       },
     });
   }

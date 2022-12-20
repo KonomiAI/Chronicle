@@ -22,7 +22,7 @@ import { Auditable } from 'src/auth/audit.decorator';
 import { VALIDATION_PIPE_OPTION } from 'src/utils/consts';
 import { FilterVisitDto } from './dto/filter-visit.dto';
 
-@Controller('visit')
+@Controller('visits')
 @UseInterceptors(TransformInterceptor)
 export class VisitController {
   constructor(private readonly visitService: VisitService) {}
