@@ -4,6 +4,7 @@ import { PrismaService } from 'src/prisma.service';
 import { CreateVisitDto } from './dto/create-visit.dto';
 import { FilterVisitDto } from './dto/filter-visit.dto';
 import { UpdateVisitDto } from './dto/update-visit.dto';
+import { VISIT_SELECT } from './entities/visit.entity';
 
 @Injectable()
 export class VisitService {
@@ -58,45 +59,7 @@ export class VisitService {
     }
     return this.prisma.visit.findMany({
       where: filterOptions,
-      select: {
-        id: true,
-        visitDate: true,
-        updatedAt: true,
-        createdAt: true,
-        charge: {
-          select: {
-            id: true,
-            amount: true,
-            description: true,
-            createdDt: true,
-          },
-        },
-        customer: {
-          select: {
-            id: true,
-            firstName: true,
-            lastName: true,
-            email: true,
-          },
-        },
-        activityEntries: {
-          select: {
-            author: {
-              select: {
-                firstName: true,
-                lastName: true,
-                id: true,
-                email: true,
-              },
-            },
-            activity: {
-              select: {
-                name: true,
-              },
-            },
-          },
-        },
-      },
+      select: VISIT_SELECT,
     });
   }
 
@@ -105,60 +68,7 @@ export class VisitService {
       where: {
         id,
       },
-      select: {
-        id: true,
-        visitDate: true,
-        updatedAt: true,
-        createdAt: true,
-        activityEntries: {
-          select: {
-            id: true,
-            author: {
-              select: {
-                id: true,
-                firstName: true,
-                lastName: true,
-                email: true,
-              },
-            },
-            activity: {
-              select: {
-                id: true,
-                name: true,
-                price: true,
-              },
-            },
-            products: {
-              select: {
-                id: true,
-                price: true,
-                product: {
-                  select: {
-                    name: true,
-                    brand: true,
-                  },
-                },
-              },
-            },
-          },
-        },
-        charge: {
-          select: {
-            id: true,
-            amount: true,
-            description: true,
-            createdDt: true,
-          },
-        },
-        customer: {
-          select: {
-            id: true,
-            firstName: true,
-            lastName: true,
-            email: true,
-          },
-        },
-      },
+      select: VISIT_SELECT,
     });
   }
 

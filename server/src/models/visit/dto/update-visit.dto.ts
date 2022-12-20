@@ -1,11 +1,18 @@
-import { PartialType } from '@nestjs/mapped-types';
-import { IsArray, IsMongoId } from 'class-validator';
-import { CreateVisitDto } from './create-visit.dto';
+import { IsArray, IsISO8601, IsMongoId } from 'class-validator';
 
-export class UpdateVisitDto extends PartialType(CreateVisitDto) {
+export class UpdateVisitDto {
+  @IsMongoId()
+  id: string;
+
+  @IsMongoId()
+  customerId: string;
+
   @IsArray()
   @IsMongoId({
     each: true,
   })
   activityEntryIds: string[];
+
+  @IsISO8601()
+  visitDate: string;
 }

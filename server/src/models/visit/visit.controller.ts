@@ -42,6 +42,7 @@ export class VisitController {
     return this.visitService.findAll(params);
   }
 
+  @Auth(Actions.READ, [Features.Entry])
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.visitService.findOne(id);

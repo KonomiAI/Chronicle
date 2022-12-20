@@ -8,6 +8,5 @@ import { AuthModule } from 'src/auth/auth.module';
   controllers: [VisitController],
   providers: [VisitService, PrismaService],
   imports: [AuthModule],
-  exports: [VisitController],
 })
 export class VisitModule {}
