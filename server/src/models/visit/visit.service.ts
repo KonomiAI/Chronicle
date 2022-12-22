@@ -5,6 +5,7 @@ import { CreateVisitDto } from './dto/create-visit.dto';
 import { FilterVisitDto } from './dto/filter-visit.dto';
 import { UpdateVisitDto } from './dto/update-visit.dto';
 import { VISIT_SELECT } from './entities/visit.entity';
+import { getTodayDateString } from 'src/utils/dates';
 
 @Injectable()
 export class VisitService {
@@ -17,7 +18,7 @@ export class VisitService {
             id: customerId,
           },
         },
-        visitDate: visitDate ?? new Date(),
+        visitDate: visitDate ?? getTodayDateString(),
         createdBy: {
           connect: {
             id: staffId,

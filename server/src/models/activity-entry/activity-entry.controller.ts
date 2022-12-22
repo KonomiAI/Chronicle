@@ -18,6 +18,7 @@ import { Auth } from 'src/auth/role.decorator';
 import { GetUser } from 'src/auth/user.decorator';
 import { TransformInterceptor } from 'src/interceptors/transform.interceptor';
 import { PrismaService } from 'src/prisma.service';
+import { getTodayDateString } from 'src/utils/dates';
 import { LedgerService } from '../ledger/ledger.service';
 import { ActivityEntryChargeDto, ActivityEntryDto } from './activity-entry.dto';
 import { ActivityEntryService } from './activity-entry.service';
@@ -144,7 +145,7 @@ export class ActivityEntryController {
     const visitFromToday = await this.prisma.visit.findFirst({
       where: {
         visitDate: {
-          equals: new Date(new Date().toDateString()),
+          equals: getTodayDateString(),
         },
         customer: {
           id: body.customerId,
@@ -168,7 +169,7 @@ export class ActivityEntryController {
                 id: body.customerId,
               },
             },
-            visitDate: new Date(new Date().toDateString()),
+            visitDate: getTodayDateString(),
             createdBy: {
               connect: user.id,
             },

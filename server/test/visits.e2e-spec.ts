@@ -97,13 +97,24 @@ describe('/visits', () => {
       .set('Authorization', `Bearer ${accessToken}`)
       .expect(200);
 
+    console.log(
+      JSON.stringify(
+        {
+          id: createdVisit.id,
+          customerId: targetVisit.customer.id,
+          activityEntries: [],
+          visitDate: '2022-12-12',
+        },
+        null,
+        2,
+      ),
+    );
     await testClient
       .put(`/visits/${createdVisit.id}`)
       .set('Authorization', `Bearer ${accessToken}`)
       .send({
-        id: createdVisit.id,
         customerId: targetVisit.customer.id,
-        activityEntries: [],
+        activityEntryIds: [],
         visitDate: '2022-12-12',
       })
       .expect(200);

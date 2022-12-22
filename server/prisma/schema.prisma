@@ -221,7 +221,7 @@ model Audit {
 
 model Visit {
   id              String          @id @default(auto()) @map("_id") @db.ObjectId
-  visitDate       DateTime        @default(now())
+  visitDate       String
   customer        Customer        @relation(fields: [customerId], references: [id])
   customerId      String          @db.ObjectId
   createdAt       DateTime        @default(now())
