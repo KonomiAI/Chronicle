@@ -20,6 +20,7 @@ import { ThrottlerModule } from '@nestjs/throttler';
 import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { ThrottlerBehindProxyGuard } from './auth/throttle.guard';
 import { AuditInterceptor } from './interceptors/audit.interceptor';
+import { VisitModule } from './models/visit/visit.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { AuditInterceptor } from './interceptors/audit.interceptor';
     AnalyticsModule,
     AuditModule,
     AuthModule,
+    VisitModule,
     CustomerModule,
     FeatureModule,
     FormModule,

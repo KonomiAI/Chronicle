@@ -61,6 +61,7 @@ model Staff {
   activityEntries ActivityEntry[]
   Ledger          Ledger[]
   Audit           Audit[]
+  Visit           Visit[]
 }
 
 model Variant {
@@ -168,6 +169,7 @@ model Customer {
   updatedAt       DateTime        @updatedAt
   activityEntries ActivityEntry[]
   Ledger          Ledger[]
+  Visit           Visit[]
 }
 
 model ActivityEntry {
@@ -187,6 +189,8 @@ model ActivityEntry {
   // The reason why the charge is 1 to many because we can't have more than one charge that is
   // not linked to an activity entry (have activityEntryId as null).
   charge     Ledger[]
+  Visit      Visit?     @relation(fields: [visitId], references: [id])
+  visitId    String?    @db.ObjectId
 }
 
 model Ledger {
@@ -200,6 +204,8 @@ model Ledger {
   customerId      String         @db.ObjectId
   staffId         String         @db.ObjectId
   activityEntryId String?        @db.ObjectId
+  Visit           Visit?         @relation(fields: [visitId], references: [id])
+  visitId         String?        @db.ObjectId
 }
 
 model Audit {
@@ -211,4 +217,19 @@ model Audit {
   payload        String?
   createdBy      Staff    @relation(fields: [staffId], references: [id])
   createdAt      DateTime @default(now())
+}
+
+model Visit {
+  id              String          @id @default(auto()) @map("_id") @db.ObjectId
+  visitDate       String
+  customer        Customer        @relation(fields: [customerId], references: [id])
+  customerId      String          @db.ObjectId
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+  createdBy       Staff           @relation(fields: [staffId], references: [id])
+  staffId         String          @db.ObjectId
+  activityEntries ActivityEntry[]
+  charge          Ledger[]
+  fees            Int             @default(0)
+  tip             Int             @default(0)
 }

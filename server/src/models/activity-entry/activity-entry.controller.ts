@@ -18,6 +18,7 @@ import { Auth } from 'src/auth/role.decorator';
 import { GetUser } from 'src/auth/user.decorator';
 import { TransformInterceptor } from 'src/interceptors/transform.interceptor';
 import { PrismaService } from 'src/prisma.service';
+import { getTodayDateString } from 'src/utils/dates';
 import { LedgerService } from '../ledger/ledger.service';
 import { ActivityEntryChargeDto, ActivityEntryDto } from './activity-entry.dto';
 import { ActivityEntryService } from './activity-entry.service';
@@ -135,13 +136,44 @@ export class ActivityEntryController {
   }
 
   @Auth(Actions.WRITE, [Features.Entry])
-  @Post()
   @Auditable()
-  createActivityEntry(@Body() body: ActivityEntryDto, @Request() { user }) {
+  @Post()
+  async createActivityEntry(
+    @Body() body: ActivityEntryDto,
+    @Request() { user },
+  ) {
+    const visitFromToday = await this.prisma.visit.findFirst({
+      where: {
+        visitDate: {
+          equals: getTodayDateString(),
+        },
+        customer: {
+          id: body.customerId,
+        },
+      },
+    });
     return this.service.createActivityEntry({
       author: {
         connect: {
           id: user.id,
+        },
+      },
+      Visit: {
+        connectOrCreate: {
+          where: {
+            id: visitFromToday.id,
+          },
+          create: {
+            customer: {
+              connect: {
+                id: body.customerId,
+              },
+            },
+            visitDate: getTodayDateString(),
+            createdBy: {
+              connect: user.id,
+            },
+          },
         },
       },
       customer: {
