@@ -97,18 +97,6 @@ describe('/visits', () => {
       .set('Authorization', `Bearer ${accessToken}`)
       .expect(200);
 
-    console.log(
-      JSON.stringify(
-        {
-          id: createdVisit.id,
-          customerId: targetVisit.customer.id,
-          activityEntries: [],
-          visitDate: '2022-12-12',
-        },
-        null,
-        2,
-      ),
-    );
     await testClient
       .put(`/visits/${createdVisit.id}`)
       .set('Authorization', `Bearer ${accessToken}`)
@@ -128,8 +116,16 @@ describe('/visits', () => {
       });
   });
 
-  // it('/:id (DELETE)', async () => {
-  //   await testClient.delete(`/customers/${createdCustomer.id}`).expect(200);
-  //   await testClient.get(`/customers/${createdCustomer.id}`).expect(404);
-  // });
+  it('/:id (DELETE)', async () => {
+    const {
+      body: { data: targetVisit },
+    } = await testClient
+      .get(`/visits/${createdVisit.id}`)
+      .set('Authorization', `Bearer ${accessToken}`)
+      .expect(200);
+    await testClient
+      .delete(`/visits/${targetVisit.id}`)
+      .set('Authorization', `Bearer ${accessToken}`)
+      .expect(200);
+  });
 });
